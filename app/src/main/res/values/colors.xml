@@ -11,7 +11,7 @@
     <color name="Primary">#FFBD5A</color>
     <color name="Secondary">#000000</color>
     <color name="Success">#38C976</color>
-    <color name="Warning">#FFBD5A</color>
+    <color name="Warning">#FF6163</color>
     <color name="Disable">#B3B8C5</color>
 
 </resources>
