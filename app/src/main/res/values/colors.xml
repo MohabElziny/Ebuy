@@ -12,6 +12,6 @@
     <color name="Secondary">#000000</color>
     <color name="Success">#38C976</color>
     <color name="Warning">#FF6163</color>
-    <color name="Disable">#B3B8C5</color>
-
+    <color name="Disable">#757575</color>
+    <color name="btnColor">#F5F5F7</color>
 </resources>
