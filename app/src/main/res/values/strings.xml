@@ -10,4 +10,12 @@
     <string name="sub_total">Sub Total</string>
     <string name="delivery">Delivery</string>
     <string name="checkout">Checkout</string>
+    <string name="sign_in">Sign In</string>
+    <string name="email_address">Email address</string>
+    <string name="enter_email_address">Enter Email address</string>
+    <string name="password">Password</string>
+    <string name="enter_password">Enter Password</string>
+    <string name="login">Login</string>
+    <string name="don_t_have_an_account">Don\'t have an account? </string>
+    <string name="sign_up">Sign Up</string>
 </resources>

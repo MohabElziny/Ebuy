@@ -9,7 +9,9 @@
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.17119565217391305" />
         <entry key="app/src/main/res/layout/button.xml" value="0.17119565217391305" />
         <entry key="app/src/main/res/layout/fragment_cart.xml" value="0.28261718750000003" />
+        <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.24114583333333334" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/fragment_login_screen.xml" value="0.25" />
         <entry key="app/src/main/res/layout/recycler_row_product_cart.xml" value="0.3452054794520548" />
       </map>
     </option>
