@@ -7,22 +7,26 @@
     android:background="@color/backgroundColor"
     tools:context=".login_screen.LoginScreen" >
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:fontFamily="@font/poppins"
-        android:gravity="center"
-        android:text="@string/sign_in"
-        android:textColor="@color/Secondary"
-        android:textSize="@dimen/fontHeading1"
-        android:textStyle="bold"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar_actionbar"
+        android:layout_width="match_parent"
+        android:layout_height="?actionBarSize"
+        android:layout_marginTop="4dp"
+        android:background="@null"
+        android:fitsSystemWindows="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/textView2"
+            style="@style/fontBoldStyle"
+            android:textSize="@dimen/fontHeading1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/sign_in" />
+    </androidx.appcompat.widget.Toolbar>
 
     <androidx.cardview.widget.CardView
         android:layout_width="0dp"
@@ -33,7 +37,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" >
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_actionbar" >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -81,11 +85,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/poppins"
                 android:text="@string/email_address"
-                android:textColor="@color/Secondary"
+                style="@style/fontBoldStyle"
                 android:textSize="@dimen/fontHeading4"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/btn_facebook"
                 app:layout_constraintStart_toStartOf="@+id/btn_google"
                 app:layout_constraintTop_toBottomOf="@+id/btn_google" />
@@ -119,11 +121,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="24dp"
-                android:fontFamily="@font/poppins"
                 android:text="@string/password"
-                android:textColor="@color/Secondary"
+                style="@style/fontBoldStyle"
                 android:textSize="@dimen/fontHeading4"
-                android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
@@ -159,12 +159,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="32dp"
                 android:backgroundTint="@color/Primary"
-                android:fontFamily="@font/poppins"
                 android:padding="8dp"
                 android:text="@string/login"
-                android:textColor="@color/Secondary"
+                style="@style/fontBoldStyle"
                 android:textSize="@dimen/fontHeading3"
-                android:textStyle="bold"
                 app:cornerRadius="8dp"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
@@ -187,21 +185,19 @@
 
             <TextView
                 android:id="@+id/btn_signUp"
+                style="@style/fontBoldStyle"
+                android:textSize="@dimen/fontHeading6"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:clickable="true"
-                android:fontFamily="@font/poppins"
+                android:focusable="true"
                 android:gravity="center|top"
                 android:paddingStart="8dp"
                 android:paddingEnd="8dp"
                 android:text="@string/sign_up"
-                android:textColor="@color/Secondary"
-                android:textSize="@dimen/fontHeading6"
-                android:textStyle="bold"
                 app:layout_constraintStart_toEndOf="@+id/textView5"
                 app:layout_constraintTop_toTopOf="@+id/textView5"
-                tools:ignore="TouchTargetSizeCheck"
-                android:focusable="true" />
+                tools:ignore="TouchTargetSizeCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </androidx.constraintlayout.widget.ConstraintLayout>
