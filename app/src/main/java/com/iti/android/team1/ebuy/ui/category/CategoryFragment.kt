@@ -31,15 +31,15 @@ class CategoryFragment : Fragment() {
 
         initRecyclerView()
 
-
-
         return binding.root
     }
 
-    fun initRecyclerView() {
-        binding.catRecycleView.adapter = CategoryAdapter()
-        binding.catRecycleView.layoutManager = GridLayoutManager(context, 2)
-        binding.catRecycleView.setHasFixedSize(true)
+    private fun initRecyclerView() {
+        binding.catRecycleView.apply {
+            this.adapter = CategoryAdapter()
+            this.layoutManager=GridLayoutManager(context, 2)
+            this.setHasFixedSize(true)
+        }
     }
 
     override fun onDestroyView() {
