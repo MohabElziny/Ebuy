@@ -15,4 +15,17 @@
     <string name="login">Login</string>
     <string name="don_t_have_an_account">Don\'t have an account? </string>
     <string name="sign_up">Sign Up</string>
+
+    <string name="title_category" translatable="false">Category</string>
+    <string name="cat_text_btn_men">Men</string>
+    <string name="cat_text_btn_women">Women</string>
+    <string name="cat_text_btn_kids">Kids</string>
+    <string name="cat_text_btn_sale">Sale</string>
+    <string name="cat_text_tv_discover">Discover</string>
+    <string name="cat_text_search">Search any thing</string>
+    <string name="cat_custom_btn_favo_text">Add</string>
+    <string name="cat_text_name">Women</string>
+    <string name="cat_custom_btn_addCart_text">Add Cart</string>
+    <string name="cat_menu_favorite">Favorite</string>
+    <string name="cat_menu_settings">Settings</string>
 </resources>

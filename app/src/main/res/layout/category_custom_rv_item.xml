@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="@dimen/_7sdp"
+    >
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:padding="@dimen/_5sdp"
+        >
+
+        <ImageView
+            android:id="@+id/cat_custom_image"
+            android:layout_width="@dimen/_130sdp"
+            android:layout_height="@dimen/_110sdp"
+            android:src="@drawable/category_product"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:layout_marginBottom="@dimen/_6sdp"
+            />
+
+        <TextView
+            android:id="@+id/cat_custom_tv_price"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/cat_custom_image"
+            android:layout_alignStart="@+id/cat_custom_image"
+            android:text="5.5"
+            android:layout_marginBottom="@dimen/_6sdp"
+            android:layout_marginEnd="@dimen/_6sdp"
+            />
+
+        <ImageView
+            android:id="@+id/cat_custom_img_favo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/Primary"
+            android:src="@drawable/empty_heart_image"
+            android:layout_below="@+id/cat_custom_image"
+            android:layout_alignEnd="@+id/cat_custom_image"
+            />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/cat_custom_btn_add_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/cat_custom_tv_price"
+            android:layout_centerHorizontal="true"
+            android:backgroundTint="#FFBD5A"
+            android:text="@string/cat_custom_btn_addCart_text"
+            android:textAllCaps="false"
+            app:cornerRadius="@dimen/_20sdp" />
+
+
+
+    </RelativeLayout>
+
+
+
+</androidx.cardview.widget.CardView>
