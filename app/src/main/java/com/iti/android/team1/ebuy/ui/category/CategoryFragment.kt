@@ -29,12 +29,17 @@ class CategoryFragment : Fragment() {
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
 
-        binding.catRecycleView.adapter = CategoryAdapter()
-        binding.catRecycleView.layoutManager = GridLayoutManager(context,2)
-        binding.catRecycleView.setHasFixedSize(true)
+        initRecyclerView()
+
 
 
         return binding.root
+    }
+
+    fun initRecyclerView() {
+        binding.catRecycleView.adapter = CategoryAdapter()
+        binding.catRecycleView.layoutManager = GridLayoutManager(context, 2)
+        binding.catRecycleView.setHasFixedSize(true)
     }
 
     override fun onDestroyView() {
@@ -44,22 +49,26 @@ class CategoryFragment : Fragment() {
 
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-
-        activity?.menuInflater?.inflate(R.menu.category_menu,menu)
+        activity?.menuInflater?.inflate(R.menu.category_menu, menu)
         var searchView: SearchView = menu?.findItem(R.id.cat_menu_search)?.actionView as SearchView
 
+        onQueryTextListener(searchView)
+
+        return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    private fun onQueryTextListener(searchView: SearchView) {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(p0: String?): Boolean {
-                Toast.makeText(context, ""+p0, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "" + p0, Toast.LENGTH_SHORT).show()
                 return true
             }
 
             override fun onQueryTextSubmit(p0: String?): Boolean {
-                Toast.makeText(context, ""+p0, Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "" + p0, Toast.LENGTH_SHORT).show()
                 return true
             }
         })
-        return super.onCreateOptionsMenu(menu,inflater)
     }
 
 
