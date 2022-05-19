@@ -148,7 +148,7 @@
                             android:layout_height="50dp"
 
                             android:layout_marginStart="16dp"
-                            android:src="@drawable/ic_icons8_apple_pay"
+                            android:src="@drawable/ic_credit_card_svgrepo_com"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintDimensionRatio="1:1"
                             app:layout_constraintStart_toStartOf="parent"
