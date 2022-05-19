@@ -52,7 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/cat_custom_tv_price"
             android:layout_centerHorizontal="true"
-            android:backgroundTint="#FFBD5A"
+            android:backgroundTint="@color/Primary"
             android:text="@string/cat_custom_btn_addCart_text"
             android:textAllCaps="false"
             app:cornerRadius="@dimen/_20sdp" />
