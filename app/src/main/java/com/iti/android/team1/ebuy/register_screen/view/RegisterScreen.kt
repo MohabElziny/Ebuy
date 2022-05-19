@@ -35,9 +35,7 @@ class RegisterScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding.toolbarActionbar.setNavigationOnClickListener {
-            // TODO: Back to login screen
-        }
+            // TODO: Back to login screen using navigation icon
     }
 
 }
