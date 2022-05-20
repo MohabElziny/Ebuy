@@ -15,4 +15,11 @@
     <string name="login">Login</string>
     <string name="don_t_have_an_account">Don\'t have an account? </string>
     <string name="sign_up">Sign Up</string>
+    <string name="credit_debit_card">Credit/Debit Card</string>
+    <string name="card_number">Card Number</string>
+    <string name="expire_data">Expire data</string>
+    <string name="mm_yy">MM/YY</string>
+    <string name="enter_name_on_card">Enter name on card</string>
+    <string name="save_card">Save Card</string>
+    <string name="we_accept">we accept</string>
 </resources>

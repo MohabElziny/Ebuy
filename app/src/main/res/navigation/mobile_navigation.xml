@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/creditFragment">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -22,4 +22,8 @@
         android:name="com.iti.android.team1.ebuy.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/creditFragment"
+        android:name="com.iti.android.team1.ebuy.credit_screen.view.CreditFragment"
+        android:label="CreditFragment" />
 </navigation>
