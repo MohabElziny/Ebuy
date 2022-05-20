@@ -5,6 +5,7 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/navigation_home">
 
+
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.iti.android.team1.ebuy.ui.home.HomeFragment"
@@ -12,10 +13,10 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.iti.android.team1.ebuy.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_Category"
+        android:name="com.iti.android.team1.ebuy.ui.category.CategoryFragment"
+        android:label="@string/title_category"
+        tools:layout="@layout/fragment_category" />
 
     <fragment
         android:id="@+id/navigation_notifications"
@@ -26,4 +27,13 @@
         android:id="@+id/creditFragment"
         android:name="com.iti.android.team1.ebuy.credit_screen.view.CreditFragment"
         android:label="CreditFragment" />
+        android:id="@+id/paymentFragment"
+        android:name="com.iti.android.team1.ebuy.payment_screen.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.iti.android.team1.ebuy.cart_screen.view.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" />
 </navigation>
