@@ -24,4 +24,26 @@
         <item name="android:textStyle">bold</item>
     </style>
 
+    <style name="fontBoldStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/Secondary</item>
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="cardTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/Secondary</item>
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/fontHeading6</item>
+    </style>
+        
+    <style name="textInputEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="android:background">@color/btnColor</item>
+        <item name="android:textSize">@dimen/fontHeading5</item>
+    </style>
+    <style name="textStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:fontFamily">@font/poppins</item>
+    </style>
+
 </resources>

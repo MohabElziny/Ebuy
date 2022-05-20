@@ -109,4 +109,10 @@ dependencies {
     // Material View Pager Dots Indicator
     implementation("com.tbuonomo:dotsindicator:4.3")
 
+    // sdp & ssp
+    implementation 'com.intuit.sdp:sdp-android:1.0.6'
+    implementation 'com.intuit.ssp:ssp-android:1.0.6'
+
+    //float action menu
+    implementation 'com.getbase:floatingactionbutton:1.10.1'
 }

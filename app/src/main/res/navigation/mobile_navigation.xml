@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/navigation_home">
+    app:startDestination="@id/cartFragment">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -12,14 +12,24 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="com.iti.android.team1.ebuy.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_Category"
+        android:name="com.iti.android.team1.ebuy.ui.category.CategoryFragment"
+        android:label="@string/title_category"
+        tools:layout="@layout/fragment_category" />
 
     <fragment
         android:id="@+id/navigation_notifications"
         android:name="com.iti.android.team1.ebuy.ui.notifications.NotificationsFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_notifications" />
+    <fragment
+        android:id="@+id/paymentFragment"
+        android:name="com.iti.android.team1.ebuy.payment_screen.PaymentFragment"
+        android:label="fragment_payment"
+        tools:layout="@layout/fragment_payment" />
+    <fragment
+        android:id="@+id/cartFragment"
+        android:name="com.iti.android.team1.ebuy.cart_screen.view.CartFragment"
+        android:label="fragment_cart"
+        tools:layout="@layout/fragment_cart" />
 </navigation>
