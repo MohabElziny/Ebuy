@@ -15,6 +15,17 @@
     <string name="login">Login</string>
     <string name="don_t_have_an_account">Don\'t have an account? </string>
     <string name="sign_up">Sign Up</string>
+    <string name="cart">Cart</string>
+    <string name="settings">Settings</string>
+    <string name="profile_title">Profile</string>
+    <string name="orders">My Order</string>
+    <string name="more">More</string>
+    <string name="my_favorites">My Favorites</string>
+    <string name="order_price">Order price:</string>
+    <string name="order_number">Order number:</string>
+    <string name="order_status">Order status:</string>
+    <string name="order_date">Order Date:</string>
+    <string name="remove">REMOVE</string>
     <string name="first_name">First name</string>
     <string name="last_name">Last name</string>
     <string name="enter_first_name">Enter First name</string>
