@@ -153,9 +153,10 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="8dp"
                 android:fontFamily="@font/poppins"
                 android:gravity="center"
+                android:minHeight="48dp"
                 android:text="@string/don_t_have_an_account"
                 android:textColor="@color/Disable"
                 android:textSize="@dimen/fontHeading6"
@@ -165,22 +166,22 @@
                 app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
             <TextView
-                    android:id="@+id/btn_signUp"
-                    style="@style/fontBoldStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="0dp"
-                    android:minWidth="48dp"
-                    android:minHeight="48dp"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center|top"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp"
-                    android:text="@string/sign_up"
-                    android:textSize="@dimen/fontHeading6"
-                    app:layout_constraintStart_toEndOf="@+id/textView5"
-                    app:layout_constraintTop_toTopOf="@+id/textView5"
-                    tools:ignore="TouchTargetSizeCheck" />
+                android:id="@+id/btn_signUp"
+                style="@style/fontBoldStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="0dp"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center"
+                android:minWidth="48dp"
+                android:minHeight="48dp"
+                android:paddingStart="8dp"
+                android:paddingEnd="8dp"
+                android:text="@string/sign_up"
+                android:textSize="@dimen/fontHeading6"
+                app:layout_constraintStart_toEndOf="@+id/textView5"
+                app:layout_constraintTop_toTopOf="@+id/textView5"
+                tools:ignore="TouchTargetSizeCheck" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </ScrollView>
