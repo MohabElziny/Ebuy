@@ -31,7 +31,6 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cat_custom_image"
             android:layout_alignStart="@+id/cat_custom_image"
-            android:text="5.5"
             android:layout_marginBottom="@dimen/_6sdp"
             android:layout_marginEnd="@dimen/_6sdp"
             />

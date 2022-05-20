@@ -5,12 +5,15 @@
       <map>
         <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/drawable-v24/empty_heart_image.xml" value="0.1215" />
         <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/drawable-v24/search_icon.xml" value="0.1215" />
+        <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/drawable/money_icon.xml" value="0.162" />
+        <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/drawable/settings_item_shape.xml" value="0.162" />
         <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/layout/activity_main.xml" value="0.18802083333333333" />
         <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/layout/category_custom_rv_item.xml" value="0.18802083333333333" />
         <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/layout/fragment_cart.xml" value="0.18802083333333333" />
         <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/layout/fragment_category.xml" value="0.18802083333333333" />
         <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/layout/fragment_dashboard.xml" value="0.18802083333333333" />
         <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/layout/fragment_home.xml" value="0.18802083333333333" />
+        <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/layout/fragment_settings.xml" value="0.22" />
         <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/menu/bottom_nav_menu.xml" value="0.1" />
         <entry key="..\:/ITI/Graduation Project/Ebuy/app/src/main/res/menu/category_menu.xml" value="0.18802083333333333" />
         <entry key="app/src/main/res/drawable/button.xml" value="0.183" />
