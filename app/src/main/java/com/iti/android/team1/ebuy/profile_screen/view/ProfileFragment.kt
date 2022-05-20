@@ -43,7 +43,6 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        handleMenuButtons()
         initOrdersRecyclerView()
         initFavoritesRecyclerView()
     }
@@ -67,22 +66,6 @@ class ProfileFragment : Fragment() {
                 RecyclerView.VERTICAL,
                 false)
             adapter = ordersAdapter
-        }
-    }
-
-    private fun handleMenuButtons() {
-        binding.profileTopAppBar.setOnMenuItemClickListener { menuItem ->
-            when (menuItem.itemId) {
-                R.id.cart_icon -> {
-                    true
-                }
-                R.id.settings_icon -> {
-                    true
-                }
-                else -> {
-                    false
-                }
-            }
         }
     }
 

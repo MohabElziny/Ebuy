@@ -33,7 +33,7 @@ class OrdersAdapter() :
     }
 
     override fun getItemCount(): Int {
-        return 2
+        return 0
     }
 
 }

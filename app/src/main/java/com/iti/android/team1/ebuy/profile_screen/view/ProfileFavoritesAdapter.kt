@@ -35,7 +35,7 @@ class ProfileFavoritesAdapter() :
     }
 
     override fun getItemCount(): Int {
-        return 4
+        return 0
     }
 
 }
