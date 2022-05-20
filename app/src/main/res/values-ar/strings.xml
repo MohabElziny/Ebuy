@@ -25,4 +25,6 @@
     <string name="enter_city">Enter City</string>
     <string name="enter_province">Enter Province</string>
     <string name="enter_country">Enter Country</string>
+    <string name="add_payment">Add Payment</string>
+    <string name="no_payment_method">You currently have No Payment Saved Payment Method, get Started By adding on</string>
 </resources>
