@@ -105,4 +105,8 @@ dependencies {
     testImplementation "io.mockk:mockk:1.10.3"
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:$roomVersion")
+
+    // Material View Pager Dots Indicator
+    implementation("com.tbuonomo:dotsindicator:4.3")
+
 }

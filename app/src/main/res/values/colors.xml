@@ -13,5 +13,6 @@
     <color name="Success">#38C976</color>
     <color name="Warning">#FF6163</color>
     <color name="Disable">#B3B8C5</color>
+    <color name="unselected_indicator">#4FFFBD5A</color>
 
 </resources>
