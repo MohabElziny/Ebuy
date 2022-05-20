@@ -34,17 +34,92 @@ class CreditFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.textInputEditExpireNumber.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+            val textInput = binding.textInputEditExpireNumber
+            override fun beforeTextChanged(
+                p0: CharSequence?,
+                start: Int,
+                added: Int,
+                removed: Int
+            ) {
 
             }
 
-            override fun onTextChanged(p0: CharSequence?, start: Int, removed: Int, added: Int) {
-                if (start == 1 && start + added == 2 && p0?.contains('/') == false) {
-                    binding.textInputEditExpireNumber.setText( p0.toString().plus("/"))
-                } else if (start == 3 && start - removed == 2 && p0?.contains('/') == true) {
-                    binding.textInputEditCardNumber.setText(p0.toString().replace("/", ""))
+            fun addSlashMark(p0: CharSequence?, start: Int, removed: Int, added: Int) {
+                when (start + added) {
+                    2 -> {
+                        if (start == 1) {
+                            textInput.apply {
+                                setText(p0.toString().plus("/"))
+                                setSelection(3)
+                            }
+                        }
+                    }
+                    3 -> {
+                        if (start == 2) {
+                            textInput.apply {
+                                setText(
+                                    p0?.get(0).toString().plus(p0?.get(1).toString()).plus("/")
+                                        .plus(p0?.get(2).toString())
+                                )
+                                setSelection(4)
+                            }
+                        }
+                    }
                 }
             }
+
+            fun validateInsertDate(p0: CharSequence?) {
+                val string = p0.toString()
+                if (p0?.length == 5) {
+                    if (string.split("/")[0].length == 3) {
+
+                        textInput.apply {
+                            setText(p0?.drop(1).toString())
+                            setSelection(4)
+                        }
+                    } else if (string.split("/")[1].length == 3) {
+                        print(string)
+                        textInput.apply {
+                            setText(p0?.dropLast(1).toString())
+                            setSelection(1)
+
+                        }
+                    }
+                } else if (p0?.length == 4) {
+                    if (string.split("/")[0].isEmpty()) {
+                        textInput.apply {
+                            setText(p0?.dropLast(1).toString())
+                            setSelection(0)
+                        }
+                    }
+
+                }
+            }
+
+            fun removeSlashMark(p0: CharSequence?, start: Int, removed: Int, added: Int) {
+                if (start == 3 && start - removed == 2) {
+                    textInput.apply {
+                        setText(p0.toString().replace("/", ""))
+                        setSelection(2)
+                    }
+                }
+            }
+
+            override fun onTextChanged(
+                p0: CharSequence?,
+                start: Int,
+                removed: Int,
+                added: Int
+            ) {
+                if (p0?.contains('/') == false) {
+                    addSlashMark(p0, start, removed, added)
+                } else if (p0?.contains('/') == true && p0.length == 3) {
+                    removeSlashMark(p0, start, removed, added)
+                } else if (p0?.contains('/') == true) {
+                    validateInsertDate(p0)
+                }
+            }
+
 
             override fun afterTextChanged(p0: Editable?) {
             }
