@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.ui.login_screen
+package com.iti.android.team1.ebuy.ui.login_screen.view
 
 import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.iti.android.team1.ebuy.databinding.FragmentLoginScreenBinding
+import com.iti.android.team1.ebuy.ui.login_screen.viewmodel.LoginScreenViewModel
 
 class LoginScreen : Fragment() {
 
