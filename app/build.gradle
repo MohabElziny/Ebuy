@@ -106,6 +106,9 @@ dependencies {
     // optional - Test helpers
     testImplementation("androidx.room:room-testing:$roomVersion")
 
+    // Material View Pager Dots Indicator
+    implementation("com.tbuonomo:dotsindicator:4.3")
+
     // sdp & ssp
     implementation 'com.intuit.sdp:sdp-android:1.0.6'
     implementation 'com.intuit.ssp:ssp-android:1.0.6'

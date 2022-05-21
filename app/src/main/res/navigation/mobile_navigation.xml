@@ -8,7 +8,7 @@
 
     <fragment
         android:id="@+id/navigation_home"
-        android:name="com.iti.android.team1.ebuy.ui.home.HomeFragment"
+        android:name="com.iti.android.team1.ebuy.ui.home.view.HomeFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_home" />
 
@@ -25,15 +25,20 @@
         tools:layout="@layout/fragment_notifications" />
     <fragment
         android:id="@+id/creditFragment"
-        android:name="com.iti.android.team1.ebuy.credit_screen.view.CreditFragment"
+        android:name="com.iti.android.team1.ebuy.ui.credit_screen.view.CreditFragment"
         android:label="CreditFragment" />
         android:id="@+id/paymentFragment"
-        android:name="com.iti.android.team1.ebuy.payment_screen.PaymentFragment"
+        android:name="com.iti.android.team1.ebuy.ui.payment_screen.PaymentFragment"
         android:label="fragment_payment"
         tools:layout="@layout/fragment_payment" />
     <fragment
         android:id="@+id/cartFragment"
-        android:name="com.iti.android.team1.ebuy.cart_screen.view.CartFragment"
+        android:name="com.iti.android.team1.ebuy.ui.cart_screen.view.CartFragment"
         android:label="fragment_cart"
         tools:layout="@layout/fragment_cart" />
+    <fragment
+        android:id="@+id/navigation_profile"
+        android:name="com.iti.android.team1.ebuy.ui.profile_screen.view.ProfileFragment"
+        android:label="fragment_profile"
+        tools:layout="@layout/fragment_profile" />
 </navigation>

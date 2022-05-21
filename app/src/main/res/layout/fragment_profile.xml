@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/backgroundColor"
     android:scrollbars="none"
-    tools:context=".profile_screen.view.ProfileFragment">
+    tools:context=".ui.profile_screen.view.ProfileFragment">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
