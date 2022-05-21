@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:background="@color/backgroundColor"
     android:scrollbars="none"
-    tools:context=".login_screen.LoginScreen">
+    tools:context=".ui.login_screen.LoginScreen">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

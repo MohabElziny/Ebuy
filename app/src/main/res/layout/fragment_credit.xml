@@ -1,0 +1,220 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/backgroundColor">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        >
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="24dp"
+            android:layout_marginBottom="-24dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:context=".ui.credit_screen.view.CreditFragment">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/textView9"
+                    style="@style/fontBoldStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/card_number"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.026"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutCardNumber"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginEnd="16dp"
+                    android:hint="@string/card_number"
+
+                    app:counterEnabled="true"
+                    app:counterMaxLength="16"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/textView9"
+                    app:layout_constraintTop_toBottomOf="@+id/textView9">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditCardNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="16"
+                        tools:ignore="DuplicateSpeakableTextCheck" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <TextView
+                    android:id="@+id/textView10"
+                    style="@style/fontBoldStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/expire_data"
+                    app:layout_constraintEnd_toEndOf="@id/textView9"
+                    app:layout_constraintHorizontal_bias="0.026"
+                    app:layout_constraintStart_toStartOf="@id/textView9"
+                    app:layout_constraintTop_toBottomOf="@id/textInputLayoutCardNumber" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutExpireNumber"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/mm_yy"
+                    app:counterEnabled="true"
+
+                    app:counterMaxLength="5"
+                    app:layout_constraintEnd_toEndOf="@id/textInputLayoutCardNumber"
+                    app:layout_constraintStart_toStartOf="@+id/textInputLayoutCardNumber"
+                    app:layout_constraintTop_toBottomOf="@+id/textView10">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditExpireNumber"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="number"
+                        android:maxLength="5" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <TextView
+                    android:id="@+id/textView0"
+                    style="@style/fontBoldStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:text="@string/expire_data"
+                    app:layout_constraintEnd_toEndOf="@id/textView9"
+                    app:layout_constraintHorizontal_bias="0.026"
+                    app:layout_constraintStart_toStartOf="@id/textView9"
+                    app:layout_constraintTop_toBottomOf="@id/textInputLayoutExpireNumber" />
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutExpireNumberNameCard"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:hint="@string/enter_name_on_card"
+
+                    app:layout_constraintEnd_toEndOf="@id/textInputLayoutCardNumber"
+                    app:layout_constraintStart_toStartOf="@+id/textInputLayoutCardNumber"
+                    app:layout_constraintTop_toBottomOf="@+id/textView0">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:inputType="textPersonName" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <Button
+                    android:id="@+id/button"
+                    style="@style/fontBoldStyle"
+                    android:layout_width="0dp"
+
+                    android:layout_height="64dp"
+                    android:layout_marginTop="32dp"
+                    android:backgroundTint="@color/Primary"
+                    android:fontFamily="@font/poppins"
+                    android:text="@string/save_card"
+                    android:textColor="@color/Secondary"
+
+                    app:cornerRadius="10dp"
+                    app:layout_constraintEnd_toEndOf="@id/textInputLayoutExpireNumberNameCard"
+                    app:layout_constraintStart_toStartOf="@id/textInputLayoutExpireNumberNameCard"
+                    app:layout_constraintTop_toBottomOf="@id/textInputLayoutExpireNumberNameCard" />
+
+                <TextView
+                    android:id="@+id/textView54"
+                    style="@style/fontBoldStyle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="32dp"
+                    android:text="@string/we_accept"
+                    app:layout_constraintEnd_toEndOf="@id/button"
+                    app:layout_constraintHorizontal_bias="0.026"
+                    app:layout_constraintStart_toStartOf="@id/button"
+                    app:layout_constraintTop_toBottomOf="@id/button" />
+
+                <ImageButton
+                    android:id="@+id/button_three"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="64dp"
+                    android:background="@drawable/circlebutton"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/button_two"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button_four"
+                    app:layout_constraintTop_toBottomOf="@+id/textView54"
+                    app:srcCompat="@drawable/google_icon"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+                <ImageButton
+                    android:id="@+id/button_two"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+
+                    android:background="@drawable/circlebutton"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_three"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toEndOf="@+id/button_three"
+                    app:layout_constraintTop_toTopOf="@+id/button_three"
+                    app:srcCompat="@drawable/ic_icons8_mastercard_logo"
+                    tools:ignore="SpeakableTextPresentCheck,SpeakableTextPresentCheck" />
+
+                <ImageButton
+                    android:id="@+id/button_four"
+                    android:layout_width="48dp"
+                    android:layout_height="48dp"
+
+                    android:background="@drawable/circlebutton"
+                    app:layout_constraintBottom_toBottomOf="@+id/button_three"
+                    app:layout_constraintEnd_toStartOf="@+id/button_three"
+                    app:layout_constraintHorizontal_bias="0.5"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/button_three"
+                    app:srcCompat="@drawable/ic_icons8_visa"
+                    tools:ignore="SpeakableTextPresentCheck" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </com.google.android.material.card.MaterialCardView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
