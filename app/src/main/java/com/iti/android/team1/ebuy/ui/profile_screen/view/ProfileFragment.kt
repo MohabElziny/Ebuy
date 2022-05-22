@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.databinding.FragmentProfileBinding
+import com.iti.android.team1.ebuy.ui.profile_screen.adapters.OrdersAdapter
+import com.iti.android.team1.ebuy.ui.profile_screen.adapters.ProfileFavoritesAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileViewModel
 
 class ProfileFragment : Fragment() {

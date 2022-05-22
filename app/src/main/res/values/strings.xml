@@ -69,5 +69,8 @@
     <string name="settings_logout">Logout</string>
     <string name="settings_currency">Currency</string>
     <string name="there_is_no_account">There is no account.</string>
+    <string name="description">Description</string>
+    <string name="add_to_cart">Add To Cart</string>
+    <string name="price">Price</string>
 
 </resources>
