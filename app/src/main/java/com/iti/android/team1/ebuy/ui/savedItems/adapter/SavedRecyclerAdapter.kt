@@ -7,10 +7,15 @@ import com.iti.android.team1.ebuy.databinding.SavedItemsLayoutBinding
 
 class SavedRecyclerAdapter : RecyclerView.Adapter<SavedRecyclerAdapter.SavedItemsViewHolder>() {
 
-    inner class SavedItemsViewHolder(binding: SavedItemsLayoutBinding) : RecyclerView.ViewHolder(binding.root)
+    inner class SavedItemsViewHolder(binding: SavedItemsLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root)
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedItemsViewHolder = SavedItemsViewHolder(SavedItemsLayoutBinding.inflate(
-        LayoutInflater.from(parent.context)))
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SavedItemsViewHolder =
+        SavedItemsViewHolder(
+            SavedItemsLayoutBinding.inflate(
+                LayoutInflater.from(parent.context)
+            )
+        )
 
     override fun onBindViewHolder(holder: SavedItemsViewHolder, position: Int) = bindView()
 
@@ -18,5 +23,5 @@ class SavedRecyclerAdapter : RecyclerView.Adapter<SavedRecyclerAdapter.SavedItem
         TODO("Not yet implemented")
     }
 
-    private fun bindView () {}
+    private fun bindView() {}
 }

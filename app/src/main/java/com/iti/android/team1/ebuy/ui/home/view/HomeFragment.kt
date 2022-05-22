@@ -7,8 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentHomeBinding
-import com.iti.android.team1.ebuy.ui.home.viewmodel.HomeViewModel
 import com.iti.android.team1.ebuy.ui.home.adapters.HomeViewPagerAdapter
+import com.iti.android.team1.ebuy.ui.home.viewmodel.HomeViewModel
 import com.iti.android.team1.ebuy.util.ZoomOutPageTransformer
 
 
@@ -55,13 +55,13 @@ class HomeFragment : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return super.onOptionsItemSelected(item)
         when (item.itemId) {
-            R.id.action_settings -> {//TODO: Navigate to settings screen
+            R.id.action_settings ->{//TODO: Navigate to settings screen
             }
             R.id.action_about -> {//TODO: Navigate to about screen
             }
         }
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onDestroyView() {
