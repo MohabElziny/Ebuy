@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.dataSource.remoteSource
+package com.iti.android.team1.ebuy.model.datasource.remotesource
 
 import com.google.gson.Gson
 import retrofit2.Retrofit

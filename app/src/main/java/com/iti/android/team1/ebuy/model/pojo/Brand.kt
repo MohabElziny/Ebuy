@@ -16,7 +16,7 @@ data class SmartCollection(
     @SerializedName("id")
     val id: Long,
     @SerializedName("image")
-    val image: Image,
+    val image: ProductImage,
     @SerializedName("title")
     val title: String,
 )
