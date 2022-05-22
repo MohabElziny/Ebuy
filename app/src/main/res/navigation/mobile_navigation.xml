@@ -41,4 +41,9 @@
         android:name="com.iti.android.team1.ebuy.ui.profile_screen.view.ProfileFragment"
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
+    <fragment
+        android:id="@+id/savedItemsFragment"
+        android:name="com.iti.android.team1.ebuy.ui.savedItems.view.SavedItemsFragment"
+        android:label="@string/saved_items"
+        tools:layout="@layout/fragment_saved_items" />
 </navigation>
