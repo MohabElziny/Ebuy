@@ -72,5 +72,6 @@
     <string name="description">Description</string>
     <string name="add_to_cart">Add To Cart</string>
     <string name="price">Price</string>
+    <string name="saved_items">Saved items</string>
 
 </resources>
