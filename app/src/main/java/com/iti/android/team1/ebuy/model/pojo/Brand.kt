@@ -2,21 +2,21 @@ package com.iti.android.team1.ebuy.model.pojo
 
 import com.google.gson.annotations.SerializedName
 
-data class Brand(
+data class Brands(
     @SerializedName("smart_collections")
-    val smartCollections: List<SmartCollection>
+    val brands: List<Brand>
 )
 
 data class Image(
     @SerializedName("src")
-    val src: String
+    val imageUrl: String
 )
 
-data class SmartCollection(
+data class Brand(
     @SerializedName("id")
-    val id: Long,
+    val brandID: Long,
     @SerializedName("image")
-    val image: ProductImage,
+    val brandImage: Image,
     @SerializedName("title")
-    val title: String,
+    val brandTitle: String,
 )
