@@ -14,6 +14,6 @@ private val retrofit = Retrofit.Builder().apply {
     this.baseUrl(baseUrl)
 }.build()
 
-object RetrofitHelper {
+object RetrofitHelper : RemoteSource {
     val retrofitService by lazy { retrofit.create(RetrofitService::class.java)}
 }

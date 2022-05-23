@@ -1,4 +1,6 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
-class Repository {
+import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
+
+class Repository(private val remoteSource:RemoteSource) : IRepository {
 }
