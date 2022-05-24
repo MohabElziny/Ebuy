@@ -18,11 +18,11 @@ class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRep
         }
     }
 
-    override suspend fun getAllProducts(): NetworkResponse<Products?> {
+    override suspend fun getAllProducts(): NetworkResponse<Products> {
         val response = remoteSource.getAllProduct()
-        return if(response.isSuccessful){
-            SuccessResponse(response.body())
-        }else{
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body() ?: Products(emptyList()))
+        } else {
             FailureResponse(response.errorBody().toString())
         }
     }
