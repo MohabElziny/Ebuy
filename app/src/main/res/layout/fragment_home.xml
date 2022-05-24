@@ -56,6 +56,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/home_recyclerview"
         android:layout_width="0dp"
+        tools:listitem="@layout/brands_layout"
         android:layout_height="0dp"
         android:layout_marginTop="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
