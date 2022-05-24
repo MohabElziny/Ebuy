@@ -1,10 +1,7 @@
-package com.iti.android.team1.ebuy.ui.category
+package com.iti.android.team1.ebuy.ui.category.view
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.CategoryCustomRvItemBinding

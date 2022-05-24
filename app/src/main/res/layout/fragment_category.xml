@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/backgroundColor"
     android:padding="@dimen/_6sdp"
-    tools:context="ui.category.CategoryFragment">
+    tools:context=".ui.category.view.CategoryFragment">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:descendantFocusability="blocksDescendants"
-            tools:context="ui.category.CategoryFragment">
+            tools:context=".ui.category.view.CategoryFragment">
 
             <TextView
                 android:id="@+id/cat_tv_discover"
