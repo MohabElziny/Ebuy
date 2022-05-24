@@ -20,8 +20,8 @@ private val retrofit = Retrofit.Builder().apply {
 object RetrofitHelper : RemoteSource {
     private val retrofitService by lazy { retrofit.create(RetrofitService::class.java)}
 
-    override suspend fun getBrandProducts(brandID: Long): Response<Products> {
-        return retrofitService.getBrandProducts(brandID)
+    override suspend fun getProductsByCollectionID(collectionID: Long): Response<Products> {
+        return retrofitService.getBrandProducts(collectionID)
     }
 
     override suspend fun getAllBrands(): Response<Brands> {

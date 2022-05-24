@@ -17,8 +17,8 @@ class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRep
         }
     }
 
-    override suspend fun getBrandProducts(brandID: Long): NetworkResponse<Products?> {
-        val response = remoteSource.getBrandProducts(brandID)
+    override suspend fun getProductsByCollectionID(collectionID: Long): NetworkResponse<Products?> {
+        val response = remoteSource.getProductsByCollectionID(collectionID)
         return if(response.isSuccessful){
             SuccessResponse(response.body())
         }else{
