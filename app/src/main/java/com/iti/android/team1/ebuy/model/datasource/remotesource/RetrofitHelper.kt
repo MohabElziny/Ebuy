@@ -3,6 +3,7 @@ package com.iti.android.team1.ebuy.model.datasource.remotesource
 import com.google.gson.Gson
 import com.iti.android.team1.ebuy.model.pojo.Products
 import retrofit2.Response
+import com.iti.android.team1.ebuy.model.pojo.Brands
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -21,5 +22,9 @@ object RetrofitHelper : RemoteSource {
 
     override suspend fun getBrandProducts(brandID: Long): Response<Products> {
         return retrofitService.getBrandProducts(brandID)
+    }
+
+    override suspend fun getAllBrands(): Response<Brands> {
+        return retrofitService.getAllBrands()
     }
 }
