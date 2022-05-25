@@ -1,12 +1,16 @@
 package com.iti.android.team1.ebuy.ui.productsScreen.viewmodel
 
-import androidx.lifecycle.LiveData
+import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.liveData
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
-import com.iti.android.team1.ebuy.model.pojo.Product
-import java.util.ArrayList
+import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import kotlinx.coroutines.Dispatchers
+
+private const val TAG = "ProductsViewModel"
 
 class ProductsViewModel(private val repoInterface: IRepository) : ViewModel() {
-    // TODO: Implement the ViewModel
+
+    fun fetchBrandData(id: Long) {}
 
 }

@@ -1,10 +1,11 @@
 package com.iti.android.team1.ebuy.model.pojo
 
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class Products(
     val products: List<Product>? = null
-)
+) : Serializable
 
 data class Product(
     @SerializedName("body_html") val productDescription: String? = null,
@@ -17,7 +18,7 @@ data class Product(
     @SerializedName("title") val productName: String? = null,
     @SerializedName("variants") val productVariants: List<Variant>? = null,
     @SerializedName("vendor") val productVendor: String? = null
-)
+): Serializable
 
 data class Variant(
     @SerializedName("grams") val productVariantGrams: Int? = null,
@@ -33,14 +34,14 @@ data class Variant(
     @SerializedName("taxable") val productVariantTaxable: Boolean? = null,
     @SerializedName("weight")  val productVariantWeight: Int? = null,
     @SerializedName("weight_unit") val productVariantWeightUnit: String? = null
-)
+): Serializable
 
 data class Option(
     @SerializedName("id")val optionId: Long? = null,
     @SerializedName("name") val optionName: String? = null,
     @SerializedName("product_id") val productId: Long? = null,
     @SerializedName("values") val optionValues: List<String>? = null
-)
+): Serializable
 
 data class ProductImage(
     @SerializedName("height") val imageHeight: Int? = null,
@@ -48,4 +49,4 @@ data class ProductImage(
     @SerializedName("product_id") val productID: Long? = null,
     @SerializedName("src") val imageURL: String? = null,
     @SerializedName("width") val imageWidth: Int? = null
-)
+): Serializable
