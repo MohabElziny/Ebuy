@@ -11,4 +11,6 @@ interface RemoteSource {
     ) : Response<Products>
 
     suspend fun getAllBrands() : Response<Brands>
+    suspend fun getAllProduct(): Response<Products>
+
 }

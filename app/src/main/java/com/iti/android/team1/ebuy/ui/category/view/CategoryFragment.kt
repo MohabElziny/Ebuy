@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.ui.category
+package com.iti.android.team1.ebuy.ui.category.view
 
 import android.os.Bundle
 import android.view.*
@@ -9,6 +9,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentCategoryBinding
+import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModel
 
 class CategoryFragment : Fragment() {
 
