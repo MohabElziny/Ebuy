@@ -9,7 +9,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://mobile-ismailia.myshopify.com/admin/api/2022-04/"
 
-private val gson = Gson()
 
 private val retrofit = Retrofit.Builder().apply {
     addConverterFactory(GsonConverterFactory.create())
@@ -20,7 +19,7 @@ object RetrofitHelper : RemoteSource {
     private val retrofitService by lazy { retrofit.create(RetrofitService::class.java)}
 
     override suspend fun getProductsByCollectionID(collectionID: Long): Response<Products> {
-        return retrofitService.getBrandProducts(collectionID)
+        return retrofitService.getProductsByCollectionID(collectionID)
     }
 
     override suspend fun getAllBrands(): Response<Brands> {
