@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.ui.category
+package com.iti.android.team1.ebuy.ui.category.view
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -4,6 +4,8 @@ import com.google.gson.Gson
 import com.iti.android.team1.ebuy.model.pojo.Products
 import retrofit2.Response
 import com.iti.android.team1.ebuy.model.pojo.Brands
+import com.iti.android.team1.ebuy.model.pojo.Categories
+import com.iti.android.team1.ebuy.model.pojo.Category
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -16,7 +18,7 @@ private val retrofit = Retrofit.Builder().apply {
 }.build()
 
 object RetrofitHelper : RemoteSource {
-    private val retrofitService by lazy { retrofit.create(RetrofitService::class.java)}
+    private val retrofitService by lazy { retrofit.create(RetrofitService::class.java) }
 
     override suspend fun getProductsByCollectionID(collectionID: Long): Response<Products> {
         return retrofitService.getProductsByCollectionID(collectionID)
@@ -24,5 +26,17 @@ object RetrofitHelper : RemoteSource {
 
     override suspend fun getAllBrands(): Response<Brands> {
         return retrofitService.getAllBrands()
+    }
+
+    override suspend fun getAllProduct(): Response<Products> {
+        return retrofitService.getAllProduct()
+    }
+
+    override suspend fun getAllCategories(): Response<Categories> {
+        return retrofitService.getAllCategories()
+    }
+
+    override suspend fun getAllCategoryProducts(collectionID: Long , productType:String): Response<Products> {
+        return retrofitService.getAllCategoryProducts(collectionID,productType)
     }
 }

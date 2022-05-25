@@ -22,7 +22,7 @@
 
     <fragment
         android:id="@+id/navigation_Category"
-        android:name="com.iti.android.team1.ebuy.ui.category.CategoryFragment"
+        android:name="com.iti.android.team1.ebuy.ui.category.view.CategoryFragment"
         android:label="@string/title_category"
         tools:layout="@layout/fragment_category" />
 
