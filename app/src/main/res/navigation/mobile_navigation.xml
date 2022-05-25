@@ -10,10 +10,14 @@
         android:id="@+id/navigation_home"
         android:name="com.iti.android.team1.ebuy.ui.home.view.HomeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_home" >
+        tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_navigation_home_to_navigation_products"
-            app:destination="@id/navigation_products" />
+            app:destination="@id/navigation_products"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
     </fragment>
 
     <fragment
@@ -70,6 +74,14 @@
     <fragment
         android:id="@+id/navigation_products"
         android:name="com.iti.android.team1.ebuy.ui.productsScreen.view.ProductsFragment"
-        android:label="products"
-        tools:layout="@layout/fragment_products" />
+        android:label="{title}"
+        tools:layout="@layout/fragment_products">
+        <argument
+            android:name="title"
+            app:argType="string" />
+        <argument
+            android:name="brandId"
+            app:argType="long"
+            app:nullable="false" />
+    </fragment>
 </navigation>

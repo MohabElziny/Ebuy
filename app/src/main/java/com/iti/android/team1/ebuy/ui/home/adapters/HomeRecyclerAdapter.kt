@@ -12,7 +12,8 @@ import com.iti.android.team1.ebuy.model.pojo.Brands
 
 class HomeRecyclerAdapter(
     private val context: Context,
-    private val onClickBrand: (Long) -> Unit) :
+    private val onClickBrand: (Long, String) -> Unit
+) :
     RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>() {
 
     private var brands: List<Brand> = emptyList()
@@ -43,11 +44,10 @@ class HomeRecyclerAdapter(
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
         holder.bindData(brands[position])
         holder.binding.parent.setOnClickListener {
-            onClickBrand(brands[position].brandID)
+            onClickBrand(brands[position].brandID, brands[position].brandTitle)
         }
     }
 
-    override fun getItemCount(): Int {
-        return brands.size
-    }
+    override fun getItemCount(): Int = brands.size
+
 }

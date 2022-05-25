@@ -12,16 +12,14 @@ private const val PASSWORD = "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"
 
 interface RetrofitService {
 
-    @Headers(
-        "X-shopify-Access-Token:${PASSWORD}"
-    )
     @GET("products.json")
+    @Headers("X-shopify-Access-Token:${PASSWORD}")
     suspend fun getProductsByCollectionID(
-        @Query("collection_id") collectionID:Long
-    ):Response<Products>
+        @Query("collection_id") collectionID: Long
+    ): Response<Products>
 
     @GET("smart_collections.json")
     suspend fun getAllBrands(
-        @Header("X-Shopify-Access-Token") pass:String = PASSWORD
-    ) :Response<Brands>
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+    ): Response<Brands>
 }

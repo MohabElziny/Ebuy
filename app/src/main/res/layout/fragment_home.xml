@@ -36,7 +36,6 @@
             app:progressMode="false"
             app:selectedDotColor="@color/Primary" />
 
-
         <TextView
             android:id="@+id/textView2"
             style="@style/heading3"
