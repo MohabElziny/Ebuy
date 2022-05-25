@@ -9,11 +9,10 @@
         android:id="@+id/productsRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:visibility="gone"
         tools:listitem="@layout/category_custom_rv_item" />
 
-    <ProgressBar
-        android:layout_gravity="center"
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+    <include
+        android:id="@+id/shimmer"
+        layout="@layout/products_shimmer_layout" />
 </FrameLayout>

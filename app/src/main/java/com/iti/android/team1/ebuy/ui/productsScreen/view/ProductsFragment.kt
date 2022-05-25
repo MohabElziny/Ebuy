@@ -14,6 +14,7 @@ import com.iti.android.team1.ebuy.databinding.FragmentProductsBinding
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Product
+import com.iti.android.team1.ebuy.model.pojo.Products
 import com.iti.android.team1.ebuy.ui.productsScreen.ProductsRecyclerAdapter
 import com.iti.android.team1.ebuy.ui.productsScreen.viewmodel.ProductViewModelFactory
 import com.iti.android.team1.ebuy.ui.productsScreen.viewmodel.ProductsViewModel
@@ -42,29 +43,22 @@ class ProductsFragment : Fragment() {
         viewModel.productsLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is ResultState.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+                    binding.shimmer.root.showShimmer(true)
+                    binding.shimmer.root.startShimmer()
                 }
                 is ResultState.Success -> {
-                    binding.progressBar.visibility = View.GONE
-                    val adapter = ProductsRecyclerAdapter(
-                        onItemClick = onItemClick,
-                        onLike = onLike,
-                        onUnLike = onUnLike
-                    )
-                    adapter.setProducts(it.data)
-                    binding.productsRecycler.layoutManager =
-                        GridLayoutManager(
-                            requireContext(),
-                            2,
-                            RecyclerView.VERTICAL,
-                            false
-                        )
-                    binding.productsRecycler.adapter = adapter
+                    binding.shimmer.root.hideShimmer()
+                    binding.shimmer.root.stopShimmer()
+                    binding.shimmer.root.visibility = View.GONE
+                    binding.productsRecycler.visibility = View.VISIBLE
+                    setUpProductRecycler(it.data)
                 }
                 is ResultState.EmptyResult -> {
+                    //TODO: Show Empty layout
                     Log.d(TAG, "onViewCreated: EmptyResult")
                 }
                 is ResultState.Error -> {
+                    //TODO: Show Error layout
                     Log.d(TAG, "onViewCreated: Error")
 
                 }
@@ -73,7 +67,7 @@ class ProductsFragment : Fragment() {
     }
 
     private var onItemClick: () -> Unit = {
-
+        //TODO: navigate to details_screen
     }
 
     private var onLike: (Product) -> Unit = { product ->
@@ -82,5 +76,22 @@ class ProductsFragment : Fragment() {
 
     private var onUnLike: (Product) -> Unit = { product ->
         //TODO: remote product from database
+    }
+
+    private fun setUpProductRecycler(products: Products) {
+        val adapter = ProductsRecyclerAdapter(
+            onItemClick = onItemClick,
+            onLike = onLike,
+            onUnLike = onUnLike
+        )
+        adapter.setProducts(products)
+        binding.productsRecycler.layoutManager =
+            GridLayoutManager(
+                requireContext(),
+                2,
+                RecyclerView.VERTICAL,
+                false
+            )
+        binding.productsRecycler.adapter = adapter
     }
 }

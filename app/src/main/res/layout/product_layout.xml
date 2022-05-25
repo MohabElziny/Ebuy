@@ -44,8 +44,7 @@
 
             <RelativeLayout
                 android:layout_width="130dp"
-                android:layout_height="30dp"
-                android:orientation="horizontal">
+                android:layout_height="30dp">
 
                 <TextView
                     android:id="@+id/txtProductPrice"
