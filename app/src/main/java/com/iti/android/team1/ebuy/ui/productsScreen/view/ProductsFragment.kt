@@ -31,7 +31,7 @@ class ProductsFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         binding = FragmentProductsBinding.inflate(inflater, container, false)
         return binding.root
@@ -43,14 +43,20 @@ class ProductsFragment : Fragment() {
         viewModel.productsLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is ResultState.Loading -> {
-                    binding.shimmer.root.showShimmer(true)
-                    binding.shimmer.root.startShimmer()
+                    binding.shimmer.apply {
+                        root.showShimmer(true)
+                        root.startShimmer()
+                    }
                 }
                 is ResultState.Success -> {
-                    binding.shimmer.root.hideShimmer()
-                    binding.shimmer.root.stopShimmer()
-                    binding.shimmer.root.visibility = View.GONE
-                    binding.productsRecycler.visibility = View.VISIBLE
+                    binding.apply {
+                        shimmer.root.apply {
+                            hideShimmer()
+                            stopShimmer()
+                            visibility = View.GONE
+                        }
+                        productsRecycler.visibility = View.VISIBLE
+                    }
                     setUpProductRecycler(it.data)
                 }
                 is ResultState.EmptyResult -> {
@@ -68,10 +74,12 @@ class ProductsFragment : Fragment() {
 
     private var onItemClick: () -> Unit = {
         //TODO: navigate to details_screen
+        Log.d(TAG, "onItemClick: called..")
     }
 
     private var onLike: (Product) -> Unit = { product ->
         //TODO: add product to database
+        Log.d(TAG, "onLike: called")
     }
 
     private var onUnLike: (Product) -> Unit = { product ->
@@ -79,19 +87,23 @@ class ProductsFragment : Fragment() {
     }
 
     private fun setUpProductRecycler(products: Products) {
-        val adapter = ProductsRecyclerAdapter(
+        val productAdapter = ProductsRecyclerAdapter(
             onItemClick = onItemClick,
             onLike = onLike,
             onUnLike = onUnLike
-        )
-        adapter.setProducts(products)
-        binding.productsRecycler.layoutManager =
-            GridLayoutManager(
-                requireContext(),
-                2,
-                RecyclerView.VERTICAL,
-                false
-            )
-        binding.productsRecycler.adapter = adapter
+        ).apply {
+            setProducts(products)
+        }
+        binding.productsRecycler.apply {
+            layoutManager =
+                GridLayoutManager(
+                    requireContext(),
+                    2,
+                    RecyclerView.VERTICAL,
+                    false
+                )
+            adapter = productAdapter
+        }
+
     }
 }

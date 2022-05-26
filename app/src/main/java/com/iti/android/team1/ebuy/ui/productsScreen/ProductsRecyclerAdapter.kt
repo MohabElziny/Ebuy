@@ -41,11 +41,10 @@ class ProductsRecyclerAdapter(
 
     inner class ProductsViewHolder(private val productLayoutBinding: ProductLayoutBinding) :
         RecyclerView.ViewHolder(productLayoutBinding.root) {
+
         init {
 
-            productLayoutBinding.parent.setOnClickListener {
-                onItemClick
-            }
+            productLayoutBinding.parent.setOnClickListener { onItemClick() }
 
             productLayoutBinding.likeBtn.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton) {

@@ -34,7 +34,7 @@ class ProductsViewModel(private val repoInterface: IRepository) : ViewModel() {
         when (networkResponse) {
             is NetworkResponse.SuccessResponse -> {
                 networkResponse.data.let {
-                    if (it.products != null && it.products.isNotEmpty()) {
+                    if (!it.products.isNullOrEmpty()) {
                         _productsMutableLivaData.value = ResultState.Success(it)
                     } else {
                         _productsMutableLivaData.value = ResultState.EmptyResult
