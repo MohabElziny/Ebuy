@@ -114,7 +114,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun initCategoriesRecyclerView() {
-        categoriesAdapter = CategoriesAdapter(::onCategoryClick)
+        categoriesAdapter = CategoriesAdapter(onCategoryBtnClick)
         binding.categoryRecycler.apply {
             this.adapter = categoriesAdapter
             this.layoutManager =
@@ -123,7 +123,7 @@ class CategoryFragment : Fragment() {
         }
     }
 
-    private fun onCategoryClick(id: Long, title: String) {
+    var onCategoryBtnClick = fun(id: Long, title: String) {
         binding.catTvName.text = title
         defaultCategoryId=id
         categoryViewModel.getAllProduct(id)
