@@ -35,21 +35,18 @@ class CategoryViewModel(var myRepo: IRepository) : ViewModel() {
             is NetworkResponse.FailureResponse ->
                 _allCategories.emit(ResultState.Error(result.errorString))
             is NetworkResponse.SuccessResponse -> {
-                Log.i("TAG", "sendCategoriesResponse: success ")
                 if (result.data.list.isNullOrEmpty()) {
                     _allCategories.emit(ResultState.EmptyResult)
-                    Log.i("TAG", "sendCategoriesResponse: result ok")
                 } else{
                     _allCategories.emit(ResultState.Success(result.data))
-                    Log.i("TAG", "sendCategoriesResponse: result ok")
                 }
             }
         }
 
     }
 
-
-    fun getAllProduct(category: Long,productType:String) {
+    //home is default category
+    fun getAllProduct(category: Long=395727569125,productType:String = "SHOES") {
         viewModelScope.launch(Dispatchers.IO) {
             _allProducts.emit(ResultState.Loading)
             val result = async {

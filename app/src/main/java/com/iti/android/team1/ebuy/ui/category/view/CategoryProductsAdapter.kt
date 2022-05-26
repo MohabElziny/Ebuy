@@ -5,8 +5,9 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.CategoryCustomRvItemBinding
+import com.iti.android.team1.ebuy.model.pojo.Product
 
-class CategoryProductsAdapter : RecyclerView.Adapter<CategoryProductsAdapter.Holder>() {
+class CategoryProductsAdapter(var products:List<Product>) : RecyclerView.Adapter<CategoryProductsAdapter.Holder>() {
 
     class Holder(binding: CategoryCustomRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
         var image = binding.catCustomImage
@@ -22,7 +23,7 @@ class CategoryProductsAdapter : RecyclerView.Adapter<CategoryProductsAdapter.Hol
 
     override fun onBindViewHolder(holder: Holder, position: Int) {
 
-        holder.title.text = "55.6"
+        holder.title.text = products[position].productName
         holder.imgFavorite.setOnClickListener {
             holder.imgFavorite.setImageResource(R.drawable.fill_heart_image)
         }
@@ -30,7 +31,12 @@ class CategoryProductsAdapter : RecyclerView.Adapter<CategoryProductsAdapter.Hol
     }
 
     override fun getItemCount(): Int {
-        return 8
+        return products.size
+    }
+
+    fun setList(products:List<Product>){
+        this.products=products
+        notifyDataSetChanged()
     }
 
 

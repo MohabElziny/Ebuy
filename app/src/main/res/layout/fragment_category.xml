@@ -46,7 +46,7 @@
                 android:layout_alignStart="@+id/product_recycler"
                 android:layout_marginStart="@dimen/_4sdp"
                 android:layout_marginBottom="@dimen/_6sdp"
-                android:text="@string/cat_text_name"
+                tools:text="Women"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_17ssp"
                 android:textStyle="bold" />

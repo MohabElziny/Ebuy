@@ -19,10 +19,12 @@ import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Categories
 import com.iti.android.team1.ebuy.model.pojo.Category
+import com.iti.android.team1.ebuy.model.pojo.Products
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModel
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModelFactory
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.flow.collect
+import java.text.FieldPosition
 
 class CategoryFragment : Fragment() {
 
@@ -53,12 +55,21 @@ class CategoryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        initCategoriesRecyclerView(emptyList())
+        initCategoriesRecyclerView()
         initRecyclerView()
+
         categoryViewModel.getAllCategories()
+        categoryViewModel.getAllProduct()
+
         lifecycleScope.launchWhenStarted {
             categoryViewModel.allCategories.buffer().collect{
                    handleCategoriesResult(it)
+            }
+        }
+
+        lifecycleScope.launchWhenStarted {
+            categoryViewModel.allProducts.buffer().collect{
+                handleProductsResult(it)
             }
         }
     }
@@ -68,15 +79,29 @@ class CategoryFragment : Fragment() {
             is ResultState.Loading->{}
             is ResultState.Success->{
                 Log.i("TAG", "handleCategoriesResult: Success")
-                result.data.list?.let { categoriesAdapter.setList(it) }
+                result.data.list?.let { categoriesAdapter.setList(it)
+                    binding.catTvName.text=it[0].categoryTitle
+                }
             }
             is ResultState.EmptyResult->{}
             is ResultState.Error->{}
         }
     }
 
-    private fun initCategoriesRecyclerView(categories : List<Category>) {
-        categoriesAdapter = CategoriesAdapter(categories)
+    private fun handleProductsResult(result: ResultState<Products>){
+        when(result){
+            is ResultState.Loading->{}
+            is ResultState.Success->{
+                Log.i("TAG", "handleCategoriesResult: Success")
+                result.data.products?.let { categoryProductsAdapter.setList(it) }
+            }
+            is ResultState.EmptyResult->{}
+            is ResultState.Error->{}
+        }
+    }
+
+    private fun initCategoriesRecyclerView() {
+        categoriesAdapter = CategoriesAdapter(emptyList(),::onCategoryClick)
         binding.categoryRecycler.apply {
             this.adapter = categoriesAdapter
             this.layoutManager=LinearLayoutManager(context).apply { this.orientation=RecyclerView.HORIZONTAL }
@@ -84,8 +109,12 @@ class CategoryFragment : Fragment() {
         }
     }
 
+    private fun onCategoryClick( title : String){
+        binding.catTvName.text=title
+    }
+
     private fun initRecyclerView() {
-        categoryProductsAdapter = CategoryProductsAdapter()
+        categoryProductsAdapter = CategoryProductsAdapter(emptyList())
         binding.productRecycler.apply {
             this.adapter = categoryProductsAdapter
             this.layoutManager=GridLayoutManager(context, 2)
