@@ -7,8 +7,11 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentCategoryBinding
+import com.iti.android.team1.ebuy.model.pojo.Category
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModel
 
 class CategoryFragment : Fragment() {
@@ -30,14 +33,23 @@ class CategoryFragment : Fragment() {
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
 
-        initRecyclerView()
+       // initCategoriesRecyclerView()
+       // initRecyclerView()
 
         return binding.root
     }
 
+    private fun initCategoriesRecyclerView(categories : List<Category>) {
+        binding.categoryRecycler.apply {
+            this.adapter = CategoriesAdapter(categories)
+            this.layoutManager=LinearLayoutManager(context).apply { this.orientation=RecyclerView.HORIZONTAL }
+            this.setHasFixedSize(true)
+        }
+    }
+
     private fun initRecyclerView() {
-        binding.catRecycleView.apply {
-            this.adapter = CategoryAdapter()
+        binding.productRecycler.apply {
+            this.adapter = CategoryProductsAdapter()
             this.layoutManager=GridLayoutManager(context, 2)
             this.setHasFixedSize(true)
         }
