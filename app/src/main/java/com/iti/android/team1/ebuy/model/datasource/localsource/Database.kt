@@ -7,5 +7,5 @@ import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 @Database(entities = [FavoriteProduct::class], version = 1, exportSchema = false)
 @TypeConverters(RoomConverters::class)
 abstract class Database {
-
+    abstract fun favoritesDao(): FavoritesDao
 }
