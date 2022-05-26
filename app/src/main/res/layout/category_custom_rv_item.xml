@@ -4,6 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    app:cardElevation="9dp"
     app:cardUseCompatPadding="true"
     app:cardCornerRadius="@dimen/_7sdp"
     >
@@ -30,9 +31,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/cat_custom_image"
             android:layout_alignStart="@+id/cat_custom_image"
-            android:layout_marginBottom="@dimen/_6sdp"
             android:layout_marginEnd="@dimen/_6sdp"
-            />
+            android:layout_marginBottom="@dimen/_6sdp" />
 
         <ImageView
             android:id="@+id/cat_custom_img_favo"

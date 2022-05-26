@@ -14,6 +14,7 @@ import org.json.JSONObject
 import retrofit2.Response
 
 class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRepository {
+
     override suspend fun getAllBrands(): NetworkResponse<Brands> {
         val response = remoteSource.getAllBrands()
         return if (response.isSuccessful) {
