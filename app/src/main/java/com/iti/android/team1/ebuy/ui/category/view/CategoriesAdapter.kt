@@ -11,7 +11,7 @@ import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.CategoryRowBinding
 import com.iti.android.team1.ebuy.model.pojo.Category
 
-class CategoriesAdapter ( var categories: List<Category> ,val onCategoryBtnClick : (title:String)->Unit ): RecyclerView.Adapter<CategoriesAdapter.CategoriesHolder>() {
+class CategoriesAdapter ( var categories: List<Category> ,val onCategoryBtnClick : (id:Long,title:String)->Unit ): RecyclerView.Adapter<CategoriesAdapter.CategoriesHolder>() {
 
     private var btnIndex:Int=0
     private lateinit var context:Context
@@ -29,7 +29,7 @@ class CategoriesAdapter ( var categories: List<Category> ,val onCategoryBtnClick
         holder.btn.text = categories[position].categoryTitle
         holder.btn.setOnClickListener {
             btnIndex=position
-            onCategoryBtnClick(holder.btn.text as String)
+            onCategoryBtnClick(categories[position].categoryId,holder.btn.text as String)
             notifyDataSetChanged()
         }
         if (btnIndex==position)

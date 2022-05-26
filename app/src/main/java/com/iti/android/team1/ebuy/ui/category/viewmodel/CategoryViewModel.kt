@@ -46,11 +46,11 @@ class CategoryViewModel(var myRepo: IRepository) : ViewModel() {
     }
 
     //home is default category
-    fun getAllProduct(category: Long=395727569125,productType:String = "SHOES") {
+    fun getAllProduct(categoryId: Long=395727569125,productType:String = "SHOES") {
         viewModelScope.launch(Dispatchers.IO) {
             _allProducts.emit(ResultState.Loading)
             val result = async {
-                 myRepo.getAllCategoryProducts(category,productType)
+                 myRepo.getAllCategoryProducts(categoryId,productType)
             }
             sendProductsResponse(result.await())
         }

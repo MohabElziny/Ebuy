@@ -30,20 +30,23 @@ class CategoryFragment : Fragment() {
 
     private var _binding: FragmentCategoryBinding? = null
 
-    private val categoryViewModel : CategoryViewModel by viewModels {
+    private var defaultCategoryId = 395727569125
+    private var defaultProductType = "SHOES"
+
+    private val categoryViewModel: CategoryViewModel by viewModels {
         CategoryViewModelFactory(Repository())
     }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
     private val binding get() = _binding!!
-    private lateinit var categoriesAdapter : CategoriesAdapter
+    private lateinit var categoriesAdapter: CategoriesAdapter
     private lateinit var categoryProductsAdapter: CategoryProductsAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
 
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
@@ -62,64 +65,98 @@ class CategoryFragment : Fragment() {
         categoryViewModel.getAllProduct()
 
         lifecycleScope.launchWhenStarted {
-            categoryViewModel.allCategories.buffer().collect{
-                   handleCategoriesResult(it)
+            categoryViewModel.allCategories.buffer().collect {
+                handleCategoriesResult(it)
             }
         }
 
         lifecycleScope.launchWhenStarted {
-            categoryViewModel.allProducts.buffer().collect{
+            categoryViewModel.allProducts.buffer().collect {
                 handleProductsResult(it)
             }
         }
-    }
 
-    private fun handleCategoriesResult(result: ResultState<Categories>){
-        when(result){
-            is ResultState.Loading->{}
-            is ResultState.Success->{
-                Log.i("TAG", "handleCategoriesResult: Success")
-                result.data.list?.let { categoriesAdapter.setList(it)
-                    binding.catTvName.text=it[0].categoryTitle
-                }
-            }
-            is ResultState.EmptyResult->{}
-            is ResultState.Error->{}
+        binding.fabAccessories.setOnClickListener {
+            onFabClickListener("ACCESSORIES")
+        }
+        binding.fabShoes.setOnClickListener {
+            onFabClickListener("SHOES")
+        }
+        binding.fabTShirt.setOnClickListener {
+            onFabClickListener("T-SHIRTS")
         }
     }
 
-    private fun handleProductsResult(result: ResultState<Products>){
-        when(result){
-            is ResultState.Loading->{}
-            is ResultState.Success->{
+    private fun onFabClickListener(productType: String) {
+        defaultProductType = productType
+        categoryViewModel.getAllProduct(defaultCategoryId, defaultProductType)
+    }
+
+    private fun handleCategoriesResult(result: ResultState<Categories>) {
+        when (result) {
+            is ResultState.Loading -> {}
+            is ResultState.Success -> {
+                Log.i("TAG", "handleCategoriesResult: Success")
+                result.data.list?.let {
+                    categoriesAdapter.setList(it)
+                    binding.catTvName.text = it[0].categoryTitle
+                }
+            }
+            is ResultState.EmptyResult -> {}
+            is ResultState.Error -> {}
+        }
+    }
+
+    private fun handleProductsResult(result: ResultState<Products>) {
+        when (result) {
+            is ResultState.Loading -> {
+                startShimmer()
+            }
+            is ResultState.Success -> {
+                stopShimmer()
                 Log.i("TAG", "handleCategoriesResult: Success")
                 result.data.products?.let { categoryProductsAdapter.setList(it) }
             }
-            is ResultState.EmptyResult->{}
-            is ResultState.Error->{}
+            is ResultState.EmptyResult -> {}
+            is ResultState.Error -> {}
         }
     }
 
     private fun initCategoriesRecyclerView() {
-        categoriesAdapter = CategoriesAdapter(emptyList(),::onCategoryClick)
+        categoriesAdapter = CategoriesAdapter(emptyList(), ::onCategoryClick)
         binding.categoryRecycler.apply {
             this.adapter = categoriesAdapter
-            this.layoutManager=LinearLayoutManager(context).apply { this.orientation=RecyclerView.HORIZONTAL }
+            this.layoutManager =
+                LinearLayoutManager(context).apply { this.orientation = RecyclerView.HORIZONTAL }
             this.setHasFixedSize(true)
         }
     }
 
-    private fun onCategoryClick( title : String){
-        binding.catTvName.text=title
+    private fun onCategoryClick(id: Long, title: String) {
+        binding.catTvName.text = title
+        defaultCategoryId=id
+        categoryViewModel.getAllProduct( defaultCategoryId,defaultProductType)
     }
 
     private fun initRecyclerView() {
         categoryProductsAdapter = CategoryProductsAdapter(emptyList())
         binding.productRecycler.apply {
             this.adapter = categoryProductsAdapter
-            this.layoutManager=GridLayoutManager(context, 2)
+            this.layoutManager = GridLayoutManager(context, 2)
             this.setHasFixedSize(true)
         }
+    }
+
+    private fun startShimmer() {
+        binding.relative.visibility = View.GONE
+        binding.shimmer.visibility = View.VISIBLE
+        binding.shimmer.startShimmer()
+    }
+
+    private fun stopShimmer() {
+        binding.shimmer.stopShimmer()
+        binding.shimmer.visibility = View.GONE
+        binding.relative.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {
