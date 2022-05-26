@@ -4,11 +4,12 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:backgroundTint="@color/backgroundColor">
+    android:background="@color/backgroundColor">
 
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:layout_margin="8dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp">
