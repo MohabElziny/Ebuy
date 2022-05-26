@@ -44,7 +44,7 @@ class CategoryViewModel(var myRepo: IRepository) : ViewModel() {
             is NetworkResponse.FailureResponse ->
                 _allCategories.emit(ResultState.Error(result.errorString))
             is NetworkResponse.SuccessResponse -> {
-                if (result.data.list.isNullOrEmpty()) {
+                if (result.data.categoriesList.isNullOrEmpty()) {
                     _allCategories.emit(ResultState.EmptyResult)
                 } else{
                     _allCategories.emit(ResultState.Success(result.data))

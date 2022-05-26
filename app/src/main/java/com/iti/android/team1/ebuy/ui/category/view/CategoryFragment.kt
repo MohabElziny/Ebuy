@@ -25,8 +25,7 @@ class CategoryFragment : Fragment() {
 
     private var _binding: FragmentCategoryBinding? = null
 
-    private var defaultCategoryId = 395727569125
-    private var defaultProductType = "SHOES"
+      private var defaultCategoryId:Long=0
 
     private val categoryViewModel: CategoryViewModel by viewModels {
         CategoryViewModelFactory(Repository())
@@ -83,16 +82,14 @@ class CategoryFragment : Fragment() {
     }
 
     private fun onFabClickListener(productType: String) {
-        defaultProductType = productType
-        categoryViewModel.getAllProductByType(defaultCategoryId, defaultProductType)
+        categoryViewModel.getAllProductByType(defaultCategoryId, productType)
     }
 
     private fun handleCategoriesResult(result: ResultState<Categories>) {
         when (result) {
             is ResultState.Loading -> {}
             is ResultState.Success -> {
-                Log.i("TAG", "handleCategoriesResult: Success")
-                result.data.list?.let {
+                result.data.categoriesList?.let {
                     categoriesAdapter.setList(it)
                     binding.catTvName.text = it[0].categoryTitle
                 }
@@ -109,7 +106,6 @@ class CategoryFragment : Fragment() {
             }
             is ResultState.Success -> {
                 stopShimmer()
-                Log.i("TAG", "handleCategoriesResult: Success")
                 result.data.products?.let { categoryProductsAdapter.setList(it) }
             }
             is ResultState.EmptyResult -> {}
@@ -144,13 +140,17 @@ class CategoryFragment : Fragment() {
 
     private fun startShimmer() {
         binding.productRecycler.visibility = View.GONE
-        binding.shimmer.visibility = View.VISIBLE
-        binding.shimmer.startShimmer()
+        binding.shimmer.apply {
+            this.visibility =View.VISIBLE
+            this.startShimmer()
+        }
     }
 
     private fun stopShimmer() {
-        binding.shimmer.stopShimmer()
-        binding.shimmer.visibility = View.GONE
+        binding.shimmer.apply {
+            this.stopShimmer()
+            this.visibility =View.GONE
+        }
         binding.productRecycler.visibility = View.VISIBLE
     }
 

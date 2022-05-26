@@ -74,7 +74,6 @@ class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRep
     ): NetworkResponse<Products> {
         val response = remoteSource.getAllCategoryProducts(collectionID, productType)
         return if (response.isSuccessful) {
-            Log.i("TAG", "getAllCategoryProducts: success ${response.body()?.products?.size}")
             SuccessResponse(response.body() ?: Products(emptyList()))
         } else {
             parseError(response.errorBody())

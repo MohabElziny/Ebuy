@@ -7,4 +7,4 @@ data class Category(@SerializedName("id") val categoryId : Long,
 
 data class Categories(
     @SerializedName("custom_collections")
-    val list: List<Category>)
+    val categoriesList: List<Category>)

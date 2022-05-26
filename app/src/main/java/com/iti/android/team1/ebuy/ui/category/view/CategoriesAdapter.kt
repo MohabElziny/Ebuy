@@ -16,8 +16,14 @@ class CategoriesAdapter ( val onCategoryBtnClick : (id:Long,title:String)->Unit 
     private var btnIndex:Int=0
     private var categories: List<Category> = emptyList()
 
-    class CategoriesHolder(val binding: CategoryRowBinding) : RecyclerView.ViewHolder(binding.root){
-        val btn=binding.categoryRowBtn
+   inner class CategoriesHolder(val binding: CategoryRowBinding) : RecyclerView.ViewHolder(binding.root){
+        fun bindData(category: Category){
+            binding.categoryRowBtn.text=category.categoryTitle
+            if (btnIndex==position)
+                binding.categoryRowBtn.setBackgroundColor(ContextCompat.getColor(binding.root.context,R.color.Primary))
+            else
+                binding.categoryRowBtn.setBackgroundColor(ContextCompat.getColor(binding.root.context,R.color.white))
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CategoriesHolder {
@@ -25,19 +31,18 @@ class CategoriesAdapter ( val onCategoryBtnClick : (id:Long,title:String)->Unit 
     }
 
     override fun onBindViewHolder(holder: CategoriesHolder, @SuppressLint("RecyclerView") position: Int) {
-        holder.btn.text = categories[position].categoryTitle
-        holder.btn.setOnClickListener {
+
+        holder.bindData(categories[position])
+
+        holder.binding.categoryRowBtn.setOnClickListener {
             btnIndex=position
             if(position==0)
-                onCategoryBtnClick(0,holder.btn.text as String)
+                onCategoryBtnClick(0,holder.binding.categoryRowBtn.text as String)
             else
-            onCategoryBtnClick(categories[position].categoryId,holder.btn.text as String)
+            onCategoryBtnClick(categories[position].categoryId,holder.binding.categoryRowBtn.text as String)
             notifyDataSetChanged()
         }
-        if (btnIndex==position)
-            holder.btn.setBackgroundColor(ContextCompat.getColor(holder.binding.root.context,R.color.Primary))
-        else
-            holder.btn.setBackgroundColor(ContextCompat.getColor(holder.binding.root.context,R.color.white))
+
     }
 
     override fun getItemCount(): Int {
