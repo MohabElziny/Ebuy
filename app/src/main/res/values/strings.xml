@@ -73,5 +73,6 @@
     <string name="add_to_cart">Add To Cart</string>
     <string name="price">Price</string>
     <string name="saved_items">Saved items</string>
+    <string name="product_image">Product image</string>
 
 </resources>

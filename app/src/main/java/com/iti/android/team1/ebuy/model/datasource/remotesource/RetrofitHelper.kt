@@ -9,12 +9,12 @@ import com.iti.android.team1.ebuy.model.pojo.Category
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val baseUrl = "https://c48655414af1ada2cd256a6b5ee391be:" +
-        "@mobile-ismailia.myshopify.com/admin/api/2022-04/"
+private const val BASE_URL = "https://mobile-ismailia.myshopify.com/admin/api/2022-04/"
+
 
 private val retrofit = Retrofit.Builder().apply {
     addConverterFactory(GsonConverterFactory.create())
-    this.baseUrl(baseUrl)
+    baseUrl(BASE_URL)
 }.build()
 
 object RetrofitHelper : RemoteSource {

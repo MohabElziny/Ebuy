@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.CategoryCustomRvItemBinding
 
-class CategoryAdapter : RecyclerView.Adapter<CategoryAdapter.Holder>() {
+class CategoryAdapter() : RecyclerView.Adapter<CategoryAdapter.Holder>() {
 
     class Holder(binding: CategoryCustomRvItemBinding) : RecyclerView.ViewHolder(binding.root) {
         var image = binding.catCustomImage

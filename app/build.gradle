@@ -2,7 +2,7 @@ plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
-    id("androidx.navigation.safeargs.kotlin")
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -51,6 +51,8 @@ dependencies {
     //navigation component
     implementation 'androidx.navigation:navigation-fragment-ktx:2.4.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.4.2'
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:2.4.2"
+
 
     //lottie
     def lottieVersion = "5.0.2"
@@ -115,4 +117,8 @@ dependencies {
 
     //float action menu
     implementation 'com.getbase:floatingactionbutton:1.10.1'
+
+    //likeBtn
+    implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+
 }
