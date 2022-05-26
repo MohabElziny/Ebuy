@@ -7,17 +7,7 @@
     android:background="@color/backgroundColor"
     android:padding="@dimen/_6sdp"
     tools:context=".ui.category.view.CategoryFragment">
-<com.facebook.shimmer.ShimmerFrameLayout
-    android:id="@+id/shimmer"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentTop="true"
-    android:visibility="gone"
-    >
-    <include layout="@layout/products_shimmer_layout"/>
 
-</com.facebook.shimmer.ShimmerFrameLayout>
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -48,6 +38,18 @@
                 android:layout_below="@+id/cat_tv_discover"
                 android:orientation="horizontal"
                 />
+            <com.facebook.shimmer.ShimmerFrameLayout
+                android:id="@+id/shimmer"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:visibility="gone"
+                android:layout_below="@+id/cat_tv_name"
+                >
+                <include layout="@layout/products_shimmer_layout"/>
+
+            </com.facebook.shimmer.ShimmerFrameLayout>
 
             <TextView
                 android:id="@+id/cat_tv_name"
@@ -70,7 +72,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
                 android:nestedScrollingEnabled="false"
-                tools:listitem="@layout/category_custom_rv_item" />
+                tools:listitem="@layout/product_layout" />
         </RelativeLayout>
     </androidx.core.widget.NestedScrollView>
 

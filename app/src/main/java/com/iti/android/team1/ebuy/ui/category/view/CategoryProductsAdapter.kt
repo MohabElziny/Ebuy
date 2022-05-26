@@ -9,12 +9,12 @@ import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.ProductLayoutBinding
 import com.iti.android.team1.ebuy.model.pojo.Product
 
-class CategoryProductsAdapter(var products: List<Product>) :
+class CategoryProductsAdapter() :
     RecyclerView.Adapter<CategoryProductsAdapter.Holder>() {
 
-    lateinit var context:Context
+    private var products: List<Product> = emptyList()
 
-    class Holder(binding: ProductLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
+    class Holder(val binding: ProductLayoutBinding) : RecyclerView.ViewHolder(binding.root) {
         var productImageView = binding.image
         var tvTitle = binding.txtProductName
         var tvPrice = binding.txtProductPrice
@@ -22,7 +22,6 @@ class CategoryProductsAdapter(var products: List<Product>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): Holder {
-        context=parent.context
         val binding: ProductLayoutBinding =
             ProductLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return Holder(binding)
@@ -34,7 +33,7 @@ class CategoryProductsAdapter(var products: List<Product>) :
         holder.tvPrice.text =
             products[position].productVariants?.get(0)?.productVariantPrice.toString()
 
-        Glide.with(context).load(products[position].productImage?.imageURL).into(holder.productImageView)
+        Glide.with(holder.binding.root.context).load(products[position].productImage?.imageURL).into(holder.productImageView)
 
     }
 

@@ -5,10 +5,8 @@ import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
-import androidx.compose.runtime.snapshots.SnapshotApplyResult
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,13 +16,10 @@ import com.iti.android.team1.ebuy.databinding.FragmentCategoryBinding
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Categories
-import com.iti.android.team1.ebuy.model.pojo.Category
 import com.iti.android.team1.ebuy.model.pojo.Products
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModel
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModelFactory
 import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.collect
-import java.text.FieldPosition
 
 class CategoryFragment : Fragment() {
 
@@ -89,7 +84,7 @@ class CategoryFragment : Fragment() {
 
     private fun onFabClickListener(productType: String) {
         defaultProductType = productType
-        categoryViewModel.getAllProduct(defaultCategoryId, defaultProductType)
+        categoryViewModel.getAllProductByType(defaultCategoryId, defaultProductType)
     }
 
     private fun handleCategoriesResult(result: ResultState<Categories>) {
@@ -123,7 +118,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun initCategoriesRecyclerView() {
-        categoriesAdapter = CategoriesAdapter(emptyList(), ::onCategoryClick)
+        categoriesAdapter = CategoriesAdapter(::onCategoryClick)
         binding.categoryRecycler.apply {
             this.adapter = categoriesAdapter
             this.layoutManager =
@@ -135,11 +130,11 @@ class CategoryFragment : Fragment() {
     private fun onCategoryClick(id: Long, title: String) {
         binding.catTvName.text = title
         defaultCategoryId=id
-        categoryViewModel.getAllProduct( defaultCategoryId,defaultProductType)
+        categoryViewModel.getAllProduct(id)
     }
 
     private fun initRecyclerView() {
-        categoryProductsAdapter = CategoryProductsAdapter(emptyList())
+        categoryProductsAdapter = CategoryProductsAdapter()
         binding.productRecycler.apply {
             this.adapter = categoryProductsAdapter
             this.layoutManager = GridLayoutManager(context, 2)
@@ -148,7 +143,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun startShimmer() {
-        binding.relative.visibility = View.GONE
+        binding.productRecycler.visibility = View.GONE
         binding.shimmer.visibility = View.VISIBLE
         binding.shimmer.startShimmer()
     }
@@ -156,7 +151,7 @@ class CategoryFragment : Fragment() {
     private fun stopShimmer() {
         binding.shimmer.stopShimmer()
         binding.shimmer.visibility = View.GONE
-        binding.relative.visibility = View.VISIBLE
+        binding.productRecycler.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {

@@ -4,7 +4,6 @@ import com.google.gson.annotations.SerializedName
 import java.io.Serializable
 
 data class Products(
-    @SerializedName("products")
     val products: List<Product>? = null
 ) : Serializable
 
