@@ -23,7 +23,7 @@ interface RetrofitService {
         @Header("X-Shopify-Access-Token") pass: String = password,
     ): Response<Brands>
 
-    @GET("products.json")
+    @GET("custom_collections.json")
     suspend fun getAllCategories(
         @Header("X-Shopify-Access-Token") pass: String = password
     ): Response<Categories>

@@ -1,5 +1,6 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
+import android.util.Log
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
@@ -60,6 +61,7 @@ class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRep
     override suspend fun getAllCategories(): NetworkResponse<Categories> {
         val response = remoteSource.getAllCategories()
         return if (response.isSuccessful) {
+            Log.i("TAG", "getAllCategories: response ok ${response.body()?.list?.size} ")
             SuccessResponse(response.body()?: Categories(emptyList()))
         } else {
             parseError(response.errorBody())

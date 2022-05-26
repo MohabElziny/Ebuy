@@ -6,9 +6,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.databinding.CategoryRowBinding
 import com.iti.android.team1.ebuy.model.pojo.Category
 
-class CategoriesAdapter ( categoryList: List<Category>): RecyclerView.Adapter<CategoriesAdapter.CategoriesHolder>() {
-
-    private var categories : List<Category> = categoryList
+class CategoriesAdapter ( var categories: List<Category>): RecyclerView.Adapter<CategoriesAdapter.CategoriesHolder>() {
 
     class CategoriesHolder(binding: CategoryRowBinding) : RecyclerView.ViewHolder(binding.root){
         val btn=binding.categoryRowBtn

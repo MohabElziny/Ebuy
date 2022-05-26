@@ -5,4 +5,6 @@ import com.google.gson.annotations.SerializedName
 data class Category(@SerializedName("id") val categoryId : Long,
                     @SerializedName("title") val categoryTitle:String)
 
-data class Categories(val list: List<Category>?)
+data class Categories(
+    @SerializedName("custom_collections")
+    val list: List<Category>)
