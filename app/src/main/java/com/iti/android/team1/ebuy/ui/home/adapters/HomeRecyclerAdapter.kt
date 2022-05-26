@@ -14,7 +14,6 @@ class HomeRecyclerAdapter(
     private val onClickBrand: (Long, String) -> Unit,
 ) :
     RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>() {
-    private lateinit var context: Context
     private var brands: List<Brand> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -26,27 +25,27 @@ class HomeRecyclerAdapter(
     inner class HomeViewHolder(val binding: BrandsLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         val brand get() = brands[bindingAdapterPosition]
+
         init {
             binding.parent.setOnClickListener {
                 onClickBrand(brand.brandID, brand.brandTitle)
             }
         }
+
         fun bindData() {
             binding.brandName.text = brand.brandTitle
-            Glide.with(context)
+            Glide.with(binding.root.context)
                 .load(brand.brandImage.imageUrl)
                 .into(binding.brandImage)
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
-        context = parent.context
-        return HomeViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder =
+        HomeViewHolder(
             BrandsLayoutBinding.inflate(
                 LayoutInflater.from(parent.context)
             )
         )
-    }
 
     override fun onBindViewHolder(holder: HomeViewHolder, position: Int) = holder.bindData()
 

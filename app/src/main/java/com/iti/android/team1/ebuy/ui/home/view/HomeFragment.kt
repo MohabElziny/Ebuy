@@ -60,16 +60,14 @@ class HomeFragment : Fragment() {
                 //TODO show empty result
             }
             is ResultState.Error -> {
-                binding.brandsShimmer.visibility = View.GONE
-                binding.brandsShimmer.stopShimmer()
+                hideShimmer()
                 Toast.makeText(requireContext(), brandsResult.errorString, Toast.LENGTH_LONG).show()
             }
             ResultState.Loading -> {
-                binding.brandsShimmer.startShimmer()
+                showShimmer()
             }
             is ResultState.Success -> {
-                binding.brandsShimmer.visibility = View.GONE
-                binding.brandsShimmer.stopShimmer()
+                hideShimmer()
                 brandsAdapter.setBrandsList(brandsResult.data)
             }
         }
@@ -122,6 +120,21 @@ class HomeFragment : Fragment() {
                 collectionID
             )
         )
+    }
+
+    private fun showShimmer(){
+        binding.brandsShimmer.root.apply {
+            showShimmer(true)
+            startShimmer()
+        }
+    }
+
+    private fun hideShimmer(){
+        binding.brandsShimmer.root.apply {
+            hideShimmer()
+            stopShimmer()
+            visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {
