@@ -15,7 +15,9 @@ class HomeViewPagerAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return object : RecyclerView.ViewHolder(
             LayoutInflater.from(parent.context).inflate(R.layout.ad_layout, parent, false)
-        ) {}
+        ) {
+
+        }
     }
 
     override fun getItemCount() = items.size

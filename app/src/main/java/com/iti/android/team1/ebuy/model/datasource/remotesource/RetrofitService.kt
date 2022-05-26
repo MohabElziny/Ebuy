@@ -34,4 +34,10 @@ interface RetrofitService {
         @Query("collection_id") collectionID: Long,@Query("product_type") productType:String,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD
     ): Response<Products>
+
+    @GET("products.json")
+    suspend fun getProductDetailsById(
+        @Query("product_id") product_id :String ,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+    ):Response<Product>
 }
