@@ -11,11 +11,10 @@ import com.iti.android.team1.ebuy.model.pojo.Brand
 import com.iti.android.team1.ebuy.model.pojo.Brands
 
 class HomeRecyclerAdapter(
-    private val context: Context,
-    private val onClickBrand: (Long, String) -> Unit
+    private val onClickBrand: (Long, String) -> Unit,
 ) :
     RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>() {
-
+    private lateinit var context: Context
     private var brands: List<Brand> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -26,7 +25,13 @@ class HomeRecyclerAdapter(
 
     inner class HomeViewHolder(val binding: BrandsLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindData(brand: Brand) {
+        val brand get() = brands[bindingAdapterPosition]
+        init {
+            binding.parent.setOnClickListener {
+                onClickBrand(brand.brandID, brand.brandTitle)
+            }
+        }
+        fun bindData() {
             binding.brandName.text = brand.brandTitle
             Glide.with(context)
                 .load(brand.brandImage.imageUrl)
@@ -34,19 +39,16 @@ class HomeRecyclerAdapter(
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder =
-        HomeViewHolder(
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
+        context = parent.context
+        return HomeViewHolder(
             BrandsLayoutBinding.inflate(
                 LayoutInflater.from(parent.context)
             )
         )
-
-    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        holder.bindData(brands[position])
-        holder.binding.parent.setOnClickListener {
-            onClickBrand(brands[position].brandID, brands[position].brandTitle)
-        }
     }
+
+    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) = holder.bindData()
 
     override fun getItemCount(): Int = brands.size
 

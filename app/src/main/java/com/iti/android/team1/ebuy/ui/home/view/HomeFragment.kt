@@ -21,8 +21,6 @@ import com.iti.android.team1.ebuy.ui.home.viewmodel.HomeViewModelFactory
 import com.iti.android.team1.ebuy.util.ZoomOutPageTransformer
 import kotlinx.coroutines.flow.buffer
 
-private const val TAG = "HomeFragment"
-
 class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(Repository())
@@ -79,7 +77,6 @@ class HomeFragment : Fragment() {
 
     private fun initBrandsRecyclerView() {
         brandsAdapter = HomeRecyclerAdapter(
-            requireContext(),
             onBrandClick
         )
         binding.homeRecyclerview.apply {
