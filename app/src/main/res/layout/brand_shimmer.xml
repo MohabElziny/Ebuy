@@ -1,47 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:backgroundTint="@color/backgroundColor">
+    android:background="@color/backgroundColor">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/parent"
+    <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
         android:background="@color/white"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?selectableItemBackground"
+        android:layout_margin="8dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@android:color/transparent"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/brandImage"
+            <View
                 android:layout_width="130dp"
                 android:layout_height="110dp"
-                android:layout_margin="8dp"
-                tools:src="@drawable/cart_icon" />
+                android:background="@color/background" />
 
             <TextView
-                android:id="@+id/brandName"
                 style="@style/heading3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
                 android:layout_gravity="center"
                 android:layout_margin="8dp"
-                android:textSize="@dimen/fontHeading5"
-                tools:text="Dummy" />
+                android:gravity="center"
+                android:background="@color/background"
+                android:textSize="@dimen/fontHeading5" />
         </LinearLayout>
-    </androidx.cardview.widget.CardView>
-
+    </FrameLayout>
 </FrameLayout>

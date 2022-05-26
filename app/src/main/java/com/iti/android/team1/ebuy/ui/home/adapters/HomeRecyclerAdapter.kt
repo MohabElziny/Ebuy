@@ -11,11 +11,9 @@ import com.iti.android.team1.ebuy.model.pojo.Brand
 import com.iti.android.team1.ebuy.model.pojo.Brands
 
 class HomeRecyclerAdapter(
-    private val context: Context,
-    private val onClickBrand: (Long, String) -> Unit
+    private val onClickBrand: (Long, String) -> Unit,
 ) :
     RecyclerView.Adapter<HomeRecyclerAdapter.HomeViewHolder>() {
-
     private var brands: List<Brand> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
@@ -26,9 +24,17 @@ class HomeRecyclerAdapter(
 
     inner class HomeViewHolder(val binding: BrandsLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindData(brand: Brand) {
+        val brand get() = brands[bindingAdapterPosition]
+
+        init {
+            binding.parent.setOnClickListener {
+                onClickBrand(brand.brandID, brand.brandTitle)
+            }
+        }
+
+        fun bindData() {
             binding.brandName.text = brand.brandTitle
-            Glide.with(context)
+            Glide.with(binding.root.context)
                 .load(brand.brandImage.imageUrl)
                 .into(binding.brandImage)
         }
@@ -41,12 +47,7 @@ class HomeRecyclerAdapter(
             )
         )
 
-    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) {
-        holder.bindData(brands[position])
-        holder.binding.parent.setOnClickListener {
-            onClickBrand(brands[position].brandID, brands[position].brandTitle)
-        }
-    }
+    override fun onBindViewHolder(holder: HomeViewHolder, position: Int) = holder.bindData()
 
     override fun getItemCount(): Int = brands.size
 

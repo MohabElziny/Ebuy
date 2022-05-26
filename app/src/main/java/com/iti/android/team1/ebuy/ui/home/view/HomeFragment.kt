@@ -21,8 +21,6 @@ import com.iti.android.team1.ebuy.ui.home.viewmodel.HomeViewModelFactory
 import com.iti.android.team1.ebuy.util.ZoomOutPageTransformer
 import kotlinx.coroutines.flow.buffer
 
-private const val TAG = "HomeFragment"
-
 class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels {
         HomeViewModelFactory(Repository())
@@ -62,16 +60,14 @@ class HomeFragment : Fragment() {
                 //TODO show empty result
             }
             is ResultState.Error -> {
-                binding.brandsShimmer.visibility = View.GONE
-                binding.brandsShimmer.stopShimmer()
+                hideShimmer()
                 Toast.makeText(requireContext(), brandsResult.errorString, Toast.LENGTH_LONG).show()
             }
             ResultState.Loading -> {
-                binding.brandsShimmer.startShimmer()
+                showShimmer()
             }
             is ResultState.Success -> {
-                binding.brandsShimmer.visibility = View.GONE
-                binding.brandsShimmer.stopShimmer()
+                hideShimmer()
                 brandsAdapter.setBrandsList(brandsResult.data)
             }
         }
@@ -79,7 +75,6 @@ class HomeFragment : Fragment() {
 
     private fun initBrandsRecyclerView() {
         brandsAdapter = HomeRecyclerAdapter(
-            requireContext(),
             onBrandClick
         )
         binding.homeRecyclerview.apply {
@@ -125,6 +120,21 @@ class HomeFragment : Fragment() {
                 collectionID
             )
         )
+    }
+
+    private fun showShimmer(){
+        binding.brandsShimmer.root.apply {
+            showShimmer(true)
+            startShimmer()
+        }
+    }
+
+    private fun hideShimmer(){
+        binding.brandsShimmer.root.apply {
+            hideShimmer()
+            stopShimmer()
+            visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {
