@@ -12,13 +12,13 @@ import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 abstract class CommerceDatabase : RoomDatabase() {
     companion object {
         @Volatile
-        var Instance: CommerceDatabase? = null
+        private var INSTANCE: CommerceDatabase? = null
         fun getDataBase(context: Context): CommerceDatabase {
-            return Instance ?: synchronized(this) {
+            return INSTANCE ?: synchronized(this) {
                 val instance = Room.databaseBuilder(context.applicationContext,
                     CommerceDatabase::class.java,
                     "commerceDB").build()
-                Instance = instance
+                INSTANCE = instance
                 instance
             }
         }
