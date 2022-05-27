@@ -9,4 +9,7 @@ data class FavoriteProduct(
     @NonNull
     @PrimaryKey
     val productID: Long,
+    val productName: String,
+    val productPrice: Double,
+    val productImageUrl: String,
 )
