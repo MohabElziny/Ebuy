@@ -1,5 +1,6 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
+import android.util.Log
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
@@ -76,9 +77,10 @@ class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRep
         }
     }
 
-    override suspend fun getProductDetails(product_id: String): NetworkResponse<Product> {
+    override suspend fun getProductDetails(product_id: Long): NetworkResponse<Product> {
         val response=remoteSource.getProductDetails(product_id)
         return if (response.isSuccessful) {
+            Log.i("TAG", "getProductDetails:${response.body()!!} ")
             SuccessResponse(response.body() ?:Product())
         } else {
             parseError(response.errorBody())

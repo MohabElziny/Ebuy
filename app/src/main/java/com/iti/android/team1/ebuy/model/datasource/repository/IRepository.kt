@@ -10,5 +10,5 @@ interface IRepository {
     suspend fun getAllBrands() : NetworkResponse<Brands>
     suspend fun getAllCategories() : NetworkResponse<Categories>
     suspend fun getAllCategoryProducts(collectionID: Long , productType:String) : NetworkResponse<Products>
-    suspend fun getProductDetails(product_id :String):NetworkResponse<Product>
+    suspend fun getProductDetails(product_id :Long):NetworkResponse<Product>
 }
