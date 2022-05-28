@@ -6,12 +6,6 @@ import kotlinx.coroutines.flow.Flow
 import com.iti.android.team1.ebuy.model.pojo.*
 
 interface IRepository {
-
-    suspend fun getAllProducts() :NetworkResponse<Products>
-    suspend fun getProductsByCollectionID(collectionID:Long) : NetworkResponse<Products>
-    suspend fun getAllBrands() : NetworkResponse<Brands>
-    suspend fun getAllCategories() : NetworkResponse<Categories>
-    suspend fun getAllCategoryProducts(collectionID: Long , productType:String) : NetworkResponse<Products>
     suspend fun getAllProducts(): NetworkResponse<Products>
     suspend fun getProductsByCollectionID(collectionID: Long): NetworkResponse<Products>
     suspend fun getAllBrands(): NetworkResponse<Brands>
