@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentCategoryBinding
+import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Categories
@@ -25,10 +26,10 @@ class CategoryFragment : Fragment() {
 
     private var _binding: FragmentCategoryBinding? = null
 
-      private var defaultCategoryId:Long=0
+    private var defaultCategoryId: Long = 0
 
     private val categoryViewModel: CategoryViewModel by viewModels {
-        CategoryViewModelFactory(Repository())
+        CategoryViewModelFactory(Repository(LocalSource(requireContext())))
     }
 
     // This property is only valid between onCreateView and
@@ -125,7 +126,7 @@ class CategoryFragment : Fragment() {
 
     var onCategoryBtnClick = fun(id: Long, title: String) {
         binding.catTvName.text = title
-        defaultCategoryId=id
+        defaultCategoryId = id
         categoryViewModel.getAllProduct(id)
     }
 
@@ -141,7 +142,7 @@ class CategoryFragment : Fragment() {
     private fun startShimmer() {
         binding.productRecycler.visibility = View.GONE
         binding.shimmer.apply {
-            this.visibility =View.VISIBLE
+            this.visibility = View.VISIBLE
             this.startShimmer()
         }
     }
@@ -149,7 +150,7 @@ class CategoryFragment : Fragment() {
     private fun stopShimmer() {
         binding.shimmer.apply {
             this.stopShimmer()
-            this.visibility =View.GONE
+            this.visibility = View.GONE
         }
         binding.productRecycler.visibility = View.VISIBLE
     }

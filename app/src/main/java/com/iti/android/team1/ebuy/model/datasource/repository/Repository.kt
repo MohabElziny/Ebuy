@@ -1,16 +1,25 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
-import android.util.Log
+import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
+import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.FailureResponse
+import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.SuccessResponse
+import com.iti.android.team1.ebuy.model.pojo.Brands
+import com.iti.android.team1.ebuy.model.pojo.Categories
+import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
+import com.iti.android.team1.ebuy.model.pojo.Products
+import kotlinx.coroutines.flow.Flow
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.*
 import com.iti.android.team1.ebuy.model.pojo.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
-import retrofit2.Response
 
-class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRepository {
+class Repository(
+    private val localSource: ILocalSource,
+    private val remoteSource: RemoteSource = RetrofitHelper,
+) : IRepository {
 
     override suspend fun getAllBrands(): NetworkResponse<Brands> {
         val response = remoteSource.getAllBrands()
@@ -59,7 +68,7 @@ class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRep
     override suspend fun getAllCategories(): NetworkResponse<Categories> {
         val response = remoteSource.getAllCategories()
         return if (response.isSuccessful) {
-            SuccessResponse(response.body()?: Categories(emptyList()))
+            SuccessResponse(response.body() ?: Categories(emptyList()))
         } else {
             parseError(response.errorBody())
         }
@@ -67,7 +76,7 @@ class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRep
 
     override suspend fun getAllCategoryProducts(
         collectionID: Long,
-        productType: String
+        productType: String,
     ): NetworkResponse<Products> {
         val response = remoteSource.getAllCategoryProducts(collectionID, productType)
         return if (response.isSuccessful) {
@@ -84,5 +93,13 @@ class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRep
         } else {
             parseError(response.errorBody())
         }
+    }
+
+    override suspend fun getAllFavoritesProducts(): Flow<List<FavoriteProduct>> {
+        return localSource.getAllFavoriteProducts()
+    }
+
+    override suspend fun removeAllFavoritesProducts() {
+        localSource.removeAllFavoriteProducts()
     }
 }

@@ -11,6 +11,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.databinding.FragmentProductsBinding
+import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Product
@@ -26,7 +27,7 @@ class ProductsFragment : Fragment() {
     private lateinit var binding: FragmentProductsBinding
     private val args: ProductsFragmentArgs by navArgs()
     private val viewModel by viewModels<ProductsViewModel> {
-        ProductViewModelFactory(Repository())
+        ProductViewModelFactory(Repository(LocalSource(requireContext())))
     }
 
     override fun onCreateView(
