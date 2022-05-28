@@ -1,6 +1,7 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
 import android.util.Log
+import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
@@ -10,7 +11,7 @@ import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
 
-class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRepository {
+class Repository(private val remoteSource: RemoteSource = RetrofitHelper , private val localSource: LocalSource) : IRepository {
 
     override suspend fun getAllBrands(): NetworkResponse<Brands> {
         val response = remoteSource.getAllBrands()
@@ -84,5 +85,13 @@ class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRep
         } else {
             parseError(response.errorBody())
         }
+    }
+
+    override suspend fun addProductToFavorite(favoriteProduct: FavoriteProduct) {
+       localSource.addProductToFavorites(favoriteProduct)
+    }
+
+    override suspend fun deleteProductFromFavorite(favoriteProduct: FavoriteProduct) {
+        localSource.removeProductFromFavorites(favoriteProduct)
     }
 }

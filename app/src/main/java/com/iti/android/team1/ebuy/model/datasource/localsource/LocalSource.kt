@@ -3,13 +3,13 @@ package com.iti.android.team1.ebuy.model.datasource.localsource
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import kotlinx.coroutines.flow.Flow
 
-class LocalSource : ILocalSource {
+class LocalSource(private val favoritesDao: FavoritesDao) : ILocalSource {
     override suspend fun addProductToFavorites(favoriteProduct: FavoriteProduct) {
-        TODO("Not yet implemented")
+        favoritesDao.insertProductToFavorite(favoriteProduct)
     }
 
     override suspend fun removeProductFromFavorites(favoriteProduct: FavoriteProduct) {
-        TODO("Not yet implemented")
+        favoritesDao.deleteProductFromFavorite(favoriteProduct)
     }
 
     override suspend fun getAllFavoriteProducts(): Flow<List<FavoriteProduct>> {

@@ -11,4 +11,6 @@ interface IRepository {
     suspend fun getAllCategories() : NetworkResponse<Categories>
     suspend fun getAllCategoryProducts(collectionID: Long , productType:String) : NetworkResponse<Products>
     suspend fun getProductDetails(product_id :Long):NetworkResponse<Product>
+    suspend fun addProductToFavorite(favoriteProduct: FavoriteProduct)
+    suspend fun deleteProductFromFavorite(favoriteProduct: FavoriteProduct)
 }
