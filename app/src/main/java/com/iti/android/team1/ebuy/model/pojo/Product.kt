@@ -7,6 +7,10 @@ data class Products(
     val products: List<Product>? = null,
 ) : Serializable
 
+data class ProductAPI(
+    val product: Product?,
+)
+
 data class Product(
     @SerializedName("body_html") val productDescription: String? = null,
     @SerializedName("id") val productID: Long? = null,

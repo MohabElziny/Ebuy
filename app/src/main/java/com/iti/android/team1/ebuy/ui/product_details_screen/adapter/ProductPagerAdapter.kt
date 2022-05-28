@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.iti.android.team1.ebuy.databinding.AdLayoutBinding
@@ -22,7 +23,8 @@ class ProductPagerAdapter() : RecyclerView.Adapter<ProductPagerAdapter.ProductVi
     class ProductViewHolder(var binding: AdLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bindProductImageAdapter(productImage: ProductImage) {
-            Glide.with(binding.root.context).load(productImage.imageURL).into(binding.adImage)
+            Glide.with(binding.root.context).load(productImage.imageURL).fitCenter()
+                .into(binding.adImage)
         }
 
     }
@@ -30,6 +32,7 @@ class ProductPagerAdapter() : RecyclerView.Adapter<ProductPagerAdapter.ProductVi
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val binding =
             AdLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        binding.adImage.scaleType = ImageView.ScaleType.FIT_CENTER
         return ProductViewHolder(binding)
     }
 

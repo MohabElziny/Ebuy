@@ -80,8 +80,7 @@ class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRep
     override suspend fun getProductDetails(product_id: Long): NetworkResponse<Product> {
         val response=remoteSource.getProductDetails(product_id)
         return if (response.isSuccessful) {
-            Log.i("TAG", "getProductDetails:${response.body()!!} ")
-            SuccessResponse(response.body() ?:Product())
+            SuccessResponse(response.body()?.product ?:Product())
         } else {
             parseError(response.errorBody())
         }

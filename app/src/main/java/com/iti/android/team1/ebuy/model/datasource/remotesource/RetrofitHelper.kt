@@ -37,7 +37,7 @@ object RetrofitHelper : RemoteSource {
         return retrofitService.getAllCategoryProducts(collectionID,productType)
     }
 
-    override suspend fun getProductDetails(product_id: Long): Response<Product> {
+    override suspend fun getProductDetails(product_id: Long): Response<ProductAPI> {
         return retrofitService.getProductDetailsById(product_id)
     }
 }
