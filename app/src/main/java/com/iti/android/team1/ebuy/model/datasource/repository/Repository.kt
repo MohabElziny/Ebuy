@@ -11,6 +11,8 @@ import com.iti.android.team1.ebuy.model.pojo.Categories
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import com.iti.android.team1.ebuy.model.pojo.Products
 import kotlinx.coroutines.flow.Flow
+import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.*
+import com.iti.android.team1.ebuy.model.pojo.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
 
@@ -79,6 +81,15 @@ class Repository(
         val response = remoteSource.getAllCategoryProducts(collectionID, productType)
         return if (response.isSuccessful) {
             SuccessResponse(response.body() ?: Products(emptyList()))
+        } else {
+            parseError(response.errorBody())
+        }
+    }
+
+    override suspend fun getProductDetails(product_id: Long): NetworkResponse<Product> {
+        val response=remoteSource.getProductDetails(product_id)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body()?.product ?:Product())
         } else {
             parseError(response.errorBody())
         }
