@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentHomeBinding
+import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Brands
@@ -23,7 +24,7 @@ import kotlinx.coroutines.flow.buffer
 
 class HomeFragment : Fragment() {
     private val homeViewModel: HomeViewModel by viewModels {
-        HomeViewModelFactory(Repository())
+        HomeViewModelFactory(Repository(LocalSource(requireContext())))
     }
     private var _binding: FragmentHomeBinding? = null
 
@@ -35,7 +36,7 @@ class HomeFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
@@ -122,14 +123,14 @@ class HomeFragment : Fragment() {
         )
     }
 
-    private fun showShimmer(){
+    private fun showShimmer() {
         binding.brandsShimmer.root.apply {
             showShimmer(true)
             startShimmer()
         }
     }
 
-    private fun hideShimmer(){
+    private fun hideShimmer() {
         binding.brandsShimmer.root.apply {
             hideShimmer()
             stopShimmer()
