@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:shimmer="http://schemas.android.com/apk/res-auto"
+    android:background="@android:color/transparent"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+        <FrameLayout
+            android:id="@+id/parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@android:color/transparent"
+            app:cardCornerRadius="9dp"
+            app:cardElevation="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@android:color/transparent"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:background="@color/background" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp" />
+
+
+                <TextView
+                    style="@style/heading3"
+                    android:layout_width="500dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@color/background"
+                    android:textSize="@dimen/fontHeading6" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp" />
+
+
+                <TextView
+                    style="@style/heading3"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="5dp"
+                    android:background="@color/background"
+                    android:textSize="@dimen/fontHeading6" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="16dp" />
+
+
+                <TextView
+                    style="@style/heading3"
+                    android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_marginEnd="16dp"
+                    android:background="@color/background"
+                    android:textSize="@dimen/fontHeading6" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_marginTop="16dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView14"
+                        style="@style/heading3"
+                        android:layout_width="125dp"
+                        android:layout_height="250dp"
+                        android:background="@color/background"
+                        android:textSize="@dimen/fontHeading6"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:layout_width="128dp"
+                        android:layout_height="250dp"
+                        android:layout_gravity="end"
+
+                        android:layout_marginEnd="16dp"
+
+                        android:background="@color/background"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/textView14" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </LinearLayout>
+
+        </FrameLayout>
+
+</com.facebook.shimmer.ShimmerFrameLayout>

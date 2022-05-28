@@ -5,10 +5,7 @@ import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.*
-import com.iti.android.team1.ebuy.model.pojo.Brands
-import com.iti.android.team1.ebuy.model.pojo.Categories
-import com.iti.android.team1.ebuy.model.pojo.Category
-import com.iti.android.team1.ebuy.model.pojo.Products
+import com.iti.android.team1.ebuy.model.pojo.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
@@ -75,6 +72,15 @@ class Repository(private val remoteSource: RemoteSource = RetrofitHelper) : IRep
         val response = remoteSource.getAllCategoryProducts(collectionID, productType)
         return if (response.isSuccessful) {
             SuccessResponse(response.body() ?: Products(emptyList()))
+        } else {
+            parseError(response.errorBody())
+        }
+    }
+
+    override suspend fun getProductDetails(product_id: Long): NetworkResponse<Product> {
+        val response=remoteSource.getProductDetails(product_id)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body()?.product ?:Product())
         } else {
             parseError(response.errorBody())
         }
