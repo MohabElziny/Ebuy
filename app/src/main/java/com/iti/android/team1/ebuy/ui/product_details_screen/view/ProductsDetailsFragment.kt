@@ -23,7 +23,9 @@ import kotlinx.coroutines.flow.buffer
 
 class ProductsDetailsFragment : Fragment() {
     private var _binding: FragmentProductsDetailsBinding? = null
-    private lateinit var viewModel: ProductsDetailsViewModel
+    private val viewModel: ProductsDetailsViewModel by viewModels {
+        ProductDetailsVMFactory(Repository())
+    }
     private val binding get() = _binding!!
     private lateinit var adapter: ProductPagerAdapter
 
@@ -39,8 +41,6 @@ class ProductsDetailsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel = ViewModelProvider(this, ProductDetailsVMFactory(Repository())).get(
-            ProductsDetailsViewModel::class.java)
         initProductPagerAdapter()
         // will come from other screen
 
@@ -65,10 +65,8 @@ class ProductsDetailsFragment : Fragment() {
             }
             ResultState.EmptyResult -> {
                 hideShimmer()
-                Log.i("TAG", "handleResultStates: No Product")
             }
             is ResultState.Error -> {
-                Log.i("TAG", "handleResultStates: Error")
                 hideShimmer()
             }
             is ResultState.Success -> {
@@ -81,18 +79,18 @@ class ProductsDetailsFragment : Fragment() {
 
     private fun showShimmer() {
         binding.constrainContent.visibility = View.GONE
-        binding.productDetailsShimmer.apply {
-            root.visibility = View.VISIBLE
-            root.showShimmer(true)
-            root.startShimmer()
+        binding.productDetailsShimmer.root.apply {
+            visibility = View.VISIBLE
+            showShimmer(true)
+            startShimmer()
         }
     }
 
     private fun hideShimmer() {
-        binding.productDetailsShimmer.apply {
-            root.stopShimmer()
-            root.showShimmer(false)
-            root.visibility = View.GONE
+        binding.productDetailsShimmer.root.apply {
+            stopShimmer()
+            showShimmer(false)
+            visibility = View.GONE
         }
         binding.constrainContent.visibility = View.VISIBLE
     }
