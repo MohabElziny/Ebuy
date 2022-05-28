@@ -1,9 +1,6 @@
 package com.iti.android.team1.ebuy.ui.product_details_screen.view
 
-import android.opengl.Visibility
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -12,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.navArgs
 import com.iti.android.team1.ebuy.databinding.FragmentProductsDetailsBinding
+import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Product
@@ -24,7 +22,7 @@ import kotlinx.coroutines.flow.buffer
 class ProductsDetailsFragment : Fragment() {
     private var _binding: FragmentProductsDetailsBinding? = null
     private val viewModel: ProductsDetailsViewModel by viewModels {
-        ProductDetailsVMFactory(Repository())
+        ProductDetailsVMFactory(Repository(LocalSource(requireContext())))
     }
     private val binding get() = _binding!!
     private lateinit var adapter: ProductPagerAdapter

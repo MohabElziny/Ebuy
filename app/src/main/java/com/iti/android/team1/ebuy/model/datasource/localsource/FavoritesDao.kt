@@ -6,7 +6,6 @@ import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import kotlinx.coroutines.flow.Flow
 import androidx.room.Delete
 import androidx.room.Insert
-import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 
 @Dao
 interface FavoritesDao {
