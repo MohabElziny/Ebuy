@@ -18,4 +18,6 @@ interface IRepository {
 
     suspend fun getAllFavoritesProducts(): Flow<List<FavoriteProduct>>
     suspend fun removeAllFavoritesProducts()
+    suspend fun addProductToFavorite(favoriteProduct: FavoriteProduct)
+    suspend fun deleteProductFromFavorite(favoriteProduct: FavoriteProduct)
 }

@@ -15,6 +15,7 @@ import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.*
 import com.iti.android.team1.ebuy.model.pojo.*
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import retrofit2.Response
 
 class Repository(
     private val localSource: ILocalSource,
@@ -101,5 +102,13 @@ class Repository(
 
     override suspend fun removeAllFavoritesProducts() {
         localSource.removeAllFavoriteProducts()
+    }
+
+    override suspend fun addProductToFavorite(favoriteProduct: FavoriteProduct) {
+       localSource.addProductToFavorites(favoriteProduct)
+    }
+
+    override suspend fun deleteProductFromFavorite(favoriteProduct: FavoriteProduct) {
+        localSource.removeProductFromFavorites(favoriteProduct)
     }
 }

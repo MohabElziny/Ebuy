@@ -11,11 +11,11 @@ class LocalSource(
 ) : ILocalSource {
 
     override suspend fun addProductToFavorites(favoriteProduct: FavoriteProduct) {
-        TODO("Not yet implemented")
+        favoritesDao.insertProductToFavorite(favoriteProduct)
     }
 
     override suspend fun removeProductFromFavorites(favoriteProduct: FavoriteProduct) {
-        TODO("Not yet implemented")
+        favoritesDao.deleteProductFromFavorite(favoriteProduct)
     }
 
     override suspend fun getAllFavoriteProducts(): Flow<List<FavoriteProduct>> {
