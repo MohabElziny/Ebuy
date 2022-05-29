@@ -5,22 +5,24 @@ import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import com.iti.android.team1.ebuy.model.pojo.Product
-import com.iti.android.team1.ebuy.model.pojo.Products
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class ProductsDetailsViewModel(private val myRepo:IRepository) : ViewModel() {
-    private var _product :MutableStateFlow<ResultState<Product>> =MutableStateFlow(ResultState.Loading)
-    val product get() =_product.asStateFlow()
+class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
+
+    private var _product: MutableStateFlow<ResultState<Product>> =
+        MutableStateFlow(ResultState.Loading)
+    val product get() = _product.asStateFlow()
 
     fun getProductDetails(productId: Long = 0L) {
         viewModelScope.launch(Dispatchers.IO) {
             _product.emit(ResultState.Loading)
-            val result = async {myRepo.getProductDetails(productId)}
+            val result = async { myRepo.getProductDetails(productId) }
             sendResponseBack(result.await())
         }
     }
@@ -37,4 +39,17 @@ class ProductsDetailsViewModel(private val myRepo:IRepository) : ViewModel() {
             }
         }
     }
+
+    private fun remoteFromFavorites(productId: Long) {
+        viewModelScope.launch { myRepo.deleteProductFromFavorite(productId) }
+    }
+
+    private fun addToFavorites(favoriteProduct: FavoriteProduct) {
+        viewModelScope.launch { myRepo.addProductToFavorite(favoriteProduct) }
+    }
+
+    private fun isProductSaved(productId: Long) {
+
+    }
+
 }

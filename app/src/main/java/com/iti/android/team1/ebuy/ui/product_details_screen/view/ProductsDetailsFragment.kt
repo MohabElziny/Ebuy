@@ -49,10 +49,6 @@ class ProductsDetailsFragment : Fragment() {
             }
 
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
 
     }
 
