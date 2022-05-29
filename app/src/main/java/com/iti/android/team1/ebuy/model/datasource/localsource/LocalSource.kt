@@ -27,6 +27,6 @@ class LocalSource(
     }
 
     override suspend fun isFavoriteProduct(productID: Long): Boolean {
-        TODO("Not yet implemented")
+        return favoritesDao.isFavouriteProduct(productID)
     }
 }
