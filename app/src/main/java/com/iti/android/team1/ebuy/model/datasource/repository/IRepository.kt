@@ -16,7 +16,7 @@ interface IRepository {
     ): NetworkResponse<Products>
     suspend fun getProductDetails(product_id :Long):NetworkResponse<Product>
 
-    suspend fun getAllFavoritesProducts(): Flow<List<FavoriteProduct>>
+    suspend fun getAllFavoritesProducts(): List<FavoriteProduct>
     suspend fun removeAllFavoritesProducts()
     suspend fun addProductToFavorite(favoriteProduct: FavoriteProduct)
     suspend fun deleteProductFromFavorite(favoriteProduct: FavoriteProduct)

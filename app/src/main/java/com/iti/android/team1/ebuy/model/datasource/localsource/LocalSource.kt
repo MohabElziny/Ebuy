@@ -18,7 +18,7 @@ class LocalSource(
         favoritesDao.deleteProductFromFavorite(favoriteProduct)
     }
 
-    override suspend fun getAllFavoriteProducts(): Flow<List<FavoriteProduct>> {
+    override suspend fun getAllFavoriteProducts(): List<FavoriteProduct> {
         return favoritesDao.getAllFavoriteProducts()
     }
 

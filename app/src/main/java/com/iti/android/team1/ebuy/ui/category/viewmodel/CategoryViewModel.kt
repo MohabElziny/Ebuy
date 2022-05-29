@@ -2,6 +2,8 @@ package com.iti.android.team1.ebuy.ui.category.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.iti.android.team1.ebuy.domain.category.CategoryProductsUseCase
+import com.iti.android.team1.ebuy.domain.category.ICategoryProductsUseCase
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
@@ -19,10 +21,13 @@ class CategoryViewModel(var myRepo: IRepository) : ViewModel() {
     private var _allCategories = MutableStateFlow<ResultState<Categories>>(ResultState.Loading)
     val allCategories get() = _allCategories.asStateFlow()
 
+    private val categoryProductsUseCase: ICategoryProductsUseCase
+        get() = CategoryProductsUseCase(myRepo)
+
     fun getAllCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             val result = async {
-                myRepo.getAllCategories()
+                categoryProductsUseCase.getAllCategories()
             }
             sendCategoriesResponse(result.await())
         }
@@ -32,8 +37,8 @@ class CategoryViewModel(var myRepo: IRepository) : ViewModel() {
         viewModelScope.launch(Dispatchers.IO) {
             _allProducts.emit(ResultState.Loading)
             val result = async {
-                if (category == 0L) myRepo.getAllProducts()
-                else myRepo.getProductsByCollectionID(category)
+                if (category == 0L) categoryProductsUseCase.getAllProducts()
+                else categoryProductsUseCase.getProductsByCollectionID(category)
             }
             sendProductsByTypeResponse(result.await())
         }
@@ -46,20 +51,19 @@ class CategoryViewModel(var myRepo: IRepository) : ViewModel() {
             is NetworkResponse.SuccessResponse -> {
                 if (result.data.categoriesList.isNullOrEmpty()) {
                     _allCategories.emit(ResultState.EmptyResult)
-                } else{
+                } else {
                     _allCategories.emit(ResultState.Success(result.data))
                 }
             }
         }
-
     }
 
     //home is default category
-    fun getAllProductByType(categoryId: Long=395727569125, productType:String = "SHOES") {
+    fun getAllProductByType(categoryId: Long = 395727569125, productType: String = "SHOES") {
         viewModelScope.launch(Dispatchers.IO) {
             _allProducts.emit(ResultState.Loading)
             val result = async {
-                 myRepo.getAllCategoryProducts(categoryId,productType)
+                categoryProductsUseCase.getAllCategoryProductsByType(categoryId, productType)
             }
             sendProductsByTypeResponse(result.await())
         }

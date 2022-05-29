@@ -96,7 +96,7 @@ class Repository(
         }
     }
 
-    override suspend fun getAllFavoritesProducts(): Flow<List<FavoriteProduct>> {
+    override suspend fun getAllFavoritesProducts(): List<FavoriteProduct> {
         return localSource.getAllFavoriteProducts()
     }
 
