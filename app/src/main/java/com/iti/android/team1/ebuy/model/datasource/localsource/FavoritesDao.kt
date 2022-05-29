@@ -1,11 +1,9 @@
 package com.iti.android.team1.ebuy.model.datasource.localsource
 
-import androidx.room.Dao
-import androidx.room.Query
+import androidx.room.*
+import androidx.room.OnConflictStrategy.IGNORE
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import kotlinx.coroutines.flow.Flow
-import androidx.room.Delete
-import androidx.room.Insert
 
 @Dao
 interface FavoritesDao {
@@ -15,7 +13,7 @@ interface FavoritesDao {
     @Query("DELETE FROM favorite_products")
     fun removeAllFavoriteProducts()
 
-    @Insert()
+    @Insert(onConflict = IGNORE)
     suspend fun insertProductToFavorite(favoriteProduct: FavoriteProduct)
 
     @Delete
