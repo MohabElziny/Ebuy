@@ -61,10 +61,10 @@
         android:name="com.iti.android.team1.ebuy.ui.product_details_screen.view.ProductsDetailsFragment"
         android:label="fragment_products_details"
         tools:layout="@layout/fragment_products_details" >
+
         <argument
-            android:name="product_id"
-            app:argType="long"
-            android:defaultValue="7782820643045L" />
+            android:name="product"
+            app:argType="com.iti.android.team1.ebuy.model.pojo.Product" />
     </fragment>
     <fragment
         android:id="@+id/registerScreen"

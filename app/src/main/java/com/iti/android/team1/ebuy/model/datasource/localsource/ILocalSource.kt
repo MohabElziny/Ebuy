@@ -9,4 +9,5 @@ interface ILocalSource {
     suspend fun removeProductFromFavorites(productID: Long): Int
     suspend fun getAllFavoriteProducts(): Flow<List<FavoriteProduct>>
     suspend fun removeAllFavoriteProducts()
+    suspend fun isFavoriteProduct(productID: Long): Boolean
 }

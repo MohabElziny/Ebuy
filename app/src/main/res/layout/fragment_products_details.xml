@@ -1,152 +1,167 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:scrollbars="none"
     tools:context=".ui.product_details_screen.view.ProductsDetailsFragment"
     tools:ignore="SpeakableTextPresentCheck">
-   <androidx.constraintlayout.widget.ConstraintLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
 
-       <include
-           android:id="@+id/productDetailsShimmer"
-           layout="@layout/product_details_shimmer_layout"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           app:layout_constraintBottom_toBottomOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintStart_toStartOf="parent"
-           tools:visibility="gone" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-       <androidx.constraintlayout.widget.ConstraintLayout
-           android:id="@+id/constrain_content"
-           android:layout_width="match_parent"
-           android:layout_height="wrap_content"
-           android:background="@color/backgroundColor"
-           android:visibility="visible"
-           app:layout_constraintBottom_toBottomOf="parent"
-           app:layout_constraintEnd_toEndOf="parent"
-           app:layout_constraintStart_toStartOf="parent"
-           app:layout_constraintTop_toTopOf="parent">
+        <include
+            android:id="@+id/productDetailsShimmer"
+            layout="@layout/product_details_shimmer_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:visibility="gone" />
 
-           <androidx.viewpager2.widget.ViewPager2
-               android:id="@+id/product_images_viewPager"
-               android:layout_width="match_parent"
-               android:layout_height="300dp"
-               android:layout_margin="16dp"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toTopOf="parent" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constrain_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/backgroundColor"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-           <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
-               android:id="@+id/dotsIndicator"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="8dp"
-               app:dotsColor="@color/unselected_indicator"
-               app:dotsCornerRadius="8dp"
-               app:dotsSize="16dp"
-               app:dotsSpacing="4dp"
-               app:dotsWidthFactor="2.5"
-               app:layout_constraintEnd_toEndOf="@id/product_images_viewPager"
-               app:layout_constraintStart_toStartOf="@id/product_images_viewPager"
-               app:layout_constraintTop_toBottomOf="@+id/product_images_viewPager"
-               app:progressMode="false"
-               app:selectedDotColor="@color/Primary" />
+            <androidx.viewpager2.widget.ViewPager2
+                android:id="@+id/product_images_viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:layout_margin="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-           <androidx.cardview.widget.CardView
-               android:layout_width="match_parent"
-               android:layout_height="wrap_content"
-               android:layout_marginTop="16dp"
-               android:layout_marginBottom="-32dp"
-               app:cardCornerRadius="32dp"
-               app:layout_constraintBottom_toBottomOf="parent"
-               app:layout_constraintEnd_toEndOf="parent"
-               app:layout_constraintStart_toStartOf="parent"
-               app:layout_constraintTop_toBottomOf="@id/dotsIndicator">
+            <com.tbuonomo.viewpagerdotsindicator.DotsIndicator
+                android:id="@+id/dotsIndicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:dotsColor="@color/unselected_indicator"
+                app:dotsCornerRadius="8dp"
+                app:dotsSize="16dp"
+                app:dotsSpacing="4dp"
+                app:dotsWidthFactor="2.5"
+                app:layout_constraintEnd_toEndOf="@id/product_images_viewPager"
+                app:layout_constraintStart_toStartOf="@id/product_images_viewPager"
+                app:layout_constraintTop_toBottomOf="@+id/product_images_viewPager"
+                app:progressMode="false"
+                app:selectedDotColor="@color/Primary" />
 
-               <androidx.constraintlayout.widget.ConstraintLayout
-                   android:layout_width="match_parent"
-                   android:layout_height="match_parent"
-                   android:layout_marginBottom="32dp"
-                   android:padding="24dp">
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="-32dp"
+                app:cardCornerRadius="32dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/dotsIndicator">
 
-                   <TextView
-                       android:id="@+id/txt_product_title"
-                       style="@style/fontBoldStyle"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textSize="@dimen/fontHeading3"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toTopOf="parent"
-                       tools:text="Nike Blazer Mid 77" />
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="32dp"
+                    android:padding="24dp">
 
-                   <TextView
-                       android:id="@+id/const_description"
-                       style="@style/fontBoldStyle"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginTop="8dp"
-                       android:text="@string/description"
-                       android:textSize="@dimen/fontHeading4"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toBottomOf="@id/txt_product_title" />
+                    <TextView
+                        android:id="@+id/txt_product_title"
+                        style="@style/fontBoldStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/fontHeading3"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Nike Blazer Mid 77" />
 
-                   <TextView
-                       android:id="@+id/txt_product_description"
-                       android:layout_width="0dp"
-                       android:layout_height="wrap_content"
-                       android:layout_marginTop="8dp"
-                       android:fontFamily="@font/poppins"
-                       android:textColor="@color/Disable"
-                       android:textSize="@dimen/fontHeading4"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintStart_toStartOf="@+id/const_description"
-                       app:layout_constraintTop_toBottomOf="@+id/const_description"
-                       tools:text='"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..." "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."' />
+                    <TextView
+                        android:id="@+id/const_description"
+                        style="@style/fontBoldStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/description"
+                        android:textSize="@dimen/fontHeading4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_product_title" />
 
-                   <Button
-                       android:id="@+id/btn_add_to_cart"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:layout_marginTop="16dp"
-                       android:backgroundTint="@color/Primary"
-                       android:padding="16dp"
-                       android:text="@string/add_to_cart"
-                       android:textColor="@color/Secondary"
-                       android:textSize="@dimen/fontHeading5"
-                       android:textStyle="bold"
-                       app:cornerRadius="8dp"
-                       app:layout_constraintEnd_toEndOf="parent"
-                       app:layout_constraintTop_toBottomOf="@id/txt_product_description" />
+                    <TextView
+                        android:id="@+id/txt_product_description"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:fontFamily="@font/poppins"
+                        android:textColor="@color/Disable"
+                        android:textSize="@dimen/fontHeading4"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/const_description"
+                        app:layout_constraintTop_toBottomOf="@+id/const_description"
+                        tools:text='"Neque porro quisquam est qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit..." "There is no one who loves pain itself, who seeks after it and wants to have it, simply because it is pain..."' />
 
-                   <TextView
-                       android:id="@+id/const_price"
-                       style="@style/fontBoldStyle"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:text="@string/price"
-                       android:textColor="@color/Disable"
-                       android:textSize="@dimen/fontHeading4"
-                       app:layout_constraintStart_toStartOf="parent"
-                       app:layout_constraintTop_toTopOf="@id/btn_add_to_cart" />
+                    <Button
+                        android:id="@+id/btn_add_to_cart"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:backgroundTint="@color/Primary"
+                        android:padding="16dp"
+                        android:text="@string/add_to_cart"
+                        android:textColor="@color/Secondary"
+                        android:textSize="@dimen/fontHeading5"
+                        android:textStyle="bold"
+                        app:cornerRadius="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_product_description" />
 
-                   <TextView
-                       android:id="@+id/txt_product_price"
-                       style="@style/fontBoldStyle"
-                       android:layout_width="wrap_content"
-                       android:layout_height="wrap_content"
-                       android:textSize="@dimen/fontHeading3"
-                       app:layout_constraintStart_toStartOf="@+id/const_price"
-                       app:layout_constraintTop_toBottomOf="@+id/const_price"
-                       tools:text="EGP 22.00" />
-               </androidx.constraintlayout.widget.ConstraintLayout>
-           </androidx.cardview.widget.CardView>
+                    <TextView
+                        android:id="@+id/const_price"
+                        style="@style/fontBoldStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/price"
+                        android:textColor="@color/Disable"
+                        android:textSize="@dimen/fontHeading4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/btn_add_to_cart" />
 
-       </androidx.constraintlayout.widget.ConstraintLayout>
-   </androidx.constraintlayout.widget.ConstraintLayout>
+                    <TextView
+                        android:id="@+id/txt_product_price"
+                        style="@style/fontBoldStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/fontHeading3"
+                        app:layout_constraintStart_toStartOf="@+id/const_price"
+                        app:layout_constraintTop_toBottomOf="@+id/const_price"
+                        tools:text="EGP 22.00" />
+
+                    <com.like.LikeButton
+                        android:id="@+id/likeBtn"
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
+                        android:layout_alignParentEnd="true"
+                        app:icon_size="25dp"
+                        app:icon_type="heart"
+                        app:layout_constraintBottom_toBottomOf="@+id/txt_product_title"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/txt_product_title"
+                        app:like_drawable="@drawable/heart_on_b"
+                        app:unlike_drawable="@drawable/heart_off_b" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </ScrollView>

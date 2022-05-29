@@ -114,5 +114,7 @@ class Repository(
             DatabaseResponse.Failure(errorMsg = "Error duo inserting product to favorite with id $productId")
     }
 
-
+    override suspend fun isFavoriteProduct(productID: Long): DatabaseResponse<Boolean> {
+        return DatabaseResponse.Success(data = localSource.isFavoriteProduct(productID))
+    }
 }

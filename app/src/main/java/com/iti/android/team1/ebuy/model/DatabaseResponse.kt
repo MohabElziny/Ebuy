@@ -9,6 +9,7 @@ sealed class DatabaseResponse<out R> {
 sealed class DatabaseResult<out R> {
     object Loading : DatabaseResult<Nothing>()
     object Empty : DatabaseResult<Nothing>()
-    data class Error(val errorMsg: String) : DatabaseResult<String>()
+    object SuccessWithNoData : DatabaseResult<Nothing>()
+    data class Error(val errorMsg: String) : DatabaseResult<Nothing>()
     data class Success<out T>(val data: T) : DatabaseResult<T>()
 }
