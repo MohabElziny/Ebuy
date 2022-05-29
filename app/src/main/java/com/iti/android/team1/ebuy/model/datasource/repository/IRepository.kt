@@ -20,4 +20,6 @@ interface IRepository {
     suspend fun removeAllFavoritesProducts()
     suspend fun addProductToFavorite(favoriteProduct: FavoriteProduct)
     suspend fun deleteProductFromFavorite(favoriteProduct: FavoriteProduct)
+    suspend fun isFavoriteProduct(productID:Long):Boolean
+
 }
