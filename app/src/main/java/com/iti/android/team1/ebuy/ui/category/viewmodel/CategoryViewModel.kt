@@ -4,10 +4,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.domain.category.CategoryProductsUseCase
 import com.iti.android.team1.ebuy.domain.category.ICategoryProductsUseCase
+import com.iti.android.team1.ebuy.model.DatabaseResponse
+import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Categories
+import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.model.pojo.Products
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -20,6 +23,16 @@ class CategoryViewModel(var myRepo: IRepository) : ViewModel() {
     val allProducts get() = _allProducts.asStateFlow()
     private var _allCategories = MutableStateFlow<ResultState<Categories>>(ResultState.Loading)
     val allCategories get() = _allCategories.asStateFlow()
+
+    private var _insertFavoriteProductToDataBase =
+        MutableStateFlow<DatabaseResult<Long>>(DatabaseResult.Loading)
+    val insertFavoriteProductToDataBase
+        get() = _insertFavoriteProductToDataBase
+
+    private var _deleteFavoriteProductToDataBase =
+        MutableStateFlow<DatabaseResult<Int>>(DatabaseResult.Loading)
+    val deleteFavoriteProductToDataBase
+        get() = _deleteFavoriteProductToDataBase
 
     private val categoryProductsUseCase: ICategoryProductsUseCase
         get() = CategoryProductsUseCase(myRepo)
@@ -78,6 +91,52 @@ class CategoryViewModel(var myRepo: IRepository) : ViewModel() {
                     _allProducts.emit(ResultState.EmptyResult)
                 } else
                     _allProducts.emit(ResultState.Success(result.data))
+            }
+        }
+    }
+
+    fun addProductToFavorite(product: Product) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = async {
+                myRepo.addProductToFavorite(product)
+            }
+            sendAddProductToFavoriteResponse(result.await())
+        }
+    }
+
+    private fun sendAddProductToFavoriteResponse(response: DatabaseResponse<Long?>) {
+        when (response) {
+            is DatabaseResponse.Failure ->
+                _insertFavoriteProductToDataBase.value = DatabaseResult.Error(response.errorMsg)
+            is DatabaseResponse.Success -> {
+                if (response.data != null) {
+                    _insertFavoriteProductToDataBase.value = DatabaseResult.Success(response.data)
+                } else {
+                    _insertFavoriteProductToDataBase.value = DatabaseResult.Empty
+                }
+            }
+        }
+    }
+
+    fun removeFavoriteProduct(productID: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = async {
+                myRepo.deleteProductFromFavorite(productID)
+            }
+            sendRemoveProductFromFavoriteResponse(result.await())
+        }
+    }
+
+    private fun sendRemoveProductFromFavoriteResponse(response: DatabaseResponse<Int?>) {
+        when (response) {
+            is DatabaseResponse.Failure ->
+                _deleteFavoriteProductToDataBase.value = DatabaseResult.Error(response.errorMsg)
+            is DatabaseResponse.Success -> {
+                if (response.data != null) {
+                    _deleteFavoriteProductToDataBase.value = DatabaseResult.Success(response.data)
+                } else {
+                    _deleteFavoriteProductToDataBase.value = DatabaseResult.Empty
+                }
             }
         }
     }

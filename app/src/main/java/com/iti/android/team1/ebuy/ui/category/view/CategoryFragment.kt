@@ -1,22 +1,24 @@
 package com.iti.android.team1.ebuy.ui.category.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentCategoryBinding
+import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Categories
+import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.model.pojo.Products
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModel
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModelFactory
@@ -47,8 +49,11 @@ class CategoryFragment : Fragment() {
         _binding = FragmentCategoryBinding.inflate(inflater, container, false)
         setHasOptionsMenu(true)
 
-
         return binding.root
+    }
+
+    override fun onResume() {
+        super.onResume()
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -80,6 +85,41 @@ class CategoryFragment : Fragment() {
         binding.fabTShirt.setOnClickListener {
             onFabClickListener("T-SHIRTS")
         }
+
+        initFavoriteProductsStates()
+    }
+
+    private fun initFavoriteProductsStates() {
+        lifecycleScope.launchWhenStarted {
+            categoryViewModel.insertFavoriteProductToDataBase.buffer().collect { response ->
+                when (response) {
+                    DatabaseResult.Empty -> {}
+                    is DatabaseResult.Error -> {
+                        Toast.makeText(context, response.errorMsg, Toast.LENGTH_SHORT).show()
+                    }
+                    DatabaseResult.Loading -> {}
+                    is DatabaseResult.Success -> {
+                        Toast.makeText(context,
+                            "Successfully added to Favorites",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+            categoryViewModel.deleteFavoriteProductToDataBase.buffer().collect { response ->
+                when (response) {
+                    DatabaseResult.Empty -> {}
+                    is DatabaseResult.Error -> {
+                        Toast.makeText(context, response.errorMsg, Toast.LENGTH_SHORT).show()
+                    }
+                    DatabaseResult.Loading -> {}
+                    is DatabaseResult.Success -> {
+                        Toast.makeText(context,
+                            "Successfully removed to Favorites",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
     private fun onFabClickListener(productType: String) {
@@ -90,7 +130,7 @@ class CategoryFragment : Fragment() {
         when (result) {
             is ResultState.Loading -> {}
             is ResultState.Success -> {
-                result.data.categoriesList?.let {
+                result.data.categoriesList.let {
                     categoriesAdapter.setList(it)
                     binding.catTvName.text = it[0].categoryTitle
                 }
@@ -131,7 +171,11 @@ class CategoryFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        categoryProductsAdapter = CategoryProductsAdapter()
+        categoryProductsAdapter = CategoryProductsAdapter(
+            onClickLike,
+            onClickUnLike,
+            onProductClick
+        )
         binding.productRecycler.apply {
             this.adapter = categoryProductsAdapter
             this.layoutManager = GridLayoutManager(context, 2)
@@ -163,7 +207,7 @@ class CategoryFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         activity?.menuInflater?.inflate(R.menu.category_menu, menu)
-        var searchView: SearchView = menu?.findItem(R.id.cat_menu_search)?.actionView as SearchView
+        val searchView: SearchView = menu.findItem(R.id.cat_menu_search)?.actionView as SearchView
 
         onQueryTextListener(searchView)
 
@@ -184,5 +228,17 @@ class CategoryFragment : Fragment() {
         })
     }
 
+    private val onClickLike: (product: Product) -> Unit = {
+        categoryViewModel.addProductToFavorite(it)
+    }
 
+    private val onClickUnLike: (productID: Long) -> Unit = {
+        categoryViewModel.removeFavoriteProduct(it)
+    }
+
+    private val onProductClick: (productID: Long) -> Unit = {
+        findNavController().navigate(
+            CategoryFragmentDirections.actionNavigationCategoryToProductsDetailsFragment(it)
+        )
+    }
 }
