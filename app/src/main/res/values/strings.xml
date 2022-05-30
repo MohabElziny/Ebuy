@@ -74,5 +74,9 @@
     <string name="price">Price</string>
     <string name="saved_items">Saved items</string>
     <string name="product_image">Product image</string>
+    <string name="insert_error">Could not add product to favorites</string>
+    <string name="insert_seccuess">Liked</string>
+    <string name="delete_success">Deleted</string>
+    <string name="delete_error">Could not delete product from favorites</string>
 
 </resources>
