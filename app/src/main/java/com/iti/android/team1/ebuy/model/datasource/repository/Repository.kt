@@ -91,8 +91,8 @@ class Repository(
         }
     }
 
-    override suspend fun getAllFavoritesProducts(): DatabaseResponse<Flow<List<FavoriteProduct>>> {
-        return DatabaseResponse.Success(data = localSource.getAllFavoriteProducts())
+    override suspend fun getAllFavoritesProducts(): List<FavoriteProduct> {
+        return localSource.getAllFavoriteProducts()
     }
 
     override suspend fun removeAllFavoritesProducts() {
@@ -114,7 +114,7 @@ class Repository(
             DatabaseResponse.Failure(errorMsg = "Error duo inserting product to favorite with id $productId")
     }
 
-    override suspend fun isFavoriteProduct(productID: Long): DatabaseResponse<Boolean> {
-        return DatabaseResponse.Success(data = localSource.isFavoriteProduct(productID))
+    override suspend fun isFavoriteProduct(productID: Long): Boolean {
+        return localSource.isFavoriteProduct(productID)
     }
 }

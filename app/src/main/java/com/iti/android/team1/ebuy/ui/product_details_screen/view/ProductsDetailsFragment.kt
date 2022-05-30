@@ -114,11 +114,7 @@ class ProductsDetailsFragment : Fragment() {
     private fun fetchProductState() {
         lifecycleScope.launchWhenStarted {
             viewModel.productState.buffer().collect() {
-                when (it) {
-                    is DatabaseResult.Success -> {
-                        binding.likeBtn.isLiked = it.data
-                    }
-                }
+                binding.likeBtn.isLiked = it
             }
         }
     }

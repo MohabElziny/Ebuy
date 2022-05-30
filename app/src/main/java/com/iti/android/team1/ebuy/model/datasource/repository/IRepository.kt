@@ -17,10 +17,10 @@ interface IRepository {
 
     suspend fun getProductDetails(product_id: Long): NetworkResponse<Product>
 
-    suspend fun getAllFavoritesProducts(): DatabaseResponse<Flow<List<FavoriteProduct>>>
+    suspend fun getAllFavoritesProducts(): List<FavoriteProduct>
     suspend fun removeAllFavoritesProducts()
     suspend fun addProductToFavorite(favoriteProduct: FavoriteProduct): DatabaseResponse<Long?>
     suspend fun deleteProductFromFavorite(productId: Long): DatabaseResponse<Int?>
-    suspend fun isFavoriteProduct(productID: Long): DatabaseResponse<Boolean>
+    suspend fun isFavoriteProduct(productID: Long): Boolean
 
 }
