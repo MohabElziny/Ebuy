@@ -29,8 +29,8 @@ class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
         MutableStateFlow(DatabaseResult.Loading)
     val dpInsertProgress get() = _dbInsertProgress.asStateFlow()
 
-    private var _productState: MutableStateFlow<DatabaseResult<Boolean>> =
-        MutableStateFlow(DatabaseResult.Loading)
+    private var _productState: MutableStateFlow<Boolean> =
+        MutableStateFlow(false)
     val productState get() = _productState.asStateFlow()
 
     fun getProductDetails(productId: Long = 0L) {
@@ -55,7 +55,7 @@ class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
     }
 
     fun deleteProductFromFavorites(productId: Long) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO)  {
             val result = async { myRepo.deleteProductFromFavorite(productId) }
             _deleteProductFromFavorites(result.await())
         }
@@ -69,7 +69,7 @@ class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
     }
 
     fun insertProductToFavorites(favoriteProduct: FavoriteProduct) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO)  {
             val result = async { myRepo.addProductToFavorite(favoriteProduct) }
             _insertProductToFavorites(result.await())
         }
@@ -83,16 +83,9 @@ class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
     }
 
     fun getProductState(productId: Long) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = async { myRepo.isFavoriteProduct(productId) }
-            _getProductState(result.await())
-        }
-    }
-
-    private suspend fun _getProductState(result: DatabaseResponse<Boolean>) {
-        when (result) {
-            is DatabaseResponse.Success -> _productState.emit(DatabaseResult.Success(result.data))
-            else -> {}
+            _productState.emit(result.await())
         }
     }
 
