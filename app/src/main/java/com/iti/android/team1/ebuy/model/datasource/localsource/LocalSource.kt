@@ -10,12 +10,12 @@ class LocalSource(
         .favoritesDao(),
 ) : ILocalSource {
 
-    override suspend fun addProductToFavorites(favoriteProduct: FavoriteProduct) {
-        favoritesDao.insertProductToFavorite(favoriteProduct)
+    override suspend fun addProductToFavorites(favoriteProduct: FavoriteProduct): Long {
+        return favoritesDao.insertProductToFavorite(favoriteProduct)
     }
 
-    override suspend fun removeProductFromFavorites(favoriteProduct: FavoriteProduct) {
-        favoritesDao.deleteProductFromFavorite(favoriteProduct)
+    override suspend fun removeProductFromFavorites(productID: Long): Int {
+        return favoritesDao.deleteProductFromFavorite(productID)
     }
 
     override suspend fun getAllFavoriteProducts(): List<FavoriteProduct> {
