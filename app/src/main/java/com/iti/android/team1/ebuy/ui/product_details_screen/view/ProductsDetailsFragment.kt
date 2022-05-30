@@ -48,7 +48,7 @@ class ProductsDetailsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initProductPagerAdapter()
         // will come from other screen
-        viewModel.getProductDetails(args.product.productID!!)
+        viewModel.getProductDetails(args.product)
         lifecycleScope.launchWhenStarted {
             viewModel.product.buffer().collect { resultState ->
                 handleResultStates(resultState)
@@ -59,7 +59,7 @@ class ProductsDetailsFragment : Fragment() {
     }
 
     private fun initLikeBtn(product: Product) {
-        viewModel.getProductState(productId = args.product.productID!!)
+        viewModel.getProductState(productId = args.product)
         fetchProductState()
         binding.likeBtn.setOnLikeListener(object : OnLikeListener {
             override fun liked(likeButton: LikeButton?) {
@@ -75,7 +75,7 @@ class ProductsDetailsFragment : Fragment() {
             }
 
             override fun unLiked(likeButton: LikeButton?) {
-                viewModel.deleteProductFromFavorites(args.product.productID!!)
+                viewModel.deleteProductFromFavorites(args.product)
                 insertEffect()
             }
         })

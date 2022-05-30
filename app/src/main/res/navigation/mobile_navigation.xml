@@ -64,7 +64,8 @@
 
         <argument
             android:name="product"
-            app:argType="Long" />
+            app:argType="long"
+            android:defaultValue="7782820643045L" />
     </fragment>
     <fragment
         android:id="@+id/registerScreen"
