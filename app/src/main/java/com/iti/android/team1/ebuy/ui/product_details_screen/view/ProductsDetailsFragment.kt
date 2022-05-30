@@ -70,13 +70,13 @@ class ProductsDetailsFragment : Fragment() {
                             productImageUrl = productImage!!.imageURL!!,
                             productPrice = productVariants!![0].productVariantPrice!!.toDouble())
                     viewModel.insertProductToFavorites(favoriteProduct)
-                    deleteEffect()
+                    insertEffect()
                 }
             }
 
             override fun unLiked(likeButton: LikeButton?) {
                 viewModel.deleteProductFromFavorites(args.product)
-                insertEffect()
+                deleteEffect()
             }
         })
     }
