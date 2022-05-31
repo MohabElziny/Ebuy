@@ -52,10 +52,6 @@ class CategoryFragment : Fragment() {
         return binding.root
     }
 
-    override fun onResume() {
-        super.onResume()
-    }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initCategoriesRecyclerView()
@@ -85,7 +81,6 @@ class CategoryFragment : Fragment() {
         binding.fabTShirt.setOnClickListener {
             onFabClickListener("T-SHIRTS")
         }
-
         initFavoriteProductsStates()
     }
 
@@ -164,7 +159,7 @@ class CategoryFragment : Fragment() {
         }
     }
 
-    var onCategoryBtnClick = fun(id: Long, title: String) {
+    private var onCategoryBtnClick = fun(id: Long, title: String) {
         binding.catTvName.text = title
         defaultCategoryId = id
         categoryViewModel.getAllProduct(id)

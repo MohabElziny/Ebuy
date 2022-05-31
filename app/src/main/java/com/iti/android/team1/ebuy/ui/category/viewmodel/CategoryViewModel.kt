@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class CategoryViewModel(var myRepo: IRepository) : ViewModel() {
+class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     private var _allProducts = MutableStateFlow<ResultState<Products>>(ResultState.Loading)
     val allProducts get() = _allProducts.asStateFlow()
     private var _allCategories = MutableStateFlow<ResultState<Categories>>(ResultState.Loading)
@@ -27,12 +27,12 @@ class CategoryViewModel(var myRepo: IRepository) : ViewModel() {
     private var _insertFavoriteProductToDataBase =
         MutableStateFlow<DatabaseResult<Long>>(DatabaseResult.Loading)
     val insertFavoriteProductToDataBase
-        get() = _insertFavoriteProductToDataBase
+        get() = _insertFavoriteProductToDataBase.asStateFlow()
 
     private var _deleteFavoriteProductToDataBase =
         MutableStateFlow<DatabaseResult<Int>>(DatabaseResult.Loading)
     val deleteFavoriteProductToDataBase
-        get() = _deleteFavoriteProductToDataBase
+        get() = _deleteFavoriteProductToDataBase.asStateFlow()
 
     private val categoryProductsUseCase: ICategoryProductsUseCase
         get() = CategoryProductsUseCase(myRepo)
@@ -62,7 +62,7 @@ class CategoryViewModel(var myRepo: IRepository) : ViewModel() {
             is NetworkResponse.FailureResponse ->
                 _allCategories.emit(ResultState.Error(result.errorString))
             is NetworkResponse.SuccessResponse -> {
-                if (result.data.categoriesList.isNullOrEmpty()) {
+                if (result.data.categoriesList.isEmpty()) {
                     _allCategories.emit(ResultState.EmptyResult)
                 } else {
                     _allCategories.emit(ResultState.Success(result.data))
