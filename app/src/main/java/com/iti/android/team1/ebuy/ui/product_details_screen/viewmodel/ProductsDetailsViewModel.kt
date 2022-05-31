@@ -68,9 +68,9 @@ class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
         }
     }
 
-    fun insertProductToFavorites(favoriteProduct: FavoriteProduct) {
+    fun insertProductToFavorites(product: Product) {
         viewModelScope.launch(Dispatchers.IO)  {
-            val result = async { myRepo.addProductToFavorite(favoriteProduct) }
+            val result = async { myRepo.addProductToFavorite(product) }
             _insertProductToFavorites(result.await())
         }
     }

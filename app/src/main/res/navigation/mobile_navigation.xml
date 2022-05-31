@@ -5,7 +5,6 @@
     android:id="@+id/mobile_navigation"
     app:startDestination="@id/navigation_home">
 
-
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.iti.android.team1.ebuy.ui.home.view.HomeFragment"
@@ -24,7 +23,15 @@
         android:id="@+id/navigation_Category"
         android:name="com.iti.android.team1.ebuy.ui.category.view.CategoryFragment"
         android:label="@string/title_category"
-        tools:layout="@layout/fragment_category" />
+        tools:layout="@layout/fragment_category">
+        <action
+            android:id="@+id/action_navigation_Category_to_productsDetailsFragment"
+            app:destination="@id/productsDetailsFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+    </fragment>
 
     <fragment
         android:id="@+id/creditFragment"
@@ -60,12 +67,12 @@
         android:id="@+id/productsDetailsFragment"
         android:name="com.iti.android.team1.ebuy.ui.product_details_screen.view.ProductsDetailsFragment"
         android:label="fragment_products_details"
-        tools:layout="@layout/fragment_products_details" >
+        tools:layout="@layout/fragment_products_details">
 
         <argument
             android:name="product"
-            app:argType="long"
-            android:defaultValue="7782820643045L" />
+            android:defaultValue="7782820643045L"
+            app:argType="long" />
     </fragment>
     <fragment
         android:id="@+id/registerScreen"

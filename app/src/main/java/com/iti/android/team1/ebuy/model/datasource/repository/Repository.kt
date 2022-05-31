@@ -2,6 +2,7 @@ package com.iti.android.team1.ebuy.model.datasource.repository
 
 import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
+import com.iti.android.team1.ebuy.model.datasource.localsource.ProductConverter
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
@@ -99,11 +100,14 @@ class Repository(
         localSource.removeAllFavoriteProducts()
     }
 
-    override suspend fun addProductToFavorite(favoriteProduct: FavoriteProduct): DatabaseResponse<Long> {
-        return if (favoriteProduct.productID == localSource.addProductToFavorites(favoriteProduct))
-            DatabaseResponse.Success(data = favoriteProduct.productID)
+    override suspend fun addProductToFavorite(product: Product): DatabaseResponse<Long> {
+        return if (
+            product.productID == localSource.addProductToFavorites(ProductConverter.convertProductToEntity(
+                product))
+        )
+            DatabaseResponse.Success(data = product.productID)
         else
-            DatabaseResponse.Failure("Error duo inserting product to favorite with id ${favoriteProduct.productID}")
+            DatabaseResponse.Failure("Error duo inserting product to favorite with id ${product.productID}")
     }
 
     override suspend fun deleteProductFromFavorite(productId: Long): DatabaseResponse<Int> {
