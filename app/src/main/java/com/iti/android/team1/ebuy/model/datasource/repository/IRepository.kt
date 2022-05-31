@@ -23,6 +23,6 @@ interface IRepository {
     suspend fun addProductToFavorite(product: Product): DatabaseResponse<Long?>
     suspend fun deleteProductFromFavorite(productId: Long): DatabaseResponse<Int?>
     suspend fun isFavoriteProduct(productID: Long): Boolean
-    suspend fun createCustomer(customerAPI: CustomerAPI) : NetworkResponse<Customer>
+    suspend fun createCustomer(customerRegister: CustomerRegister) : NetworkResponse<Customer>
 
 }

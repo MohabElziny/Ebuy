@@ -41,7 +41,7 @@ interface RetrofitService {
 
     @POST("customers")
     suspend fun createCustomer(
-        @Body customerAPI: CustomerAPI,
+        @Body customerRegister: CustomerRegister,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ):Response<CustomerAPI>
 }

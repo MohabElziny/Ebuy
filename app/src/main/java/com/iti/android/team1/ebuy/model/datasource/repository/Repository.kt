@@ -115,8 +115,8 @@ class Repository(
         return localSource.isFavoriteProduct(productID)
     }
 
-    override suspend fun createCustomer(customerAPI: CustomerAPI): NetworkResponse<Customer> {
-        val response = remoteSource.createCustomer(customerAPI)
+    override suspend fun createCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
+        val response = remoteSource.createCustomer(customerRegister)
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customer ?: Customer())
         } else {
