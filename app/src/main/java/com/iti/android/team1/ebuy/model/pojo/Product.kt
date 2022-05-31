@@ -23,6 +23,7 @@ data class Product(
     @SerializedName("title") val productName: String? = null,
     @SerializedName("variants") val productVariants: List<Variant>? = null,
     @SerializedName("vendor") val productVendor: String? = null,
+    var isFavorite: Boolean = false,
 ) : Serializable
 
 data class Variant(

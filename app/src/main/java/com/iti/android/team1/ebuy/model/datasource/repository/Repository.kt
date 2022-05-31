@@ -1,21 +1,16 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
+import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.FailureResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.SuccessResponse
-import com.iti.android.team1.ebuy.model.pojo.Brands
-import com.iti.android.team1.ebuy.model.pojo.Categories
-import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
-import com.iti.android.team1.ebuy.model.pojo.Products
-import kotlinx.coroutines.flow.Flow
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.*
 import com.iti.android.team1.ebuy.model.pojo.*
+import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 import org.json.JSONObject
-import retrofit2.Response
 
 class Repository(
     private val localSource: ILocalSource,
@@ -88,15 +83,15 @@ class Repository(
     }
 
     override suspend fun getProductDetails(product_id: Long): NetworkResponse<Product> {
-        val response=remoteSource.getProductDetails(product_id)
+        val response = remoteSource.getProductDetails(product_id)
         return if (response.isSuccessful) {
-            SuccessResponse(response.body()?.product ?:Product())
+            SuccessResponse(response.body()?.product ?: Product())
         } else {
             parseError(response.errorBody())
         }
     }
 
-    override suspend fun getAllFavoritesProducts(): Flow<List<FavoriteProduct>> {
+    override suspend fun getAllFavoritesProducts(): List<FavoriteProduct> {
         return localSource.getAllFavoriteProducts()
     }
 
@@ -104,12 +99,19 @@ class Repository(
         localSource.removeAllFavoriteProducts()
     }
 
-    override suspend fun addProductToFavorite(favoriteProduct: FavoriteProduct) {
-       localSource.addProductToFavorites(favoriteProduct)
+    override suspend fun addProductToFavorite(favoriteProduct: FavoriteProduct): DatabaseResponse<Long> {
+        return if (favoriteProduct.productID == localSource.addProductToFavorites(favoriteProduct))
+            DatabaseResponse.Success(data = favoriteProduct.productID)
+        else
+            DatabaseResponse.Failure("Error duo inserting product to favorite with id ${favoriteProduct.productID}")
     }
 
-    override suspend fun deleteProductFromFavorite(productId: Long) {
-        localSource.removeProductFromFavorites(productId)
+    override suspend fun deleteProductFromFavorite(productId: Long): DatabaseResponse<Int> {
+        val insertCode = localSource.removeProductFromFavorites(productId)
+        return if (insertCode > 0)
+            DatabaseResponse.Success(data = insertCode)
+        else
+            DatabaseResponse.Failure(errorMsg = "Error duo inserting product to favorite with id $productId")
     }
 
     override suspend fun isFavoriteProduct(productID: Long): Boolean {
