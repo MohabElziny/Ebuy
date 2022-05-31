@@ -108,8 +108,8 @@ class Repository(
        localSource.addProductToFavorites(favoriteProduct)
     }
 
-    override suspend fun deleteProductFromFavorite(favoriteProduct: FavoriteProduct) {
-        localSource.removeProductFromFavorites(favoriteProduct)
+    override suspend fun deleteProductFromFavorite(productId: Long) {
+        localSource.removeProductFromFavorites(productId)
     }
 
     override suspend fun isFavoriteProduct(productID: Long): Boolean {

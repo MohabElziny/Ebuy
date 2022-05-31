@@ -14,8 +14,8 @@ class LocalSource(
         favoritesDao.insertProductToFavorite(favoriteProduct)
     }
 
-    override suspend fun removeProductFromFavorites(favoriteProduct: FavoriteProduct) {
-        favoritesDao.deleteProductFromFavorite(favoriteProduct)
+    override suspend fun removeProductFromFavorites(productId: Long) {
+        favoritesDao.deleteProductFromFavorite(productId)
     }
 
     override suspend fun getAllFavoriteProducts(): Flow<List<FavoriteProduct>> {

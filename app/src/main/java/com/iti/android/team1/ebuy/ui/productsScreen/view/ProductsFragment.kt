@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.databinding.FragmentProductsBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.datasource.localsource.ProductConverter
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Product
@@ -79,12 +80,11 @@ class ProductsFragment : Fragment() {
     }
 
     private var onLike: (Product) -> Unit = { product ->
-        //TODO: add product to database
-        Log.d(TAG, "onLike: called")
+       viewModel.addProductToFavorite(ProductConverter.convertProductToEntity(product))
     }
 
-    private var onUnLike: (Product) -> Unit = { product ->
-        //TODO: remote product from database
+    private var onUnLike: (productId:Long) -> Unit = { productId ->
+        viewModel.removeProductFromFavorite(productId)
     }
 
     private fun setUpProductRecycler(products: Products) {

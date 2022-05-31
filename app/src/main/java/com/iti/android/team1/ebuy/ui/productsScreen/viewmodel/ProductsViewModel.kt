@@ -7,7 +7,10 @@ import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
+import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.model.pojo.Products
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -44,6 +47,18 @@ class ProductsViewModel(private val repoInterface: IRepository) : ViewModel() {
             is NetworkResponse.FailureResponse -> {
                 _productsMutableLivaData.value = ResultState.Error(networkResponse.errorString)
             }
+        }
+    }
+
+    fun addProductToFavorite(product: FavoriteProduct){
+        viewModelScope.launch (Dispatchers.IO){
+            repoInterface.addProductToFavorite(product)
+        }
+    }
+
+    fun removeProductFromFavorite(productId:Long){
+        viewModelScope.launch (Dispatchers.IO){
+            repoInterface.deleteProductFromFavorite(productId)
         }
     }
 }
