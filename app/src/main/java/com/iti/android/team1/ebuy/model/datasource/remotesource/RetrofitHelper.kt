@@ -33,11 +33,18 @@ object RetrofitHelper : RemoteSource {
         return retrofitService.getAllCategories()
     }
 
-    override suspend fun getAllCategoryProducts(collectionID: Long , productType:String): Response<Products> {
-        return retrofitService.getAllCategoryProducts(collectionID,productType)
+    override suspend fun getAllCategoryProducts(
+        collectionID: Long,
+        productType: String,
+    ): Response<Products> {
+        return retrofitService.getAllCategoryProducts(collectionID, productType)
     }
 
     override suspend fun getProductDetails(product_id: Long): Response<ProductAPI> {
         return retrofitService.getProductDetailsById(product_id)
+    }
+
+    override suspend fun createCustomer(customerAPI: CustomerAPI):Response<CustomerAPI> {
+        return retrofitService.createCustomer(customerAPI)
     }
 }
