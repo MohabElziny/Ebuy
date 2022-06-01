@@ -139,11 +139,22 @@ class Repository(
             parseError(response.errorBody())
         }
     }
+
+    override suspend fun getCustomerOrders(customer_id: Long): NetworkResponse<OrderAPI> {
+        val response = remoteSource.getCustomerOrders(customer_id)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body()?:OrderAPI())
+        } else {
+            parseError(response.errorBody())
+        }
+    }
+
+
 }
 
 private fun parseError(errorBody: ResponseBody?): FailureResponse {
     return errorBody?.let {
-        val errorMessage = kotlin.runCatching {
+        val errorMessage = runCatching {
             JSONObject(it.string()).getString("errors")
         }
         return FailureResponse(errorMessage.getOrDefault("Empty Error"))

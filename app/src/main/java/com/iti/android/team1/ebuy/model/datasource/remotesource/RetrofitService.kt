@@ -54,12 +54,12 @@ interface RetrofitService {
 
     @GET("customers/{customer_id}.json")
     suspend fun getCustomerById(
-        @Path("product_id") product_id: Long,
+        @Path("customer_id") customer_id: Long,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
         ): Response<CustomerRegisterAPI>
-//    @GET("customers/{customer_id}/orders.json")
-////    suspend fun getCustomerOrders(
-////        @Path("product_id") product_id: Long,
-////        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
-////    )
+    @GET("customers/{customer_id}/orders.json")
+    suspend fun getCustomerOrders(
+        @Path("customer_id") customer_id: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ):Response<OrderAPI>
 }
