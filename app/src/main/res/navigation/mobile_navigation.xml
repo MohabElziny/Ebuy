@@ -100,5 +100,8 @@
             android:name="brandId"
             app:argType="long"
             app:nullable="false" />
+        <action
+            android:id="@+id/action_navigation_products_to_productsDetailsFragment"
+            app:destination="@id/productsDetailsFragment" />
     </fragment>
 </navigation>
