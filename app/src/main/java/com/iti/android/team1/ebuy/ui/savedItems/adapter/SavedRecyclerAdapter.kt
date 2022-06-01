@@ -51,7 +51,7 @@ class SavedRecyclerAdapter(
             Glide.with(binding.root.context).load(currentProduct.productImageUrl)
                 .into(binding.savedImage)
             binding.savedProductName.text = currentProduct.productName
-            binding.savedPrice.text = "$calculatedPrice EGP"
+            binding.savedPrice.text = "$calculatedPrice ${currentProduct.currency}"
             binding.likeBtn.isLiked = true
             if (currentProduct.stock > 0) {
                 binding.savedIsInStock.text = context.getString(R.string.in_stock)
