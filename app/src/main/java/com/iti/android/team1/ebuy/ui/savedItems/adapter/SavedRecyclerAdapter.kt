@@ -27,10 +27,12 @@ class SavedRecyclerAdapter(
 
     inner class SavedItemsViewHolder(private val binding: SavedItemsLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
+
         lateinit var currentProduct: FavoriteProduct
+
         init {
+
             binding.parent.setOnClickListener {
-                currentProduct = favorites[bindingAdapterPosition]
                 onItemClick(currentProduct.productID)
             }
 
@@ -46,6 +48,7 @@ class SavedRecyclerAdapter(
 
         @SuppressLint("SetTextI18n")
         fun bindView() {
+            currentProduct = favorites[bindingAdapterPosition]
             val context = binding.root.context
             val calculatedPrice = currentProduct.productPrice
             Glide.with(binding.root.context).load(currentProduct.productImageUrl)
