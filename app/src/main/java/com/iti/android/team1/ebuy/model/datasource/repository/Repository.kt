@@ -9,6 +9,7 @@ import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.FailureResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.SuccessResponse
 import com.iti.android.team1.ebuy.model.pojo.*
+import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
@@ -94,11 +95,10 @@ class Repository(
 
     override suspend fun addProductToFavorite(
         product: Product,
-        noOfItems: Int,
     ): DatabaseResponse<Long> {
         return if (
             product.productID == localSource.addProductToFavorites(ProductConverter.convertProductToEntity(
-                product, noOfItems))
+                product))
         )
             DatabaseResponse.Success(data = product.productID)
         else
@@ -140,6 +140,10 @@ class Repository(
         }else{
             parseError(response.errorBody())
         }
+    }
+
+    override suspend fun getFlowFavoriteProducts(): Flow<List<FavoriteProduct>> {
+        return localSource.getFlowFavoriteProducts()
     }
 }
 

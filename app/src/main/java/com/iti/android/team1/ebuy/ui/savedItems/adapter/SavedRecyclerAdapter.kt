@@ -5,13 +5,15 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.SavedItemsLayoutBinding
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
+import com.like.LikeButton
+import com.like.OnLikeListener
 
 class SavedRecyclerAdapter(
     private val onItemClick: (Long) -> Unit,
-    private val onIncreaseClick: (FavoriteProduct, Int) -> Unit,
-    private val onDecreaseClick: (FavoriteProduct, Int) -> Unit,
+    private val onUnLike: (Long, Int) -> Unit,
 ) : RecyclerView.Adapter<SavedRecyclerAdapter.SavedItemsViewHolder>() {
 
     private var favorites: List<FavoriteProduct> = emptyList()
@@ -22,12 +24,6 @@ class SavedRecyclerAdapter(
         notifyDataSetChanged()
     }
 
-    fun updateItemAtIndex(index: Int, product: FavoriteProduct) {
-        val arry: ArrayList<FavoriteProduct> = arrayListOf()
-        arry.addAll(favorites)
-        arry[index] = product
-        favorites = arry
-    }
 
     inner class SavedItemsViewHolder(private val binding: SavedItemsLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -37,26 +33,33 @@ class SavedRecyclerAdapter(
                 onItemClick(favorites[bindingAdapterPosition].productID)
             }
 
-            binding.btnDecrease.setOnClickListener {
-                onDecreaseClick(favorites[bindingAdapterPosition],
-                    bindingAdapterPosition)
-            }
+            binding.likeBtn.setOnLikeListener(object : OnLikeListener {
+                override fun liked(likeButton: LikeButton?) {}
 
-            binding.btnIncrease.setOnClickListener {
-                onIncreaseClick(favorites[bindingAdapterPosition],
-                    bindingAdapterPosition)
-            }
+                override fun unLiked(likeButton: LikeButton?) {
+                    onUnLike(favorites[bindingAdapterPosition].productID, bindingAdapterPosition)
+                }
+            })
+
         }
 
         @SuppressLint("SetTextI18n")
         fun bindView() {
+            val context = binding.root.context
             val currentProduct = favorites[bindingAdapterPosition]
-            val calculatedPrice = currentProduct.productPrice * currentProduct.noOfSavedItems
+            val calculatedPrice = currentProduct.productPrice
             Glide.with(binding.root.context).load(currentProduct.productImageUrl)
                 .into(binding.savedImage)
             binding.savedProductName.text = currentProduct.productName
             binding.savedPrice.text = "$calculatedPrice EGP"
-            binding.noOfItems.text = currentProduct.noOfSavedItems.toString()
+            binding.likeBtn.isLiked = true
+            if (currentProduct.stock > 0) {
+                binding.savedIsInStock.text = context.getString(R.string.in_stock)
+                binding.savedIsInStock.setTextColor(context.resources.getColor(R.color.Success))
+            } else {
+                binding.savedIsInStock.text = context.getString(R.string.out_of_stock)
+                binding.savedIsInStock.setTextColor(context.resources.getColor(R.color.Warning))
+            }
         }
     }
 

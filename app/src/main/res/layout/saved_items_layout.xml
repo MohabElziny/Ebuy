@@ -8,9 +8,9 @@
 
     <androidx.cardview.widget.CardView
         android:id="@+id/parent"
-        android:layout_margin="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:backgroundTint="@color/white"
         app:cardCornerRadius="10dp"
         app:cardElevation="10dp">
@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/savedImage"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="4dp"
                 android:layout_toEndOf="@+id/savedImage"
                 android:textSize="@dimen/fontHeading5"
                 tools:text="Product name" />
@@ -66,64 +66,18 @@
                 android:textSize="@dimen/fontHeading4"
                 tools:text="0 $" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/btn_increase"
+            <com.like.LikeButton
+                android:id="@+id/likeBtn"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_alignBottom="@+id/savedPrice"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:backgroundTint="@color/Primary"
-                app:cardCornerRadius="9dp">
+                android:layout_margin="10dp"
+                app:icon_size="25dp"
+                app:icon_type="heart"
+                app:like_drawable="@drawable/heart_on_b"
+                app:unlike_drawable="@drawable/heart_off_b" />
 
-                <TextView
-                    style="@style/heading3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="+" />
-            </androidx.cardview.widget.CardView>
-
-            <TextView
-                android:id="@+id/no_of_items"
-                style="@style/heading3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/btn_increase"
-                android:layout_alignBottom="@+id/btn_increase"
-                android:layout_centerVertical="true"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="5dp"
-                android:layout_marginBottom="3dp"
-                android:layout_toStartOf="@+id/btn_increase"
-                android:textSize="@dimen/fontHeading6"
-                tools:text="100" />
-
-            <androidx.cardview.widget.CardView
-                android:id="@+id/btn_decrease"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_alignBottom="@+id/savedPrice"
-                android:layout_alignParentBottom="true"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:layout_marginBottom="10dp"
-                android:layout_toStartOf="@+id/no_of_items"
-                android:backgroundTint="@color/Primary"
-                app:cardCornerRadius="9dp">
-
-                <TextView
-                    style="@style/heading3"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="-" />
-            </androidx.cardview.widget.CardView>
 
         </RelativeLayout>
     </androidx.cardview.widget.CardView>

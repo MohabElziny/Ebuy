@@ -81,5 +81,7 @@
     <string name="fav">Favorites</string>
     <string name="details_fragment_title">Details</string>
     <string name="favorite_empty_list_title">Your favorite list is empty right now</string>
+    <string name="in_stock">In stock</string>
+    <string name="out_of_stock">Out of stock</string>
 
 </resources>

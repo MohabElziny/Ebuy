@@ -8,8 +8,10 @@ import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
 
 class SavedItemsViewModel(private val repo: IRepository) : ViewModel() {
@@ -18,44 +20,44 @@ class SavedItemsViewModel(private val repo: IRepository) : ViewModel() {
         MutableStateFlow(DatabaseResult.Loading)
     val allFavorites get() = _allFavorites.asStateFlow()
 
-    private val _updateState: MutableStateFlow<DatabaseResult<Int>> =
+    private val _deleteState: MutableStateFlow<DatabaseResult<Int?>> =
         MutableStateFlow(DatabaseResult.Loading)
-    val updateState get() = _updateState.asStateFlow()
+    val deleteState get() = _deleteState.asStateFlow()
 
     fun getFavoritesList() {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = async { repo.getAllFavoritesProducts() }
+            val result = async { repo.getFlowFavoriteProducts() }
             setAllFavoritesResult(result.await())
         }
     }
 
-    fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) {
-        if (favoriteProduct.noOfSavedItems in 1..10)
-            viewModelScope.launch(Dispatchers.IO) {
-                val result = async { repo.updateFavoriteProduct(favoriteProduct) }
-                setUpdateState(result.await())
+    private fun setAllFavoritesResult(result: Flow<List<FavoriteProduct>>) {
+        viewModelScope.launch(Dispatchers.IO) {
+            result.buffer().collect { data ->
+                if (data.isEmpty())
+                    _allFavorites.emit(DatabaseResult.Empty)
+                else
+                    _allFavorites.emit(DatabaseResult.Success(data))
             }
-        else
-            if (favoriteProduct.noOfSavedItems > 10)
-                setUpdateState(DatabaseResponse.Failure("The maximum is 10"))
-            else if (favoriteProduct.noOfSavedItems < 1)
-                setUpdateState(DatabaseResponse.Failure("The minimum is 1"))
+        }
+
     }
 
-    private fun setUpdateState(result: DatabaseResponse<Int>) {
-        when (result) {
-            is DatabaseResponse.Failure -> _updateState.value =
-                DatabaseResult.Error(result.errorMsg)
-            is DatabaseResponse.Success -> _updateState.value = DatabaseResult.Empty
+    fun deleteFavoriteProduct(productId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = async { repo.deleteProductFromFavorite(productId) }
+            setDeleteState(result.await())
         }
     }
 
-
-    private fun setAllFavoritesResult(result: List<FavoriteProduct>) {
-        if (result.isEmpty())
-            _allFavorites.value = DatabaseResult.Empty
-        else
-            _allFavorites.value = DatabaseResult.Success(data = result)
+    private fun setDeleteState(result: DatabaseResponse<Int?>) {
+        when (result) {
+            is DatabaseResponse.Failure -> _deleteState.value =
+                DatabaseResult.Error(result.errorMsg)
+            is DatabaseResponse.Success -> {
+                _deleteState.value = DatabaseResult.Empty
+            }
+        }
     }
 
 }

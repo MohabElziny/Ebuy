@@ -16,11 +16,9 @@ import com.iti.android.team1.ebuy.databinding.FragmentSavedItemsBinding
 import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
-import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import com.iti.android.team1.ebuy.ui.savedItems.adapter.SavedRecyclerAdapter
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModel
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModelFactory
-import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.buffer
 
 private const val TAG = "SavedItemsFragment"
@@ -29,8 +27,6 @@ class SavedItemsFragment : Fragment() {
 
     private lateinit var binding: FragmentSavedItemsBinding
     private lateinit var favoritesAdapter: SavedRecyclerAdapter
-    private lateinit var previousData: FavoriteProduct
-    private var lastUpdatedPosition: Int? = null
 
     private val viewModel: SavedItemsViewModel by viewModels {
         SavedItemsViewModelFactory(
@@ -51,10 +47,6 @@ class SavedItemsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getFavoritesList()
-        fetchFavoritesData()
-    }
-
-    private fun fetchFavoritesData() {
         lifecycleScope.launchWhenStarted {
             viewModel.allFavorites.buffer().collect { response ->
                 when (response) {
@@ -70,7 +62,7 @@ class SavedItemsFragment : Fragment() {
                         binding.recyclerView.visibility = View.VISIBLE
 
                         favoritesAdapter = SavedRecyclerAdapter(
-                            onItemClick, onIncreaseClick, onDecreaseClick
+                            onItemClick, onUnlike
                         )
 
                         favoritesAdapter.setAdapterList(response.data)
@@ -85,7 +77,6 @@ class SavedItemsFragment : Fragment() {
                 }
             }
         }
-
     }
 
     private var onItemClick: (Long) -> Unit = { productId ->
@@ -95,39 +86,21 @@ class SavedItemsFragment : Fragment() {
         )
     }
 
-    private var onIncreaseClick: (FavoriteProduct, Int) -> Unit = { favoriteProduct, position ->
-        lastUpdatedPosition = position
-        previousData = favoriteProduct
-        favoriteProduct.noOfSavedItems++
-        viewModel.updateFavoriteProduct(favoriteProduct)
-        fetchUpdateState(position)
-    }
-
-    private var onDecreaseClick: (FavoriteProduct, Int) -> Unit = { favoriteProduct, position ->
-        lastUpdatedPosition = position
-        previousData = favoriteProduct
-        favoriteProduct.noOfSavedItems--
-        viewModel.updateFavoriteProduct(favoriteProduct)
-        fetchUpdateState(position)
-    }
-
-    private fun fetchUpdateState(position: Int) {
+    private var onUnlike: (Long, Int) -> Unit = { productId, position ->
+        viewModel.deleteFavoriteProduct(productId)
         lifecycleScope.launchWhenStarted {
-            viewModel.updateState.buffer().collect { response ->
+            viewModel.deleteState.buffer().collect { response ->
                 when (response) {
                     DatabaseResult.Empty -> {
-                        favoritesAdapter.notifyItemChanged(position)
+                        favoritesAdapter.notifyItemRemoved(position)
                     }
                     is DatabaseResult.Error -> {
                         Toast.makeText(requireContext(),
                             response.errorMsg,
                             Toast.LENGTH_SHORT).show()
-                        favoritesAdapter.updateItemAtIndex(lastUpdatedPosition ?: -1,
-                            previousData)
                     }
                     else -> Log.d(TAG, "fetchFavoritesData: unexpected callback !!")
                 }
-                cancel()
             }
         }
     }
