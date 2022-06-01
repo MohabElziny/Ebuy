@@ -1,6 +1,7 @@
 package com.iti.android.team1.ebuy.model.datasource.localsource
 
 import android.content.Context
+import com.iti.android.team1.ebuy.model.pojo.CartItem
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import kotlinx.coroutines.flow.Flow
 
@@ -8,6 +9,7 @@ class LocalSource(
     private val context: Context,
     private val favoritesDao: FavoritesDao = CommerceDatabase.getDataBase(context)
         .favoritesDao(),
+    private val cartDao: CartDao = CommerceDatabase.getDataBase(context).cartDao(),
 ) : ILocalSource {
 
     override suspend fun addProductToFavorites(favoriteProduct: FavoriteProduct): Long {
@@ -28,5 +30,25 @@ class LocalSource(
 
     override suspend fun isFavoriteProduct(productID: Long): Boolean {
         return favoritesDao.isFavouriteProduct(productID)
+    }
+
+    override suspend fun addProductToCart(cartItem: CartItem): Long {
+        return cartDao.insertItemToCart(cartItem)
+    }
+
+    override suspend fun removeProductFromCart(productVariantID: Long): Int {
+        return cartDao.removeItemFromCart(productVariantID)
+    }
+
+    override suspend fun getAllCartProducts(): List<CartItem> {
+        return cartDao.getAllItemsInCart()
+    }
+
+    override suspend fun removeAllCartProducts(): Int {
+        return cartDao.removeAllItemsFromCart()
+    }
+
+    override suspend fun updateProductInCart(cartItem: CartItem) {
+        cartDao.updateItemInTheCart(cartItem)
     }
 }

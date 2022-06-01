@@ -1,6 +1,7 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
 import com.iti.android.team1.ebuy.model.DatabaseResponse
+import com.iti.android.team1.ebuy.model.datasource.localsource.CartItemConverter
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
 import com.iti.android.team1.ebuy.model.datasource.localsource.ProductConverter
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
@@ -126,11 +127,43 @@ class Repository(
 
     override suspend fun getCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
         val response = remoteSource.getCustomer(customerLogin)
-        return if(response.isSuccessful){
+        return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
-        }else{
+        } else {
             parseError(response.errorBody())
         }
+    }
+
+    override suspend fun getAllCartProducts(): List<CartItem> {
+        return localSource.getAllCartProducts()
+    }
+
+    override suspend fun removeAllCartProducts() {
+        return localSource.removeAllFavoriteProducts()
+    }
+
+    override suspend fun addProductToCart(product: Product): DatabaseResponse<Long> {
+        val addResult =
+            localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product))
+        return if (product.productVariants?.get(0)?.productId == addResult) {
+            DatabaseResponse.Success(addResult)
+        } else {
+            DatabaseResponse.Failure("Error while adding product ${product.productName} to cart with code $addResult")
+        }
+    }
+
+    override suspend fun removeProductFromCart(productVariantID: Long): DatabaseResponse<Int> {
+        val removeResult = localSource.removeProductFromCart(productVariantID)
+        return if (removeResult > 0) {
+            DatabaseResponse.Success(removeResult)
+        } else {
+            DatabaseResponse.Failure("Error while remove the product with code $removeResult")
+        }
+    }
+
+    override suspend fun updateProductInCart(product: Product, quantity: Int) {
+        localSource.updateProductInCart(CartItemConverter.convertProductToCartItemEntity(product,
+            quantity))
     }
 }
 
