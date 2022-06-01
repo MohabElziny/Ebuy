@@ -4,6 +4,7 @@ import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface IRepository {
     suspend fun getAllProducts(): NetworkResponse<Products>
@@ -23,5 +24,6 @@ interface IRepository {
     suspend fun deleteProductFromFavorite(productId: Long): DatabaseResponse<Int?>
     suspend fun isFavoriteProduct(productID: Long): Boolean
     suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) : DatabaseResponse<Int>
+    suspend fun createCustomer(customerRegister: CustomerRegister) : NetworkResponse<Customer>
 
 }

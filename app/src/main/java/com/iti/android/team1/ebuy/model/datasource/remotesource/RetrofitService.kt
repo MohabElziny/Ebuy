@@ -38,4 +38,10 @@ interface RetrofitService {
         @Path("product_id") product_id: Long,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<ProductAPI>
+
+    @POST("customers")
+    suspend fun createCustomer(
+        @Body customerRegister: CustomerRegister,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ):Response<CustomerAPI>
 }

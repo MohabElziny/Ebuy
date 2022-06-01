@@ -14,4 +14,5 @@ interface RemoteSource {
     suspend fun getAllCategories(): Response<Categories>
     suspend fun getAllCategoryProducts(collectionID: Long , productType:String): Response<Products>
     suspend fun getProductDetails(product_id :Long):Response<ProductAPI>
+    suspend fun createCustomer(customerRegister: CustomerRegister):Response<CustomerAPI>
 }
