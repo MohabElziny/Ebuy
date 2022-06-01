@@ -4,8 +4,8 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
+import androidx.room.Update
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoritesDao {
@@ -17,6 +17,9 @@ interface FavoritesDao {
 
     @Insert(onConflict = REPLACE)
     suspend fun insertProductToFavorite(favoriteProduct: FavoriteProduct): Long
+
+    @Update
+    suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) : Int
 
     @Query("DELETE FROM favorite_products where productID = :productId")
     suspend fun deleteProductFromFavorite(productId: Long): Int

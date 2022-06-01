@@ -49,10 +49,14 @@
         android:label="fragment_profile"
         tools:layout="@layout/fragment_profile" />
     <fragment
-        android:id="@+id/savedItemsFragment"
+        android:id="@+id/navigation_favorites"
         android:name="com.iti.android.team1.ebuy.ui.savedItems.view.SavedItemsFragment"
         android:label="@string/saved_items"
-        tools:layout="@layout/fragment_saved_items" />
+        tools:layout="@layout/fragment_saved_items" >
+        <action
+            android:id="@+id/action_navigation_favorites_to_productsDetailsFragment"
+            app:destination="@id/productsDetailsFragment" />
+    </fragment>
     <fragment
         android:id="@+id/loginScreen"
         android:name="com.iti.android.team1.ebuy.ui.login_screen.view.LoginScreen"
@@ -66,7 +70,7 @@
     <fragment
         android:id="@+id/productsDetailsFragment"
         android:name="com.iti.android.team1.ebuy.ui.product_details_screen.view.ProductsDetailsFragment"
-        android:label="fragment_products_details"
+        android:label="@string/details_fragment_title"
         tools:layout="@layout/fragment_products_details">
 
         <argument
