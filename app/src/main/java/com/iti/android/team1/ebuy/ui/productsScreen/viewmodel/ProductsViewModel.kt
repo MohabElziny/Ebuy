@@ -62,15 +62,13 @@ class ProductsViewModel(private val repoInterface: IRepository) : ViewModel() {
 
     fun addProductToFavorite(product: Product) {
         viewModelScope.launch(Dispatchers.IO) {
-            _resultOfAddingProductToFavorite.postValue(brandProductsUseCase.addProductToFavorite(
-                product))
+            _resultOfAddingProductToFavorite.postValue(repoInterface.addProductToFavorite(product))
         }
     }
 
     fun removeProductFromFavorite(productId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            _resultOfDeletingProductToFavorite.postValue(brandProductsUseCase.removeProductFromFavorite(
-                productId))
+            _resultOfDeletingProductToFavorite.postValue(repoInterface.deleteProductFromFavorite(productId))
         }
     }
 }
