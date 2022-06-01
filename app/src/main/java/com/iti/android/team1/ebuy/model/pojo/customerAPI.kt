@@ -2,15 +2,26 @@ package com.iti.android.team1.ebuy.model.pojo
 
 import com.google.gson.annotations.SerializedName
 
-data class CustomerAPI(
+data class CustomerRegisterAPI(
     val customer: Customer,
 )
+
 data class CustomerRegister(
     @SerializedName("email") var email: String,
     @SerializedName("first_name") var firstName: String,
     @SerializedName("last_name") var lastName: String,
     @SerializedName("tags") var password: String,
-    )
+)
+
+data class CustomerLogin(
+    var email: String,
+    var password: String,
+)
+
+data class CustomerLoginAPI(
+    val customers: ArrayList<Customer?>,
+)
+
 data class Customer(
     @SerializedName("id") var id: Int? = null,
     @SerializedName("email") var email: String? = null,

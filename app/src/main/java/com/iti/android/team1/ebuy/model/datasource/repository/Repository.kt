@@ -132,6 +132,15 @@ class Repository(
             parseError(response.errorBody())
         }
     }
+
+    override suspend fun getCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
+        val response = remoteSource.getCustomer(customerLogin)
+        return if(response.isSuccessful){
+            SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
+        }else{
+            parseError(response.errorBody())
+        }
+    }
 }
 
 private fun parseError(errorBody: ResponseBody?): FailureResponse {
