@@ -5,7 +5,6 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
-import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface FavoritesDao {

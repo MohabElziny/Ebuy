@@ -10,4 +10,5 @@ class BrandProductsUseCase(private val repository: IRepository) : IBrandProducts
         return productsResponse(repository.getProductsByCollectionID(collectionID),
             repository.getAllFavoritesProducts())
     }
+
 }
