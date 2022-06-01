@@ -20,8 +20,8 @@ import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import com.iti.android.team1.ebuy.ui.savedItems.adapter.SavedRecyclerAdapter
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModel
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModelFactory
+import kotlinx.coroutines.cancel
 import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.launch
 
 private const val TAG = "SavedItemsFragment"
 
@@ -29,6 +29,8 @@ class SavedItemsFragment : Fragment() {
 
     private lateinit var binding: FragmentSavedItemsBinding
     private lateinit var favoritesAdapter: SavedRecyclerAdapter
+    private lateinit var previousData: FavoriteProduct
+    private var lastUpdatedPosition: Int? = null
 
     private val viewModel: SavedItemsViewModel by viewModels {
         SavedItemsViewModelFactory(
@@ -53,7 +55,7 @@ class SavedItemsFragment : Fragment() {
     }
 
     private fun fetchFavoritesData() {
-        lifecycleScope.launch {
+        lifecycleScope.launchWhenStarted {
             viewModel.allFavorites.buffer().collect { response ->
                 when (response) {
                     DatabaseResult.Empty -> {
@@ -94,36 +96,38 @@ class SavedItemsFragment : Fragment() {
     }
 
     private var onIncreaseClick: (FavoriteProduct, Int) -> Unit = { favoriteProduct, position ->
+        lastUpdatedPosition = position
+        previousData = favoriteProduct
+        favoriteProduct.noOfSavedItems++
         viewModel.updateFavoriteProduct(favoriteProduct)
-        fetchUpdateState(true, favoriteProduct, position)
-
+        fetchUpdateState(position)
     }
 
     private var onDecreaseClick: (FavoriteProduct, Int) -> Unit = { favoriteProduct, position ->
+        lastUpdatedPosition = position
+        previousData = favoriteProduct
+        favoriteProduct.noOfSavedItems--
         viewModel.updateFavoriteProduct(favoriteProduct)
-        fetchUpdateState(false, favoriteProduct, position)
+        fetchUpdateState(position)
     }
 
-    private fun fetchUpdateState(
-        isIncrease: Boolean,
-        favoriteProduct: FavoriteProduct,
-        position: Int,
-    ) {
-        lifecycleScope.launch {
+    private fun fetchUpdateState(position: Int) {
+        lifecycleScope.launchWhenStarted {
             viewModel.updateState.buffer().collect { response ->
                 when (response) {
-
                     DatabaseResult.Empty -> {
-                        if (isIncrease) favoriteProduct.noOfSavedItems++ else favoriteProduct.noOfSavedItems--
                         favoritesAdapter.notifyItemChanged(position)
                     }
-
-                    is DatabaseResult.Error -> Toast.makeText(requireContext(),
-                        "Error duo updating database",
-                        Toast.LENGTH_SHORT).show()
-
+                    is DatabaseResult.Error -> {
+                        Toast.makeText(requireContext(),
+                            response.errorMsg,
+                            Toast.LENGTH_SHORT).show()
+                        favoritesAdapter.updateItemAtIndex(lastUpdatedPosition ?: -1,
+                            previousData)
+                    }
                     else -> Log.d(TAG, "fetchFavoritesData: unexpected callback !!")
                 }
+                cancel()
             }
         }
     }

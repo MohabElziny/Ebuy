@@ -22,6 +22,13 @@ class SavedRecyclerAdapter(
         notifyDataSetChanged()
     }
 
+    fun updateItemAtIndex(index: Int, product: FavoriteProduct) {
+        val arry: ArrayList<FavoriteProduct> = arrayListOf()
+        arry.addAll(favorites)
+        arry[index] = product
+        favorites = arry
+    }
+
     inner class SavedItemsViewHolder(private val binding: SavedItemsLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 

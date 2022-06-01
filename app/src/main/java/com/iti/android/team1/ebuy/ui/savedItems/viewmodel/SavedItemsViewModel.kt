@@ -30,16 +30,22 @@ class SavedItemsViewModel(private val repo: IRepository) : ViewModel() {
     }
 
     fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) {
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = async { repo.updateFavoriteProduct(favoriteProduct) }
-            setUpdateState(result.await())
-        }
+        if (favoriteProduct.noOfSavedItems in 1..10)
+            viewModelScope.launch(Dispatchers.IO) {
+                val result = async { repo.updateFavoriteProduct(favoriteProduct) }
+                setUpdateState(result.await())
+            }
+        else
+            if (favoriteProduct.noOfSavedItems > 10)
+                setUpdateState(DatabaseResponse.Failure("The maximum is 10"))
+            else if (favoriteProduct.noOfSavedItems < 1)
+                setUpdateState(DatabaseResponse.Failure("The minimum is 1"))
     }
 
     private fun setUpdateState(result: DatabaseResponse<Int>) {
         when (result) {
             is DatabaseResponse.Failure -> _updateState.value =
-                DatabaseResult.Error("Error with state: ${result.errorMsg}")
+                DatabaseResult.Error(result.errorMsg)
             is DatabaseResponse.Success -> _updateState.value = DatabaseResult.Empty
         }
     }
