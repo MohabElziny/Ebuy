@@ -27,17 +27,18 @@ class SavedRecyclerAdapter(
 
     inner class SavedItemsViewHolder(private val binding: SavedItemsLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
+        lateinit var currentProduct: FavoriteProduct
         init {
             binding.parent.setOnClickListener {
-                onItemClick(favorites[bindingAdapterPosition].productID)
+                currentProduct = favorites[bindingAdapterPosition]
+                onItemClick(currentProduct.productID)
             }
 
             binding.likeBtn.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton?) {}
 
                 override fun unLiked(likeButton: LikeButton?) {
-                    onUnLike(favorites[bindingAdapterPosition].productID, bindingAdapterPosition)
+                    onUnLike(currentProduct.productID, bindingAdapterPosition)
                 }
             })
 
@@ -46,7 +47,6 @@ class SavedRecyclerAdapter(
         @SuppressLint("SetTextI18n")
         fun bindView() {
             val context = binding.root.context
-            val currentProduct = favorites[bindingAdapterPosition]
             val calculatedPrice = currentProduct.productPrice
             Glide.with(binding.root.context).load(currentProduct.productImageUrl)
                 .into(binding.savedImage)

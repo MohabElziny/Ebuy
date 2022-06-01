@@ -1,7 +1,6 @@
 package com.iti.android.team1.ebuy.ui.savedItems.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,8 +19,6 @@ import com.iti.android.team1.ebuy.ui.savedItems.adapter.SavedRecyclerAdapter
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModel
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModelFactory
 import kotlinx.coroutines.flow.buffer
-
-private const val TAG = "SavedItemsFragment"
 
 class SavedItemsFragment : Fragment() {
 
@@ -73,7 +70,6 @@ class SavedItemsFragment : Fragment() {
                         }
 
                     }
-                    else -> Log.d(TAG, "fetchFavoritesData: unexpected callback !!")
                 }
             }
         }
@@ -99,7 +95,6 @@ class SavedItemsFragment : Fragment() {
                             response.errorMsg,
                             Toast.LENGTH_SHORT).show()
                     }
-                    else -> Log.d(TAG, "fetchFavoritesData: unexpected callback !!")
                 }
             }
         }
