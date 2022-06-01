@@ -139,13 +139,13 @@ class Repository(
     }
 
     override suspend fun removeAllCartProducts() {
-        return localSource.removeAllFavoriteProducts()
+        localSource.removeAllFavoriteProducts()
     }
 
     override suspend fun addProductToCart(product: Product): DatabaseResponse<Long> {
         val addResult =
             localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product))
-        return if (product.productVariants?.get(0)?.productId == addResult) {
+        return if (product.productVariants?.get(0)?.productVariantId == addResult) {
             DatabaseResponse.Success(addResult)
         } else {
             DatabaseResponse.Failure("Error while adding product ${product.productName} to cart with code $addResult")
