@@ -16,7 +16,6 @@ import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentProductsBinding
 import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.localsource.ProductConverter
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Product
@@ -81,9 +80,9 @@ class ProductsFragment : Fragment() {
         startObserveToDeletingFavoriteResult()
     }
 
-    fun startObserveToAddingFavoriteResult(){
-        viewModel.resultOfAddingProductToFavorite.observe(viewLifecycleOwner, Observer {
-            when(it){
+    private fun startObserveToAddingFavoriteResult() {
+        viewModel.resultOfAddingProductToFavorite.observe(viewLifecycleOwner) {
+            when (it) {
                 is DatabaseResponse.Success -> Toast.makeText(requireContext(),
                     getString(R.string.insert_seccuess),
                     Toast.LENGTH_SHORT).show()
@@ -91,11 +90,12 @@ class ProductsFragment : Fragment() {
                     getString(R.string.insert_error),
                     Toast.LENGTH_LONG).show()
             }
-        })
+        }
     }
-    fun startObserveToDeletingFavoriteResult(){
-        viewModel.resultOfDeletingProductToFavorite.observe(viewLifecycleOwner, Observer {
-            when(it){
+
+    private fun startObserveToDeletingFavoriteResult() {
+        viewModel.resultOfDeletingProductToFavorite.observe(viewLifecycleOwner) {
+            when (it) {
                 is DatabaseResponse.Success -> Toast.makeText(requireContext(),
                     getString(R.string.delete_success),
                     Toast.LENGTH_SHORT).show()
@@ -103,9 +103,8 @@ class ProductsFragment : Fragment() {
                     getString(R.string.delete_error),
                     Toast.LENGTH_LONG).show()
             }
-        })
+        }
     }
-
 
 
     private var onItemClick: () -> Unit = {
@@ -114,10 +113,10 @@ class ProductsFragment : Fragment() {
     }
 
     private var onLike: (Product) -> Unit = { product ->
-       viewModel.addProductToFavorite(ProductConverter.convertProductToEntity(product))
+        viewModel.addProductToFavorite(product)
     }
 
-    private var onUnLike: (productId:Long) -> Unit = { productId ->
+    private var onUnLike: (productId: Long) -> Unit = { productId ->
         viewModel.removeProductFromFavorite(productId)
     }
 

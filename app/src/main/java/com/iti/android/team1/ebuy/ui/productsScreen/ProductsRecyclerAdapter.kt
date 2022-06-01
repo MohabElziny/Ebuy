@@ -2,7 +2,6 @@ package com.iti.android.team1.ebuy.ui.productsScreen
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -17,7 +16,7 @@ import com.like.OnLikeListener
 class ProductsRecyclerAdapter(
     private val onItemClick: () -> Unit,
     private val onLike: (product: Product) -> Unit,
-    private val onUnLike: (productId: Long) -> Unit
+    private val onUnLike: (productId: Long) -> Unit,
 ) : RecyclerView.Adapter<ProductsRecyclerAdapter.ProductsViewHolder>() {
 
     private var products: Products = Products(emptyList())
@@ -49,11 +48,11 @@ class ProductsRecyclerAdapter(
 
             productLayoutBinding.likeBtn.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton) {
-                    onLike(products.products!![bindingAdapterPosition])
+                    products.products?.get(bindingAdapterPosition)?.let { onLike(it) }
                 }
 
                 override fun unLiked(likeButton: LikeButton) {
-                    onUnLike(products.products!![bindingAdapterPosition].productID!!)
+                    products.products?.get(bindingAdapterPosition)?.productID?.let { onUnLike(it) }
                 }
             })
         }
@@ -66,6 +65,7 @@ class ProductsRecyclerAdapter(
             productLayoutBinding.txtProductName.text = product.productName
             productLayoutBinding.txtProductPrice.text =
                 (product.productVariants?.get(0)?.productVariantPrice ?: 0).toString()
+            productLayoutBinding.likeBtn.isLiked = product.isFavorite
         }
     }
 

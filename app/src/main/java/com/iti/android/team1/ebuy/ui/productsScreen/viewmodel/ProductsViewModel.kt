@@ -10,7 +10,7 @@ import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
-import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
+import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.model.pojo.Products
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -60,15 +60,16 @@ class ProductsViewModel(private val repoInterface: IRepository) : ViewModel() {
         }
     }
 
-    fun addProductToFavorite(product: FavoriteProduct) {
+    fun addProductToFavorite(product: Product) {
         viewModelScope.launch(Dispatchers.IO) {
-            _resultOfAddingProductToFavorite.postValue(repoInterface.addProductToFavorite(product))
+            _resultOfAddingProductToFavorite.postValue(brandProductsUseCase.addProductToFavorite(
+                product))
         }
     }
 
     fun removeProductFromFavorite(productId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            _resultOfDeletingProductToFavorite.postValue(repoInterface.deleteProductFromFavorite(
+            _resultOfDeletingProductToFavorite.postValue(brandProductsUseCase.removeProductFromFavorite(
                 productId))
         }
     }
