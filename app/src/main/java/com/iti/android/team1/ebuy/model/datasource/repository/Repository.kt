@@ -93,7 +93,9 @@ class Repository(
         localSource.removeAllFavoriteProducts()
     }
 
-    override suspend fun addProductToFavorite(product: Product): DatabaseResponse<Long> {
+    override suspend fun addProductToFavorite(
+        product: Product,
+    ): DatabaseResponse<Long> {
         return if (
             product.productID == localSource.addProductToFavorites(ProductConverter.convertProductToEntity(
                 product))
@@ -115,6 +117,13 @@ class Repository(
         return localSource.isFavoriteProduct(productID)
     }
 
+    override suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct): DatabaseResponse<Int> {
+        val state = localSource.updateFavoriteProduct(favoriteProduct)
+        return if (state > 0)
+            DatabaseResponse.Success(state)
+        else
+            DatabaseResponse.Failure("Error duo updating product with id: ${favoriteProduct.productID} with code state: $state")
+    }
     override suspend fun createCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
         val response = remoteSource.createCustomer(customerRegister)
         return if (response.isSuccessful) {
@@ -131,6 +140,10 @@ class Repository(
         }else{
             parseError(response.errorBody())
         }
+    }
+
+    override suspend fun getFlowFavoriteProducts(): Flow<List<FavoriteProduct>> {
+        return localSource.getFlowFavoriteProducts()
     }
 }
 
