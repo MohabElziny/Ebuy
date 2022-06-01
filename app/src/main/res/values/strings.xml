@@ -78,5 +78,6 @@
     <string name="insert_seccuess">Liked</string>
     <string name="delete_success">Deleted</string>
     <string name="delete_error">Could not delete product from favorites</string>
+    <string name="notExist">Not Exist</string>
 
 </resources>

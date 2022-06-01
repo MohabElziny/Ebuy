@@ -143,7 +143,7 @@ class Repository(
     override suspend fun getCustomerOrders(customer_id: Long): NetworkResponse<OrderAPI> {
         val response = remoteSource.getCustomerOrders(customer_id)
         return if (response.isSuccessful) {
-            SuccessResponse(response.body()?:OrderAPI())
+            SuccessResponse(response.body() ?: OrderAPI())
         } else {
             parseError(response.errorBody())
         }

@@ -1,17 +1,111 @@
 package com.iti.android.team1.ebuy.ui.profile_screen.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
+import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
-import com.iti.android.team1.ebuy.model.pojo.CustomerRegister
+import com.iti.android.team1.ebuy.model.pojo.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 
-class ProfileViewModel : ViewModel() {
-    private var _customer: MutableStateFlow<ResultState<CustomerRegister>> =
+class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
+    private var _customer: MutableStateFlow<ResultState<Customer>> =
         MutableStateFlow(ResultState.Loading)
     val customer = _customer.asStateFlow()
 
-    fun getCustomerInfo(customer_ID :Long) {
+    private var _orderList: MutableStateFlow<ResultState<List<Order>>> =
+        MutableStateFlow(ResultState.Loading)
+    val orderList = _orderList.asStateFlow()
 
+    private var _favouriteProducts: MutableStateFlow<ResultState<List<FavoriteProduct>>> =
+        MutableStateFlow(ResultState.Loading)
+    val favoriteProducts = _favouriteProducts.asStateFlow()
+
+
+    fun getFavouriteProducts() {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = async {
+                myRepo.getAllFavoritesProducts()
+            }
+            sendResponseBackFavourites(res.await())
+        }
+    }
+
+    private suspend fun sendResponseBackFavourites(favLists: List<FavoriteProduct>) {
+        _favouriteProducts.emit(ResultState.Loading)
+
+
+        if (favLists.isEmpty()) {
+            _favouriteProducts.emit(ResultState.Success(getLastNElements(favLists, 4)))
+        } else {
+            _customer.emit(ResultState.EmptyResult)
+        }
+    }
+
+    private fun getLastNElements(favLists: List<FavoriteProduct>, n: Int): List<FavoriteProduct> {
+        return favLists.takeLast(n)
+    }
+
+
+    fun getCustomerOrders(customer_ID: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = async {
+                myRepo.getCustomerOrders(customer_ID)
+            }
+            sendResponseBack(res.await())
+        }
+    }
+
+    private suspend fun sendResponseBack(networkResponse: NetworkResponse<OrderAPI>) {
+        _orderList.emit(ResultState.Loading)
+        when (networkResponse) {
+            is NetworkResponse.SuccessResponse -> {
+                networkResponse.data.let {
+                    if (networkResponse.data.orders.isNotEmpty()) {
+                        _orderList.emit(ResultState.Success(getFirstNElements(it.orders)))
+                    } else {
+                        _customer.emit(ResultState.EmptyResult)
+                    }
+                }
+            }
+            is NetworkResponse.FailureResponse -> {
+                _customer.emit(ResultState.Error(networkResponse.errorString))
+            }
+        }
+    }
+
+    private fun getFirstNElements(orders: ArrayList<Order>): List<Order> {
+        return orders.take(4)
+    }
+
+    fun getCustomerInfo(customer_ID: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val res = async {
+                myRepo.getCustomerByID(customer_ID)
+            }
+            fetchResult(res.await())
+        }
+    }
+
+    private suspend fun fetchResult(networkResponse: NetworkResponse<Customer>) {
+        _customer.emit(ResultState.Loading)
+        when (networkResponse) {
+            is NetworkResponse.SuccessResponse -> {
+                networkResponse.data.let {
+                    if (!networkResponse.data.email.isNullOrEmpty()) {
+                        _customer.emit(ResultState.Success(it))
+                    } else {
+                        _customer.emit(ResultState.EmptyResult)
+                    }
+                }
+            }
+            is NetworkResponse.FailureResponse -> {
+                _customer.emit(ResultState.Error(networkResponse.errorString))
+            }
+        }
     }
 }

@@ -51,7 +51,7 @@ data class EmailMarketingConsent(
 
 data class LineItems(
 
-    @SerializedName("id") var id: Int? = null,
+    @SerializedName("id") var id: Long? = null,
     @SerializedName("admin_graphql_api_id") var adminGraphqlApiId: String? = null,
     @SerializedName("fulfillable_quantity") var fulfillableQuantity: Int? = null,
     @SerializedName("fulfillment_service") var fulfillmentService: String? = null,
@@ -62,7 +62,7 @@ data class LineItems(
     @SerializedName("price") var price: String? = null,
     @SerializedName("price_set") var priceSet: Money? = Money(),
     @SerializedName("product_exists") var productExists: Boolean? = null,
-    @SerializedName("product_id") var productId: Int? = null,
+    @SerializedName("product_id") var productId: Long? = null,
     @SerializedName("properties") var properties: ArrayList<String> = arrayListOf(),
     @SerializedName("quantity") var quantity: Int? = null,
     @SerializedName("requires_shipping") var requiresShipping: Boolean? = null,
@@ -71,7 +71,7 @@ data class LineItems(
     @SerializedName("title") var title: String? = null,
     @SerializedName("total_discount") var totalDiscount: String? = null,
     @SerializedName("total_discount_set") var totalDiscountSet: PriceSet? = PriceSet(),
-    @SerializedName("variant_id") var variantId: Int? = null,
+    @SerializedName("variant_id") var variantId: Long? = null,
     @SerializedName("variant_inventory_management") var variantInventoryManagement: String? = null,
     @SerializedName("variant_title") var variantTitle: String? = null,
     @SerializedName("vendor") var vendor: String? = null,
@@ -103,9 +103,9 @@ data class ShippingAddress(
 
 data class Order(
 
-    @SerializedName("id") var id: Int? = null,
+    @SerializedName("id") var id: Long? = null,
     @SerializedName("admin_graphql_api_id") var adminGraphqlApiId: String? = null,
-    @SerializedName("app_id") var appId: Int? = null,
+    @SerializedName("app_id") var appId: Long? = null,
     @SerializedName("browser_ip") var browserIp: String? = null,
     @SerializedName("buyer_accepts_marketing") var buyerAcceptsMarketing: Boolean? = null,
     @SerializedName("cancel_reason") var cancelReason: String? = null,
