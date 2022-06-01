@@ -9,10 +9,8 @@ import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.FailureResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.SuccessResponse
 import com.iti.android.team1.ebuy.model.pojo.*
-import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 import org.json.JSONObject
-import retrofit2.Response
 
 class Repository(
     private val localSource: ILocalSource,
@@ -115,8 +113,8 @@ class Repository(
         return localSource.isFavoriteProduct(productID)
     }
 
-    override suspend fun createCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
-        val response = remoteSource.createCustomer(customerRegister)
+    override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
+        val response = remoteSource.registerCustomer(customerRegister)
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customer ?: Customer())
         } else {
@@ -124,11 +122,20 @@ class Repository(
         }
     }
 
-    override suspend fun getCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
-        val response = remoteSource.getCustomer(customerLogin)
-        return if(response.isSuccessful){
+    override suspend fun loginCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
+        val response = remoteSource.loginCustomer(customerLogin)
+        return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
-        }else{
+        } else {
+            parseError(response.errorBody())
+        }
+    }
+
+    override suspend fun getCustomerByID(customer_id: Long): NetworkResponse<Customer> {
+        val response = remoteSource.getCustomerByID(customer_id)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body()?.customer ?: Customer())
+        } else {
             parseError(response.errorBody())
         }
     }

@@ -14,11 +14,7 @@ import com.iti.android.team1.ebuy.ui.profile_screen.adapters.ProfileFavoritesAda
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileViewModel
 
 class ProfileFragment : Fragment() {
-
-    companion object {
-        fun newInstance() = ProfileFragment()
-    }
-
+    val customer_ID = 123466
     private var _binding: FragmentProfileBinding? = null
     private lateinit var viewModel: ProfileViewModel
     private val binding get() = _binding!!
