@@ -1,7 +1,6 @@
 package com.iti.android.team1.ebuy
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -35,7 +34,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         // menu should be considered as top level destinations.
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_Category, R.id.navigation_profile
+                R.id.navigation_home, R.id.navigation_Category, R.id.navigation_profile,
+                R.id.navigation_favorites
             )
         )
 
@@ -51,16 +51,18 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     override fun onDestinationChanged(
         controller: NavController,
         destination: NavDestination,
-        arguments: Bundle?
+        arguments: Bundle?,
     ) {
-        when (destination.id) {
-            R.id.navigation_products -> {
-                navView.visibility = View.GONE
-            }
-            else -> {
-                navView.visibility = View.VISIBLE
-                Log.d(TAG, "onDestinationChanged: ${destination.label}")
-            }
+        if (destination.id == R.id.navigation_home || destination.id == R.id.navigation_Category ||
+            destination.id == R.id.navigation_profile || destination.id == R.id.navigation_favorites
+        ) {
+
+            navView.visibility = View.VISIBLE
+
+        } else {
+
+            navView.visibility = View.GONE
+
         }
     }
 }

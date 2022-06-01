@@ -78,5 +78,10 @@
     <string name="insert_seccuess">Liked</string>
     <string name="delete_success">Deleted</string>
     <string name="delete_error">Could not delete product from favorites</string>
+    <string name="fav">Favorites</string>
+    <string name="details_fragment_title">Details</string>
+    <string name="favorite_empty_list_title">Your favorite list is empty right now</string>
+    <string name="in_stock">In stock</string>
+    <string name="out_of_stock">Out of stock</string>
 
 </resources>

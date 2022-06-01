@@ -12,10 +12,14 @@
         android:title="@string/title_category" />
 
     <item
+        android:id="@+id/navigation_favorites"
+        android:icon="@drawable/ic_round_favorite_24"
+        android:title="@string/fav" />
+
+    <item
         android:id="@+id/navigation_profile"
         android:icon="@drawable/ic_person"
         android:title="@string/profile_title" />
-
 
 
 </menu>

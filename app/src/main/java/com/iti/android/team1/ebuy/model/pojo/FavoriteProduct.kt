@@ -12,4 +12,6 @@ data class FavoriteProduct(
     val productName: String,
     val productPrice: Double,
     val productImageUrl: String,
+    var stock: Int,
+    var currency: String,
 )
