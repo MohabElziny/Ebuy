@@ -2,6 +2,7 @@ package com.iti.android.team1.ebuy.model.datasource.repository
 
 import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
+import com.iti.android.team1.ebuy.model.datasource.localsource.ProductConverter
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
@@ -11,6 +12,7 @@ import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import retrofit2.Response
 
 class Repository(
     private val localSource: ILocalSource,
@@ -44,14 +46,6 @@ class Repository(
         }
     }
 
-    private fun parseError(errorBody: ResponseBody?): FailureResponse {
-        return errorBody?.let {
-            val errorMessage = kotlin.runCatching {
-                JSONObject(it.string()).getString("errors")
-            }
-            return FailureResponse(errorMessage.getOrDefault("Empty Error"))
-        } ?: FailureResponse("Null Error")
-    }
 
 //    private fun <T> sendResponseBack( obj :Any,response: Response<T>): NetworkResponse<Any> {
 //        return if (response.isSuccessful) {
@@ -99,11 +93,14 @@ class Repository(
         localSource.removeAllFavoriteProducts()
     }
 
-    override suspend fun addProductToFavorite(favoriteProduct: FavoriteProduct): DatabaseResponse<Long> {
-        return if (favoriteProduct.productID == localSource.addProductToFavorites(favoriteProduct))
-            DatabaseResponse.Success(data = favoriteProduct.productID)
+    override suspend fun addProductToFavorite(product: Product): DatabaseResponse<Long> {
+        return if (
+            product.productID == localSource.addProductToFavorites(ProductConverter.convertProductToEntity(
+                product))
+        )
+            DatabaseResponse.Success(data = product.productID)
         else
-            DatabaseResponse.Failure("Error duo inserting product to favorite with id ${favoriteProduct.productID}")
+            DatabaseResponse.Failure("Error duo inserting product to favorite with id ${product.productID}")
     }
 
     override suspend fun deleteProductFromFavorite(productId: Long): DatabaseResponse<Int> {
@@ -117,4 +114,31 @@ class Repository(
     override suspend fun isFavoriteProduct(productID: Long): Boolean {
         return localSource.isFavoriteProduct(productID)
     }
+
+    override suspend fun createCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
+        val response = remoteSource.createCustomer(customerRegister)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body()?.customer ?: Customer())
+        } else {
+            parseError(response.errorBody())
+        }
+    }
+
+    override suspend fun getCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
+        val response = remoteSource.getCustomer(customerLogin)
+        return if(response.isSuccessful){
+            SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
+        }else{
+            parseError(response.errorBody())
+        }
+    }
+}
+
+private fun parseError(errorBody: ResponseBody?): FailureResponse {
+    return errorBody?.let {
+        val errorMessage = kotlin.runCatching {
+            JSONObject(it.string()).getString("errors")
+        }
+        return FailureResponse(errorMessage.getOrDefault("Empty Error"))
+    } ?: FailureResponse("Null Error")
 }

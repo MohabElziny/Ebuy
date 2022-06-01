@@ -1,6 +1,5 @@
 package com.iti.android.team1.ebuy.model.datasource.remotesource
 
-import com.google.gson.Gson
 import com.iti.android.team1.ebuy.model.pojo.*
 import retrofit2.Response
 import retrofit2.Retrofit
@@ -33,11 +32,22 @@ object RetrofitHelper : RemoteSource {
         return retrofitService.getAllCategories()
     }
 
-    override suspend fun getAllCategoryProducts(collectionID: Long , productType:String): Response<Products> {
-        return retrofitService.getAllCategoryProducts(collectionID,productType)
+    override suspend fun getAllCategoryProducts(
+        collectionID: Long,
+        productType: String,
+    ): Response<Products> {
+        return retrofitService.getAllCategoryProducts(collectionID, productType)
     }
 
     override suspend fun getProductDetails(product_id: Long): Response<ProductAPI> {
         return retrofitService.getProductDetailsById(product_id)
+    }
+
+    override suspend fun createCustomer(customerRegister: CustomerRegister):Response<CustomerRegisterAPI> {
+        return retrofitService.createCustomer(customerRegister)
+    }
+
+    override suspend fun getCustomer(customerLogin: CustomerLogin): Response<CustomerLoginAPI> {
+        return retrofitService.getCustomer(customerLogin)
     }
 }

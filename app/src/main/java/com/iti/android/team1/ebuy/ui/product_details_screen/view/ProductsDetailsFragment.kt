@@ -55,7 +55,6 @@ class ProductsDetailsFragment : Fragment() {
             }
 
         }
-
     }
 
     private fun initLikeBtn(product: Product) {
@@ -63,15 +62,8 @@ class ProductsDetailsFragment : Fragment() {
         fetchProductState()
         binding.likeBtn.setOnLikeListener(object : OnLikeListener {
             override fun liked(likeButton: LikeButton?) {
-                product.apply {
-                    val favoriteProduct =
-                        FavoriteProduct(productID = productID!!,
-                            productName = productName!!,
-                            productImageUrl = productImage!!.imageURL!!,
-                            productPrice = productVariants!![0].productVariantPrice!!.toDouble())
-                    viewModel.insertProductToFavorites(favoriteProduct)
-                    insertEffect()
-                }
+                viewModel.insertProductToFavorites(product)
+                insertEffect()
             }
 
             override fun unLiked(likeButton: LikeButton?) {
