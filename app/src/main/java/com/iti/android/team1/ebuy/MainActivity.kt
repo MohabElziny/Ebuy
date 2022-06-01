@@ -1,7 +1,6 @@
 package com.iti.android.team1.ebuy
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
@@ -54,14 +53,16 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         destination: NavDestination,
         arguments: Bundle?,
     ) {
-        when (destination.id) {
-            R.id.navigation_products -> {
-                navView.visibility = View.GONE
-            }
-            else -> {
-                navView.visibility = View.VISIBLE
-                Log.d(TAG, "onDestinationChanged: ${destination.label}")
-            }
+        if (destination.id == R.id.navigation_home || destination.id == R.id.navigation_Category ||
+            destination.id == R.id.navigation_profile || destination.id == R.id.navigation_favorites
+        ) {
+
+            navView.visibility = View.VISIBLE
+
+        } else {
+
+            navView.visibility = View.GONE
+
         }
     }
 }
