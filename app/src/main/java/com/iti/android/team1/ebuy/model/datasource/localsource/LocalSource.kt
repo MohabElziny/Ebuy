@@ -29,4 +29,12 @@ class LocalSource(
     override suspend fun isFavoriteProduct(productID: Long): Boolean {
         return favoritesDao.isFavouriteProduct(productID)
     }
+
+    override suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) : Int{
+        return favoritesDao.updateFavoriteProduct(favoriteProduct)
+    }
+
+    override suspend fun getFlowFavoriteProducts(): Flow<List<FavoriteProduct>> {
+        return favoritesDao.getFlowFavoriteProducts()
+    }
 }

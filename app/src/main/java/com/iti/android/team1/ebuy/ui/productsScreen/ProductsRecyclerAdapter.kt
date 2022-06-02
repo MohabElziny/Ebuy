@@ -14,7 +14,7 @@ import com.like.OnLikeListener
 
 
 class ProductsRecyclerAdapter(
-    private val onItemClick: () -> Unit,
+    private val onItemClick: (Long) -> Unit,
     private val onLike: (product: Product) -> Unit,
     private val onUnLike: (productId: Long) -> Unit,
 ) : RecyclerView.Adapter<ProductsRecyclerAdapter.ProductsViewHolder>() {
@@ -44,7 +44,9 @@ class ProductsRecyclerAdapter(
 
         init {
 
-            productLayoutBinding.parent.setOnClickListener { onItemClick() }
+            productLayoutBinding.parent.setOnClickListener {
+                onItemClick(products.products?.get(bindingAdapterPosition)?.productID ?: 0)
+            }
 
             productLayoutBinding.likeBtn.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton) {

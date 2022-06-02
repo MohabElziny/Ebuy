@@ -3,6 +3,7 @@ package com.iti.android.team1.ebuy.model.datasource.repository
 import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.*
+import kotlinx.coroutines.flow.Flow
 
 interface IRepository {
     suspend fun getAllProducts(): NetworkResponse<Products>
@@ -25,4 +26,7 @@ interface IRepository {
     suspend fun loginCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer>
     suspend fun getCustomerByID(customer_id: Long): NetworkResponse<Customer>
     suspend fun getCustomerOrders(customer_id: Long):NetworkResponse<OrderAPI>
+    suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) : DatabaseResponse<Int>
+
+    suspend fun getFlowFavoriteProducts() : Flow<List<FavoriteProduct>>
 }
