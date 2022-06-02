@@ -13,7 +13,6 @@ import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 import org.json.JSONObject
-import retrofit2.Response
 
 class Repository(
     private val localSource: ILocalSource,
@@ -118,6 +117,7 @@ class Repository(
         return localSource.isFavoriteProduct(productID)
     }
 
+
     override suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct): DatabaseResponse<Int> {
         val state = localSource.updateFavoriteProduct(favoriteProduct)
         return if (state > 0)
@@ -125,8 +125,8 @@ class Repository(
         else
             DatabaseResponse.Failure("Error duo updating product with id: ${favoriteProduct.productID} with code state: $state")
     }
-    override suspend fun createCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
-        val response = remoteSource.createCustomer(customerRegister)
+    override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
+        val response = remoteSource.registerCustomer(customerRegister)
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customer ?: Customer())
         } else {
@@ -134,14 +134,34 @@ class Repository(
         }
     }
 
-    override suspend fun getCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
-        val response = remoteSource.getCustomer(customerLogin)
+    override suspend fun loginCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
+        val response = remoteSource.loginCustomer(customerLogin)
+
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
         } else {
             parseError(response.errorBody())
         }
     }
+
+    override suspend fun getCustomerByID(customer_id: Long): NetworkResponse<Customer> {
+        val response = remoteSource.getCustomerByID(customer_id)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body()?.customer ?: Customer())
+        } else {
+            parseError(response.errorBody())
+        }
+    }
+
+    override suspend fun getCustomerOrders(customer_id: Long): NetworkResponse<OrderAPI> {
+        val response = remoteSource.getCustomerOrders(customer_id)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body() ?: OrderAPI())
+        } else {
+            parseError(response.errorBody())
+        }
+    }
+
 
     override suspend fun getFlowFavoriteProducts(): Flow<List<FavoriteProduct>> {
         return localSource.getFlowFavoriteProducts()
@@ -182,7 +202,7 @@ class Repository(
 
 private fun parseError(errorBody: ResponseBody?): FailureResponse {
     return errorBody?.let {
-        val errorMessage = kotlin.runCatching {
+        val errorMessage = runCatching {
             JSONObject(it.string()).getString("errors")
         }
         return FailureResponse(errorMessage.getOrDefault("Empty Error"))

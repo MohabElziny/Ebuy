@@ -1,6 +1,8 @@
 package com.iti.android.team1.ebuy.domain
 
+import androidx.lifecycle.MutableLiveData
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
+import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import com.iti.android.team1.ebuy.model.pojo.Products
 
@@ -15,7 +17,7 @@ fun productsResponse(
                 it.productID
             }
 
-            allFavoritesProducts.forEach {favoriteProduct ->
+            allFavoritesProducts.forEach { favoriteProduct ->
                 productMap?.get(favoriteProduct.productID)?.apply {
                     isFavorite = true
                 }
@@ -26,3 +28,4 @@ fun productsResponse(
         }
     }
 }
+
