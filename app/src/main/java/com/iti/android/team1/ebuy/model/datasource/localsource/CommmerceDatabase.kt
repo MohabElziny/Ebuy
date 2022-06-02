@@ -5,9 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.iti.android.team1.ebuy.model.pojo.CartItem
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 
-@Database(entities = [FavoriteProduct::class], version = 1, exportSchema = false)
+@Database(entities = [FavoriteProduct::class, CartItem::class], version = 1, exportSchema = false)
 @TypeConverters(RoomConverters::class)
 abstract class CommerceDatabase : RoomDatabase() {
     companion object {
@@ -25,6 +26,6 @@ abstract class CommerceDatabase : RoomDatabase() {
 
     }
 
-
+    abstract fun cartDao(): CartDao
     abstract fun favoritesDao(): FavoritesDao
 }
