@@ -27,10 +27,4 @@ class LoginScreen : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(LoginScreenViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
-
 }

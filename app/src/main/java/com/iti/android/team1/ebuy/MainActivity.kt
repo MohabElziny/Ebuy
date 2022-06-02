@@ -56,13 +56,9 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         if (destination.id == R.id.navigation_home || destination.id == R.id.navigation_Category ||
             destination.id == R.id.navigation_profile || destination.id == R.id.navigation_favorites
         ) {
-
             navView.visibility = View.VISIBLE
-
         } else {
-
             navView.visibility = View.GONE
-
         }
     }
 }
