@@ -1,16 +1,38 @@
 package com.iti.android.team1.ebuy.ui.profile_screen.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.databinding.OrdersCardRowBinding
+import com.iti.android.team1.ebuy.model.pojo.Order
 
 class OrdersAdapter() :
     RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>() {
+    private var _orderList: List<Order> = emptyList()
 
-    class OrdersViewHolder(val binding: OrdersCardRowBinding) :
+    @SuppressLint("NotifyDataSetChanged")
+    fun setOrderList(orderList: List<Order>) {
+        _orderList = orderList
+        notifyDataSetChanged()
+    }
+
+    inner class OrdersViewHolder(val binding: OrdersCardRowBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        private val order get() = _orderList[bindingAdapterPosition]
+
+        init {
+            binding.ordersCard.setOnClickListener {
+                // will go
+            }
+        }
+
         fun bindOrderCard() {
+            binding.txtOrderPrice.text = order.totalPrice ?: ""
+            binding.txtOrderDate.text = order.createdAt ?: ""
+            binding.txtOrderNumber.text = "${order.orderNumber ?: 0}"
+            binding.txtOrderStatus.text = order.financialStatus ?: ""
+
 
         }
     }
@@ -27,13 +49,10 @@ class OrdersAdapter() :
 
     override fun onBindViewHolder(holder: OrdersViewHolder, position: Int) {
         holder.bindOrderCard()
-        holder.binding.ordersCard.setOnClickListener {
-
-        }
     }
 
     override fun getItemCount(): Int {
-        return 0
+        return _orderList.size
     }
 
 }

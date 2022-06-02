@@ -32,33 +32,51 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         navController = findNavController(R.id.nav_host_fragment_activity_main)
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
+        setDefault()
+        navController.addOnDestinationChangedListener(this::onDestinationChanged)
+
+
+    }
+
+    fun setDefault() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_Category, R.id.navigation_profile,
                 R.id.navigation_favorites
             )
         )
-
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-        navController.addOnDestinationChangedListener(this::onDestinationChanged)
+    }
+
+    fun profileNavigation() {
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home, R.id.navigation_Category, R.id.navigation_profile
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp() || super.onSupportNavigateUp()
     }
 
+
+
     override fun onDestinationChanged(
         controller: NavController,
         destination: NavDestination,
         arguments: Bundle?,
     ) {
-        if (destination.id == R.id.navigation_home || destination.id == R.id.navigation_Category ||
-            destination.id == R.id.navigation_profile || destination.id == R.id.navigation_favorites
-        ) {
+        val isContained = appBarConfiguration.topLevelDestinations.any {
+            it == destination.id
+        }
+        if (isContained) {
             navView.visibility = View.VISIBLE
         } else {
             navView.visibility = View.GONE
+
         }
     }
 }

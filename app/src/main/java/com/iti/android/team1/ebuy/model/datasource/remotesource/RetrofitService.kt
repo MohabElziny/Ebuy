@@ -40,15 +40,26 @@ interface RetrofitService {
     ): Response<ProductAPI>
 
     @POST("customers.json")
-    suspend fun createCustomer(
+    suspend fun registerCustomer(
         @Body customerRegister: CustomerRegister,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<CustomerRegisterAPI>
 
     @GET("customers/search.json")
-    suspend fun getCustomer(
+    suspend fun loginCustomer(
         customerLogin: CustomerLogin,
         @Query("query") query: String = "tag:${customerLogin.password}+email:${customerLogin.email}",
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<CustomerLoginAPI>
+
+    @GET("customers/{customer_id}.json")
+    suspend fun getCustomerById(
+        @Path("customer_id") customer_id: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+        ): Response<CustomerRegisterAPI>
+    @GET("customers/{customer_id}/orders.json")
+    suspend fun getCustomerOrders(
+        @Path("customer_id") customer_id: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ):Response<OrderAPI>
 }

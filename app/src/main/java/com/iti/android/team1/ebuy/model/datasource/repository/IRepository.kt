@@ -4,7 +4,6 @@ import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.flow.Flow
-import retrofit2.Response
 
 interface IRepository {
     suspend fun getAllProducts(): NetworkResponse<Products>
@@ -23,8 +22,16 @@ interface IRepository {
     suspend fun addProductToFavorite(product: Product): DatabaseResponse<Long?>
     suspend fun deleteProductFromFavorite(productId: Long): DatabaseResponse<Int?>
     suspend fun isFavoriteProduct(productID: Long): Boolean
+    suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer>
+    suspend fun loginCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer>
+    suspend fun getCustomerByID(customer_id: Long): NetworkResponse<Customer>
+    suspend fun getCustomerOrders(customer_id: Long):NetworkResponse<OrderAPI>
     suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) : DatabaseResponse<Int>
-    suspend fun createCustomer(customerRegister: CustomerRegister) : NetworkResponse<Customer>
-    suspend fun getCustomer(customerLogin: CustomerLogin) : NetworkResponse<Customer>
+
     suspend fun getFlowFavoriteProducts() : Flow<List<FavoriteProduct>>
+    suspend fun getAllCartProducts(): List<CartItem>
+    suspend fun removeAllCartProducts()
+    suspend fun addProductToCart(product: Product): DatabaseResponse<Long>
+    suspend fun removeProductFromCart(productVariantID: Long): DatabaseResponse<Int>
+    suspend fun updateProductInCart(product: Product, quantity: Int)
 }

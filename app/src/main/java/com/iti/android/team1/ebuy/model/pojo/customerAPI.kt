@@ -23,7 +23,7 @@ data class CustomerLoginAPI(
 )
 
 data class Customer(
-    @SerializedName("id") var id: Int? = null,
+    @SerializedName("id") var id: Long? = null,
     @SerializedName("email") var email: String? = null,
     @SerializedName("first_name") var firstName: String? = null,
     @SerializedName("last_name") var lastName: String? = null,
@@ -48,8 +48,8 @@ data class Customer(
     )
 
 data class Addresses(
-    @SerializedName("id") var id: Int? = null,
-    @SerializedName("customer_id") var customerId: Int? = null,
+    @SerializedName("id") var id: Long? = null,
+    @SerializedName("customer_id") var customerId: Long? = null,
     @SerializedName("first_name") var firstName: String? = null,
     @SerializedName("last_name") var lastName: String? = null,
     @SerializedName("company") var company: String? = null,
@@ -68,8 +68,8 @@ data class Addresses(
 )
 
 data class DefaultAddress(
-    @SerializedName("id") var id: Int? = null,
-    @SerializedName("customer_id") var customerId: Int? = null,
+    @SerializedName("id") var id: Long? = null,
+    @SerializedName("customer_id") var customerId: Long? = null,
     @SerializedName("first_name") var firstName: String? = null,
     @SerializedName("last_name") var lastName: String? = null,
     @SerializedName("company") var company: String? = null,
