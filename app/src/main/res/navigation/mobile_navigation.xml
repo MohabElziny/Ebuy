@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@id/navigation_profile">
+    app:startDestination="@id/navigation_home">
 
     <fragment
         android:id="@+id/navigation_home"
@@ -47,7 +47,11 @@
         android:id="@+id/navigation_profile"
         android:name="com.iti.android.team1.ebuy.ui.profile_screen.view.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" />
+        tools:layout="@layout/fragment_profile" >
+        <action
+            android:id="@+id/action_navigation_profile_to_navigation_favorites"
+            app:destination="@id/navigation_favorites" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_favorites"
         android:name="com.iti.android.team1.ebuy.ui.savedItems.view.SavedItemsFragment"

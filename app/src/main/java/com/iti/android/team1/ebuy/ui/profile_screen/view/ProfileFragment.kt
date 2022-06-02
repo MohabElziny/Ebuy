@@ -1,15 +1,17 @@
 package com.iti.android.team1.ebuy.ui.profile_screen.view
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.iti.android.team1.ebuy.MainActivity
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentProfileBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
@@ -19,8 +21,8 @@ import com.iti.android.team1.ebuy.ui.profile_screen.adapters.OrdersAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.adapters.ProfileFavoritesAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileVMFactory
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileViewModel
+import com.iti.android.team1.ebuy.ui.savedItems.view.SavedItemsFragmentDirections
 import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.collect
 
 class ProfileFragment : Fragment() {
     val customer_ID = 6432303317221
@@ -40,6 +42,10 @@ class ProfileFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -48,7 +54,48 @@ class ProfileFragment : Fragment() {
         handleCustomerInfo()
         handleCustomerOrders()
         handleCustomerFavProducts()
+        binding.btnMoreFavorites.setOnClickListener {
+            (activity as MainActivity).profileNavigation()
+            findNavController().navigate(R.id.action_navigation_profile_to_navigation_favorites)
+        }
+        binding.btnMoreOrders.setOnClickListener {
 
+        }
+
+
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as MainActivity).setDefault()
+    }
+
+
+    private var onItemClick: (Long) -> Unit = { productId ->
+        findNavController().navigate(
+            SavedItemsFragmentDirections.actionNavigationFavoritesToProductsDetailsFragment(
+                productId)
+        )
+    }
+
+    private var onUnlike: (Long) -> Unit = { productId ->
+        viewModel.deleteFavoriteProduct(productId)
+        lifecycleScope.launchWhenStarted {
+            viewModel.deleteState.buffer().collect { response ->
+                when (response) {
+                    is ResultState.Success -> {
+                        Toast.makeText(requireContext(),
+                            "Delete Done",
+                            Toast.LENGTH_SHORT).show()
+                    }
+                    is ResultState.Error -> {
+                        Toast.makeText(requireContext(),
+                            response.errorString,
+                            Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
     }
 
     private fun handleCustomerFavProducts() {
@@ -103,7 +150,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initFavoritesRecyclerView() {
-        profileFavoritesAdapter = ProfileFavoritesAdapter()
+        profileFavoritesAdapter = ProfileFavoritesAdapter(onItemClick, onUnlike)
         binding.favoritesRecyclerView.apply {
             layoutManager = LinearLayoutManager(
                 requireContext(),

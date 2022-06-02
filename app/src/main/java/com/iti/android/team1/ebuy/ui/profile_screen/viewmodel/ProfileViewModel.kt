@@ -2,14 +2,18 @@ package com.iti.android.team1.ebuy.ui.profile_screen.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.iti.android.team1.ebuy.model.DatabaseResponse
+import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
@@ -25,24 +29,44 @@ class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
         MutableStateFlow(ResultState.Loading)
     val favoriteProducts = _favouriteProducts.asStateFlow()
 
+    private val _deleteState: MutableStateFlow<ResultState<Int?>> =
+        MutableStateFlow(ResultState.Loading)
+    val deleteState get() = _deleteState.asStateFlow()
+
+    fun deleteFavoriteProduct(productId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = async { myRepo.deleteProductFromFavorite(productId) }
+            setDeleteState(result.await())
+        }
+    }
+
+    private suspend fun setDeleteState(result: DatabaseResponse<Int?>) {
+        when (result) {
+            is DatabaseResponse.Failure ->
+                _deleteState.emit(ResultState.Error(result.errorMsg))
+            is DatabaseResponse.Success -> {
+                _deleteState.emit(ResultState.Success(1))
+            }
+        }
+    }
 
     fun getFavouriteProducts() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = async {
-                myRepo.getAllFavoritesProducts()
+                myRepo.getFlowFavoriteProducts()
             }
             sendResponseBackFavourites(res.await())
         }
     }
 
-    private suspend fun sendResponseBackFavourites(favLists: List<FavoriteProduct>) {
+    private suspend fun sendResponseBackFavourites(favLists: Flow<List<FavoriteProduct>>) {
         _favouriteProducts.emit(ResultState.Loading)
 
-
-        if (favLists.isEmpty()) {
-            _favouriteProducts.emit(ResultState.Success(getLastNElements(favLists, 4)))
-        } else {
-            _customer.emit(ResultState.EmptyResult)
+        favLists.buffer().collect { data ->
+            if (data.isEmpty())
+                _favouriteProducts.emit(ResultState.EmptyResult)
+            else
+                _favouriteProducts.emit(ResultState.Success(getLastNElements(data, 4)))
         }
     }
 
@@ -79,7 +103,7 @@ class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
     }
 
     private fun getFirstNElements(orders: ArrayList<Order>): List<Order> {
-        return orders.take(4)
+        return orders.take(2)
     }
 
     fun getCustomerInfo(customer_ID: Long) {
