@@ -1,8 +1,8 @@
 package com.iti.android.team1.ebuy.util
 
 import android.os.Build
+import android.util.Base64
 import androidx.annotation.RequiresApi
-import java.util.*
 
 object Decoder {
 
@@ -12,12 +12,12 @@ object Decoder {
         for (i in result.indices) {
             result[i] = (result[i] + 1).toByte()
         }
-        return Base64.getEncoder().encodeToString(result)
+        return Base64.encodeToString(result, Base64.DEFAULT)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun decode(data: String): String {
-        val result = Base64.getDecoder().decode(data)
+        val result = Base64.decode(data, Base64.DEFAULT)
         for (i in result.indices) {
             result[i] = (result[i] - 1).toByte()
         }
