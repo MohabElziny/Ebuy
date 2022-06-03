@@ -8,6 +8,8 @@ class ProductDetailsVMFactory(private val myRepo: IRepository) : ViewModelProvid
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ProductsDetailsViewModel::class.java)) {
             return ProductsDetailsViewModel(myRepo) as T
+        } else if (modelClass.isAssignableFrom(AddToCartViewModel::class.java)) {
+            return AddToCartViewModel(myRepo) as T
         } else {
             throw IllegalArgumentException("View Model class Not Found")
         }

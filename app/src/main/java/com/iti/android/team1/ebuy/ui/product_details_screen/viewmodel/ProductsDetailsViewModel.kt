@@ -1,5 +1,7 @@
 package com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.model.DatabaseResponse
@@ -7,7 +9,6 @@ import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
-import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import com.iti.android.team1.ebuy.model.pojo.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -33,6 +34,9 @@ class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
         MutableStateFlow(false)
     val productState get() = _productState.asStateFlow()
 
+    private var _productCartState = MutableLiveData<Boolean>()
+    val productCartState: LiveData<Boolean> get() = _productCartState
+
     fun getProductDetails(productId: Long = 0L) {
         viewModelScope.launch(Dispatchers.IO) {
             _product.emit(ResultState.Loading)
@@ -55,7 +59,7 @@ class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
     }
 
     fun deleteProductFromFavorites(productId: Long) {
-        viewModelScope.launch(Dispatchers.IO)  {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = async { myRepo.deleteProductFromFavorite(productId) }
             _deleteProductFromFavorites(result.await())
         }
@@ -69,7 +73,7 @@ class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
     }
 
     fun insertProductToFavorites(product: Product) {
-        viewModelScope.launch(Dispatchers.IO)  {
+        viewModelScope.launch(Dispatchers.IO) {
             val result = async { myRepo.addProductToFavorite(product) }
             _insertProductToFavorites(result.await())
         }
@@ -89,4 +93,11 @@ class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
         }
     }
 
+    fun getProductInCartState(product: Product) {
+        val productVariantId = product.productVariants?.get(0)?.productVariantId ?: 0
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = async { myRepo.isProductInCart(productVariantId) }
+            _productCartState.postValue(result.await())
+        }
+    }
 }

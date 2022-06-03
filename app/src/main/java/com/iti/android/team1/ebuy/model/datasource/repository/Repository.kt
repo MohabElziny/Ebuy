@@ -125,6 +125,7 @@ class Repository(
         else
             DatabaseResponse.Failure("Error duo updating product with id: ${favoriteProduct.productID} with code state: $state")
     }
+
     override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
         val response = remoteSource.registerCustomer(customerRegister)
         return if (response.isSuccessful) {
@@ -175,9 +176,10 @@ class Repository(
         localSource.removeAllFavoriteProducts()
     }
 
-    override suspend fun addProductToCart(product: Product): DatabaseResponse<Long> {
+    override suspend fun addProductToCart(product: Product, quantity: Int): DatabaseResponse<Long> {
         val addResult =
-            localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product))
+            localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product,
+                quantity))
         return if (product.productVariants?.get(0)?.productVariantId == addResult) {
             DatabaseResponse.Success(addResult)
         } else {
@@ -197,6 +199,10 @@ class Repository(
     override suspend fun updateProductInCart(product: Product, quantity: Int) {
         localSource.updateProductInCart(CartItemConverter.convertProductToCartItemEntity(product,
             quantity))
+    }
+
+    override suspend fun isProductInCart(productVariantID: Long): Boolean {
+        return localSource.isProductInCart(productVariantID)
     }
 }
 
