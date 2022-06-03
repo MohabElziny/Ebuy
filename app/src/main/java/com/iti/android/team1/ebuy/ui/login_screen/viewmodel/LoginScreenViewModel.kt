@@ -19,17 +19,27 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
         MutableStateFlow(ResultState.Loading)
     val loginState get() = _loginState.asStateFlow()
 
-    fun makeLoginRequest(customerLogin: CustomerLogin) {
+    fun makeLoginRequest(email: String, password: String) {
+
+        val customerLogin = CustomerLogin(
+            email = email,
+            password = repository.decodePassword(password)
+        )
+
         viewModelScope.launch(Dispatchers.IO) {
             val result = async { repository.loginCustomer(customerLogin) }
             setLoginState(result.await())
         }
     }
 
-    private fun setLoginState(result: NetworkResponse<Customer>) {
+    private suspend fun setLoginState(result: NetworkResponse<Customer>) {
         when (result) {
-            is NetworkResponse.FailureResponse -> ResultState.Error(result.errorString)
-            is NetworkResponse.SuccessResponse -> ResultState.Success(result.data)
+            is NetworkResponse.FailureResponse -> {
+                _loginState.emit(ResultState.Error(result.errorString))
+            }
+            is NetworkResponse.SuccessResponse -> {
+                _loginState.emit(ResultState.Success(result.data))
+            }
         }
     }
 }

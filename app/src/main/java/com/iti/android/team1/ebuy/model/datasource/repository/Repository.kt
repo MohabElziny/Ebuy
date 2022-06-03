@@ -142,7 +142,6 @@ class Repository(
 
     override suspend fun loginCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
         val response = remoteSource.loginCustomer(customerLogin)
-
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
         } else {
