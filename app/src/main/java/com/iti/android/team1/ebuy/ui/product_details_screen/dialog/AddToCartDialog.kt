@@ -1,18 +1,24 @@
 package com.iti.android.team1.ebuy.ui.product_details_screen.dialog
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.AddToCartDialougeLayoutBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.AddToCartViewModel
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.ProductDetailsVMFactory
+import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.launch
+import kotlin.math.log
 
 class AddToCartDialog(private val product: Product) : DialogFragment() {
 
@@ -22,7 +28,7 @@ class AddToCartDialog(private val product: Product) : DialogFragment() {
 
     private var _binding: AddToCartDialougeLayoutBinding? = null
     private val binding get() = _binding!!
-    private var quantity = 1
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -34,42 +40,59 @@ class AddToCartDialog(private val product: Product) : DialogFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        viewModel.setProductQuantity(product.productVariants?.get(0)?.productVariantInventoryQuantity
+            ?: 0)
         binding.txtProductTitle.text = product.productName
-        setTextQuantity()
+        initViewModelObservers()
         initAddAndCancelButtons()
         initPlusAndMinusButtons()
     }
 
-    private fun setTextQuantity() {
+    private fun initViewModelObservers() {
+        lifecycleScope.launchWhenStarted {
+            launch {
+                viewModel.plusButtonsState.buffer().collect {
+                    binding.btnPlus.isEnabled = it
+                    if (!it) showMaximumQuantityToast()
+                }
+            }
+
+            launch {
+                viewModel.minusButtonState.buffer().collect {
+                    binding.btnMinus.isEnabled = it
+                }
+            }
+            launch {
+                viewModel.quantityText.buffer().collect {
+                    setTextQuantity(it)
+                }
+            }
+        }
+    }
+
+    private fun showMaximumQuantityToast() {
+        Toast.makeText(requireContext(),
+            getString(R.string.no_more_in_stock),
+            Toast.LENGTH_SHORT).show()
+    }
+
+    private fun setTextQuantity(quantity: Int) {
         binding.textProductQuantity.text = "$quantity"
     }
 
     private fun initPlusAndMinusButtons() {
-        val productQuantity = product.productVariants?.get(0)?.productVariantInventoryQuantity ?: 0
         binding.btnPlus.setOnClickListener {
-            if (quantity < productQuantity) {
-                ++quantity
-                setTextQuantity()
-            } else {
-                Toast.makeText(requireContext(),
-                    "Only $productQuantity in stock",
-                    Toast.LENGTH_SHORT).show()
-                binding.btnPlus.isEnabled = false
-            }
+            viewModel.onPressPlusButton()
         }
 
         binding.btnMinus.setOnClickListener {
-            if (quantity > 1) {
-                --quantity
-                setTextQuantity()
-                if (!binding.btnPlus.isEnabled) binding.btnPlus.isEnabled = true
-            }
+            viewModel.onPressMinusButton()
         }
     }
 
     private fun initAddAndCancelButtons() {
         binding.btnAddToCart.setOnClickListener {
-            viewModel.insertProductToCart(product, quantity)
+            viewModel.insertProductToCart(product)
             dialog?.dismiss()
         }
 

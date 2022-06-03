@@ -73,4 +73,5 @@
     <string name="product_out_of_stock">Product out of stock</string>
     <string name="select_product_quantity">Select product Quantity</string>
     <string name="add">ADD</string>
+    <string name="no_more_in_stock">No more in stock.</string>
 </resources>
