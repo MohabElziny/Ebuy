@@ -1,7 +1,6 @@
 package com.iti.android.team1.ebuy.ui.product_details_screen.dialog
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,16 +13,15 @@ import com.iti.android.team1.ebuy.databinding.AddToCartDialougeLayoutBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.pojo.Product
+import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.AddToCartVMFactory
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.AddToCartViewModel
-import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.ProductDetailsVMFactory
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
-import kotlin.math.log
 
 class AddToCartDialog(private val product: Product) : DialogFragment() {
 
     private val viewModel: AddToCartViewModel by viewModels {
-        ProductDetailsVMFactory(Repository(LocalSource(requireContext())))
+        AddToCartVMFactory(Repository(LocalSource(requireContext())))
     }
 
     private var _binding: AddToCartDialougeLayoutBinding? = null
