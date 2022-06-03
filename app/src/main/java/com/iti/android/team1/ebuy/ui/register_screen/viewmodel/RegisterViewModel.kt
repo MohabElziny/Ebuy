@@ -1,7 +1,6 @@
 package com.iti.android.team1.ebuy.ui.register_screen.viewmodel
 
-import android.os.Build
-import androidx.annotation.RequiresApi
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -13,7 +12,6 @@ import com.iti.android.team1.ebuy.model.pojo.CustomerRegister
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
 import com.iti.android.team1.ebuy.ui.register_screen.RegisterResult
 import com.iti.android.team1.ebuy.util.AuthRegex
-import com.iti.android.team1.ebuy.util.Decoder
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -23,8 +21,6 @@ class RegisterViewModel(private val repoInterface: IRepository) : ViewModel() {
     private val _registerMutableLiveData: MutableLiveData<RegisterResult?> = MutableLiveData()
     val registerLiveData = _registerMutableLiveData as LiveData<*>
 
-
-    @RequiresApi(Build.VERSION_CODES.O)
     fun registerCustomer(customerRegister: CustomerRegister) {
 
         _registerMutableLiveData.value = RegisterResult.Loading
@@ -46,7 +42,7 @@ class RegisterViewModel(private val repoInterface: IRepository) : ViewModel() {
                 _registerMutableLiveData.value =
                     RegisterResult.InvalidData(ErrorType.PasswordError)
             }
-            else -> register(customerRegister.copy(password = Decoder.encode(customerRegister.password)))
+            else -> register(customerRegister)
         }
 
     }

@@ -1,6 +1,8 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.CartItemConverter
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
@@ -131,8 +133,9 @@ class Repository(
             DatabaseResponse.Failure("Error duo updating product with id: ${favoriteProduct.productID} with code state: $state")
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
-        val response = remoteSource.registerCustomer(customerRegister)
+        val response = remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(customerRegister.password)))
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customer ?: Customer())
         } else {
