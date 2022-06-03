@@ -79,4 +79,8 @@
     <string name="delete_success">Deleted</string>
     <string name="delete_error">Could not delete product from favorites</string>
 
+    <string name="email_error">Email must be in format example@gmail.com</string>
+    <string name="password_error">Password must be greater than 8 and have upper and lower character</string>
+    <string name="name_error">Enter a valid Name</string>
+
 </resources>

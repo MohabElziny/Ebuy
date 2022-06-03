@@ -6,6 +6,8 @@ data class CustomerRegisterAPI(
     val customer: Customer,
 )
 
+data class CustomerPost( val customer: CustomerRegister)
+
 data class CustomerRegister(
     @SerializedName("email") var email: String,
     @SerializedName("first_name") var firstName: String,
