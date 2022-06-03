@@ -25,13 +25,20 @@ interface IRepository {
     suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer>
     suspend fun loginCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer>
     suspend fun getCustomerByID(customer_id: Long): NetworkResponse<Customer>
-    suspend fun getCustomerOrders(customer_id: Long):NetworkResponse<OrderAPI>
-    suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) : DatabaseResponse<Int>
+    suspend fun getCustomerOrders(customer_id: Long): NetworkResponse<OrderAPI>
+    suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct): DatabaseResponse<Int>
 
-    suspend fun getFlowFavoriteProducts() : Flow<List<FavoriteProduct>>
+    suspend fun getFlowFavoriteProducts(): Flow<List<FavoriteProduct>>
     suspend fun getAllCartProducts(): List<CartItem>
     suspend fun removeAllCartProducts()
     suspend fun addProductToCart(product: Product): DatabaseResponse<Long>
     suspend fun removeProductFromCart(productVariantID: Long): DatabaseResponse<Int>
     suspend fun updateProductInCart(product: Product, quantity: Int)
+
+    fun isEmailValid(email: String): Boolean
+    fun isPasswordValid(password: String): Boolean
+
+    fun decodePassword(password: String): String
+    fun encodePassword(password: String): String
+
 }
