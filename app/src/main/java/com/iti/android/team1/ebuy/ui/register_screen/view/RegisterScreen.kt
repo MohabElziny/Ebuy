@@ -1,15 +1,16 @@
 package com.iti.android.team1.ebuy.ui.register_screen.view
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.iti.android.team1.ebuy.R
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.iti.android.team1.ebuy.databinding.FragmentRegisterScreenBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
@@ -41,14 +42,14 @@ class RegisterScreen : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-            binding.btnSignIn.setOnClickListener {
-                findNavController().popBackStack()
-            }
+        binding.btnSignIn.setOnClickListener {
+            findNavController().popBackStack()
+        }
         binding.btnSignUp.setOnClickListener {
             viewModel.registerCustomer(collectDataFromFields())
-
         }
 
         viewModel.registerLiveData.observe(viewLifecycleOwner) {
