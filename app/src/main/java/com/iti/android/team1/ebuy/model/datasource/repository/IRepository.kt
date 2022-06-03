@@ -35,4 +35,11 @@ interface IRepository {
     suspend fun removeProductFromCart(productVariantID: Long): DatabaseResponse<Int>
     suspend fun updateProductInCart(product: Product, quantity: Int)
     suspend fun isProductInCart(productVariantID: Long): Boolean
+
+    fun isEmailValid(email: String): Boolean
+    fun isPasswordValid(password: String): Boolean
+
+    fun decodePassword(password: String): String
+    fun encodePassword(password: String): String
+
 }
