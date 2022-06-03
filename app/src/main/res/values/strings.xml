@@ -9,10 +9,10 @@
     <string name="sub_total">Sub Total</string>
     <string name="delivery">Delivery</string>
     <string name="checkout">Checkout</string>
-    <string name="new_trends">New Trends</string>
-    <string name="view_all">View All</string>
-    <string name="about">About</string>
-    <string name="search">Search</string>
+    <string name="new_trends" translatable="false">New Trends</string>
+    <string name="view_all" translatable="false">View All</string>
+    <string name="about" translatable="false">About</string>
+    <string name="search" translatable="false">Search</string>
     <string name="sign_in">Sign In</string>
     <string name="email_address">Email address</string>
     <string name="enter_email_address">Enter Email address</string>
@@ -71,13 +71,19 @@
     <string name="there_is_no_account">There is no account.</string>
     <string name="description">Description</string>
     <string name="add_to_cart">Add To Cart</string>
-    <string name="price">Price</string>
-    <string name="saved_items">Saved items</string>
-    <string name="product_image">Product image</string>
-    <string name="insert_error">Could not add product to favorites</string>
-    <string name="insert_seccuess">Liked</string>
-    <string name="delete_success">Deleted</string>
-    <string name="delete_error">Could not delete product from favorites</string>
+    <string name="price" translatable="false">Price</string>
+    <string name="saved_items" translatable="false">Saved items</string>
+    <string name="product_image" translatable="false">Product image</string>
+    <string name="insert_error" translatable="false">Could not add product to favorites</string>
+    <string name="insert_seccuess" translatable="false">Liked</string>
+    <string name="delete_success" translatable="false">Deleted</string>
+    <string name="delete_error" translatable="false">Could not delete product from favorites</string>
+    <string name="notExist">Not Exist</string>
+    <string name="fav" translatable="false">Favorites</string>
+    <string name="details_fragment_title" translatable="false">Details</string>
+    <string name="favorite_empty_list_title" translatable="false">Your favorite list is empty right now</string>
+    <string name="in_stock" translatable="false">In stock</string>
+    <string name="out_of_stock" translatable="false">Out of stock</string>
 
     <string name="email_error">Email must be in format example@gmail.com</string>
     <string name="password_error">Password must be greater than 8 and have upper and lower character</string>

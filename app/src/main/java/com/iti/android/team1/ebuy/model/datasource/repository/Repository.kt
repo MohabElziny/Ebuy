@@ -1,6 +1,8 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
+import android.annotation.SuppressLint
 import com.iti.android.team1.ebuy.model.DatabaseResponse
+import com.iti.android.team1.ebuy.model.datasource.localsource.CartItemConverter
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
 import com.iti.android.team1.ebuy.model.datasource.localsource.ProductConverter
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
@@ -9,14 +11,17 @@ import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.FailureResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.SuccessResponse
 import com.iti.android.team1.ebuy.model.pojo.*
+import com.iti.android.team1.ebuy.util.AuthRegex
+import com.iti.android.team1.ebuy.util.Decoder
 import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 import org.json.JSONObject
-import retrofit2.Response
 
 class Repository(
     private val localSource: ILocalSource,
     private val remoteSource: RemoteSource = RetrofitHelper,
+    private val decoder: Decoder = Decoder,
+    private val authRegex: AuthRegex = AuthRegex,
 ) : IRepository {
 
     override suspend fun getAllBrands(): NetworkResponse<Brands> {
@@ -93,7 +98,9 @@ class Repository(
         localSource.removeAllFavoriteProducts()
     }
 
-    override suspend fun addProductToFavorite(product: Product): DatabaseResponse<Long> {
+    override suspend fun addProductToFavorite(
+        product: Product,
+    ): DatabaseResponse<Long> {
         return if (
             product.productID == localSource.addProductToFavorites(ProductConverter.convertProductToEntity(
                 product))
@@ -115,8 +122,17 @@ class Repository(
         return localSource.isFavoriteProduct(productID)
     }
 
-    override suspend fun createCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
-        val response = remoteSource.createCustomer(customerRegister)
+
+    override suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct): DatabaseResponse<Int> {
+        val state = localSource.updateFavoriteProduct(favoriteProduct)
+        return if (state > 0)
+            DatabaseResponse.Success(state)
+        else
+            DatabaseResponse.Failure("Error duo updating product with id: ${favoriteProduct.productID} with code state: $state")
+    }
+
+    override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
+        val response = remoteSource.registerCustomer(customerRegister)
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customer ?: Customer())
         } else {
@@ -124,19 +140,93 @@ class Repository(
         }
     }
 
-    override suspend fun getCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
-        val response = remoteSource.getCustomer(customerLogin)
-        return if(response.isSuccessful){
+    override suspend fun loginCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
+        val response = remoteSource.loginCustomer(customerLogin)
+
+        return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
-        }else{
+        } else {
             parseError(response.errorBody())
         }
+    }
+
+    override suspend fun getCustomerByID(customer_id: Long): NetworkResponse<Customer> {
+        val response = remoteSource.getCustomerByID(customer_id)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body()?.customer ?: Customer())
+        } else {
+            parseError(response.errorBody())
+        }
+    }
+
+    override suspend fun getCustomerOrders(customer_id: Long): NetworkResponse<OrderAPI> {
+        val response = remoteSource.getCustomerOrders(customer_id)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body() ?: OrderAPI())
+        } else {
+            parseError(response.errorBody())
+        }
+    }
+
+
+    override suspend fun getFlowFavoriteProducts(): Flow<List<FavoriteProduct>> {
+        return localSource.getFlowFavoriteProducts()
+    }
+
+    override suspend fun getAllCartProducts(): List<CartItem> {
+        return localSource.getAllCartProducts()
+    }
+
+    override suspend fun removeAllCartProducts() {
+        localSource.removeAllFavoriteProducts()
+    }
+
+    override suspend fun addProductToCart(product: Product): DatabaseResponse<Long> {
+        val addResult =
+            localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product))
+        return if (product.productVariants?.get(0)?.productVariantId == addResult) {
+            DatabaseResponse.Success(addResult)
+        } else {
+            DatabaseResponse.Failure("Error while adding product ${product.productName} to cart with code $addResult")
+        }
+    }
+
+    override suspend fun removeProductFromCart(productVariantID: Long): DatabaseResponse<Int> {
+        val removeResult = localSource.removeProductFromCart(productVariantID)
+        return if (removeResult > 0) {
+            DatabaseResponse.Success(removeResult)
+        } else {
+            DatabaseResponse.Failure("Error while remove the product with code $removeResult")
+        }
+    }
+
+    override suspend fun updateProductInCart(product: Product, quantity: Int) {
+        localSource.updateProductInCart(CartItemConverter.convertProductToCartItemEntity(product,
+            quantity))
+    }
+
+    override fun isEmailValid(email: String): Boolean {
+        return authRegex.isEmailValid(email)
+    }
+
+    override fun isPasswordValid(password: String): Boolean {
+        return authRegex.isPasswordValid(password)
+    }
+
+    @SuppressLint("NewApi")
+    override fun decodePassword(password: String): String {
+        return decoder.decode(password)
+    }
+
+    @SuppressLint("NewApi")
+    override fun encodePassword(password: String): String {
+        return decoder.encode(password)
     }
 }
 
 private fun parseError(errorBody: ResponseBody?): FailureResponse {
     return errorBody?.let {
-        val errorMessage = kotlin.runCatching {
+        val errorMessage = runCatching {
             JSONObject(it.string()).getString("errors")
         }
         return FailureResponse(errorMessage.getOrDefault("Empty Error"))

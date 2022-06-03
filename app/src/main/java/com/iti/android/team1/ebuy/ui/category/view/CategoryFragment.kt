@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentCategoryBinding
 import com.iti.android.team1.ebuy.model.DatabaseResult
@@ -150,6 +151,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun initCategoriesRecyclerView() {
+
         categoriesAdapter = CategoriesAdapter(onCategoryBtnClick)
         binding.categoryRecycler.apply {
             this.adapter = categoriesAdapter
@@ -173,7 +175,7 @@ class CategoryFragment : Fragment() {
         )
         binding.productRecycler.apply {
             this.adapter = categoryProductsAdapter
-            this.layoutManager = GridLayoutManager(context, 2)
+            this.layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
             this.setHasFixedSize(true)
         }
     }
