@@ -181,9 +181,10 @@ class Repository(
         localSource.removeAllFavoriteProducts()
     }
 
-    override suspend fun addProductToCart(product: Product): DatabaseResponse<Long> {
+    override suspend fun addProductToCart(product: Product, quantity: Int): DatabaseResponse<Long> {
         val addResult =
-            localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product))
+            localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product,
+                quantity))
         return if (product.productVariants?.get(0)?.productVariantId == addResult) {
             DatabaseResponse.Success(addResult)
         } else {
@@ -203,6 +204,10 @@ class Repository(
     override suspend fun updateProductInCart(product: Product, quantity: Int) {
         localSource.updateProductInCart(CartItemConverter.convertProductToCartItemEntity(product,
             quantity))
+    }
+
+    override suspend fun isProductInCart(productVariantID: Long): Boolean {
+        return localSource.isProductInCart(productVariantID)
     }
 
     override fun isEmailValid(email: String): Boolean {
