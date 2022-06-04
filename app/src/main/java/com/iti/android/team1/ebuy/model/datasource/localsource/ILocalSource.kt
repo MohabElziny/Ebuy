@@ -14,7 +14,7 @@ interface ILocalSource {
     suspend fun getFlowFavoriteProducts() : Flow<List<FavoriteProduct>>
     suspend fun addProductToCart(cartItem: CartItem): Long
     suspend fun removeProductFromCart(productVariantID: Long): Int
-    suspend fun getAllCartProducts(): List<CartItem>
+    suspend fun getAllCartProducts(): Flow<List<CartItem>>
     suspend fun removeAllCartProducts(): Int
     suspend fun updateProductInCart(cartItem: CartItem)
 }

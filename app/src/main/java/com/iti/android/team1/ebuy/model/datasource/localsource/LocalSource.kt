@@ -48,7 +48,7 @@ class LocalSource(
         return cartDao.removeItemFromCart(productVariantID)
     }
 
-    override suspend fun getAllCartProducts(): List<CartItem> {
+    override suspend fun getAllCartProducts(): Flow<List<CartItem>> {
         return cartDao.getAllItemsInCart()
     }
 

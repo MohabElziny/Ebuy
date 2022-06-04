@@ -29,7 +29,7 @@ interface IRepository {
     suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) : DatabaseResponse<Int>
 
     suspend fun getFlowFavoriteProducts() : Flow<List<FavoriteProduct>>
-    suspend fun getAllCartProducts(): List<CartItem>
+    suspend fun getAllCartProducts(): Flow<List<CartItem>>
     suspend fun removeAllCartProducts()
     suspend fun addProductToCart(product: Product): DatabaseResponse<Long>
     suspend fun removeProductFromCart(productVariantID: Long): DatabaseResponse<Int>

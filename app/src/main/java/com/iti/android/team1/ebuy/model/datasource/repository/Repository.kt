@@ -167,7 +167,7 @@ class Repository(
         return localSource.getFlowFavoriteProducts()
     }
 
-    override suspend fun getAllCartProducts(): List<CartItem> {
+    override suspend fun getAllCartProducts(): Flow<List<CartItem>> {
         return localSource.getAllCartProducts()
     }
 

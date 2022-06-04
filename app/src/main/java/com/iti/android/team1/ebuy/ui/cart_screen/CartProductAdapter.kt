@@ -3,32 +3,28 @@ package com.iti.android.team1.ebuy.ui.cart_screen.view
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.iti.android.team1.ebuy.R
+import com.bumptech.glide.Glide
 import com.iti.android.team1.ebuy.databinding.RecyclerRowProductCartBinding
+import com.iti.android.team1.ebuy.model.pojo.CartItem
 
-data class CartProduct(
-    var productName: String,
-    var inStock: Boolean,
-    var productPrice: Double
-)
 
 class CartProductAdapter : RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder>() {
 
-    private var cartProducts = arrayListOf<CartProduct>()
-    fun setCartProducts(cartProducts: ArrayList<CartProduct>) {
+    private var cartProducts: List<CartItem> = emptyList()
+    fun setCartProducts(cartProducts: List<CartItem>) {
         this.cartProducts = cartProducts
         notifyDataSetChanged()
     }
 
     class CartProductViewHolder(var binding: RecyclerRowProductCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindCartProduct(product: CartProduct) {
+        fun bindCartProduct(product: CartItem) {
             binding.textProductName.text = product.productName
-            binding.textProductSalary.text = product.productPrice.toString().plus("$")
-            binding.textProductInStock.text =
-                if (product.inStock) "InStock" else "Stock Out"
-            binding.textProductQuantity.text = "3"
-            binding.imageView.setImageResource(R.drawable.a02n)
+            binding.textProductSalary.text = product.productVariantPrice.toString().plus("$")
+//            binding.textProductInStock.text =
+//                if (product.i) "InStock" else "Stock Out"
+            binding.textProductQuantity.text = product.variantInventoryQuantity.toString()
+            Glide.with(binding.root.context).load(product.productImageURL).into(binding.imageView)
         }
     }
 
