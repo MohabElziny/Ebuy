@@ -1,22 +1,23 @@
 package com.iti.android.team1.ebuy.ui.cart_screen.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentCartBinding
+import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartVMFactory
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartViewModel
-import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
 
 class CartFragment : Fragment() {
@@ -39,6 +40,34 @@ class CartFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initCartRecycler()
         handleAllCartItems()
+        handleCheckoutButton()
+        handleOverFlow()
+        handleDeleteState()
+    }
+
+    private fun handleDeleteState() {
+        viewModel.deleteState.observe(viewLifecycleOwner) { result ->
+            when (result) {
+                DatabaseResult.Empty -> {
+                    Toast.makeText(requireContext(),
+                        getString(R.string.delete_success),
+                        Toast.LENGTH_SHORT).show()
+                }
+                is DatabaseResult.Error -> {
+                    Toast.makeText(requireContext(),
+                        getString(R.string.delete_error),
+                        Toast.LENGTH_SHORT).show()
+                }
+
+            }
+
+        }
+    }
+
+    private fun handleCheckoutButton() {
+        binding.btnAddCard.setOnClickListener {
+            viewModel.updateToDB()
+        }
     }
 
     private fun handleAllCartItems() {
@@ -46,15 +75,17 @@ class CartFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.allCartItems.observe(viewLifecycleOwner) { result ->
                 when (result) {
-                    ResultState.EmptyResult -> cartProductAdapter.setCartItems(emptyList())
+                    ResultState.EmptyResult -> {
+                        cartProductAdapter.setCartItems(emptyList())
+                        handleTotalMoney(0L)
+                    }
 //                    is ResultState.Error -> TODO()
 //                    ResultState.Loading -> TODO()
                     is ResultState.Success -> {
-                        result.data.forEach{
-                            Log.d("TAG", "Ahme: ${it.toString()}")
-
-                        }
                         cartProductAdapter.setCartItems(result.data)
+                        handleTotalMoney(result.data.sumOf {
+                            it.productVariantPrice * it.customerProductQuantity
+                        }.toLong())
                     }
                 }
             }
@@ -75,15 +106,31 @@ class CartFragment : Fragment() {
 
     }
 
-    private val increaseQuantity: (Int) -> Unit = {
-        viewModel.manipulateCartItem(it,CartViewModel.CartItemOperation.INCREASE)
+    private val increaseQuantity: (Int) -> Unit = { it ->
+        viewModel.manipulateCartItem(it, CartViewModel.CartItemOperation.INCREASE)
     }
+
+    private fun handleOverFlow() {
+        viewModel.isOverFlow.observe(viewLifecycleOwner) { overFlow ->
+            if (overFlow) Toast.makeText(requireContext(),
+                getString(R.string.no_more_in_stock),
+                Toast.LENGTH_SHORT).show()
+        }
+    }
+
     private val decreaseQuantity: (Int) -> Unit = {
-        viewModel.manipulateCartItem(it,CartViewModel.CartItemOperation.DECREASE)
+        viewModel.manipulateCartItem(it, CartViewModel.CartItemOperation.DECREASE)
 
     }
     private val deleteQuantity: (Int) -> Unit = {
-        viewModel.manipulateCartItem(it,CartViewModel.CartItemOperation.DELETE)
+        viewModel.manipulateCartItem(it, CartViewModel.CartItemOperation.DELETE)
+    }
+
+    private fun handleTotalMoney(subTotal: Long) {
+        binding.textProductSubTotal.text = "$subTotal".plus("EGB")
+        binding.textProductLastSubTotal.text =
+            "${subTotal + (getString(R.string.DeliveryPrice).toLong())}".plus("EGB")
+
     }
 
     override fun onStop() {
