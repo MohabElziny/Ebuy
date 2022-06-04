@@ -1,8 +1,5 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
-import android.annotation.SuppressLint
-import android.os.Build
-import androidx.annotation.RequiresApi
 import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
 import com.iti.android.team1.ebuy.model.datasource.localsource.converters.CartItemConverter
@@ -133,7 +130,6 @@ class Repository(
             DatabaseResponse.Failure("Error duo updating product with id: ${favoriteProduct.productID} with code state: $state")
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
         val response =
             remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(
@@ -228,12 +224,10 @@ class Repository(
         return authRegex.isPasswordValid(password)
     }
 
-    @SuppressLint("NewApi")
     override fun decodePassword(password: String): String {
         return decoder.decode(password)
     }
 
-    @SuppressLint("NewApi")
     override fun encodePassword(password: String): String {
         return decoder.encode(password)
     }
