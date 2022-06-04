@@ -44,7 +44,8 @@ object RetrofitHelper : RemoteSource {
     }
 
     override suspend fun registerCustomer(customerRegister: CustomerRegister): Response<CustomerRegisterAPI> {
-        return retrofitService.registerCustomer(customerRegister)
+        return retrofitService.registerCustomer(CustomerPost(customerRegister))
+
     }
 
     override suspend fun loginCustomer(customerLogin: CustomerLogin): Response<CustomerLoginAPI> {

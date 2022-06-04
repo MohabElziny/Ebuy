@@ -2,7 +2,6 @@ package com.iti.android.team1.ebuy.ui.login_screen.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +19,6 @@ import com.iti.android.team1.ebuy.ui.login_screen.viewmodel.LoginScreenViewModel
 import com.iti.android.team1.ebuy.util.AuthRegex
 import kotlinx.coroutines.flow.buffer
 
-private const val TAG = "LoginScreen"
 
 class LoginScreen : Fragment() {
 
@@ -35,6 +33,10 @@ class LoginScreen : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         binding = FragmentLoginScreenBinding.inflate(inflater, container, false)
+
+        if (viewModel.getAuthStateFromPrefs())
+            navigateToMainActivity()
+
         return binding.root
     }
 
@@ -69,22 +71,27 @@ class LoginScreen : Fragment() {
             viewModel.loginState.buffer().collect { result ->
                 when (result) {
                     is ResultState.Error -> {
-                        Log.d(TAG, "fetchUserData: ${result.errorString}")
+                        binding.textInputLayout2.error = result.errorString
+                        binding.ProgressBar.visibility = View.GONE
                     }
                     ResultState.Loading -> {
                         binding.btnLogin.isClickable = false
                         binding.btnLogin.isFocusable = false
                         binding.ProgressBar.visibility = View.VISIBLE
-                        Log.d(TAG, "fetchUserData: loading")
                     }
                     is ResultState.Success -> {
-                        requireContext().startActivity(Intent(requireActivity(),
-                            MainActivity::class.java))
-                        requireActivity().finish()
+                        viewModel.setUserIdToPrefs(result.data.id ?: 1L)
+                        viewModel.setAuthStateToPrefs(true)
+                        navigateToMainActivity()
                     }
                 }
             }
         }
+    }
+
+    private fun navigateToMainActivity() {
+        requireContext().startActivity(Intent(requireActivity(), MainActivity::class.java))
+        requireActivity().finish()
     }
 
 }

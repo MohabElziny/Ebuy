@@ -1,5 +1,6 @@
 package com.iti.android.team1.ebuy.ui.login_screen.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
@@ -13,6 +14,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+private const val TAG = "LoginScreenViewModel"
+
 class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
     private val _loginState: MutableStateFlow<ResultState<Customer>> =
@@ -23,22 +26,39 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
         val customerLogin = CustomerLogin(
             email = email,
-            password = repository.decodePassword(password)
+            password = repository.encodePassword(password)
         )
 
         viewModelScope.launch(Dispatchers.IO) {
             val result = async { repository.loginCustomer(customerLogin) }
-            setLoginState(result.await())
+            setLoginState(result.await(), password)
         }
     }
 
-    private suspend fun setLoginState(result: NetworkResponse<Customer>) {
+    fun setUserIdToPrefs(userId: Long) = repository.setUserIdToPrefs(userId)
+
+    fun setAuthStateToPrefs(state: Boolean) = repository.setAuthStateToPrefs(state)
+
+    fun getAuthStateFromPrefs() = repository.getAuthStateFromPrefs()
+
+    private suspend fun setLoginState(result: NetworkResponse<Customer>, password: String) {
         when (result) {
             is NetworkResponse.FailureResponse -> {
                 _loginState.emit(ResultState.Error(result.errorString))
             }
             is NetworkResponse.SuccessResponse -> {
-                _loginState.emit(ResultState.Success(result.data))
+                if (password == repository.decodePassword(result.data.password
+                        ?: "")
+                )
+                    _loginState.emit(ResultState.Success(result.data))
+                else
+                    _loginState.emit(ResultState.Error("Invalid data"))
+
+                Log.d(TAG, "setLoginState: result ${result.data.password}")
+                Log.d(TAG, "setLoginState: encode ${repository.encodePassword(result.data.password ?: "")}")
+                Log.d(TAG, "setLoginState: decode ${repository.decodePassword(result.data.password ?: "")}")
+                Log.d(TAG, "setLoginState: original ${password}")
+
             }
         }
     }

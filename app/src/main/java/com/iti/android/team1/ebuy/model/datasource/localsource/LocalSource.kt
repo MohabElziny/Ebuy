@@ -1,15 +1,18 @@
 package com.iti.android.team1.ebuy.model.datasource.localsource
 
 import android.content.Context
+import com.iti.android.team1.ebuy.model.datasource.localsource.dao.CartDao
+import com.iti.android.team1.ebuy.model.datasource.localsource.dao.FavoritesDao
+import com.iti.android.team1.ebuy.model.datasource.localsource.prefs.PreferenceProvider
 import com.iti.android.team1.ebuy.model.pojo.CartItem
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import kotlinx.coroutines.flow.Flow
 
 class LocalSource(
     private val context: Context,
-    private val favoritesDao: FavoritesDao = CommerceDatabase.getDataBase(context)
-        .favoritesDao(),
+    private val favoritesDao: FavoritesDao = CommerceDatabase.getDataBase(context).favoritesDao(),
     private val cartDao: CartDao = CommerceDatabase.getDataBase(context).cartDao(),
+    private val prefs: PreferenceProvider = PreferenceProvider(context),
 ) : ILocalSource {
 
     override suspend fun addProductToFavorites(favoriteProduct: FavoriteProduct): Long {
@@ -32,7 +35,7 @@ class LocalSource(
         return favoritesDao.isFavouriteProduct(productID)
     }
 
-    override suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) : Int{
+    override suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct): Int {
         return favoritesDao.updateFavoriteProduct(favoriteProduct)
     }
 
@@ -59,4 +62,24 @@ class LocalSource(
     override suspend fun updateProductInCart(cartItem: CartItem) {
         cartDao.updateItemInTheCart(cartItem)
     }
+
+    override suspend fun isProductInCart(productVariantID: Long): Boolean {
+        return cartDao.isProductInCart(productVariantID)
+    }
+
+    override fun setUserIdToPrefs(userId: Long) =
+        prefs.setUserIdToPrefs(userId)
+
+
+    override fun setAuthStateToPrefs(state: Boolean) =
+        prefs.setUserAuthStateToPrefs(state)
+
+
+    override fun getUserIdFromPrefs() =
+         prefs.getUserIdFromPrefs()
+
+
+    override fun getAuthStateFromPrefs() =
+         prefs.isUserSignedInFromPrefs()
+
 }

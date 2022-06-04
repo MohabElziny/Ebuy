@@ -1,10 +1,12 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
 import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.iti.android.team1.ebuy.model.DatabaseResponse
-import com.iti.android.team1.ebuy.model.datasource.localsource.CartItemConverter
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
-import com.iti.android.team1.ebuy.model.datasource.localsource.ProductConverter
+import com.iti.android.team1.ebuy.model.datasource.localsource.converters.CartItemConverter
+import com.iti.android.team1.ebuy.model.datasource.localsource.converters.ProductConverter
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
@@ -131,8 +133,11 @@ class Repository(
             DatabaseResponse.Failure("Error duo updating product with id: ${favoriteProduct.productID} with code state: $state")
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
-        val response = remoteSource.registerCustomer(customerRegister)
+        val response =
+            remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(
+                customerRegister.password)))
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customer ?: Customer())
         } else {
@@ -180,9 +185,10 @@ class Repository(
         localSource.removeAllFavoriteProducts()
     }
 
-    override suspend fun addProductToCart(product: Product): DatabaseResponse<Long> {
+    override suspend fun addProductToCart(product: Product, quantity: Int): DatabaseResponse<Long> {
         val addResult =
-            localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product))
+            localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product,
+                quantity))
         return if (product.productVariants?.get(0)?.productVariantId == addResult) {
             DatabaseResponse.Success(addResult)
         } else {
@@ -204,6 +210,10 @@ class Repository(
             quantity))
     }
 
+    override suspend fun isProductInCart(productVariantID: Long): Boolean {
+        return localSource.isProductInCart(productVariantID)
+    }
+
     override fun isEmailValid(email: String): Boolean {
         return authRegex.isEmailValid(email)
     }
@@ -221,6 +231,16 @@ class Repository(
     override fun encodePassword(password: String): String {
         return decoder.encode(password)
     }
+
+    override fun setUserIdToPrefs(userId: Long) = localSource.setUserIdToPrefs(userId)
+
+    override fun setAuthStateToPrefs(state: Boolean) = localSource.setAuthStateToPrefs(state)
+
+    override fun getUserIdFromPrefs() = localSource.getUserIdFromPrefs()
+
+    override fun getAuthStateFromPrefs() = localSource.getAuthStateFromPrefs()
+
+
 }
 
 private fun parseError(errorBody: ResponseBody?): FailureResponse {
