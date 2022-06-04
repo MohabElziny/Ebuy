@@ -22,6 +22,13 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
         MutableStateFlow(AuthResult.Loading)
     val loginState get() = _loginState.asStateFlow()
 
+
+    fun setUserIdToPrefs(userId: Long) = repository.setUserIdToPrefs(userId)
+
+    fun setAuthStateToPrefs(state: Boolean) = repository.setAuthStateToPrefs(state)
+
+    fun getAuthStateFromPrefs() = repository.getAuthStateFromPrefs()
+
     fun makeLoginRequest(customerLogin: CustomerLogin) {
 
         when {
@@ -44,12 +51,6 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
         }
 
     }
-
-    fun setUserIdToPrefs(userId: Long) = repository.setUserIdToPrefs(userId)
-
-    fun setAuthStateToPrefs(state: Boolean) = repository.setAuthStateToPrefs(state)
-
-    fun getAuthStateFromPrefs() = repository.getAuthStateFromPrefs()
 
     private suspend fun setLoginState(result: NetworkResponse<Customer>) {
         when (result) {

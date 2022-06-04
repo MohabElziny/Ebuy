@@ -12,7 +12,7 @@ class LocalSource(
     private val context: Context,
     private val favoritesDao: FavoritesDao = CommerceDatabase.getDataBase(context).favoritesDao(),
     private val cartDao: CartDao = CommerceDatabase.getDataBase(context).cartDao(),
-    private val prefs: PreferenceProvider = PreferenceProvider(context),
+    private val prefs: PreferenceProvider = PreferenceProvider.getInstance(context),
 ) : ILocalSource {
 
     override suspend fun addProductToFavorites(favoriteProduct: FavoriteProduct): Long {
