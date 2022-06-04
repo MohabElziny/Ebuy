@@ -1,5 +1,8 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
+import android.annotation.SuppressLint
+import android.os.Build
+import androidx.annotation.RequiresApi
 import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.CartItemConverter
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
@@ -10,6 +13,8 @@ import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.FailureResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.SuccessResponse
 import com.iti.android.team1.ebuy.model.pojo.*
+import com.iti.android.team1.ebuy.util.AuthRegex
+import com.iti.android.team1.ebuy.util.Decoder
 import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 import org.json.JSONObject
@@ -17,6 +22,8 @@ import org.json.JSONObject
 class Repository(
     private val localSource: ILocalSource,
     private val remoteSource: RemoteSource = RetrofitHelper,
+    private val decoder: Decoder = Decoder,
+    private val authRegex: AuthRegex = AuthRegex,
 ) : IRepository {
 
     override suspend fun getAllBrands(): NetworkResponse<Brands> {
@@ -125,8 +132,10 @@ class Repository(
         else
             DatabaseResponse.Failure("Error duo updating product with id: ${favoriteProduct.productID} with code state: $state")
     }
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
-        val response = remoteSource.registerCustomer(customerRegister)
+        val response = remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(customerRegister.password)))
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customer ?: Customer())
         } else {
@@ -167,7 +176,7 @@ class Repository(
         return localSource.getFlowFavoriteProducts()
     }
 
-    override suspend fun getAllCartProducts(): Flow<List<CartItem>> {
+    override suspend fun getAllCartProducts(): List<CartItem> {
         return localSource.getAllCartProducts()
     }
 
@@ -175,9 +184,10 @@ class Repository(
         localSource.removeAllFavoriteProducts()
     }
 
-    override suspend fun addProductToCart(product: Product): DatabaseResponse<Long> {
+    override suspend fun addProductToCart(product: Product, quantity: Int): DatabaseResponse<Long> {
         val addResult =
-            localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product))
+            localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product,
+                quantity))
         return if (product.productVariants?.get(0)?.productVariantId == addResult) {
             DatabaseResponse.Success(addResult)
         } else {
@@ -197,6 +207,28 @@ class Repository(
     override suspend fun updateProductInCart(product: Product, quantity: Int) {
         localSource.updateProductInCart(CartItemConverter.convertProductToCartItemEntity(product,
             quantity))
+    }
+
+    override suspend fun isProductInCart(productVariantID: Long): Boolean {
+        return localSource.isProductInCart(productVariantID)
+    }
+
+    override fun isEmailValid(email: String): Boolean {
+        return authRegex.isEmailValid(email)
+    }
+
+    override fun isPasswordValid(password: String): Boolean {
+        return authRegex.isPasswordValid(password)
+    }
+
+    @SuppressLint("NewApi")
+    override fun decodePassword(password: String): String {
+        return decoder.decode(password)
+    }
+
+    @SuppressLint("NewApi")
+    override fun encodePassword(password: String): String {
+        return decoder.encode(password)
     }
 }
 

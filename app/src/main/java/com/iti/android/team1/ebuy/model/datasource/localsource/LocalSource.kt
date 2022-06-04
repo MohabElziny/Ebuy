@@ -32,7 +32,7 @@ class LocalSource(
         return favoritesDao.isFavouriteProduct(productID)
     }
 
-    override suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) : Int{
+    override suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct): Int {
         return favoritesDao.updateFavoriteProduct(favoriteProduct)
     }
 
@@ -48,7 +48,7 @@ class LocalSource(
         return cartDao.removeItemFromCart(productVariantID)
     }
 
-    override suspend fun getAllCartProducts(): Flow<List<CartItem>> {
+    override suspend fun getAllCartProducts(): List<CartItem>{
         return cartDao.getAllItemsInCart()
     }
 
@@ -58,5 +58,9 @@ class LocalSource(
 
     override suspend fun updateProductInCart(cartItem: CartItem) {
         cartDao.updateItemInTheCart(cartItem)
+    }
+
+    override suspend fun isProductInCart(productVariantID: Long): Boolean {
+        return cartDao.isProductInCart(productVariantID)
     }
 }

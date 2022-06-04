@@ -10,11 +10,12 @@ interface ILocalSource {
     suspend fun getAllFavoriteProducts(): List<FavoriteProduct>
     suspend fun removeAllFavoriteProducts()
     suspend fun isFavoriteProduct(productID: Long): Boolean
-    suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct) : Int
-    suspend fun getFlowFavoriteProducts() : Flow<List<FavoriteProduct>>
+    suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct): Int
+    suspend fun getFlowFavoriteProducts(): Flow<List<FavoriteProduct>>
     suspend fun addProductToCart(cartItem: CartItem): Long
     suspend fun removeProductFromCart(productVariantID: Long): Int
-    suspend fun getAllCartProducts(): Flow<List<CartItem>>
+    suspend fun getAllCartProducts(): List<CartItem>
     suspend fun removeAllCartProducts(): Int
     suspend fun updateProductInCart(cartItem: CartItem)
+    suspend fun isProductInCart(productVariantID: Long): Boolean
 }

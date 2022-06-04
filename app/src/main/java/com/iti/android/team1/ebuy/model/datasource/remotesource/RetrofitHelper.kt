@@ -43,8 +43,9 @@ object RetrofitHelper : RemoteSource {
         return retrofitService.getProductDetailsById(product_id)
     }
 
-    override suspend fun registerCustomer(customerRegister: CustomerRegister):Response<CustomerRegisterAPI> {
-        return retrofitService.registerCustomer(customerRegister)
+    override suspend fun registerCustomer(customerRegister: CustomerRegister): Response<CustomerRegisterAPI> {
+        return retrofitService.registerCustomer(CustomerPost(customerRegister))
+
     }
 
     override suspend fun loginCustomer(customerLogin: CustomerLogin): Response<CustomerLoginAPI> {
