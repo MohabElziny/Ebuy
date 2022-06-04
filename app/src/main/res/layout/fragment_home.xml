@@ -83,5 +83,20 @@
             layout="@layout/brands_shimmer_layout"
             tools:visibility="invisible">
         </include>
+
+        <include
+            android:id="@+id/emptyLayout"
+            layout="@layout/empty_layout"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="8dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@+id/btn_view_all"
+            app:layout_constraintStart_toStartOf="@+id/textView2"
+            app:layout_constraintTop_toBottomOf="@+id/btn_view_all"
+            app:layout_constraintVertical_bias="0.0"
+            tools:visibility="invisible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

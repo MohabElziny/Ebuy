@@ -37,6 +37,8 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     private val categoryProductsUseCase: ICategoryProductsUseCase
         get() = CategoryProductsUseCase(myRepo)
 
+    private var cachedProducts: List<Product>? = null
+
     fun getAllCategories() {
         viewModelScope.launch(Dispatchers.IO) {
             val result = async {
@@ -90,7 +92,8 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
                 if (result.data.products.isNullOrEmpty()) {
                     _allProducts.emit(ResultState.EmptyResult)
                 } else
-                    _allProducts.emit(ResultState.Success(result.data))
+                    cachedProducts = result.data.products
+                _allProducts.emit(ResultState.Success(result.data))
             }
         }
     }
@@ -138,6 +141,34 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
                     _deleteFavoriteProductToDataBase.value = DatabaseResult.Empty
                 }
             }
+        }
+    }
+
+    fun setSearchQuery(newString: String) {
+        _allProducts.value = ResultState.Loading
+        val searchList: List<Product> = cachedProducts ?: emptyList()
+        viewModelScope.launch(Dispatchers.Default) {
+            if (searchList.isNotEmpty()) {
+                searchList.filter { product ->
+                    filterProduct(product, newString)
+                }.apply {
+                    if (this.isNotEmpty())
+                        _allProducts.emit(ResultState.Success(Products(this)))
+                    else
+                        _allProducts.emit(ResultState.EmptyResult)
+                }
+            }
+        }
+    }
+
+    private fun filterProduct(product: Product, newString: String): Boolean {
+        return product.productName?.lowercase()?.contains(newString.lowercase()) == true ||
+                product.productVendor?.lowercase()?.contains(newString.lowercase()) == true
+    }
+
+    fun getCachedProducts() {
+        cachedProducts?.let {
+            _allProducts.value = ResultState.Success(Products(it))
         }
     }
 }

@@ -96,4 +96,8 @@
     <string name="email_error">Email must be in format example@gmail.com</string>
     <string name="password_error">Password must be upper lower special char number and greater than 8</string>
     <string name="name_error">Enter a valid Name</string>
+    <string name="empty_products">No products found!</string>
+    <string name="searching_products">Search for product</string>
+    <string name="brands_search">Search for brand</string>
+    <string name="no_brands_found">No brands found!</string>
 </resources>
