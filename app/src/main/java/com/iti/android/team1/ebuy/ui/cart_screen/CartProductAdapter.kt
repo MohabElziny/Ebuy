@@ -1,5 +1,6 @@
 package com.iti.android.team1.ebuy.ui.cart_screen.view
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -8,23 +9,42 @@ import com.iti.android.team1.ebuy.databinding.RecyclerRowProductCartBinding
 import com.iti.android.team1.ebuy.model.pojo.CartItem
 
 
-class CartProductAdapter : RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder>() {
+class CartProductAdapter(
+    private val deleteItem: (Int) -> Unit,
+    private val increaseQuantity: (Int) -> Unit,
+    private val decreaseQuantity: (Int) -> Unit,
 
-    private var cartProducts: List<CartItem> = emptyList()
-    fun setCartProducts(cartProducts: List<CartItem>) {
-        this.cartProducts = cartProducts
+    ) : RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder>() {
+
+    private var _cartItems: List<CartItem> = emptyList()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setCartItems(cartItems: List<CartItem>) {
+        this._cartItems = cartItems
         notifyDataSetChanged()
     }
 
-    class CartProductViewHolder(var binding: RecyclerRowProductCartBinding) :
+    inner class CartProductViewHolder(var binding: RecyclerRowProductCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        fun bindCartProduct(product: CartItem) {
-            binding.textProductName.text = product.productName
-            binding.textProductSalary.text = product.productVariantPrice.toString().plus("$")
-//            binding.textProductInStock.text =
-//                if (product.i) "InStock" else "Stock Out"
-            binding.textProductQuantity.text = product.variantInventoryQuantity.toString()
-            Glide.with(binding.root.context).load(product.productImageURL).into(binding.imageView)
+        val cartItem get() = _cartItems[bindingAdapterPosition]
+
+        init {
+            binding.deleteProduct.setOnClickListener {
+                deleteItem(bindingAdapterPosition)
+            }
+            binding.buttonIncrease.setOnClickListener {
+                increaseQuantity(bindingAdapterPosition)
+            }
+            binding.btnMinus.setOnClickListener {
+                decreaseQuantity(bindingAdapterPosition)
+            }
+        }
+
+        fun bindCartProduct() {
+            binding.textProductName.text = cartItem.productName
+            binding.textProductSalary.text = cartItem.productVariantPrice.toString().plus("EGB")
+            binding.textProductQuantity.text = cartItem.customerProductQuantity.toString()
+            Glide.with(binding.root.context).load(cartItem.productImageURL).into(binding.imgProduct)
         }
     }
 
@@ -39,10 +59,10 @@ class CartProductAdapter : RecyclerView.Adapter<CartProductAdapter.CartProductVi
 
     override fun onBindViewHolder(holder: CartProductViewHolder, position: Int) {
         // to use binding to bind each view with its value
-        holder.bindCartProduct(cartProducts[position])
+        holder.bindCartProduct()
     }
 
     override fun getItemCount(): Int {
-        return cartProducts.count()
+        return _cartItems.count()
     }
 }

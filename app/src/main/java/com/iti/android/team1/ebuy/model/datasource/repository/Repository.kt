@@ -135,7 +135,9 @@ class Repository(
 
     @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
-        val response = remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(customerRegister.password)))
+        val response =
+            remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(
+                customerRegister.password)))
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customer ?: Customer())
         } else {
@@ -207,6 +209,10 @@ class Repository(
     override suspend fun updateProductInCart(product: Product, quantity: Int) {
         localSource.updateProductInCart(CartItemConverter.convertProductToCartItemEntity(product,
             quantity))
+    }
+
+    override suspend fun updateCartItem(cartItem: CartItem) {
+        localSource.updateProductInCart(cartItem)
     }
 
     override suspend fun isProductInCart(productVariantID: Long): Boolean {
