@@ -133,9 +133,15 @@ class Repository(
             DatabaseResponse.Failure("Error duo updating product with id: ${favoriteProduct.productID} with code state: $state")
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
+
     override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
-        val response = remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(customerRegister.password)))
+
+        val response = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(
+                customerRegister.password)))
+        } else {
+            remoteSource.registerCustomer(customerRegister)
+        }
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customer ?: Customer())
         } else {
