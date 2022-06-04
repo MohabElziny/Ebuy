@@ -65,9 +65,9 @@ class LoginScreen : Fragment() {
                     )
                 )
                 fetchUserData()
-            } else if (!AuthRegex.isEmailValid(binding.edtEmail.editableText.toString())) {
+            } else if (AuthRegex.isEmailValid(binding.edtEmail.editableText.toString())) {
                 binding.textInputLayout.error = getString(R.string.email_error)
-            } else if (!AuthRegex.isPasswordValid(binding.edtPassword.editableText.toString())) {
+            } else if (AuthRegex.isPasswordValid(binding.edtPassword.editableText.toString())) {
                 binding.textInputLayout2.error = getString(R.string.password_error)
             }
         }
