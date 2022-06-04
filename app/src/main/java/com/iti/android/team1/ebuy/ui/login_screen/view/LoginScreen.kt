@@ -54,8 +54,8 @@ class LoginScreen : Fragment() {
                 AuthRegex.isPasswordValid(binding.edtPassword.editableText.toString())
             ) {
                 viewModel.makeLoginRequest(
-                    email = binding.edtEmail.editableText.toString(),
-                    password = binding.edtPassword.editableText.toString()
+                    email = binding.edtEmail.text.toString().trim(),
+                    password = binding.edtPassword.text.toString().trim()
                 )
                 fetchUserData()
             } else if (!AuthRegex.isEmailValid(binding.edtEmail.editableText.toString())) {

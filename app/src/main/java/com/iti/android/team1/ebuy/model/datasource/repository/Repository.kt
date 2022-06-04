@@ -2,6 +2,7 @@ package com.iti.android.team1.ebuy.model.datasource.repository
 
 import android.annotation.SuppressLint
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
