@@ -49,7 +49,8 @@ object RetrofitHelper : RemoteSource {
     }
 
     override suspend fun loginCustomer(customerLogin: CustomerLogin): Response<CustomerLoginAPI> {
-        return retrofitService.loginCustomer(customerLogin)
+        val query = "tag:${customerLogin.password}+email:${customerLogin.email}"
+        return retrofitService.loginCustomer(query = query)
     }
 
     override suspend fun getCustomerByID(customer_id: Long): Response<CustomerRegisterAPI> {

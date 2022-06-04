@@ -1,9 +1,9 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
 import com.iti.android.team1.ebuy.model.DatabaseResponse
-import com.iti.android.team1.ebuy.model.datasource.localsource.CartItemConverter
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
-import com.iti.android.team1.ebuy.model.datasource.localsource.ProductConverter
+import com.iti.android.team1.ebuy.model.datasource.localsource.converters.CartItemConverter
+import com.iti.android.team1.ebuy.model.datasource.localsource.converters.ProductConverter
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
@@ -131,7 +131,9 @@ class Repository(
     }
 
     override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
-        val response = remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(customerRegister.password)))
+        val response =
+            remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(
+                customerRegister.password)))
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customer ?: Customer())
         } else {
@@ -140,10 +142,15 @@ class Repository(
     }
 
     override suspend fun loginCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
-        val response = remoteSource.loginCustomer(customerLogin)
-
+        val response =
+            remoteSource.loginCustomer(customerLogin.copy(password = encodePassword(customerLogin.password)))
         return if (response.isSuccessful) {
-            SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
+
+            if (!response.body()?.customers.isNullOrEmpty())
+                SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
+            else
+                SuccessResponse(Customer())
+
         } else {
             parseError(response.errorBody())
         }
@@ -224,6 +231,16 @@ class Repository(
     override fun encodePassword(password: String): String {
         return decoder.encode(password)
     }
+
+    override fun setUserIdToPrefs(userId: Long) = localSource.setUserIdToPrefs(encodePassword(userId.toString()))
+
+    override fun setAuthStateToPrefs(state: Boolean) = localSource.setAuthStateToPrefs(state)
+
+    override fun getUserIdFromPrefs() = decodePassword(localSource.getUserIdFromPrefs()).toLong()
+
+    override fun getAuthStateFromPrefs() = localSource.getAuthStateFromPrefs()
+
+
 }
 
 private fun parseError(errorBody: ResponseBody?): FailureResponse {

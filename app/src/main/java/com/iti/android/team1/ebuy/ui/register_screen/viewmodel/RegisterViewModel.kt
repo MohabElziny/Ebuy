@@ -10,7 +10,7 @@ import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.Customer
 import com.iti.android.team1.ebuy.model.pojo.CustomerRegister
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
-import com.iti.android.team1.ebuy.ui.register_screen.RegisterResult
+import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.util.AuthRegex
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -18,29 +18,29 @@ import kotlinx.coroutines.launch
 
 class RegisterViewModel(private val repoInterface: IRepository) : ViewModel() {
 
-    private val _registerMutableLiveData: MutableLiveData<RegisterResult?> = MutableLiveData()
+    private val _registerMutableLiveData: MutableLiveData<AuthResult?> = MutableLiveData()
     val registerLiveData = _registerMutableLiveData as LiveData<*>
 
     fun registerCustomer(customerRegister: CustomerRegister) {
 
-        _registerMutableLiveData.value = RegisterResult.Loading
+        _registerMutableLiveData.value = AuthResult.Loading
 
         when {
             isUserNameInvalid(customerRegister.firstName) -> {
                 _registerMutableLiveData.value =
-                    RegisterResult.InvalidData(ErrorType.FirstNameError)
+                    AuthResult.InvalidData(ErrorType.FirstNameError)
             }
             isUserNameInvalid(customerRegister.lastName) -> {
                 _registerMutableLiveData.value =
-                    RegisterResult.InvalidData(ErrorType.LastNameError)
+                    AuthResult.InvalidData(ErrorType.LastNameError)
             }
             !AuthRegex.isEmailValid(customerRegister.email) -> {
                 _registerMutableLiveData.value =
-                    RegisterResult.InvalidData(ErrorType.EmailError)
+                    AuthResult.InvalidData(ErrorType.EmailError)
             }
             !AuthRegex.isPasswordValid(customerRegister.password) -> {
                 _registerMutableLiveData.value =
-                    RegisterResult.InvalidData(ErrorType.PasswordError)
+                    AuthResult.InvalidData(ErrorType.PasswordError)
             }
             else -> register(customerRegister)
         }
@@ -57,10 +57,10 @@ class RegisterViewModel(private val repoInterface: IRepository) : ViewModel() {
     private fun setRegisterResult(networkResponse: NetworkResponse<Customer>) {
         when (networkResponse) {
             is NetworkResponse.SuccessResponse -> _registerMutableLiveData.postValue(
-                RegisterResult.RegisterSuccess(networkResponse.data))
+                AuthResult.RegisterSuccess(networkResponse.data))
 
             is NetworkResponse.FailureResponse -> _registerMutableLiveData.postValue(
-                RegisterResult.RegisterFail(networkResponse.errorString))
+                AuthResult.RegisterFail(networkResponse.errorString))
         }
     }
 
