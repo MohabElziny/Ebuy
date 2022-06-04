@@ -8,22 +8,25 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentProductsDetailsBinding
 import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
-import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.ui.product_details_screen.adapter.ProductPagerAdapter
+import com.iti.android.team1.ebuy.ui.product_details_screen.dialog.AddToCartDialog
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.ProductDetailsVMFactory
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.ProductsDetailsViewModel
 import com.iti.android.team1.ebuy.util.ZoomOutPageTransformer
 import com.like.LikeButton
 import com.like.OnLikeListener
 import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.launch
 
 class ProductsDetailsFragment : Fragment() {
     private var _binding: FragmentProductsDetailsBinding? = null
@@ -32,7 +35,7 @@ class ProductsDetailsFragment : Fragment() {
     }
     private val binding get() = _binding!!
     private lateinit var adapter: ProductPagerAdapter
-
+    private var cartProduct: Product? = null
     val args: ProductsDetailsFragmentArgs by navArgs()
 
     override fun onCreateView(
@@ -55,6 +58,8 @@ class ProductsDetailsFragment : Fragment() {
             }
 
         }
+        handleProductResultCart()
+        bindAddToCartButton()
     }
 
     private fun initLikeBtn(product: Product) {
@@ -126,9 +131,59 @@ class ProductsDetailsFragment : Fragment() {
                 hideShimmer()
                 bindChanges(resultState.data)
                 initLikeBtn(resultState.data)
+                cartProduct = resultState.data
             }
         }
+    }
 
+    private fun bindAddToCartButton() {
+        binding.btnAddToCart.setOnClickListener {
+            cartProduct?.let { product -> viewModel.getProductInCartState(product) }
+        }
+    }
+
+    private fun handleProductResultCart() {
+        lifecycleScope.launch {
+            viewModel.productCartState.observe(viewLifecycleOwner) { isInCart ->
+                val quantity =
+                    cartProduct?.productVariants?.get(0)?.productVariantInventoryQuantity ?: 0
+                isInCart?.let {
+                    if (it) {
+                        showAlertDialog(cartProduct?.productName ?: "")
+                    } else if (quantity <= 0) {
+                        Toast.makeText(requireContext(),
+                            getString(R.string.product_out_of_stock),
+                            Toast.LENGTH_LONG)
+                            .show()
+                    } else {
+                        showAddToCartDialog()
+                    }
+                }
+            }
+        }
+    }
+
+    private fun showAddToCartDialog() {
+        cartProduct?.let { product ->
+            AddToCartDialog(product).show(requireActivity().supportFragmentManager,
+                "AddToCartDialog")
+        }
+    }
+
+    private fun showAlertDialog(title: String) {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(title)
+            .setMessage(getString(R.string.alert_dialogue_message))
+            .setNeutralButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.go_to_cart)) { dialog, _ ->
+                findNavController().navigate(
+                    ProductsDetailsFragmentDirections.actionProductsDetailsFragmentToCartFragment()
+                )
+                dialog.dismiss()
+            }
+            .show()
     }
 
     private fun showShimmer() {
@@ -157,7 +212,6 @@ class ProductsDetailsFragment : Fragment() {
             ("${(data.productVariants?.get(0)?.productVariantPrice ?: 0)}").plus("  EGP")
 
     }
-
 
     private fun initProductPagerAdapter() {
         adapter = ProductPagerAdapter()

@@ -71,22 +71,29 @@
     <string name="there_is_no_account">There is no account.</string>
     <string name="description">Description</string>
     <string name="add_to_cart">Add To Cart</string>
-    <string name="price" translatable="false">Price</string>
-    <string name="saved_items" translatable="false">Saved items</string>
-    <string name="product_image" translatable="false">Product image</string>
-    <string name="insert_error" translatable="false">Could not add product to favorites</string>
-    <string name="insert_seccuess" translatable="false">Liked</string>
-    <string name="delete_success" translatable="false">Deleted</string>
-    <string name="delete_error" translatable="false">Could not delete product from favorites</string>
+    <string name="price">Price</string>
+    <string name="saved_items">Saved items</string>
+    <string name="product_image">Product image</string>
+    <string name="insert_error">Could not add product to favorites</string>
+    <string name="insert_seccuess">Liked</string>
+    <string name="delete_success">Deleted</string>
+    <string name="delete_error">Could not delete product from favorites</string>
     <string name="notExist">Not Exist</string>
     <string name="fav" translatable="false">Favorites</string>
     <string name="details_fragment_title" translatable="false">Details</string>
     <string name="favorite_empty_list_title" translatable="false">Your favorite list is empty right now</string>
     <string name="in_stock" translatable="false">In stock</string>
     <string name="out_of_stock" translatable="false">Out of stock</string>
+    <string name="alert_dialogue_title">Attention</string>
+    <string name="alert_dialogue_message">The Product is already in the cart</string>
+    <string name="cancel">Cancel</string>
+    <string name="go_to_cart">Go to Carts</string>
+    <string name="product_out_of_stock">Product out of stock</string>
+    <string name="select_product_quantity">Select Quantity</string>
+    <string name="add">ADD</string>
+    <string name="no_more_in_stock">No more in stock.</string>
 
     <string name="email_error">Email must be in format example@gmail.com</string>
-    <string name="password_error">Password must be greater than 8 and have upper and lower character</string>
+    <string name="password_error">Password must be upper lower special char number and greater than 8</string>
     <string name="name_error">Enter a valid Name</string>
-
 </resources>

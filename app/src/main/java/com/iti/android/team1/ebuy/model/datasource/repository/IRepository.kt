@@ -31,9 +31,10 @@ interface IRepository {
     suspend fun getFlowFavoriteProducts(): Flow<List<FavoriteProduct>>
     suspend fun getAllCartProducts(): List<CartItem>
     suspend fun removeAllCartProducts()
-    suspend fun addProductToCart(product: Product): DatabaseResponse<Long>
+    suspend fun addProductToCart(product: Product, quantity: Int): DatabaseResponse<Long>
     suspend fun removeProductFromCart(productVariantID: Long): DatabaseResponse<Int>
     suspend fun updateProductInCart(product: Product, quantity: Int)
+    suspend fun isProductInCart(productVariantID: Long): Boolean
 
     fun isEmailValid(email: String): Boolean
     fun isPasswordValid(password: String): Boolean

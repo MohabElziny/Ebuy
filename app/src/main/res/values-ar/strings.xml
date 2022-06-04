@@ -66,4 +66,12 @@
     <string name="description">Description</string>
     <string name="add_to_cart">Add To Cart</string>
     <string name="notExist">Not Exist</string>
+    <string name="alert_dialogue_title">Attention</string>
+    <string name="alert_dialogue_message">The Product is already in the cart</string>
+    <string name="cancel">Cancel</string>
+    <string name="go_to_cart">Go to Carts</string>
+    <string name="product_out_of_stock">Product out of stock</string>
+    <string name="select_product_quantity">Select product Quantity</string>
+    <string name="add">ADD</string>
+    <string name="no_more_in_stock">No more in stock.</string>
 </resources>
