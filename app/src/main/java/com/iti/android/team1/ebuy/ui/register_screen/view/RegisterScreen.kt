@@ -17,15 +17,13 @@ import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.pojo.CustomerRegister
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
-import com.iti.android.team1.ebuy.ui.register_screen.RegisterResult
+import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.ui.register_screen.viewmodel.RegisterViewModel
 import com.iti.android.team1.ebuy.ui.register_screen.viewmodel.RegisterViewModelFactory
 
 class RegisterScreen : Fragment() {
 
-
     private var _binding: FragmentRegisterScreenBinding? = null
-
 
     val viewModel: RegisterViewModel by viewModels {
         RegisterViewModelFactory(Repository(LocalSource(requireContext())))
@@ -54,21 +52,21 @@ class RegisterScreen : Fragment() {
 
         viewModel.registerLiveData.observe(viewLifecycleOwner) {
             when (it) {
-                is RegisterResult.Loading -> showProgressBar()
+                is AuthResult.Loading -> showProgressBar()
 
-                is RegisterResult.InvalidData -> {
+                is AuthResult.InvalidData -> {
                     showWrongInputResult(it.error)
                     hideProgressBar()
                 }
 
-                is RegisterResult.RegisterFail -> {
+                is AuthResult.RegisterFail -> {
                     Toast.makeText(requireContext(),
                         "fail ${it.errorMsg}",
                         Toast.LENGTH_SHORT).show()
                     Log.i("TAG", "onViewCreated:${it.errorMsg} ")
                     hideProgressBar()
                 }
-                is RegisterResult.RegisterSuccess -> {
+                is AuthResult.RegisterSuccess -> {
                     Toast.makeText(requireContext(),
                         "Welcome ${it.customer.firstName}",
                         Toast.LENGTH_SHORT).show()
@@ -102,8 +100,6 @@ class RegisterScreen : Fragment() {
             binding.edtFirstName.text.toString().trim(),
             binding.edtLastName.text.toString().trim(),
             binding.edtPassword.text.toString().trim())
-        "noobmaster@lod.com"
-        "ASDASsdD##$123"
     }
 
     private fun showWrongInputResult(error: ErrorType) {

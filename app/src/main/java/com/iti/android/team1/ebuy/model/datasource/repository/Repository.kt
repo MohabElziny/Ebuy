@@ -2,7 +2,6 @@ package com.iti.android.team1.ebuy.model.datasource.repository
 
 import android.annotation.SuppressLint
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
@@ -147,9 +146,15 @@ class Repository(
     }
 
     override suspend fun loginCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
-        val response = remoteSource.loginCustomer(customerLogin)
+        val response =
+            remoteSource.loginCustomer(customerLogin.copy(password = encodePassword(customerLogin.password)))
         return if (response.isSuccessful) {
-            SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
+
+            if (!response.body()?.customers.isNullOrEmpty())
+                SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
+            else
+                SuccessResponse(Customer())
+
         } else {
             parseError(response.errorBody())
         }
@@ -233,11 +238,11 @@ class Repository(
         return decoder.encode(password)
     }
 
-    override fun setUserIdToPrefs(userId: Long) = localSource.setUserIdToPrefs(userId)
+    override fun setUserIdToPrefs(userId: Long) = localSource.setUserIdToPrefs(encodePassword(userId.toString()))
 
     override fun setAuthStateToPrefs(state: Boolean) = localSource.setAuthStateToPrefs(state)
 
-    override fun getUserIdFromPrefs() = localSource.getUserIdFromPrefs()
+    override fun getUserIdFromPrefs() = decodePassword(localSource.getUserIdFromPrefs()).toLong()
 
     override fun getAuthStateFromPrefs() = localSource.getAuthStateFromPrefs()
 

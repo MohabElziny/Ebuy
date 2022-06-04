@@ -10,6 +10,7 @@ private const val IS_USER_SINGED_IN = "IS_USER_SINGED_IN"
 
 class PreferenceProvider(context: Context) {
 
+
     private val sharedPref: SharedPreferences =
         context.applicationContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
 
@@ -19,11 +20,12 @@ class PreferenceProvider(context: Context) {
     fun setUserAuthStateToPrefs(state: Boolean) =
         sharedPref.edit().putBoolean(IS_USER_SINGED_IN, state).apply()
 
-    fun getUserIdFromPrefs(): Long =
-        sharedPref.getLong(USER_ID, 1L)
+    fun getUserIdFromPrefs(): String =
+        sharedPref.getString(USER_ID, "").toString()
 
 
-    fun setUserIdToPrefs(userId: Long) =
-        sharedPref.edit().putLong(USER_ID, userId).apply()
+    fun setUserIdToPrefs(userId: String) =
+        sharedPref.edit().putString(USER_ID, userId).apply()
+
 
 }

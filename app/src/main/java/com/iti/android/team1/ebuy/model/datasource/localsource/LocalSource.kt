@@ -67,7 +67,7 @@ class LocalSource(
         return cartDao.isProductInCart(productVariantID)
     }
 
-    override fun setUserIdToPrefs(userId: Long) =
+    override fun setUserIdToPrefs(userId: String) =
         prefs.setUserIdToPrefs(userId)
 
 

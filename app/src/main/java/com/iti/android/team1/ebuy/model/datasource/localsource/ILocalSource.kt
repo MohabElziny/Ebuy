@@ -19,8 +19,8 @@ interface ILocalSource {
     suspend fun updateProductInCart(cartItem: CartItem)
     suspend fun isProductInCart(productVariantID: Long): Boolean
 
-    fun setUserIdToPrefs(userId: Long)
+    fun setUserIdToPrefs(userId: String)
+    fun getUserIdFromPrefs(): String
     fun setAuthStateToPrefs(state: Boolean)
-    fun getUserIdFromPrefs(): Long
     fun getAuthStateFromPrefs(): Boolean
 }

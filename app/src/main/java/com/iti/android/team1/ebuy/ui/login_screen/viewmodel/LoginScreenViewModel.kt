@@ -4,9 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Customer
 import com.iti.android.team1.ebuy.model.pojo.CustomerLogin
+import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
+import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
+import com.iti.android.team1.ebuy.util.AuthRegex
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,21 +18,31 @@ import kotlinx.coroutines.launch
 
 class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
-    private val _loginState: MutableStateFlow<ResultState<Customer>> =
-        MutableStateFlow(ResultState.Loading)
+    private val _loginState: MutableStateFlow<AuthResult> =
+        MutableStateFlow(AuthResult.Loading)
     val loginState get() = _loginState.asStateFlow()
 
-    fun makeLoginRequest(email: String, password: String) {
+    fun makeLoginRequest(customerLogin: CustomerLogin) {
 
-        val customerLogin = CustomerLogin(
-            email = email,
-            password = repository.encodePassword(password)
-        )
+        when {
+            !AuthRegex.isEmailValid(customerLogin.email) -> {
+                _loginState.value =
+                    AuthResult.InvalidData(ErrorType.EmailError)
+            }
+            !AuthRegex.isPasswordValid(customerLogin.password) -> {
+                _loginState.value =
+                    AuthResult.InvalidData(ErrorType.PasswordError)
+            }
 
-        viewModelScope.launch(Dispatchers.IO) {
-            val result = async { repository.loginCustomer(customerLogin) }
-            setLoginState(result.await(), password)
+            else -> {
+                _loginState.value = AuthResult.Loading
+                viewModelScope.launch(Dispatchers.IO) {
+                    val result = async { repository.loginCustomer(customerLogin) }
+                    setLoginState(result.await())
+                }
+            }
         }
+
     }
 
     fun setUserIdToPrefs(userId: Long) = repository.setUserIdToPrefs(userId)
@@ -39,20 +51,18 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
     fun getAuthStateFromPrefs() = repository.getAuthStateFromPrefs()
 
-    private suspend fun setLoginState(result: NetworkResponse<Customer>, password: String) {
+    private suspend fun setLoginState(result: NetworkResponse<Customer>) {
         when (result) {
             is NetworkResponse.FailureResponse -> {
-                _loginState.emit(ResultState.Error(result.errorString))
+                _loginState.emit(AuthResult.RegisterFail(result.errorString))
             }
             is NetworkResponse.SuccessResponse -> {
-                if (password == repository.decodePassword(result.data.password
-                        ?: "")
-                )
-                    _loginState.emit(ResultState.Success(result.data))
+                if (result.data.id != null)
+                    _loginState.emit(AuthResult.RegisterSuccess(result.data))
                 else
-                    _loginState.emit(ResultState.Error("Invalid data"))
-
+                    _loginState.emit(AuthResult.RegisterFail("Invalid data"))
             }
+
         }
     }
 }
