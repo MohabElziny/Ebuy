@@ -116,7 +116,7 @@ class HomeFragment : Fragment() {
 
     private fun onCloseSearch(searchView: SearchView) {
         searchView.setOnCloseListener {
-            homeViewModel.getCachedProducts()
+            homeViewModel.getBrandsAgain()
             return@setOnCloseListener false
         }
     }

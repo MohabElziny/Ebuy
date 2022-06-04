@@ -238,7 +238,7 @@ class CategoryFragment : Fragment() {
 
     private fun onCloseSearch() {
         searchView.setOnCloseListener {
-            categoryViewModel.getCachedProducts()
+            categoryViewModel.getProductsAgain()
             return@setOnCloseListener false
         }
     }

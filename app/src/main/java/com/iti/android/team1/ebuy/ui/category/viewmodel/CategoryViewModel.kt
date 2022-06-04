@@ -166,7 +166,7 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
                 product.productVendor?.lowercase()?.contains(newString.lowercase()) == true
     }
 
-    fun getCachedProducts() {
+    fun getProductsAgain() {
         cachedProducts?.let {
             _allProducts.value = ResultState.Success(Products(it))
         }

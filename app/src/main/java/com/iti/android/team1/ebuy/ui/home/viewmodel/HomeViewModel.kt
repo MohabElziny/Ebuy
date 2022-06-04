@@ -65,7 +65,7 @@ class HomeViewModel(private val repository: IRepository) : ViewModel() {
         }
     }
 
-    fun getCachedProducts() {
+    fun getBrandsAgain() {
         cachedBrands?.let {
             _brandsResult.value = ResultState.Success(it)
         }
