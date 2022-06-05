@@ -32,7 +32,6 @@
             android:layout_marginEnd="16dp"
 
             android:fontFamily="@font/poppins"
-            android:gravity="center"
             android:minWidth="@dimen/_36sdp"
             android:padding="@dimen/_8sdp"
             android:text="SHOOES"
@@ -118,17 +117,20 @@
                 tools:text="12" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <ImageView
+        <Button
             android:id="@+id/deleteProduct"
-            android:layout_width="wrap_content"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="@dimen/_8sdp"
+            android:layout_marginStart="@dimen/_12sdp"
+            android:layout_marginEnd="@dimen/_12sdp"
+            android:fontFamily="@font/poppins"
+            android:text="@string/delete"
+            android:textSize="@dimen/_12sdp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/ic_baseline_delete_24" />
+            app:layout_constraintTop_toTopOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

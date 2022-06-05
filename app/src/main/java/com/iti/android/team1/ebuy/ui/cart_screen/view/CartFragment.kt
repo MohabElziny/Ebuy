@@ -64,6 +64,18 @@ class CartFragment : Fragment() {
         }
     }
 
+    private fun handleEmptyData() {
+        binding.cardLayoutSum.visibility = View.INVISIBLE
+        binding.recyclerCart.visibility = View.INVISIBLE
+        binding.emptyLayout.root.visibility = View.VISIBLE
+    }
+    private fun handleExistData() {
+        binding.cardLayoutSum.visibility = View.VISIBLE
+        binding.recyclerCart.visibility = View.VISIBLE
+        binding.emptyLayout.root.visibility = View.INVISIBLE
+    }
+
+
     private fun handleCheckoutButton() {
         binding.btnAddCard.setOnClickListener {
             viewModel.updateToDB()
@@ -76,12 +88,15 @@ class CartFragment : Fragment() {
             viewModel.allCartItems.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     ResultState.EmptyResult -> {
+                        handleEmptyData()
                         cartProductAdapter.setCartItems(emptyList())
                         handleTotalMoney(0L)
                     }
 //                    is ResultState.Error -> TODO()
-//                    ResultState.Loading -> TODO()
+                    ResultState.Loading -> {
+                    }
                     is ResultState.Success -> {
+                        handleExistData()
                         cartProductAdapter.setCartItems(result.data)
                         handleTotalMoney(result.data.sumOf {
                             it.productVariantPrice * it.customerProductQuantity
