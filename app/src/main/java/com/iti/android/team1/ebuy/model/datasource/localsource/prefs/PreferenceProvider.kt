@@ -13,14 +13,21 @@ class PreferenceProvider private constructor() {
     companion object {
 
         private lateinit var sharedPref: SharedPreferences
-        private lateinit var preferenceProvider: PreferenceProvider
+
+        @Volatile
+        private var preferenceProvider: PreferenceProvider? = null
 
         fun getInstance(context: Context): PreferenceProvider {
-            sharedPref =
-                context.applicationContext.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-            preferenceProvider = PreferenceProvider()
 
-            return preferenceProvider
+            return preferenceProvider ?: synchronized(this) {
+                if (!::sharedPref.isInitialized)
+                    sharedPref =
+                        context.applicationContext.getSharedPreferences(PREF_NAME,
+                            Context.MODE_PRIVATE)
+                val instance = PreferenceProvider()
+                preferenceProvider = instance
+                instance
+            }
         }
     }
 
