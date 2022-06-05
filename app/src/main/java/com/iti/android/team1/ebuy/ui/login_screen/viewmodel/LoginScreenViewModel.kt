@@ -1,5 +1,8 @@
 package com.iti.android.team1.ebuy.ui.login_screen.viewmodel
 
+import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
@@ -15,12 +18,13 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
+private const val TAG = "LoginScreenViewModel"
 
 class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
-    private val _loginState: MutableStateFlow<AuthResult> =
-        MutableStateFlow(AuthResult.Loading)
-    val loginState get() = _loginState.asStateFlow()
+    private val _loginState: MutableLiveData<AuthResult> =
+        MutableLiveData()
+    val loginState get() = _loginState as LiveData<AuthResult>
 
 
     fun setUserIdToPrefs(userId: Long) = repository.setUserIdToPrefs(userId)
@@ -52,16 +56,18 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
     }
 
-    private suspend fun setLoginState(result: NetworkResponse<Customer>) {
+    private fun setLoginState(result: NetworkResponse<Customer>) {
         when (result) {
             is NetworkResponse.FailureResponse -> {
-                _loginState.emit(AuthResult.RegisterFail(result.errorString))
+                _loginState.postValue(AuthResult.RegisterFail(result.errorString))
             }
             is NetworkResponse.SuccessResponse -> {
-                if (result.data.id != null)
-                    _loginState.emit(AuthResult.RegisterSuccess(result.data))
+                if (result.data.id != null) {
+                    Log.d(TAG, "setLoginState: ${result.data}")
+                    _loginState.postValue(AuthResult.RegisterSuccess(result.data))
+                }
                 else
-                    _loginState.emit(AuthResult.RegisterFail("Invalid data"))
+                    _loginState.postValue(AuthResult.RegisterFail("Invalid data"))
             }
 
         }

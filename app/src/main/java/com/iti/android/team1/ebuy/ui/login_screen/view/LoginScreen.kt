@@ -20,9 +20,6 @@ import com.iti.android.team1.ebuy.ui.login_screen.viewmodel.LoginScreenViewModel
 import com.iti.android.team1.ebuy.ui.login_screen.viewmodel.LoginScreenViewModelFactory
 import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
-import com.iti.android.team1.ebuy.util.AuthRegex
-import kotlinx.coroutines.cancel
-import kotlinx.coroutines.flow.buffer
 
 
 class LoginScreen : Fragment() {
@@ -42,6 +39,7 @@ class LoginScreen : Fragment() {
         if (viewModel.getAuthStateFromPrefs())
             navigateToMainActivity()
 
+        fetchUserData()
         return binding.root
     }
 
@@ -55,38 +53,28 @@ class LoginScreen : Fragment() {
         }
 
         binding.btnLogin.setOnClickListener {
-            if (AuthRegex.isEmailValid(binding.edtEmail.editableText.toString()) &&
-                AuthRegex.isPasswordValid(binding.edtPassword.editableText.toString())
-            ) {
-                viewModel.makeLoginRequest(
-                    CustomerLogin(
-                        email = binding.edtEmail.text.toString().trim(),
-                        password = binding.edtPassword.text.toString().trim()
-                    )
+            viewModel.makeLoginRequest(
+                CustomerLogin(
+                    email = binding.edtEmail.text.toString().trim(),
+                    password = binding.edtPassword.text.toString().trim()
                 )
-                fetchUserData()
-            } else if (AuthRegex.isEmailValid(binding.edtEmail.editableText.toString())) {
-                binding.textInputLayout.error = getString(R.string.email_error)
-            } else if (AuthRegex.isPasswordValid(binding.edtPassword.editableText.toString())) {
-                binding.textInputLayout2.error = getString(R.string.password_error)
-            }
+            )
+
         }
     }
 
     private fun fetchUserData() {
         lifecycleScope.launchWhenStarted {
-            viewModel.loginState.buffer().collect { result ->
+            viewModel.loginState.observe(viewLifecycleOwner) { result ->
                 when (result) {
 
                     is AuthResult.InvalidData -> {
-
                         when (result.error) {
                             ErrorType.EmailError -> binding.edtEmail.error =
                                 getString(R.string.invalid_email)
                             ErrorType.PasswordError -> binding.edtPassword.error =
                                 getString(R.string.invalid_password)
                         }
-
                     }
 
                     AuthResult.Loading -> {
