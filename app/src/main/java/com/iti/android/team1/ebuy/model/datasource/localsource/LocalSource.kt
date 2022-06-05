@@ -1,15 +1,18 @@
 package com.iti.android.team1.ebuy.model.datasource.localsource
 
 import android.content.Context
+import com.iti.android.team1.ebuy.model.datasource.localsource.dao.CartDao
+import com.iti.android.team1.ebuy.model.datasource.localsource.dao.FavoritesDao
+import com.iti.android.team1.ebuy.model.datasource.localsource.prefs.PreferenceProvider
 import com.iti.android.team1.ebuy.model.pojo.CartItem
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import kotlinx.coroutines.flow.Flow
 
 class LocalSource(
     private val context: Context,
-    private val favoritesDao: FavoritesDao = CommerceDatabase.getDataBase(context)
-        .favoritesDao(),
+    private val favoritesDao: FavoritesDao = CommerceDatabase.getDataBase(context).favoritesDao(),
     private val cartDao: CartDao = CommerceDatabase.getDataBase(context).cartDao(),
+    private val prefs: PreferenceProvider = PreferenceProvider.getInstance(context),
 ) : ILocalSource {
 
     override suspend fun addProductToFavorites(favoriteProduct: FavoriteProduct): Long {
@@ -63,4 +66,20 @@ class LocalSource(
     override suspend fun isProductInCart(productVariantID: Long): Boolean {
         return cartDao.isProductInCart(productVariantID)
     }
+
+    override fun setUserIdToPrefs(userId: String) =
+        prefs.setUserIdToPrefs(userId)
+
+
+    override fun setAuthStateToPrefs(state: Boolean) =
+        prefs.setUserAuthStateToPrefs(state)
+
+
+    override fun getUserIdFromPrefs() =
+         prefs.getUserIdFromPrefs()
+
+
+    override fun getAuthStateFromPrefs() =
+         prefs.isUserSignedInFromPrefs()
+
 }

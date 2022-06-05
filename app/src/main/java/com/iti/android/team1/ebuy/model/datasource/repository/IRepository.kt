@@ -44,4 +44,9 @@ interface IRepository {
     fun decodePassword(password: String): String
     fun encodePassword(password: String): String
 
+    fun setUserIdToPrefs(userId: Long)
+    fun setAuthStateToPrefs(state: Boolean)
+    fun getUserIdFromPrefs(): Long
+    fun getAuthStateFromPrefs(): Boolean
+
 }

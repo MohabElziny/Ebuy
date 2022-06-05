@@ -97,4 +97,8 @@
     <string name="password_error" tools:ignore="MissingTranslation">Password must be upper lower special char number and greater than 8</string>
     <string name="name_error" tools:ignore="MissingTranslation">Enter a valid Name</string>
     <string name="DeliveryPrice" translatable="false">50</string>
+    <string name="invalid_password" translatable="false">Invalid  password</string>
+    <string name="invalid_email" translatable="false">Invalid  email</string>
+    <string name="invailed_auth_data" translatable="false">Your data does not match an Ebuy account.</string>
+    <string name="auth_error" translatable="false">Authentication error</string>
 </resources>

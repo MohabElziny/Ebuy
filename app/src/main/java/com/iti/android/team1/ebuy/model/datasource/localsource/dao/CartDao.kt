@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.model.datasource.localsource
+package com.iti.android.team1.ebuy.model.datasource.localsource.dao
 
 import androidx.room.Dao
 import androidx.room.Insert

@@ -1,13 +1,12 @@
 package com.iti.android.team1.ebuy.ui.register_screen.view
 
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.EditText
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.iti.android.team1.ebuy.R
@@ -17,15 +16,13 @@ import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.pojo.CustomerRegister
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
-import com.iti.android.team1.ebuy.ui.register_screen.RegisterResult
+import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.ui.register_screen.viewmodel.RegisterViewModel
 import com.iti.android.team1.ebuy.ui.register_screen.viewmodel.RegisterViewModelFactory
 
 class RegisterScreen : Fragment() {
 
-
     private var _binding: FragmentRegisterScreenBinding? = null
-
 
     val viewModel: RegisterViewModel by viewModels {
         RegisterViewModelFactory(Repository(LocalSource(requireContext())))
@@ -42,7 +39,6 @@ class RegisterScreen : Fragment() {
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnSignIn.setOnClickListener {
@@ -54,21 +50,21 @@ class RegisterScreen : Fragment() {
 
         viewModel.registerLiveData.observe(viewLifecycleOwner) {
             when (it) {
-                is RegisterResult.Loading -> showProgressBar()
+                is AuthResult.Loading -> showProgressBar()
 
-                is RegisterResult.InvalidData -> {
+                is AuthResult.InvalidData -> {
                     showWrongInputResult(it.error)
                     hideProgressBar()
                 }
 
-                is RegisterResult.RegisterFail -> {
+                is AuthResult.RegisterFail -> {
                     Toast.makeText(requireContext(),
                         "fail ${it.errorMsg}",
                         Toast.LENGTH_SHORT).show()
                     Log.i("TAG", "onViewCreated:${it.errorMsg} ")
                     hideProgressBar()
                 }
-                is RegisterResult.RegisterSuccess -> {
+                is AuthResult.RegisterSuccess -> {
                     Toast.makeText(requireContext(),
                         "Welcome ${it.customer.firstName}",
                         Toast.LENGTH_SHORT).show()
@@ -98,10 +94,10 @@ class RegisterScreen : Fragment() {
     }
 
     private fun collectDataFromFields(): CustomerRegister {
-        return CustomerRegister(binding.edtEmail.text.toString().trim(),
-            binding.edtFirstName.text.toString().trim(),
-            binding.edtLastName.text.toString().trim(),
-            binding.edtPassword.text.toString().trim())
+        return CustomerRegister(binding.edtEmail.trimText(),
+            binding.edtFirstName.trimText(),
+            binding.edtLastName.trimText(),
+            binding.edtPassword.trimText())
     }
 
     private fun showWrongInputResult(error: ErrorType) {
@@ -116,6 +112,10 @@ class RegisterScreen : Fragment() {
                 resources.getString(R.string.password_error)
 
         }
+    }
+
+    private fun EditText.trimText():String{
+        return this.text.toString().trim()
     }
 
 }
