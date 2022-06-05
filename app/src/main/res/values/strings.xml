@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name" translatable="false">Ebuy</string>
     <string name="title_home" translatable="false">Home</string>
     <string name="title_notifications" translatable="false">Notifications</string>
@@ -71,13 +71,13 @@
     <string name="there_is_no_account">There is no account.</string>
     <string name="description">Description</string>
     <string name="add_to_cart">Add To Cart</string>
-    <string name="price">Price</string>
-    <string name="saved_items">Saved items</string>
-    <string name="product_image">Product image</string>
-    <string name="insert_error">Could not add product to favorites</string>
-    <string name="insert_seccuess">Liked</string>
-    <string name="delete_success">Deleted</string>
-    <string name="delete_error">Could not delete product from favorites</string>
+    <string name="price" translatable="false">Price</string>
+    <string name="saved_items" translatable="false">Saved items</string>
+    <string name="product_image" translatable="false">Product image</string>
+    <string name="insert_error" translatable="false">Could not add product to favorites</string>
+    <string name="insert_seccuess" translatable="false">Liked</string>
+    <string name="delete_success" translatable="false">Deleted</string>
+    <string name="delete_error" translatable="false">Could not delete product from favorites</string>
     <string name="notExist">Not Exist</string>
     <string name="fav" translatable="false">Favorites</string>
     <string name="details_fragment_title" translatable="false">Details</string>
@@ -93,13 +93,16 @@
     <string name="add">ADD</string>
     <string name="no_more_in_stock">No more in stock.</string>
 
-    <string name="email_error">Email must be in format example@gmail.com</string>
-    <string name="password_error">Password must be upper lower special char number and greater than 8</string>
-    <string name="name_error">Enter a valid Name</string>
-    <string name="invalid_password">Invalid  password</string>
-    <string name="invalid_email">Invalid  email</string>
-    <string name="invailed_auth_data">Your data does not match an Ebuy account.</string>
-    <string name="auth_error">Authentication error</string>
-    <string name="sign_in_insted">Sign in insted</string>
+    <string name="email_error" tools:ignore="ExtraTranslation" translatable="false">Email must be in format example@gmail.com</string>
+    <string name="password_error" tools:ignore="MissingTranslation">Password must be upper lower special char number and greater than 8</string>
+    <string name="name_error" tools:ignore="MissingTranslation">Enter a valid Name</string>
+    <string name="DeliveryPrice" translatable="false">50</string>
+    <string name="invalid_password" translatable="false">Invalid  password</string>
+    <string name="invalid_email" translatable="false">Invalid  email</string>
+    <string name="invailed_auth_data" translatable="false">Your data does not match an Ebuy account.</string>
+    <string name="auth_error" translatable="false">Authentication error</string>
+    <string name="delete">Delete</string>
+
+
     <string name="already_have_an_acount">Already have an acount?</string>
 </resources>

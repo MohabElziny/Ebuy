@@ -10,7 +10,6 @@
     tools:context=".ui.cart_screen.view.CartFragment">
 
 
-
     <ScrollView
         android:id="@+id/scroll_bottom"
         android:layout_width="match_parent"
@@ -61,6 +60,18 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/text_all_items"
                 app:layout_constraintVertical_bias="0.0" />
+
+            <include
+                android:id="@+id/emptyLayout"
+                layout="@layout/empty_layout"
+                android:layout_height="wrap_content"
+                android:layout_width="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/text_all_items" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_cart"
@@ -153,7 +164,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins"
-                        android:text="46$"
+                        android:text="@string/DeliveryPrice"
 
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontHeading4"

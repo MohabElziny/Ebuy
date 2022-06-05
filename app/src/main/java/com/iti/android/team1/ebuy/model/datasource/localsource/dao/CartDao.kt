@@ -6,11 +6,12 @@ import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
 import androidx.room.Update
 import com.iti.android.team1.ebuy.model.pojo.CartItem
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CartDao {
     @Query("SELECT * FROM cartItems")
-    suspend fun getAllItemsInCart(): List<CartItem>
+     fun getAllItemsInCart(): List<CartItem>
 
     @Query("DELETE FROM cartItems")
     suspend fun removeAllItemsFromCart(): Int

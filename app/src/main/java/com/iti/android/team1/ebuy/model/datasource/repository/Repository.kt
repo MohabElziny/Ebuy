@@ -212,6 +212,10 @@ class Repository(
             quantity))
     }
 
+    override suspend fun updateCartItem(cartItem: CartItem) {
+        localSource.updateProductInCart(cartItem)
+    }
+
     override suspend fun isProductInCart(productVariantID: Long): Boolean {
         return localSource.isProductInCart(productVariantID)
     }
