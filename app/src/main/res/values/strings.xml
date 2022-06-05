@@ -102,6 +102,7 @@
     <string name="invailed_auth_data" translatable="false">Your data does not match an Ebuy account.</string>
     <string name="auth_error" translatable="false">Authentication error</string>
     <string name="delete">Delete</string>
+    <string name="no_item_in_cart">There is no item in cart</string>
 
 
     <string name="already_have_an_acount">Already have an acount?</string>
