@@ -101,4 +101,5 @@
     <string name="invailed_auth_data">Your data does not match an Ebuy account.</string>
     <string name="auth_error">Authentication error</string>
     <string name="sign_in_insted">Sign in insted</string>
+    <string name="already_have_an_acount">Already have an acount?</string>
 </resources>
