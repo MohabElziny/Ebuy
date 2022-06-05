@@ -1,6 +1,5 @@
 package com.iti.android.team1.ebuy.ui.login_screen.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,11 +13,8 @@ import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
 import com.iti.android.team1.ebuy.util.AuthRegex
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-private const val TAG = "LoginScreenViewModel"
 
 class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
@@ -63,10 +59,8 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
             }
             is NetworkResponse.SuccessResponse -> {
                 if (result.data.id != null) {
-                    Log.d(TAG, "setLoginState: ${result.data}")
                     _loginState.postValue(AuthResult.RegisterSuccess(result.data))
-                }
-                else
+                } else
                     _loginState.postValue(AuthResult.RegisterFail("Invalid data"))
             }
 
