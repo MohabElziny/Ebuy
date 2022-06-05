@@ -1,17 +1,19 @@
 package com.iti.android.team1.ebuy.ui.orders.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentOrdersBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.pojo.Order
 import com.iti.android.team1.ebuy.ui.orders.viewModel.OrdersViewModel
 import com.iti.android.team1.ebuy.ui.orders.viewModel.OrdersViewModelFactory
 import com.iti.android.team1.ebuy.ui.profile_screen.adapters.OrdersAdapter
@@ -26,6 +28,7 @@ class OrdersFragment : Fragment() {
     }
 
     private lateinit var _binding: FragmentOrdersBinding
+    private lateinit var ordersAdapter: OrdersAdapter
     private val binding get() = _binding
 
     override fun onCreateView(
@@ -45,21 +48,55 @@ class OrdersFragment : Fragment() {
     private fun handleCustomerOrders() {
         viewModel.getCustomerOrders()
         lifecycleScope.launchWhenStarted {
-            viewModel.customerOrders.buffer().collect{
-                result->
-                when(result){
-                    ResultState.EmptyResult -> TODO()
-                    is ResultState.Error -> TODO()
-                    ResultState.Loading -> TODO()
-                    is ResultState.Success -> TODO()
+            viewModel.customerOrders.buffer().collect { result ->
+                when (result) {
+                    ResultState.EmptyResult -> handleEmptyResult()
+//                    is ResultState.Error -> TODO()
+                    ResultState.Loading -> handleLoading()
+                    is ResultState.Success -> handleSuccessResult(result.data)
                 }
             }
         }
     }
 
+    private fun handleLoading() {
+      showShimmer()
+        binding.recycler.visibility = View.INVISIBLE
+        binding.emptyLayout.root.visibility = View.INVISIBLE
+    }
+    private fun showShimmer() {
+        binding.ordersShimmer.root.apply {
+            visibility = View.VISIBLE
+            showShimmer(true)
+            startShimmer()
+        }
+    }
+
+    private fun hideShimmer() {
+        binding.ordersShimmer.root.apply {
+            stopShimmer()
+            showShimmer(false)
+            visibility = View.GONE
+        }
+    }
+    private fun handleEmptyResult() {
+        hideShimmer()
+        binding.emptyLayout.root.visibility = View.VISIBLE
+        binding.emptyLayout.txt.text = getString(R.string.no_orders_yet)
+        binding.recycler.visibility = View.INVISIBLE
+    }
+
+    private fun handleSuccessResult(data: List<Order>) {
+        hideShimmer()
+        binding.emptyLayout.root.visibility = View.INVISIBLE
+        binding.recycler.visibility = View.VISIBLE
+        ordersAdapter.setOrderList(data)
+    }
+
     private fun initOrdersRecycler() {
+        ordersAdapter = OrdersAdapter()
         binding.recycler.apply {
-            adapter = OrdersAdapter()
+            adapter = ordersAdapter
             layoutManager = LinearLayoutManager(requireContext())
             setHasFixedSize(true)
         }

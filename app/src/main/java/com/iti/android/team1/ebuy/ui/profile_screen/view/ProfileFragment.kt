@@ -25,7 +25,6 @@ import com.iti.android.team1.ebuy.ui.savedItems.view.SavedItemsFragmentDirection
 import kotlinx.coroutines.flow.buffer
 
 class ProfileFragment : Fragment() {
-    val customer_ID = 6432303317221
     private var _binding: FragmentProfileBinding? = null
     private val viewModel: ProfileViewModel by viewModels {
         ProfileVMFactory(Repository(LocalSource(requireContext().applicationContext)))
@@ -115,7 +114,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun handleCustomerOrders() {
-        viewModel.getCustomerOrders(customer_ID)
+        viewModel.getCustomerOrders()
         lifecycleScope.launchWhenStarted {
             viewModel.orderList.buffer().collect { result ->
                 when (result) {
@@ -131,7 +130,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun handleCustomerInfo() {
-        viewModel.getCustomerInfo(customer_ID)
+        viewModel.getCustomerInfo()
         lifecycleScope.launchWhenStarted {
             viewModel.customer.buffer().collect { result ->
                 when (result) {

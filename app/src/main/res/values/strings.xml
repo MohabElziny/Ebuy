@@ -101,4 +101,5 @@
     <string name="invalid_email" translatable="false">Invalid  email</string>
     <string name="invailed_auth_data" translatable="false">Your data does not match an Ebuy account.</string>
     <string name="auth_error" translatable="false">Authentication error</string>
+    <string name="no_orders_yet">There is No Orders Yet</string>
 </resources>

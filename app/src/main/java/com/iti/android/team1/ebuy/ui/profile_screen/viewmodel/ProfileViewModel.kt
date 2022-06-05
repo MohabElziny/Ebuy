@@ -75,10 +75,10 @@ class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
     }
 
 
-    fun getCustomerOrders(customer_ID: Long) {
+    fun getCustomerOrders() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = async {
-                myRepo.getCustomerOrders(customer_ID)
+                myRepo.getCustomerOrders(myRepo.getUserIdFromPrefs())
             }
             sendResponseBack(res.await())
         }
@@ -106,10 +106,10 @@ class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
         return orders.take(2)
     }
 
-    fun getCustomerInfo(customer_ID: Long) {
+    fun getCustomerInfo() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = async {
-                myRepo.getCustomerByID(customer_ID)
+                myRepo.getCustomerByID(myRepo.getUserIdFromPrefs())
             }
             fetchResult(res.await())
         }
