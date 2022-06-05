@@ -6,13 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iti.android.team1.ebuy.databinding.FragmentOrdersBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
+import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.ui.orders.viewModel.OrdersViewModel
 import com.iti.android.team1.ebuy.ui.orders.viewModel.OrdersViewModelFactory
 import com.iti.android.team1.ebuy.ui.profile_screen.adapters.OrdersAdapter
+import kotlinx.coroutines.flow.buffer
 
 
 class OrdersFragment : Fragment() {
@@ -36,6 +39,22 @@ class OrdersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initOrdersRecycler()
+        handleCustomerOrders()
+    }
+
+    private fun handleCustomerOrders() {
+        viewModel.getCustomerOrders()
+        lifecycleScope.launchWhenStarted {
+            viewModel.customerOrders.buffer().collect{
+                result->
+                when(result){
+                    ResultState.EmptyResult -> TODO()
+                    is ResultState.Error -> TODO()
+                    ResultState.Loading -> TODO()
+                    is ResultState.Success -> TODO()
+                }
+            }
+        }
     }
 
     private fun initOrdersRecycler() {
