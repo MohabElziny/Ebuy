@@ -5,6 +5,9 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.iti.android.team1.ebuy.model.datasource.localsource.converters.RoomConverters
+import com.iti.android.team1.ebuy.model.datasource.localsource.dao.CartDao
+import com.iti.android.team1.ebuy.model.datasource.localsource.dao.FavoritesDao
 import com.iti.android.team1.ebuy.model.pojo.CartItem
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 

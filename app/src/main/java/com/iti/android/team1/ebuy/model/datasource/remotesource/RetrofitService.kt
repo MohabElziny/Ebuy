@@ -4,6 +4,7 @@ import com.iti.android.team1.ebuy.model.pojo.*
 import retrofit2.Response
 import retrofit2.http.*
 
+
 private const val PASSWORD = "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"
 
 interface RetrofitService {
@@ -47,10 +48,10 @@ interface RetrofitService {
 
     @GET("customers/search.json")
     suspend fun loginCustomer(
-        customerLogin: CustomerLogin,
-        @Query("query") query: String = "tag:${customerLogin.password}+email:${customerLogin.email}",
+        @Query("query") password : String,
+        @Query("email") email : String,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
-    ): Response<CustomerLoginAPI>
+        ): Response<CustomerLoginAPI>
 
     @GET("customers/{customer_id}.json")
     suspend fun getCustomerById(

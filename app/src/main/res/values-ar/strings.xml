@@ -74,6 +74,7 @@
     <string name="select_product_quantity">Select product Quantity</string>
     <string name="add">ADD</string>
     <string name="no_more_in_stock">No more in stock.</string>
+    <string name="delete">Delete</string>
     <string name="empty_products">No products found!</string>
     <string name="searching_products">Search for product</string>
     <string name="brands_search">Search for brand</string>

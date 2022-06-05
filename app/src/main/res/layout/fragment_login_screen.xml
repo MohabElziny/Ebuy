@@ -3,6 +3,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/backgroundColor"
@@ -165,9 +166,9 @@
                 app:layout_constraintStart_toStartOf="@+id/btn_login"
                 app:layout_constraintTop_toBottomOf="@+id/btn_login" />
 
-            <TextView
+            <Button
                 android:id="@+id/btn_signUp"
-                style="@style/fontBoldStyle"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:clickable="true"
@@ -182,6 +183,17 @@
                 app:layout_constraintStart_toEndOf="@+id/textView5"
                 app:layout_constraintTop_toTopOf="@+id/textView5"
                 tools:ignore="TouchTargetSizeCheck" />
+
+            <ProgressBar
+                android:id="@+id/ProgressBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </ScrollView>

@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.model.datasource.localsource
+package com.iti.android.team1.ebuy.model.datasource.localsource.converters
 
 import androidx.room.TypeConverter
 import com.google.gson.Gson
