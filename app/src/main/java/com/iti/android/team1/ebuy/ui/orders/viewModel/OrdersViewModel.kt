@@ -21,7 +21,7 @@ class OrdersViewModel(private val myRepo: IRepository) : ViewModel() {
     fun getCustomerOrders() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = async {
-                myRepo.getCustomerOrders(myRepo.getUserIdFromPrefs())
+                myRepo.getCustomerOrders()
             }
             sendResponseBack(res.await())
         }

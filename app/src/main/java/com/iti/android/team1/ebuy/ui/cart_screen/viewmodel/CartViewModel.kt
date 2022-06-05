@@ -1,9 +1,6 @@
 package com.iti.android.team1.ebuy.ui.cart_screen.viewmodel
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
@@ -11,6 +8,7 @@ import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.CartItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 
 class CartViewModel(private val myRepo: IRepository) : ViewModel() {
@@ -20,8 +18,8 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
     private val _isOverFlow = MutableLiveData(false)
     val isOverFlow: LiveData<Boolean> get() = _isOverFlow
     private val _deleteState =
-        MutableLiveData<DatabaseResult<Int?>>(DatabaseResult.Loading)
-    val deleteState: LiveData<DatabaseResult<Int?>> get() = _deleteState
+        MutableStateFlow<DatabaseResult<Int?>>(DatabaseResult.Loading)
+    val deleteState: LiveData<DatabaseResult<Int?>> get() = _deleteState.asLiveData()
 
     fun getAllCartItems() {
         viewModelScope.launch(Dispatchers.IO) {
@@ -88,12 +86,12 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
     }
 
 
-    private fun setDeleteState(result: DatabaseResponse<Int?>) {
+    private suspend fun setDeleteState(result: DatabaseResponse<Int?>) {
         when (result) {
-            is DatabaseResponse.Failure -> _deleteState.postValue(
+            is DatabaseResponse.Failure -> _deleteState.emit(
                 DatabaseResult.Error(result.errorMsg))
             is DatabaseResponse.Success -> {
-                _deleteState.postValue(DatabaseResult.Empty)
+                _deleteState.emit(DatabaseResult.Empty)
             }
         }
     }

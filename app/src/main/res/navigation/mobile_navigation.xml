@@ -114,6 +114,6 @@
     <fragment
         android:id="@+id/ordersFragment"
         android:name="com.iti.android.team1.ebuy.ui.orders.view.OrdersFragment"
-        android:label="fragment_orders"
+        android:label="@string/OrdersFragment"
         tools:layout="@layout/fragment_orders" />
 </navigation>

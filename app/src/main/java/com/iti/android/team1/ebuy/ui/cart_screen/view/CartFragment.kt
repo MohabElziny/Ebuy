@@ -64,6 +64,19 @@ class CartFragment : Fragment() {
         }
     }
 
+    private fun handleEmptyData() {
+        binding.cardLayoutSum.visibility = View.INVISIBLE
+        binding.recyclerCart.visibility = View.INVISIBLE
+        binding.emptyLayout.root.visibility = View.VISIBLE
+        binding.emptyLayout.txt.text = getString(R.string.no_item_in_cart)
+    }
+    private fun handleExistData() {
+        binding.cardLayoutSum.visibility = View.VISIBLE
+        binding.recyclerCart.visibility = View.VISIBLE
+        binding.emptyLayout.root.visibility = View.INVISIBLE
+    }
+
+
     private fun handleCheckoutButton() {
         binding.btnAddCard.setOnClickListener {
             viewModel.updateToDB()
@@ -76,12 +89,15 @@ class CartFragment : Fragment() {
             viewModel.allCartItems.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     ResultState.EmptyResult -> {
+                        handleEmptyData()
                         cartProductAdapter.setCartItems(emptyList())
                         handleTotalMoney(0L)
                     }
 //                    is ResultState.Error -> TODO()
-//                    ResultState.Loading -> TODO()
+                    ResultState.Loading -> {
+                    }
                     is ResultState.Success -> {
+                        handleExistData()
                         cartProductAdapter.setCartItems(result.data)
                         handleTotalMoney(result.data.sumOf {
                             it.productVariantPrice * it.customerProductQuantity
@@ -127,9 +143,9 @@ class CartFragment : Fragment() {
     }
 
     private fun handleTotalMoney(subTotal: Long) {
-        binding.textProductSubTotal.text = "$subTotal".plus("EGB")
+        binding.textProductSubTotal.text = "$subTotal".plus(" EGP")
         binding.textProductLastSubTotal.text =
-            "${subTotal + (getString(R.string.DeliveryPrice).toLong())}".plus("EGB")
+            "${subTotal + (getString(R.string.DeliveryPrice).toLong())}".plus(" EGP")
 
     }
 

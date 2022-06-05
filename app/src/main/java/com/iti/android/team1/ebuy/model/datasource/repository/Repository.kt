@@ -156,8 +156,8 @@ class Repository(
         }
     }
 
-    override suspend fun getCustomerByID(customer_id: Long): NetworkResponse<Customer> {
-        val response = remoteSource.getCustomerByID(customer_id)
+    override suspend fun getCustomerByID(): NetworkResponse<Customer> {
+        val response = remoteSource.getCustomerByID(getUserIdFromPrefs())
         return if (response.isSuccessful) {
             SuccessResponse(response.body()?.customer ?: Customer())
         } else {
@@ -165,8 +165,8 @@ class Repository(
         }
     }
 
-    override suspend fun getCustomerOrders(customer_id: Long): NetworkResponse<OrderAPI> {
-        val response = remoteSource.getCustomerOrders(customer_id)
+    override suspend fun getCustomerOrders(): NetworkResponse<OrderAPI> {
+        val response = remoteSource.getCustomerOrders(getUserIdFromPrefs())
         return if (response.isSuccessful) {
             SuccessResponse(response.body() ?: OrderAPI())
         } else {
@@ -236,7 +236,8 @@ class Repository(
         return decoder.encode(password)
     }
 
-    override fun setUserIdToPrefs(userId: Long) = localSource.setUserIdToPrefs(encodePassword(userId.toString()))
+    override fun setUserIdToPrefs(userId: Long) =
+        localSource.setUserIdToPrefs(encodePassword(userId.toString()))
 
     override fun setAuthStateToPrefs(state: Boolean) = localSource.setAuthStateToPrefs(state)
 
