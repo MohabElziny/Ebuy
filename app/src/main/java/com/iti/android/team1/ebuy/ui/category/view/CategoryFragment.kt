@@ -8,7 +8,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
@@ -40,7 +39,7 @@ class CategoryFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var categoriesAdapter: CategoriesAdapter
     private lateinit var categoryProductsAdapter: CategoryProductsAdapter
-
+    private lateinit var searchView: SearchView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -143,9 +142,16 @@ class CategoryFragment : Fragment() {
             }
             is ResultState.Success -> {
                 stopShimmer()
+                binding.emptyLayout.root.visibility = View.GONE
+                binding.productRecycler.visibility = View.VISIBLE
                 result.data.products?.let { categoryProductsAdapter.setList(it) }
             }
-            is ResultState.EmptyResult -> {}
+            is ResultState.EmptyResult -> {
+                stopShimmer()
+                binding.emptyLayout.root.visibility = View.VISIBLE
+                binding.productRecycler.visibility = View.GONE
+                binding.emptyLayout.txt.text = getString(R.string.empty_products)
+            }
             is ResultState.Error -> {}
         }
     }
@@ -162,6 +168,7 @@ class CategoryFragment : Fragment() {
     }
 
     private var onCategoryBtnClick = fun(id: Long, title: String) {
+        searchView.onActionViewCollapsed()
         binding.catTvName.text = title
         defaultCategoryId = id
         categoryViewModel.getAllProduct(id)
@@ -204,25 +211,36 @@ class CategoryFragment : Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         activity?.menuInflater?.inflate(R.menu.category_menu, menu)
-        val searchView: SearchView = menu.findItem(R.id.cat_menu_search)?.actionView as SearchView
-
-        onQueryTextListener(searchView)
-
+        searchView = menu.findItem(R.id.cat_menu_search)?.actionView as SearchView
+        searchView.queryHint = getString(R.string.searching_products)
+        onQueryTextListener()
+        onCloseSearch()
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
-    private fun onQueryTextListener(searchView: SearchView) {
+    private fun onQueryTextListener() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextChange(p0: String?): Boolean {
-                Toast.makeText(context, "" + p0, Toast.LENGTH_SHORT).show()
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    categoryViewModel.setSearchQuery(it)
+                }
                 return true
             }
 
-            override fun onQueryTextSubmit(p0: String?): Boolean {
-                Toast.makeText(context, "" + p0, Toast.LENGTH_SHORT).show()
-                return true
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    categoryViewModel.setSearchQuery(query)
+                }
+                return false
             }
         })
+    }
+
+    private fun onCloseSearch() {
+        searchView.setOnCloseListener {
+            categoryViewModel.getProductsAgain()
+            return@setOnCloseListener false
+        }
     }
 
     private val onClickLike: (product: Product) -> Unit = {

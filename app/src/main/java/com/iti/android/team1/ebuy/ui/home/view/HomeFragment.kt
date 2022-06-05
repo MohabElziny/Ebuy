@@ -3,6 +3,7 @@ package com.iti.android.team1.ebuy.ui.home.view
 import android.os.Bundle
 import android.view.*
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -58,7 +59,10 @@ class HomeFragment : Fragment() {
     private fun handleResultStates(brandsResult: ResultState<Brands>) {
         when (brandsResult) {
             ResultState.EmptyResult -> {
-                //TODO show empty result
+                hideShimmer()
+                binding.homeRecyclerview.visibility = View.GONE
+                binding.emptyLayout.root.visibility = View.VISIBLE
+                binding.emptyLayout.txt.text = getString(R.string.no_brands_found)
             }
             is ResultState.Error -> {
                 hideShimmer()
@@ -69,6 +73,8 @@ class HomeFragment : Fragment() {
             }
             is ResultState.Success -> {
                 hideShimmer()
+                binding.homeRecyclerview.visibility = View.VISIBLE
+                binding.emptyLayout.root.visibility = View.GONE
                 brandsAdapter.setBrandsList(brandsResult.data)
             }
         }
@@ -102,6 +108,35 @@ class HomeFragment : Fragment() {
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater.inflate(R.menu.home_menu, menu)
+        val searchView = menu.findItem(R.id.action_search)?.actionView as SearchView
+        searchView.queryHint = getString(R.string.brands_search)
+        onQueryTextListener(searchView)
+        onCloseSearch(searchView)
+    }
+
+    private fun onCloseSearch(searchView: SearchView) {
+        searchView.setOnCloseListener {
+            homeViewModel.getBrandsAgain()
+            return@setOnCloseListener false
+        }
+    }
+
+    private fun onQueryTextListener(searchView: SearchView) {
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextChange(newText: String?): Boolean {
+                newText?.let {
+                    homeViewModel.setSearchQuery(it)
+                }
+                return true
+            }
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                query?.let {
+                    homeViewModel.setSearchQuery(query)
+                }
+                return false
+            }
+        })
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
