@@ -68,6 +68,7 @@ class CartFragment : Fragment() {
         binding.cardLayoutSum.visibility = View.INVISIBLE
         binding.recyclerCart.visibility = View.INVISIBLE
         binding.emptyLayout.root.visibility = View.VISIBLE
+        binding.emptyLayout.txt.text = getString(R.string.no_item_in_cart)
     }
     private fun handleExistData() {
         binding.cardLayoutSum.visibility = View.VISIBLE

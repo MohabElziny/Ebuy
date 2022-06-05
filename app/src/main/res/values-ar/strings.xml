@@ -75,4 +75,5 @@
     <string name="add">ADD</string>
     <string name="no_more_in_stock">No more in stock.</string>
     <string name="delete">Delete</string>
+    <string name="no_item_in_cart">There is no item in cart</string>
 </resources>
