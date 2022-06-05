@@ -143,9 +143,9 @@ class CartFragment : Fragment() {
     }
 
     private fun handleTotalMoney(subTotal: Long) {
-        binding.textProductSubTotal.text = "$subTotal".plus("EGB")
+        binding.textProductSubTotal.text = "$subTotal".plus(" EGP")
         binding.textProductLastSubTotal.text =
-            "${subTotal + (getString(R.string.DeliveryPrice).toLong())}".plus("EGB")
+            "${subTotal + (getString(R.string.DeliveryPrice).toLong())}".plus(" EGP")
 
     }
 
