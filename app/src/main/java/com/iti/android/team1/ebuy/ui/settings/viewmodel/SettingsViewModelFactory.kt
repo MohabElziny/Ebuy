@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 
-class SettingsViewModelFavtory(private val repo: IRepository) : ViewModelProvider.Factory {
+class SettingsViewModelFactory(private val repo: IRepository) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T =
         SettingsViewModel(repo) as T

@@ -48,10 +48,10 @@ interface RetrofitService {
 
     @GET("customers/search.json")
     suspend fun loginCustomer(
-        @Query("tag") password : String,
-        @Query("email") email : String,
+        @Query("tag") password: String,
+        @Query("email") email: String,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
-        ): Response<CustomerLoginAPI>
+    ): Response<CustomerLoginAPI>
 
     @GET("customers/{customer_id}.json")
     suspend fun getCustomerById(
@@ -64,4 +64,46 @@ interface RetrofitService {
         @Path("customer_id") customer_id: Long,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<OrderAPI>
+
+    @GET("customers/{customerId}/addresses.json")
+    suspend fun getCustumerAddresess(
+        @Path("customerId") customerId: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<List<Addresses>>
+
+    @GET("customers/{customerId}/addresses/{addressId}.json")
+    suspend fun getAddressDetails(
+        @Path("customerId") customerId: Long,
+        @Path("addressId") addressId: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+    ): Response<Addresses>
+
+    @POST("/customers/{customerId}/addresses.json")
+    suspend fun addCusomerAddress(
+        @Path("customerId") customerId: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+    ): Response<Addresses>
+
+    @PUT("customers/{customerId}/addresses/{addressId}.json")
+    suspend fun updateCustumerAddress(
+        @Path("customerId") customerId: Long,
+        @Path("addressId") addressId: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+    ): Response<Addresses>
+
+    @PUT("customers/{customerId}/addresses/{addressId}/default.json")
+    suspend fun setDefulAddress(
+        @Path("customerId") customerId: Long,
+        @Path("addressId") addressId: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+    ): Response<Addresses>
+
+    @DELETE("customers/{customerId}/addresses/{addressId}.json")
+    suspend fun deleteAddress(
+        @Path("customerId") customerId: Long,
+        @Path("addressId") addressId: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+    ): Nothing
+
+
 }

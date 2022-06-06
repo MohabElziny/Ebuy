@@ -10,14 +10,14 @@ import com.iti.android.team1.ebuy.databinding.FragmentSettingsBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.ui.settings.viewmodel.SettingsViewModel
-import com.iti.android.team1.ebuy.ui.settings.viewmodel.SettingsViewModelFavtory
+import com.iti.android.team1.ebuy.ui.settings.viewmodel.SettingsViewModelFactory
 
 class SettingsFragment : Fragment() {
 
     private lateinit var bindding: FragmentSettingsBinding
 
     private val viewModel: SettingsViewModel by viewModels {
-        SettingsViewModelFavtory(Repository(LocalSource(requireContext())))
+        SettingsViewModelFactory(Repository(LocalSource(requireContext())))
     }
 
     override fun onCreateView(
