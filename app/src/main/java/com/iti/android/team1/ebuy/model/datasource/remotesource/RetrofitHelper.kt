@@ -48,7 +48,6 @@ object RetrofitHelper : RemoteSource {
 
     }
 
-
     override suspend fun loginCustomer(customerLogin: CustomerLogin) =
         retrofitService.loginCustomer(password = customerLogin.password,
             email = customerLogin.email)
@@ -61,4 +60,5 @@ object RetrofitHelper : RemoteSource {
     override suspend fun getCustomerOrders(customer_id: Long): Response<OrderAPI> {
         return retrofitService.getCustomerOrders(customer_id)
     }
+
 }

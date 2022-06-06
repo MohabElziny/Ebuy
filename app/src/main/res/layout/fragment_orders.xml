@@ -5,11 +5,20 @@
     android:layout_height="match_parent"
     tools:context=".ui.orders.view.OrdersFragment">
 
+    <include
+        android:id="@+id/emptyLayout"
+        layout="@layout/empty_layout"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/orders_shimmer"
+        layout="@layout/orders_shimmer_layout"
+        android:visibility="gone" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/orders_card_row"
-        />
+        tools:listitem="@layout/orders_card_row" />
 
 </FrameLayout>

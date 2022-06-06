@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.iti.android.team1.ebuy.databinding.FragmentSettingsBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
@@ -26,6 +27,15 @@ class SettingsFragment : Fragment() {
     ): View {
         bindding = FragmentSettingsBinding.inflate(inflater, container, false)
         return bindding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        bindding.addressRelative.setOnClickListener {
+            findNavController().navigate(
+                SettingsFragmentDirections.actionSettingsFragmentToAddressesFragment()
+            )
+        }
     }
 
 

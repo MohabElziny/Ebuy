@@ -6,7 +6,10 @@
     tools:context=".ui.all_addresses.view.AddressesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler"
         android:layout_width="match_parent"
+        tools:listitem="@layout/address_layout"
         android:layout_height="match_parent"/>
+
 
 </FrameLayout>

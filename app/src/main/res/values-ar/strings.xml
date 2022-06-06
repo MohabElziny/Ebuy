@@ -74,6 +74,7 @@
     <string name="select_product_quantity">Select product Quantity</string>
     <string name="add">ADD</string>
     <string name="no_more_in_stock">No more in stock.</string>
+    <string name="no_orders_yet">There is No Orders Yet</string>
     <string name="delete">Delete</string>
     <string name="no_item_in_cart">There is no item in cart</string>
     <string name="empty_products">No products found!</string>
@@ -81,4 +82,5 @@
     <string name="brands_search">Search for brand</string>
     <string name="no_brands_found">No brands found!</string>
     <string name="sign_in_insted">Sign in instead</string>
+    <string name="OrdersFragment">Orders</string>
 </resources>

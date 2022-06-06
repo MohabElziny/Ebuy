@@ -91,7 +91,11 @@
         android:id="@+id/settingsFragment"
         android:name="com.iti.android.team1.ebuy.ui.settings.view.SettingsFragment"
         android:label="@string/settings_label"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_settings" >
+        <action
+            android:id="@+id/action_settingsFragment_to_addressesFragment"
+            app:destination="@id/addressesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_products"
         android:name="com.iti.android.team1.ebuy.ui.productsScreen.view.ProductsFragment"
@@ -108,4 +112,14 @@
             android:id="@+id/action_navigation_products_to_productsDetailsFragment"
             app:destination="@id/productsDetailsFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/ordersFragment"
+        android:name="com.iti.android.team1.ebuy.ui.orders.view.OrdersFragment"
+        android:label="@string/OrdersFragment"
+        tools:layout="@layout/fragment_orders" />
+    <fragment
+        android:id="@+id/addressesFragment"
+        android:name="com.iti.android.team1.ebuy.ui.all_addresses.view.AddressesFragment"
+        android:label="@string/addresses_fragment"
+        tools:layout="@layout/fragment_addresses" />
 </navigation>
