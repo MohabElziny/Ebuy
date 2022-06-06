@@ -20,13 +20,14 @@
     <TextView
         android:id="@+id/txt"
         style="@style/heading3"
+        android:gravity="center"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
         android:textSize="@dimen/fontHeading4"
         android:textColor="@android:color/darker_gray"
         android:lines="2"
-        android:text="Please Connect to Network to use our application"
+        android:text="@string/please_connect_to_network_to_use_our_application"
         app:layout_constraintEnd_toEndOf="@+id/animationView"
         app:layout_constraintStart_toStartOf="@+id/animationView"
         app:layout_constraintTop_toBottomOf="@+id/animationView" />
