@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.auth
+package com.iti.android.team1.ebuy.auth.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
-class AuthViewModel() : ViewModel() {
+class ConnectionViewModel() : ViewModel() {
     private val _isConnected = MutableStateFlow(true)
     val isConnected =_isConnected.asStateFlow()
 

@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.auth
+package com.iti.android.team1.ebuy.auth.view
 
 import android.os.Bundle
 import android.view.View
@@ -12,6 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
+import com.iti.android.team1.ebuy.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.connection.ConnectionLiveData
 import com.iti.android.team1.ebuy.databinding.ActivityAuthBinding
 import kotlinx.coroutines.flow.buffer
@@ -22,7 +23,7 @@ class AuthActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityAuthBinding
     private lateinit var fragmentContainer: FragmentContainerView
-    private val viewModel: AuthViewModel by viewModels<AuthViewModel>()
+    private val viewModel: ConnectionViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
