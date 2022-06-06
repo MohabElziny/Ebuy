@@ -38,11 +38,8 @@ interface IRepository {
 
     suspend fun isProductInCart(productVariantID: Long): Boolean
 
-    fun isEmailValid(email: String): Boolean
-    fun isPasswordValid(password: String): Boolean
-
-    fun decodePassword(password: String): String
-    fun encodePassword(password: String): String
+    fun decode(input: String): String
+    fun encode(input: String): String
 
     fun setUserIdToPrefs(userId: Long)
     fun setAuthStateToPrefs(state: Boolean)

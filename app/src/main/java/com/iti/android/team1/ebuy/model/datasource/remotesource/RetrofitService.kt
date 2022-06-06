@@ -48,7 +48,7 @@ interface RetrofitService {
 
     @GET("customers/search.json")
     suspend fun loginCustomer(
-        @Query("query") password : String,
+        @Query("tag") password : String,
         @Query("email") email : String,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
         ): Response<CustomerLoginAPI>

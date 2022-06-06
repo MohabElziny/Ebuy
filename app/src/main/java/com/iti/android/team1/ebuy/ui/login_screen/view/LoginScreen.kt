@@ -20,6 +20,7 @@ import com.iti.android.team1.ebuy.ui.login_screen.viewmodel.LoginScreenViewModel
 import com.iti.android.team1.ebuy.ui.login_screen.viewmodel.LoginScreenViewModelFactory
 import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
+import com.iti.android.team1.ebuy.util.trimText
 
 
 class LoginScreen : Fragment() {
@@ -55,8 +56,8 @@ class LoginScreen : Fragment() {
         binding.btnLogin.setOnClickListener {
             viewModel.makeLoginRequest(
                 CustomerLogin(
-                    email = binding.edtEmail.text.toString().trim(),
-                    password = binding.edtPassword.text.toString().trim()
+                    email = binding.edtEmail.trimText(),
+                    password = binding.edtPassword.trimText()
                 )
             )
 

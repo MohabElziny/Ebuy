@@ -111,4 +111,5 @@
     <string name="brands_search">Search for brand</string>
     <string name="no_brands_found">No brands found!</string>
     <string name="sign_in_insted">Sign in instead</string>
+    <string name="settings_label">Settings</string>
 </resources>
