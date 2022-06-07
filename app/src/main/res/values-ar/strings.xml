@@ -83,4 +83,6 @@
     <string name="no_brands_found">No brands found!</string>
     <string name="sign_in_insted">Sign in instead</string>
     <string name="OrdersFragment">Orders</string>
+    <string name="not_connected">Not Connected</string>
+    <string name="please_connect_to_network_to_use_our_application">Please Connect to Network to use our application</string>
 </resources>
