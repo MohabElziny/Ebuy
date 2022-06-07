@@ -46,4 +46,11 @@ interface IRepository {
     fun getUserIdFromPrefs(): Long
     fun getAuthStateFromPrefs(): Boolean
 
+    suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses>
+    suspend fun getAddressDetails(customerId: Long, addressId: Long): NetworkResponse<Address>
+    suspend fun addAddress(customerId: Long): NetworkResponse<Address>
+    suspend fun updateAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
+    suspend fun setDefaultAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
+    suspend fun deleteAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
+
 }

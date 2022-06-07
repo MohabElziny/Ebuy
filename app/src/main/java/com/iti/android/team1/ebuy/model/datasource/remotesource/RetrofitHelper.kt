@@ -61,4 +61,23 @@ object RetrofitHelper : RemoteSource {
         return retrofitService.getCustomerOrders(customer_id)
     }
 
+    override suspend fun getAllAddresses(
+        customerId: Long,
+    ): Response<Addresses> = retrofitService.getAllAddresses(customerId)
+
+    override suspend fun getAddressDetails(customerId: Long, addressId: Long) =
+        retrofitService.getAddressDetails(addressId, addressId)
+
+    override suspend fun addAddress(customerId: Long) = retrofitService.addAddress(customerId)
+
+    override suspend fun updateAddress(customerId: Long, addressId: Long) =
+        retrofitService.updateAddress(customerId, addressId)
+
+    override suspend fun setDefaultAddress(customerId: Long, addressId: Long) =
+        retrofitService.setDefaultAddress(customerId, addressId)
+
+    override suspend fun deleteAddress(customerId: Long, addressId: Long) =
+        retrofitService.deleteAddress(customerId, addressId)
+
+
 }

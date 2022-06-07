@@ -5,36 +5,44 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.databinding.AddressLayoutBinding
-import com.iti.android.team1.ebuy.model.pojo.Addresses
+import com.iti.android.team1.ebuy.model.pojo.Address
 
 class AddressAdapter(
     private val onItemClick: (Int) -> (Unit),
-    private val onDeleteClick: (Addresses) -> (Unit),
-    private val onEditClick: (Addresses) -> (Unit),
+    private val onDeleteClick: (Address, Int) -> (Unit),
+    private val onEditClick: (Address) -> (Unit),
 ) : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
 
-    private var addresses: List<Addresses> = emptyList()
+    private var addresses: ArrayList<Address> = arrayListOf()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setAddresses(newList: List<Addresses>) {
-        addresses = newList
+    fun setAddresses(newList: List<Address>) {
+        addresses.addAll(newList)
         notifyDataSetChanged()
     }
 
-    inner class AddressViewHolder(binding: AddressLayoutBinding) :
+    fun deleteItemAtIndex(index: Int) {
+        addresses.removeAt(index)
+        notifyItemRemoved(index)
+    }
+
+    inner class AddressViewHolder(private val binding: AddressLayoutBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        private val address: Addresses
+        private val address: Address
             get() = addresses[bindingAdapterPosition]
 
         init {
             binding.parent.setOnClickListener { onItemClick(bindingAdapterPosition) }
-            binding.imageDelete.setOnClickListener { onDeleteClick(address) }
-            binding.imageDelete.setOnClickListener { onEditClick(address) }
+            binding.imageDelete.setOnClickListener {
+                onDeleteClick(address,
+                    bindingAdapterPosition)
+            }
+            binding.imageEdit.setOnClickListener { onEditClick(address) }
         }
 
         fun bindView() {
-
+            binding.textAdders.text = "${address.toString()}"
         }
     }
 

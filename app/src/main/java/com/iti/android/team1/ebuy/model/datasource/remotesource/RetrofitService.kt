@@ -1,5 +1,6 @@
 package com.iti.android.team1.ebuy.model.datasource.remotesource
 
+import com.google.gson.annotations.SerializedName
 import com.iti.android.team1.ebuy.model.pojo.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -66,44 +67,44 @@ interface RetrofitService {
     ): Response<OrderAPI>
 
     @GET("customers/{customerId}/addresses.json")
-    suspend fun getCustumerAddresess(
+    suspend fun getAllAddresses(
         @Path("customerId") customerId: Long,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
-    ): Response<List<Addresses>>
+    ): Response<Addresses>
 
     @GET("customers/{customerId}/addresses/{addressId}.json")
     suspend fun getAddressDetails(
         @Path("customerId") customerId: Long,
         @Path("addressId") addressId: Long,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD
-    ): Response<Addresses>
+    ): Response<Address>
 
-    @POST("/customers/{customerId}/addresses.json")
-    suspend fun addCusomerAddress(
+    @POST("customers/{customerId}/addresses.json")
+    suspend fun addAddress(
         @Path("customerId") customerId: Long,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD
-    ): Response<Addresses>
+    ): Response<Address>
 
     @PUT("customers/{customerId}/addresses/{addressId}.json")
-    suspend fun updateCustumerAddress(
+    suspend fun updateAddress(
         @Path("customerId") customerId: Long,
         @Path("addressId") addressId: Long,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD
-    ): Response<Addresses>
+    ): Response<Address>
 
     @PUT("customers/{customerId}/addresses/{addressId}/default.json")
-    suspend fun setDefulAddress(
+    suspend fun setDefaultAddress(
         @Path("customerId") customerId: Long,
         @Path("addressId") addressId: Long,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD
-    ): Response<Addresses>
+    ): Response<Address>
 
     @DELETE("customers/{customerId}/addresses/{addressId}.json")
     suspend fun deleteAddress(
         @Path("customerId") customerId: Long,
         @Path("addressId") addressId: Long,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD
-    ): Nothing
+    ): Response<Address>
 
 
 }

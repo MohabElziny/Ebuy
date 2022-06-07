@@ -236,6 +236,66 @@ class Repository(
     override fun getAuthStateFromPrefs() = localSource.getAuthStateFromPrefs()
 
 
+    override suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses> {
+        val response = remoteSource.getAllAddresses(customerId)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Addresses())
+        else
+            parseError(response.errorBody())
+    }
+
+    override suspend fun getAddressDetails(
+        customerId: Long,
+        addressId: Long,
+    ): NetworkResponse<Address> {
+        val response = remoteSource.getAddressDetails(customerId, addressId)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Address())
+        else
+            parseError(response.errorBody())
+    }
+
+    override suspend fun addAddress(customerId: Long): NetworkResponse<Address> {
+        val response = remoteSource.addAddress(customerId)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Address())
+        else
+            parseError(response.errorBody())
+    }
+
+    override suspend fun updateAddress(
+        customerId: Long,
+        addressId: Long,
+    ): NetworkResponse<Address> {
+        val response = remoteSource.updateAddress(customerId, addressId)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Address())
+        else
+            parseError(response.errorBody())
+    }
+
+    override suspend fun setDefaultAddress(
+        customerId: Long,
+        addressId: Long,
+    ): NetworkResponse<Address> {
+        val response = remoteSource.setDefaultAddress(customerId, addressId)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Address())
+        else
+            parseError(response.errorBody())
+    }
+
+    override suspend fun deleteAddress(
+        customerId: Long,
+        addressId: Long,
+    ): NetworkResponse<Address> {
+        val response = remoteSource.deleteAddress(customerId, addressId)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Address())
+        else
+            parseError(response.errorBody())
+    }
+
 }
 
 private fun parseError(errorBody: ResponseBody?): FailureResponse {

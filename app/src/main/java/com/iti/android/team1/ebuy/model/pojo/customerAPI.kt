@@ -40,7 +40,7 @@ data class Customer(
     @SerializedName("tags") var password: String? = null,
     @SerializedName("last_order_name") var lastOrderName: String? = null,
     @SerializedName("currency") var currency: String? = null,
-    @SerializedName("addresses") var addresses: ArrayList<Addresses> = arrayListOf(),
+    var addresses: Addresses = Addresses(),
     @SerializedName("accepts_marketing_updated_at") var acceptsMarketingUpdatedAt: String? = null,
     @SerializedName("marketing_opt_in_level") var marketingOptInLevel: String? = null,
     @SerializedName("tax_exemptions") var taxExemptions: ArrayList<String> = arrayListOf(),
@@ -49,25 +49,9 @@ data class Customer(
 
     )
 
-data class Addresses(
-    @SerializedName("id") var id: Long? = null,
-    @SerializedName("customer_id") var customerId: Long? = null,
-    @SerializedName("first_name") var firstName: String? = null,
-    @SerializedName("last_name") var lastName: String? = null,
-    @SerializedName("company") var company: String? = null,
-    @SerializedName("address1") var address1: String? = null,
-    @SerializedName("address2") var address2: String? = null,
-    @SerializedName("city") var city: String? = null,
-    @SerializedName("province") var province: String? = null,
-    @SerializedName("country") var country: String? = null,
-    @SerializedName("zip") var zip: String? = null,
-    @SerializedName("phone") var phone: String? = null,
-    @SerializedName("name") var name: String? = null,
-    @SerializedName("province_code") var provinceCode: String? = null,
-    @SerializedName("country_code") var countryCode: String? = null,
-    @SerializedName("country_name") var countryName: String? = null,
-    @SerializedName("default") var default: Boolean? = null,
-)
+data class Addresses (@SerializedName("addresses") var addresses: ArrayList<Address> = arrayListOf())
+
+
 
 data class DefaultAddress(
     @SerializedName("id") var id: Long? = null,

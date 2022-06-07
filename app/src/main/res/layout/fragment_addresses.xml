@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.all_addresses.view.AddressesFragment">
 
     <androidx.recyclerview.widget.RecyclerView
@@ -11,5 +12,13 @@
         tools:listitem="@layout/address_layout"
         android:layout_height="match_parent"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/floating_action_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        app:backgroundTint="@color/Primary"
+        android:src="@drawable/ic_round_add_24" />
 
 </FrameLayout>
