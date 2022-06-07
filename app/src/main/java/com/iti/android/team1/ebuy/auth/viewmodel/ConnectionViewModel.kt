@@ -7,7 +7,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class ConnectionViewModel() : ViewModel() {
-    private val _isConnected = MutableStateFlow(true)
+    private val _isConnected = MutableStateFlow(false)
     val isConnected =_isConnected.asStateFlow()
 
     fun updateConnection(state:Boolean){
