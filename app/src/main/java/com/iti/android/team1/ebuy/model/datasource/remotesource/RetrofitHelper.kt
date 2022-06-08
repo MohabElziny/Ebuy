@@ -68,7 +68,8 @@ object RetrofitHelper : RemoteSource {
     override suspend fun getAddressDetails(customerId: Long, addressId: Long) =
         retrofitService.getAddressDetails(addressId, addressId)
 
-    override suspend fun addAddress(customerId: Long) = retrofitService.addAddress(customerId)
+    override suspend fun addAddress(customerId: Long, address: AddressDto) =
+        retrofitService.addAddress(customerId, address = address)
 
     override suspend fun updateAddress(customerId: Long, addressId: Long) =
         retrofitService.updateAddress(customerId, addressId)

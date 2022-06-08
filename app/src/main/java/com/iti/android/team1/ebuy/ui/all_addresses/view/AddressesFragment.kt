@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -20,11 +21,13 @@ import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModel
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModelFactory
 import kotlinx.coroutines.flow.buffer
 
+private const val TAG = "AddressesFragment"
+
 class AddressesFragment : Fragment() {
 
     private lateinit var binding: FragmentAddressesBinding
     private lateinit var addressesAdapter: AddressAdapter
-
+    private var position: Int? = null
     private val viewModel: AddressesViewModel by viewModels {
         AddressesViewModelFactory(Repository(LocalSource(requireContext())))
     }
@@ -48,7 +51,15 @@ class AddressesFragment : Fragment() {
     }
 
     private fun fetchDeletedData() {
-
+        lifecycleScope.launchWhenStarted {
+            viewModel.deleteAddressState.buffer().collect {
+                when (it) {
+                    ResultState.EmptyResult -> addressesAdapter.deleteItemAtIndex(position ?: 0)
+                    is ResultState.Error ->
+                        Toast.makeText(requireContext(), it.errorString, Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
     }
 
     private fun fetchAddresses() {
@@ -81,7 +92,7 @@ class AddressesFragment : Fragment() {
         }
     }
 
-    private val onItemClick: (Int) -> (Unit) = { position -> }
+    private val onItemClick: (Int) -> (Unit) = { }
 
     private val onDelete: (Address, Int) -> (Unit) = { address, position ->
         val dialog = AlertDialog.Builder(requireContext())
@@ -89,11 +100,9 @@ class AddressesFragment : Fragment() {
         dialog.setMessage("Are you sure that you want to delete this address from your account ?")
         dialog.setPositiveButton(android.R.string.ok) { _, _ ->
             viewModel.deleteAddress(addressId = address.id ?: 0)
-            addressesAdapter.deleteItemAtIndex(position)
+            this.position = position
         }
-        dialog.setNegativeButton(android.R.string.cancel) { _, _ ->
-
-        }.show()
+        dialog.setNegativeButton(android.R.string.cancel) { _,_ -> }.show()
     }
 
     private val onEdit: (Address) -> (Unit) = { address ->

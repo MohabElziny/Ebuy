@@ -255,8 +255,8 @@ class Repository(
             parseError(response.errorBody())
     }
 
-    override suspend fun addAddress(customerId: Long): NetworkResponse<Address> {
-        val response = remoteSource.addAddress(customerId)
+    override suspend fun addAddress(customerId: Long, address: AddressDto): NetworkResponse<Address> {
+        val response = remoteSource.addAddress(customerId, address)
         return if (response.isSuccessful)
             SuccessResponse(data = response.body() ?: Address())
         else

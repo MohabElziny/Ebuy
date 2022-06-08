@@ -22,9 +22,10 @@ class AddressesViewModel(private val repo: IRepository) : ViewModel() {
         MutableStateFlow(ResultState.Loading)
     val deleteAddressState get() = _deleteAddressState.asStateFlow()
 
-    fun deleteAddress(customerId: Long = repo.getUserIdFromPrefs(), addressId: Long) {
+    fun deleteAddress(addressId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = async { repo.deleteAddress(customerId, addressId) }
+            _deleteAddressState.emit(ResultState.Loading)
+            val result = async { repo.deleteAddress(repo.getUserIdFromPrefs(), addressId) }
             setDeleteState(result.await())
         }
     }
@@ -37,9 +38,10 @@ class AddressesViewModel(private val repo: IRepository) : ViewModel() {
         }
     }
 
-    fun getAllAddresses(customerId: Long = repo.getUserIdFromPrefs()) {
+    fun getAllAddresses() {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = async { repo.getAllAddresses(customerId) }
+            _deleteAddressState.emit(ResultState.Loading)
+            val result = async { repo.getAllAddresses(repo.getUserIdFromPrefs()) }
             setAddAddress(result.await())
         }
     }

@@ -1,6 +1,5 @@
 package com.iti.android.team1.ebuy.model.datasource.remotesource
 
-import com.google.gson.annotations.SerializedName
 import com.iti.android.team1.ebuy.model.pojo.*
 import retrofit2.Response
 import retrofit2.http.*
@@ -76,34 +75,35 @@ interface RetrofitService {
     suspend fun getAddressDetails(
         @Path("customerId") customerId: Long,
         @Path("addressId") addressId: Long,
-        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Address>
 
     @POST("customers/{customerId}/addresses.json")
     suspend fun addAddress(
         @Path("customerId") customerId: Long,
-        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+        @Body address: AddressDto,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Address>
 
     @PUT("customers/{customerId}/addresses/{addressId}.json")
     suspend fun updateAddress(
         @Path("customerId") customerId: Long,
         @Path("addressId") addressId: Long,
-        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Address>
 
     @PUT("customers/{customerId}/addresses/{addressId}/default.json")
     suspend fun setDefaultAddress(
         @Path("customerId") customerId: Long,
         @Path("addressId") addressId: Long,
-        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Address>
 
     @DELETE("customers/{customerId}/addresses/{addressId}.json")
     suspend fun deleteAddress(
         @Path("customerId") customerId: Long,
         @Path("addressId") addressId: Long,
-        @Header("X-Shopify-Access-Token") pass: String = PASSWORD
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Address>
 
 

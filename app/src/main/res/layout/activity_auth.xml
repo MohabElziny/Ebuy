@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AuthActivity">
+    tools:context=".auth.view.AuthActivity">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -21,6 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize" />
     </com.google.android.material.appbar.AppBarLayout>
+
+    <include
+        android:id="@+id/no_connection"
+        layout="@layout/no_connection_layout"
+        android:visibility="invisible" />
 
     <fragment
         android:id="@+id/nav_host_fragment_activity_auth"

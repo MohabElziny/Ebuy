@@ -40,7 +40,7 @@ data class Customer(
     @SerializedName("tags") var password: String? = null,
     @SerializedName("last_order_name") var lastOrderName: String? = null,
     @SerializedName("currency") var currency: String? = null,
-    var addresses: Addresses = Addresses(),
+    @SerializedName("addresses") var addresses: ArrayList<Address> = arrayListOf(),
     @SerializedName("accepts_marketing_updated_at") var acceptsMarketingUpdatedAt: String? = null,
     @SerializedName("marketing_opt_in_level") var marketingOptInLevel: String? = null,
     @SerializedName("tax_exemptions") var taxExemptions: ArrayList<String> = arrayListOf(),

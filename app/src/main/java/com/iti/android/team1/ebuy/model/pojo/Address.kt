@@ -21,3 +21,14 @@ data class Address(
     @SerializedName("country_name") var countryName: String? = null,
     @SerializedName("default") var default: Boolean? = null,
 )
+
+data class AddressDto(@SerializedName("address") val addressApi: AddressApi? = null)
+
+data class AddressApi(
+    @SerializedName("address1") var address1: String? = null,
+    @SerializedName("city") var city: String? = null,
+    @SerializedName("phone") var phone: String? = null,
+    @SerializedName("name") var name: String? = null,
+    @SerializedName("country") var country: String = "Egypt",
+    @SerializedName("province") var province: String? = null,
+)
