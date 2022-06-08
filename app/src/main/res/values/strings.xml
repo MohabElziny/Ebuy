@@ -93,7 +93,7 @@
     <string name="add">ADD</string>
     <string name="no_more_in_stock">No more in stock.</string>
 
-    <string name="email_error" tools:ignore="ExtraTranslation" translatable="false">Email must be in format example@gmail.com</string>
+    <string name="email_error" translatable="false" tools:ignore="ExtraTranslation">Email must be in format example@gmail.com</string>
     <string name="password_error" tools:ignore="MissingTranslation">Password must be upper lower special char number and greater than 8</string>
     <string name="name_error" tools:ignore="MissingTranslation">Enter a valid Name</string>
     <string name="DeliveryPrice" translatable="false">50</string>
@@ -114,4 +114,75 @@
     <string name="connected">Connected</string>
     <string name="not_connected">Not Connected</string>
     <string name="please_connect_to_network_to_use_our_application">Please Connect to Network to use our application</string>
+    <string name="settings_label">Settings</string>
+    <string name="addresses_fragment">Addresses</string>
+    <string name="address_1">Address</string>
+    <string name="address_2">Address 2</string>
+    <string name="province_title">Province</string>
+    <string name="city_title">City</string>
+    <string name="phone_number">Phone number</string>
+    <string name="address_name">Address name</string>
+    <string name="save_address">Save address</string>
+    <string name="no_addresses">You don\'t have any saved address</string>
+
+
+    <string-array name="egypt_province_codes">
+        <item>EG-DK</item>
+        <item>EG-BA</item>
+        <item>EG-BH</item>
+        <item>EG-FYM</item>
+        <item>EG-GH</item>
+        <item>EG-ALX</item>
+        <item>EG-IS</item>
+        <item>EG-GZ</item>
+        <item>EG-MNF</item>
+        <item>EG-MN</item>
+        <item>EG-C</item>
+        <item>EG-KB</item>
+        <item>EG-LX</item>
+        <item>EG-WAD</item>
+        <item>EG-SUZ</item>
+        <item>EG-SHR</item>
+        <item>EG-ASN</item>
+        <item>EG-AST</item>
+        <item>EG-BNS</item>
+        <item>EG-PTS</item>
+        <item>EG-DT</item>
+        <item>EG-JS</item>
+        <item>EG-KFS</item>
+        <item>EG-MT</item>
+        <item>EG-KN</item>
+        <item>EG-SIN</item>
+        <item>EG-SHG</item>
+    </string-array>
+
+    <string-array name="egypt_province_names">
+        <item>Dakahlia</item>
+        <item>Red Sea</item>
+        <item>Beheira</item>
+        <item>Faiyum</item>
+        <item>Gharbia</item>
+        <item>Alexandria</item>
+        <item>Ismailia</item>
+        <item>Giza</item>
+        <item>Monufia</item>
+        <item>Minya</item>
+        <item>Cairo</item>
+        <item>Qalyubia</item>
+        <item>Luxor</item>
+        <item>New Valley</item>
+        <item>Suez</item>
+        <item>Al Sharqia</item>
+        <item>Aswan</item>
+        <item>Asyut</item>
+        <item>Beni Suef</item>
+        <item>Port Said</item>
+        <item>Damietta</item>
+        <item>South Sinai</item>
+        <item>Kafr el-Sheikh</item>
+        <item>Matrouh</item>
+        <item>Qena</item>
+        <item>North Sinai</item>
+        <item>Sohag</item>
+    </string-array>
 </resources>

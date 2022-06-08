@@ -48,10 +48,10 @@ object RetrofitHelper : RemoteSource {
 
     }
 
-    override suspend fun loginCustomer(customerLogin: CustomerLogin): Response<CustomerLoginAPI> {
-        val query = "tag:${customerLogin.password}"
-        return retrofitService.loginCustomer(password = query, email = customerLogin.email)
-    }
+    override suspend fun loginCustomer(customerLogin: CustomerLogin) =
+        retrofitService.loginCustomer(password = customerLogin.password,
+            email = customerLogin.email)
+
 
     override suspend fun getCustomerByID(customer_id: Long): Response<CustomerRegisterAPI> {
         return retrofitService.getCustomerById(customer_id)
@@ -60,4 +60,25 @@ object RetrofitHelper : RemoteSource {
     override suspend fun getCustomerOrders(customer_id: Long): Response<OrderAPI> {
         return retrofitService.getCustomerOrders(customer_id)
     }
+
+    override suspend fun getAllAddresses(
+        customerId: Long,
+    ): Response<Addresses> = retrofitService.getAllAddresses(customerId)
+
+    override suspend fun getAddressDetails(customerId: Long, addressId: Long) =
+        retrofitService.getAddressDetails(addressId, addressId)
+
+    override suspend fun addAddress(customerId: Long, address: AddressDto) =
+        retrofitService.addAddress(customerId, address = address)
+
+    override suspend fun updateAddress(customerId: Long, addressId: Long) =
+        retrofitService.updateAddress(customerId, addressId)
+
+    override suspend fun setDefaultAddress(customerId: Long, addressId: Long) =
+        retrofitService.setDefaultAddress(customerId, addressId)
+
+    override suspend fun deleteAddress(customerId: Long, addressId: Long) =
+        retrofitService.deleteAddress(customerId, addressId)
+
+
 }

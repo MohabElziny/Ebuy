@@ -141,8 +141,8 @@ class HomeFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_settings -> {//TODO: Navigate to settings screen
-            }
+            R.id.action_settings -> findNavController().navigate(
+                HomeFragmentDirections.actionNavigationHomeToSettingsFragment())
             R.id.action_about -> {//TODO: Navigate to about screen
             }
         }
