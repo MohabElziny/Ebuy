@@ -1,43 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
-
     <androidx.cardview.widget.CardView
         android:id="@+id/parent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="9dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="9dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginBottom="9dp"
         app:cardCornerRadius="9dp"
         app:cardElevation="3dp">
 
-        <TextView
-            android:id="@+id/textAdders"
-            style="@style/heading3"
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:layout_marginStart="3dp"
-            android:layout_marginTop="3dp"
-            android:layout_marginEnd="55dp"
-            android:layout_marginBottom="3dp"
-            android:padding="9dp"
-            android:textSize="@dimen/fontHeading6" />
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp">
 
-        <ImageButton
+            <TextView
+                android:id="@+id/name"
+                style="@style/heading3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:textSize="@dimen/fontHeading6"
+                tools:text="Address Name" />
+
+            <TextView
+                android:id="@+id/phone"
+                style="@style/heading3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="3dp"
+                android:layout_toEndOf="@id/name"
+                android:textSize="@dimen/fontHeading6"
+                android:textStyle="italic"
+                tools:text="Tel: +02 111 772 1272" />
+
+            <TextView
+                android:id="@+id/address"
+                style="@style/heading3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/fontHeading6"
+                android:textStyle="normal"
+                tools:text="102, ahmed helmy," />
+
+            <TextView
+                android:id="@+id/city"
+                style="@style/heading3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@id/address"
+                android:textSize="@dimen/fontHeading6"
+                android:textStyle="normal"
+                tools:text="new cairo" />
+
+            <TextView
+                android:id="@+id/province"
+                style="@style/heading3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/city"
+                android:layout_marginTop="5dp"
+                android:textSize="@dimen/fontHeading6"
+                android:textStyle="normal"
+                tools:text="Cairo," />
+
+            <TextView
+                android:id="@+id/country"
+                style="@style/heading3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/city"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="5dp"
+                android:layout_toEndOf="@id/province"
+                android:textSize="@dimen/fontHeading6"
+                android:textStyle="normal"
+                tools:text="new cairo" />
+        </RelativeLayout>
+
+
+        <ImageView
             android:id="@+id/imageDelete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:layout_margin="3dp"
+            android:layout_margin="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_baseline_delete_24" />
 
-        <ImageButton
+        <ImageView
             android:id="@+id/imageEdit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_margin="3dp"
+            android:layout_margin="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:clickable="true"
+            android:focusable="true"
             android:src="@drawable/ic_round_edit_24" />
 
     </androidx.cardview.widget.CardView>

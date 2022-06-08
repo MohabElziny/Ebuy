@@ -91,7 +91,7 @@
         android:id="@+id/settingsFragment"
         android:name="com.iti.android.team1.ebuy.ui.settings.view.SettingsFragment"
         android:label="@string/settings_label"
-        tools:layout="@layout/fragment_settings" >
+        tools:layout="@layout/fragment_settings">
         <action
             android:id="@+id/action_settingsFragment_to_addressesFragment"
             app:destination="@id/addressesFragment" />
@@ -121,7 +121,7 @@
         android:id="@+id/addressesFragment"
         android:name="com.iti.android.team1.ebuy.ui.all_addresses.view.AddressesFragment"
         android:label="@string/addresses_fragment"
-        tools:layout="@layout/fragment_addresses" >
+        tools:layout="@layout/fragment_addresses">
         <action
             android:id="@+id/action_addressesFragment_to_addAddressFragment"
             app:destination="@id/addAddressFragment" />
@@ -129,8 +129,8 @@
     <fragment
         android:id="@+id/addAddressFragment"
         android:name="com.iti.android.team1.ebuy.ui.add_address.view.AddAddressFragment"
-        android:label="fragment_add_address"
-        tools:layout="@layout/fragment_add_address" >
+        android:label="Add address"
+        tools:layout="@layout/fragment_add_address">
         <argument
             android:name="addressid"
             app:argType="long" />

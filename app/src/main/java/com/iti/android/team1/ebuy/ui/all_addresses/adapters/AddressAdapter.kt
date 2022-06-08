@@ -42,7 +42,12 @@ class AddressAdapter(
         }
 
         fun bindView() {
-            binding.textAdders.text = "${address.toString()}"
+            binding.name.text = address.address1
+            binding.phone.text = "Tel: ${address.phone}"
+            binding.address.text = address.address1
+            binding.city.text = address.city
+            binding.country.text = address.country
+            binding.province.text = address.province
         }
     }
 

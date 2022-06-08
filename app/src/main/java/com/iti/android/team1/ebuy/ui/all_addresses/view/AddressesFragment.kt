@@ -11,6 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
+import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentAddressesBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
@@ -67,15 +69,40 @@ class AddressesFragment : Fragment() {
             viewModel.allAddressesState.buffer().collect {
                 when (it) {
                     ResultState.EmptyResult -> {
-
+                        binding.shimmerLayout.root.apply {
+                            hideShimmer()
+                            stopShimmer()
+                            visibility = View.GONE
+                        }
+                        binding.floatingActionButton.visibility = View.VISIBLE
+                        binding.emptyLayout.root.visibility = View.VISIBLE
+                        binding.emptyLayout.apply {
+                            animationView.apply {
+                                setAnimation(R.raw.no_address)
+                            }
+                            txt.text = getString(R.string.no_addresses)
+                        }
                     }
                     is ResultState.Error -> {
-
+                        Snackbar.make(requireView(), it.errorString, Snackbar.LENGTH_SHORT).show()
                     }
                     ResultState.Loading -> {
-
+                        binding.recycler.visibility = View.VISIBLE
+                        binding.emptyLayout.root.visibility = View.GONE
+                        binding.shimmerLayout.root.apply {
+                            showShimmer(true)
+                            startShimmer()
+                        }
                     }
                     is ResultState.Success -> {
+                        binding.emptyLayout.root.visibility = View.GONE
+                        binding.shimmerLayout.root.apply {
+                            hideShimmer()
+                            stopShimmer()
+                            visibility = View.GONE
+                        }
+
+                        binding.floatingActionButton.visibility = View.VISIBLE
                         addressesAdapter = AddressAdapter(
                             onItemClick = onItemClick,
                             onDeleteClick = onDelete,
@@ -85,6 +112,7 @@ class AddressesFragment : Fragment() {
                         binding.recycler.apply {
                             layoutManager = LinearLayoutManager(requireContext())
                             adapter = addressesAdapter
+                            visibility = View.VISIBLE
                         }
                     }
                 }
@@ -102,7 +130,7 @@ class AddressesFragment : Fragment() {
             viewModel.deleteAddress(addressId = address.id ?: 0)
             this.position = position
         }
-        dialog.setNegativeButton(android.R.string.cancel) { _,_ -> }.show()
+        dialog.setNegativeButton(android.R.string.cancel) { _, _ -> }.show()
     }
 
     private val onEdit: (Address) -> (Unit) = { address ->
