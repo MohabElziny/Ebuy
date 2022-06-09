@@ -266,8 +266,9 @@ class Repository(
     override suspend fun updateAddress(
         customerId: Long,
         addressId: Long,
+        newAddress: AddressDto
     ): NetworkResponse<Address> {
-        val response = remoteSource.updateAddress(customerId, addressId)
+        val response = remoteSource.updateAddress(customerId, addressId, newAddress)
         return if (response.isSuccessful)
             SuccessResponse(data = response.body() ?: Address())
         else

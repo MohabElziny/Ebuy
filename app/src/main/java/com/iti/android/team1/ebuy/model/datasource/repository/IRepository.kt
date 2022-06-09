@@ -28,7 +28,7 @@ interface IRepository {
     suspend fun getCustomerOrders(): NetworkResponse<OrderAPI>
     suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct): DatabaseResponse<Int>
 
-    suspend fun getFlowFavoriteProducts() : Flow<List<FavoriteProduct>>
+    suspend fun getFlowFavoriteProducts(): Flow<List<FavoriteProduct>>
     suspend fun getAllCartProducts(): List<CartItem>
     suspend fun removeAllCartProducts()
     suspend fun addProductToCart(product: Product, quantity: Int): DatabaseResponse<Long>
@@ -49,7 +49,12 @@ interface IRepository {
     suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses>
     suspend fun getAddressDetails(customerId: Long, addressId: Long): NetworkResponse<Address>
     suspend fun addAddress(customerId: Long, address: AddressDto): NetworkResponse<Address>
-    suspend fun updateAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
+    suspend fun updateAddress(
+        customerId: Long,
+        addressId: Long,
+        newAddress: AddressDto,
+    ): NetworkResponse<Address>
+
     suspend fun setDefaultAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
     suspend fun deleteAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
 

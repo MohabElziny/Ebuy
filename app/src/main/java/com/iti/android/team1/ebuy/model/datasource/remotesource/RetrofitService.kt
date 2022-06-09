@@ -89,6 +89,7 @@ interface RetrofitService {
     suspend fun updateAddress(
         @Path("customerId") customerId: Long,
         @Path("addressId") addressId: Long,
+        @Body newAddress: AddressDto,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Address>
 

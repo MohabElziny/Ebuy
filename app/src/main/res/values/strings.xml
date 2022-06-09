@@ -124,6 +124,10 @@
     <string name="address_name">Address name</string>
     <string name="save_address">Save address</string>
     <string name="no_addresses">You don\'t have any saved addresses</string>
+    <string name="add_address_title">Add address</string>
+    <string name="edit_address_title">Add address</string>
+    <string name="make_defult">Make defult</string>
+    <string name="update_address">Update Address</string>
 
 
     <string-array name="egypt_province_codes">
