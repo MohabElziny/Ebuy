@@ -11,7 +11,6 @@ import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.FailureResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.SuccessResponse
 import com.iti.android.team1.ebuy.model.pojo.*
-import com.iti.android.team1.ebuy.util.AuthRegex
 import com.iti.android.team1.ebuy.util.Decoder
 import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
@@ -22,7 +21,6 @@ class Repository(
     private val localSource: ILocalSource,
     private val remoteSource: RemoteSource = RetrofitHelper,
     private val decoder: Decoder = Decoder,
-    private val authRegex: AuthRegex = AuthRegex,
 ) : IRepository {
 
     override suspend fun getAllBrands(): NetworkResponse<Brands> {
@@ -145,7 +143,7 @@ class Repository(
 
     override suspend fun loginCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
         val response =
-            remoteSource.loginCustomer(customerLogin.copy(password = encodePassword(customerLogin.password)))
+            remoteSource.loginCustomer(customerLogin.copy(password = encode(customerLogin.password)))
         return if (response.isSuccessful) {
 
             if (!response.body()?.customers.isNullOrEmpty())
@@ -222,28 +220,20 @@ class Repository(
         return localSource.isProductInCart(productVariantID)
     }
 
-    override fun isEmailValid(email: String): Boolean {
-        return authRegex.isEmailValid(email)
+    override fun decode(input: String): String {
+        return decoder.decode(input)
     }
 
-    override fun isPasswordValid(password: String): Boolean {
-        return authRegex.isPasswordValid(password)
-    }
-
-    override fun decodePassword(password: String): String {
-        return decoder.decode(password)
-    }
-
-    override fun encodePassword(password: String): String {
-        return decoder.encode(password)
+    override fun encode(input: String): String {
+        return decoder.encode(input)
     }
 
     override fun setUserIdToPrefs(userId: Long) =
-        localSource.setUserIdToPrefs(encodePassword(userId.toString()))
+        localSource.setUserIdToPrefs(encode(userId.toString()))
 
     override fun setAuthStateToPrefs(state: Boolean) = localSource.setAuthStateToPrefs(state)
 
-    override fun getUserIdFromPrefs() = decodePassword(localSource.getUserIdFromPrefs()).toLong()
+    override fun getUserIdFromPrefs() = decode(localSource.getUserIdFromPrefs()).toLong()
 
     override fun getAuthStateFromPrefs() = localSource.getAuthStateFromPrefs()
 
@@ -423,6 +413,66 @@ class Repository(
     private suspend fun updateCustomer(customer: Customer) {
         remoteSource.updateCustomer(customer)
     }
+    override suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses> {
+        val response = remoteSource.getAllAddresses(customerId)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Addresses())
+        else
+            parseError(response.errorBody())
+    }
+
+    override suspend fun getAddressDetails(
+        customerId: Long,
+        addressId: Long,
+    ): NetworkResponse<Address> {
+        val response = remoteSource.getAddressDetails(customerId, addressId)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Address())
+        else
+            parseError(response.errorBody())
+    }
+
+    override suspend fun addAddress(customerId: Long, address: AddressDto): NetworkResponse<Address> {
+        val response = remoteSource.addAddress(customerId, address)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Address())
+        else
+            parseError(response.errorBody())
+    }
+
+    override suspend fun updateAddress(
+        customerId: Long,
+        addressId: Long,
+    ): NetworkResponse<Address> {
+        val response = remoteSource.updateAddress(customerId, addressId)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Address())
+        else
+            parseError(response.errorBody())
+    }
+
+    override suspend fun setDefaultAddress(
+        customerId: Long,
+        addressId: Long,
+    ): NetworkResponse<Address> {
+        val response = remoteSource.setDefaultAddress(customerId, addressId)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Address())
+        else
+            parseError(response.errorBody())
+    }
+
+    override suspend fun deleteAddress(
+        customerId: Long,
+        addressId: Long,
+    ): NetworkResponse<Address> {
+        val response = remoteSource.deleteAddress(customerId, addressId)
+        return if (response.isSuccessful)
+            SuccessResponse(data = response.body() ?: Address())
+        else
+            parseError(response.errorBody())
+    }
+
 }
 
 private fun parseError(errorBody: ResponseBody?): FailureResponse {

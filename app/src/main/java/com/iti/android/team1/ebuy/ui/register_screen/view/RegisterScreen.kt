@@ -19,6 +19,7 @@ import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
 import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.ui.register_screen.viewmodel.RegisterViewModel
 import com.iti.android.team1.ebuy.ui.register_screen.viewmodel.RegisterViewModelFactory
+import com.iti.android.team1.ebuy.util.trimText
 
 class RegisterScreen : Fragment() {
 
@@ -114,8 +115,5 @@ class RegisterScreen : Fragment() {
         }
     }
 
-    private fun EditText.trimText():String{
-        return this.text.toString().trim()
-    }
 
 }

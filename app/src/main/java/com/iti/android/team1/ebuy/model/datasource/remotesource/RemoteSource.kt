@@ -17,6 +17,13 @@ interface RemoteSource {
     suspend fun loginCustomer(customerLogin: CustomerLogin): Response<CustomerLoginAPI>
     suspend fun getCustomerByID(customer_id: Long): Response<CustomerRegisterAPI>
     suspend fun getCustomerOrders(customer_id: Long): Response<OrderAPI>
+
+    suspend fun getAllAddresses(customerId: Long): Response<Addresses>
+    suspend fun getAddressDetails(customerId: Long, addressId: Long): Response<Address>
+    suspend fun addAddress(customerId: Long, address: AddressDto): Response<Address>
+    suspend fun updateAddress(customerId: Long, addressId: Long): Response<Address>
+    suspend fun setDefaultAddress(customerId: Long, addressId: Long): Response<Address>
+    suspend fun deleteAddress(customerId: Long, addressId: Long): Response<Address>
     suspend fun postDraftOrder(draft: Draft): Response<Draft>
     suspend fun updateDraftOrder(draft: Draft): Response<Draft>
     suspend fun getDraftOrder(draftId: Long): Response<Draft>

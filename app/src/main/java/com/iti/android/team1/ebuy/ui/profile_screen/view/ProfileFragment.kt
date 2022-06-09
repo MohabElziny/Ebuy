@@ -1,11 +1,9 @@
 package com.iti.android.team1.ebuy.ui.profile_screen.view
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -25,6 +23,7 @@ import com.iti.android.team1.ebuy.ui.savedItems.view.SavedItemsFragmentDirection
 import kotlinx.coroutines.flow.buffer
 
 class ProfileFragment : Fragment() {
+
     private var _binding: FragmentProfileBinding? = null
     private val viewModel: ProfileViewModel by viewModels {
         ProfileVMFactory(Repository(LocalSource(requireContext().applicationContext)))
@@ -43,6 +42,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setHasOptionsMenu(true)
         initOrdersRecyclerView()
         initFavoritesRecyclerView()
         handleCustomerInfo()
@@ -64,6 +64,19 @@ class ProfileFragment : Fragment() {
         (activity as MainActivity).setDefault()
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.profile_top_app_bar, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.favIcon -> findNavController().navigate(
+                ProfileFragmentDirections.actionNavigationProfileToNavigationFavorites()
+            )
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     private var onItemClick: (Long) -> Unit = { productId ->
         findNavController().navigate(
