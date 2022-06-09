@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -103,13 +102,11 @@ class AddressesFragment : Fragment() {
     }
 
     private fun fetchDeletedData() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.deleteAddressState.observe(viewLifecycleOwner) {
-                when (it) {
-                    ResultState.EmptyResult -> addressesAdapter.deleteItemAtIndex(position ?: 0)
-                    is ResultState.Error ->
-                        Toast.makeText(requireContext(), it.errorString, Toast.LENGTH_SHORT).show()
-                }
+        viewModel.deleteAddressState.observe(viewLifecycleOwner) {
+            when (it) {
+                ResultState.EmptyResult -> addressesAdapter.deleteItemAtIndex(position ?: 0)
+                is ResultState.Error ->
+                    Toast.makeText(requireContext(), it.errorString, Toast.LENGTH_SHORT).show()
             }
         }
     }
