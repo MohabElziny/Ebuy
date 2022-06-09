@@ -38,15 +38,19 @@ interface IRepository {
 
     suspend fun isProductInCart(productVariantID: Long): Boolean
 
-    fun isEmailValid(email: String): Boolean
-    fun isPasswordValid(password: String): Boolean
-
-    fun decodePassword(password: String): String
-    fun encodePassword(password: String): String
+    fun decode(input: String): String
+    fun encode(input: String): String
 
     fun setUserIdToPrefs(userId: Long)
     fun setAuthStateToPrefs(state: Boolean)
     fun getUserIdFromPrefs(): Long
     fun getAuthStateFromPrefs(): Boolean
+
+    suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses>
+    suspend fun getAddressDetails(customerId: Long, addressId: Long): NetworkResponse<Address>
+    suspend fun addAddress(customerId: Long, address: AddressDto): NetworkResponse<Address>
+    suspend fun updateAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
+    suspend fun setDefaultAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
+    suspend fun deleteAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
 
 }
