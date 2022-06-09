@@ -57,48 +57,53 @@ class AddressesFragment : Fragment() {
     private fun fetchAddresses() {
         viewModel.allAddressesState.observe(viewLifecycleOwner) {
             when (it) {
-                ResultState.EmptyResult -> {
-                    binding.shimmerLayout.root.apply {
-                        hideShimmer()
-                        stopShimmer()
-                        visibility = View.GONE
-                    }
-                    binding.recycler.visibility = View.GONE
-                    binding.floatingActionButton.visibility = View.VISIBLE
-                    binding.emptyLayout.root.visibility = View.VISIBLE
-                    binding.emptyLayout.apply {
-                        animationView.apply {
-                            setAnimation(R.raw.no_address)
-                        }
-                        txt.text = getString(R.string.no_addresses)
-                    }
-                }
-                is ResultState.Error ->
-                    Snackbar.make(requireView(), it.errorString, Snackbar.LENGTH_SHORT).show()
-
-                ResultState.Loading -> {
-                    binding.recycler.visibility = View.GONE
-                    binding.emptyLayout.root.visibility = View.GONE
-                    binding.shimmerLayout.root.apply {
-                        showShimmer(true)
-                        startShimmer()
-                        visibility = View.VISIBLE
-                    }
-                }
-                is ResultState.Success -> {
-                    binding.emptyLayout.root.visibility = View.GONE
-                    binding.shimmerLayout.root.apply {
-                        hideShimmer()
-                        stopShimmer()
-                        visibility = View.GONE
-                    }
-                    binding.floatingActionButton.visibility = View.VISIBLE
-                    binding.recycler.visibility = View.VISIBLE
-                    addressesAdapter.setAddresses(it.data)
-                }
+                ResultState.EmptyResult -> setEmptyState()
+                is ResultState.Error -> Snackbar.make(requireView(),
+                    it.errorString,
+                    Snackbar.LENGTH_SHORT).show()
+                ResultState.Loading -> setLoadingState()
+                is ResultState.Success -> setSuccessState(it)
             }
         }
+    }
 
+    private fun setSuccessState(resultState: ResultState.Success<List<Address>>) {
+        binding.emptyLayout.root.visibility = View.GONE
+        binding.shimmerLayout.root.apply {
+            hideShimmer()
+            stopShimmer()
+            visibility = View.GONE
+        }
+        binding.floatingActionButton.visibility = View.VISIBLE
+        binding.recycler.visibility = View.VISIBLE
+        addressesAdapter.setAddresses(resultState.data)
+    }
+
+    private fun setLoadingState() {
+        binding.recycler.visibility = View.GONE
+        binding.emptyLayout.root.visibility = View.GONE
+        binding.shimmerLayout.root.apply {
+            showShimmer(true)
+            startShimmer()
+            visibility = View.VISIBLE
+        }
+    }
+
+    private fun setEmptyState() {
+        binding.shimmerLayout.root.apply {
+            hideShimmer()
+            stopShimmer()
+            visibility = View.GONE
+        }
+        binding.recycler.visibility = View.GONE
+        binding.floatingActionButton.visibility = View.VISIBLE
+        binding.emptyLayout.root.visibility = View.VISIBLE
+        binding.emptyLayout.apply {
+            animationView.apply {
+                setAnimation(R.raw.no_address)
+            }
+            txt.text = getString(R.string.no_addresses)
+        }
     }
 
     private fun fetchDeletedData() {
