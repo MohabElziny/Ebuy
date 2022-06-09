@@ -1,7 +1,6 @@
 package com.iti.android.team1.ebuy.ui.all_addresses.adapters
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
