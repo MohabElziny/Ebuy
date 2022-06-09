@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.domain.category.CategoryProductsUseCase
 import com.iti.android.team1.ebuy.domain.category.ICategoryProductsUseCase
-import com.iti.android.team1.ebuy.model.DatabaseResponse
-import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Categories
+import com.iti.android.team1.ebuy.model.pojo.DraftOrder
 import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.model.pojo.Products
 import kotlinx.coroutines.Dispatchers
@@ -25,12 +24,12 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     val allCategories get() = _allCategories.asStateFlow()
 
     private var _insertFavoriteProductToDataBase =
-        MutableStateFlow<DatabaseResult<Long>>(DatabaseResult.Loading)
+        MutableStateFlow<ResultState<DraftOrder>>(ResultState.Loading)
     val insertFavoriteProductToDataBase
         get() = _insertFavoriteProductToDataBase.asStateFlow()
 
     private var _deleteFavoriteProductToDataBase =
-        MutableStateFlow<DatabaseResult<Int>>(DatabaseResult.Loading)
+        MutableStateFlow<ResultState<DraftOrder>>(ResultState.Loading)
     val deleteFavoriteProductToDataBase
         get() = _deleteFavoriteProductToDataBase.asStateFlow()
 
@@ -101,22 +100,18 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     fun addProductToFavorite(product: Product) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = async {
-                myRepo.addProductToFavorite(product)
+                myRepo.addFavorite(product)
             }
-            sendAddProductToFavoriteResponse(result.await())
+            addFavoriteResponse(result.await())
         }
     }
 
-    private fun sendAddProductToFavoriteResponse(response: DatabaseResponse<Long?>) {
+    private fun addFavoriteResponse(response: NetworkResponse<DraftOrder>) {
         when (response) {
-            is DatabaseResponse.Failure ->
-                _insertFavoriteProductToDataBase.value = DatabaseResult.Error(response.errorMsg)
-            is DatabaseResponse.Success -> {
-                if (response.data != null) {
-                    _insertFavoriteProductToDataBase.value = DatabaseResult.Success(response.data)
-                } else {
-                    _insertFavoriteProductToDataBase.value = DatabaseResult.Empty
-                }
+            is NetworkResponse.FailureResponse -> _insertFavoriteProductToDataBase.value =
+                ResultState.Error(response.errorString)
+            is NetworkResponse.SuccessResponse -> {
+                _insertFavoriteProductToDataBase.value = ResultState.Success(response.data)
             }
         }
     }
@@ -124,22 +119,18 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     fun removeFavoriteProduct(productID: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = async {
-                myRepo.deleteProductFromFavorite(productID)
+                myRepo.removeFromFavorite(productID)
             }
-            sendRemoveProductFromFavoriteResponse(result.await())
+            removeFavoriteResponse(result.await())
         }
     }
 
-    private fun sendRemoveProductFromFavoriteResponse(response: DatabaseResponse<Int?>) {
+    private fun removeFavoriteResponse(response: NetworkResponse<DraftOrder>) {
         when (response) {
-            is DatabaseResponse.Failure ->
-                _deleteFavoriteProductToDataBase.value = DatabaseResult.Error(response.errorMsg)
-            is DatabaseResponse.Success -> {
-                if (response.data != null) {
-                    _deleteFavoriteProductToDataBase.value = DatabaseResult.Success(response.data)
-                } else {
-                    _deleteFavoriteProductToDataBase.value = DatabaseResult.Empty
-                }
+            is NetworkResponse.FailureResponse -> _deleteFavoriteProductToDataBase.value =
+                ResultState.Error(response.errorString)
+            is NetworkResponse.SuccessResponse -> {
+                _deleteFavoriteProductToDataBase.value = ResultState.Success(response.data)
             }
         }
     }

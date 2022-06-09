@@ -178,10 +178,10 @@ class ProductsDetailsFragment : Fragment() {
                 dialog.dismiss()
             }
             .setPositiveButton(getString(R.string.go_to_cart)) { dialog, _ ->
+                dialog.dismiss()
                 findNavController().navigate(
                     ProductsDetailsFragmentDirections.actionProductsDetailsFragmentToCartFragment()
                 )
-                dialog.dismiss()
             }
             .show()
     }

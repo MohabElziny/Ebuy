@@ -13,6 +13,8 @@ data class CustomerRegister(
     @SerializedName("first_name") var firstName: String,
     @SerializedName("last_name") var lastName: String,
     @SerializedName("tags") var password: String,
+    @SerializedName("note") var favoriteID: String = "",
+    @SerializedName("multipass_identifier") var cartID: String = "",
 )
 
 data class CustomerLogin(
@@ -33,7 +35,8 @@ data class Customer(
     @SerializedName("state") var state: String? = null,
     @SerializedName("total_spent") var totalSpent: String? = null,
     @SerializedName("last_order_id") var lastOrderId: String? = null,
-    @SerializedName("note") var note: String? = null,
+    @SerializedName("note") var favoriteID: String = "",
+    @SerializedName("multipass_identifier") var cartID: String = "",
     @SerializedName("verified_email") var verifiedEmail: Boolean? = null,
     @SerializedName("tax_exempt") var taxExempt: Boolean? = null,
     @SerializedName("phone") var phone: String? = null,
