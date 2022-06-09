@@ -17,7 +17,7 @@ class AddressAdapter(
 
     @SuppressLint("NotifyDataSetChanged")
     fun setAddresses(newList: List<Address>) {
-        addresses.addAll(newList)
+        addresses = ArrayList(newList)
         notifyDataSetChanged()
     }
 
@@ -35,8 +35,7 @@ class AddressAdapter(
         init {
             binding.parent.setOnClickListener { onItemClick(bindingAdapterPosition) }
             binding.imageDelete.setOnClickListener {
-                onDeleteClick(address,
-                    bindingAdapterPosition)
+                onDeleteClick(address, bindingAdapterPosition)
             }
             binding.imageEdit.setOnClickListener { onEditClick(address) }
         }
