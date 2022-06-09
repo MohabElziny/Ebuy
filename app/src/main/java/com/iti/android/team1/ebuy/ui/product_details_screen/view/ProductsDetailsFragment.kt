@@ -138,7 +138,7 @@ class ProductsDetailsFragment : Fragment() {
 
     private fun bindAddToCartButton() {
         binding.btnAddToCart.setOnClickListener {
-            cartProduct?.let { product -> viewModel.getProductInCartState(product) }
+            cartProduct?.let { product -> viewModel.getProductInCartState(product.productID ?: 0) }
         }
     }
 
