@@ -2,7 +2,6 @@ package com.iti.android.team1.ebuy.ui.all_addresses.view
 
 import android.app.AlertDialog
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,7 +22,6 @@ import com.iti.android.team1.ebuy.ui.all_addresses.adapters.AddressAdapter
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModel
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModelFactory
 
-private const val TAG = "AddressesFragment"
 
 class AddressesFragment : Fragment() {
 
@@ -98,8 +96,6 @@ class AddressesFragment : Fragment() {
                     binding.floatingActionButton.visibility = View.VISIBLE
                     binding.recycler.visibility = View.VISIBLE
                     addressesAdapter.setAddresses(it.data)
-                    Log.d(TAG, "fetchAddresses: new data with size of ${it.data.size}")
-
                 }
             }
         }
