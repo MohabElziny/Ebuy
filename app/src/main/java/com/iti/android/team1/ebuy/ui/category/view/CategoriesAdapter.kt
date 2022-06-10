@@ -34,6 +34,7 @@ class CategoriesAdapter(val onCategoryBtnClick: (id: Long, title: String) -> Uni
             false))
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     override fun onBindViewHolder(
         holder: CategoriesHolder,
         @SuppressLint("RecyclerView") position: Int,
@@ -43,11 +44,16 @@ class CategoriesAdapter(val onCategoryBtnClick: (id: Long, title: String) -> Uni
 
         holder.binding.categoryRowBtn.setOnClickListener {
             btnIndex = position
+
             if (position == 0)
-                onCategoryBtnClick(0, holder.binding.categoryRowBtn.text as String)
+                onCategoryBtnClick(0, categories[position].categoryTitle)
             else
                 onCategoryBtnClick(categories[position].categoryId,
-                    holder.binding.categoryRowBtn.text as String)
+                    categories[position].categoryTitle)
+
+            onCategoryBtnClick(categories[position].categoryId,
+                holder.binding.categoryRowBtn.text as String)
+
             notifyDataSetChanged()
         }
 
@@ -57,6 +63,7 @@ class CategoriesAdapter(val onCategoryBtnClick: (id: Long, title: String) -> Uni
         return categories.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setList(categoryList: List<Category>) {
         categories = categoryList
         notifyDataSetChanged()

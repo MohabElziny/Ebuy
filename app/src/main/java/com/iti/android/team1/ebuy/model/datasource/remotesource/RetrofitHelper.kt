@@ -61,6 +61,11 @@ object RetrofitHelper : RemoteSource {
         return retrofitService.getCustomerOrders(customer_id)
     }
 
+
+    override suspend fun getAllProductsByType(productType: String): Response<Products> {
+        return retrofitService.getAllProductsByType(productType)
+    }
+
     override suspend fun getAllAddresses(
         customerId: Long,
     ): Response<Addresses> = retrofitService.getAllAddresses(customerId)
@@ -87,6 +92,7 @@ object RetrofitHelper : RemoteSource {
     override suspend fun getDiscountCodes(price_rule_id: Long): Response<Discount> {
         return retrofitService.getDiscountCodes(price_rule_id)
     }
+
 
 
 }

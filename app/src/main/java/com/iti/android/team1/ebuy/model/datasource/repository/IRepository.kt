@@ -4,6 +4,7 @@ import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface IRepository {
     suspend fun getAllProducts(): NetworkResponse<Products>
@@ -46,6 +47,10 @@ interface IRepository {
     fun getUserIdFromPrefs(): Long
     fun getAuthStateFromPrefs(): Boolean
 
+
+    suspend fun getAllProductsByType(productType: String): NetworkResponse<Products>
+
+
     suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses>
     suspend fun getAddressDetails(customerId: Long, addressId: Long): NetworkResponse<Address>
     suspend fun addAddress(customerId: Long, address: AddressDto): NetworkResponse<Address>
@@ -60,4 +65,5 @@ interface IRepository {
 
     suspend fun getAllPriceRules():NetworkResponse<PriceRuleResponse>
     suspend fun getDiscountCodes(price_rule_id: Long):NetworkResponse<Discount>
+
 }
