@@ -26,11 +26,10 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+                <data
+                    android:host="paypalpay"
+                    android:scheme="com.iti.android.team1.ebuy.ui.payment_screen" />
 
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-
-                <data android:host="paypalxo" />
             </intent-filter>
         </activity>
         <activity
@@ -43,13 +42,14 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="http" />
-                <data android:scheme="https" />
-                <data android:host="paypalxo" />
+                <data
+                    android:host="paypalxo"
+                    android:scheme= "com.iti.android.team1.ebuy.ui.payment_screen" />
+
             </intent-filter>
         </activity>
         <activity
-            android:name=".auth.view.AuthActivity"
+            android:name=".activities.auth.view.AuthActivity"
             android:exported="true"
             tools:node="replace">
             <intent-filter>
@@ -58,7 +58,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".main.view.MainActivity"
+            android:name=".activities.main.view.MainActivity"
             android:exported="false"
             tools:node="replace" />
     </application>

@@ -42,7 +42,6 @@ class AuthActivity : AppCompatActivity() {
         handleConnection()
     }
 
-
     private fun setConnectionState() {
         ConnectionLiveData(this).observe(this) { connection ->
             viewModel.updateConnection(connection)
