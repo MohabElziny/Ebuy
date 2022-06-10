@@ -55,8 +55,6 @@ class ProfileFragment : Fragment() {
         binding.btnMoreOrders.setOnClickListener {
 
         }
-
-
     }
 
     override fun onStop() {
@@ -80,21 +78,16 @@ class ProfileFragment : Fragment() {
 
     private var onItemClick: (Long) -> Unit = { productId ->
         findNavController().navigate(
-            SavedItemsFragmentDirections.actionNavigationFavoritesToProductsDetailsFragment(
-                productId)
+            ProfileFragmentDirections.actionNavigationProfileToProductsDetailsFragment(productId)
         )
     }
 
-    private var onUnlike: (Long) -> Unit = { productId ->
+    private var onUnlike: (Long, Int) -> Unit = { productId, index ->
         viewModel.deleteFavoriteProduct(productId)
         lifecycleScope.launchWhenStarted {
             viewModel.deleteState.buffer().collect { response ->
                 when (response) {
-                    is ResultState.Success -> {
-                        Toast.makeText(requireContext(),
-                            "Delete Done",
-                            Toast.LENGTH_SHORT).show()
-                    }
+                    is ResultState.Success -> profileFavoritesAdapter.removeItemFromList(index)
                     is ResultState.Error -> {
                         Toast.makeText(requireContext(),
                             response.errorString,
@@ -111,7 +104,8 @@ class ProfileFragment : Fragment() {
             viewModel.favoriteProducts.buffer().collect { result ->
                 when (result) {
                     ResultState.EmptyResult -> profileFavoritesAdapter.setFavouriteList(emptyList())
-//                    is ResultState.Error -> TODO()
+                    is ResultState.Error -> Toast.makeText(requireContext(),
+                        result.errorString, Toast.LENGTH_SHORT).show()
 //                    ResultState.Loading -> TODO()
                     is ResultState.Success -> {
                         profileFavoritesAdapter.setFavouriteList(result.data)

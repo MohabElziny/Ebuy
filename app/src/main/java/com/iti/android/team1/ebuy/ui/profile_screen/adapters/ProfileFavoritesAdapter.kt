@@ -10,21 +10,27 @@ import com.iti.android.team1.ebuy.databinding.FavoritesCardRowBinding
 import com.iti.android.team1.ebuy.databinding.SavedItemsLayoutBinding
 import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
 import com.iti.android.team1.ebuy.model.pojo.Order
+import com.iti.android.team1.ebuy.model.pojo.Product
 import com.like.LikeButton
 import com.like.OnLikeListener
 
 class ProfileFavoritesAdapter(
     private inline val onClickItem: (Long) -> Unit,
-    private inline val unLikeItem:(Long)->Unit
+    private inline val unLikeItem: (Long, Int) -> Unit,
 ) :
     RecyclerView.Adapter<ProfileFavoritesAdapter.ProfileFavoritesViewHolder>() {
-    private var _favouriteList: List<FavoriteProduct> = emptyList()
-
+    private var _favouriteList: MutableList<Product> = mutableListOf()
 
     @SuppressLint("NotifyDataSetChanged")
-    fun setFavouriteList(favouriteList: List<FavoriteProduct>) {
-        _favouriteList = favouriteList
+    fun setFavouriteList(favouriteList: List<Product>) {
+        _favouriteList = favouriteList.toMutableList()
         notifyDataSetChanged()
+    }
+
+    fun removeItemFromList(index: Int) {
+        if (index < 0) return
+        _favouriteList.removeAt(index)
+        notifyItemRemoved(index)
     }
 
     inner class ProfileFavoritesViewHolder(val binding: SavedItemsLayoutBinding) :
@@ -33,27 +39,27 @@ class ProfileFavoritesAdapter(
 
         init {
             binding.parent.setOnClickListener {
-                onClickItem(favProduct.productID)
+                onClickItem(favProduct.productID ?: 0)
             }
 
             binding.likeBtn.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton?) {}
 
                 override fun unLiked(likeButton: LikeButton?) {
-                    unLikeItem(favProduct.productID)
+                    unLikeItem(favProduct.productID ?: 0, bindingAdapterPosition)
                 }
             })
         }
 
         fun bindFavoriteCard() {
             val context = binding.root.context
-            val calculatedPrice = favProduct.productPrice
-            Glide.with(binding.root.context).load(favProduct.productImageUrl)
+            val variant = favProduct.productVariants?.get(0)
+            Glide.with(binding.root.context).load(favProduct.productImage?.imageURL)
                 .into(binding.savedImage)
             binding.savedProductName.text = favProduct.productName
-            binding.savedPrice.text = "$calculatedPrice ${favProduct.currency}"
+            binding.savedPrice.text = "${variant?.productVariantPrice} EGP"
             binding.likeBtn.isLiked = true
-            if (favProduct.stock > 0) {
+            if ((variant?.productVariantInventoryQuantity ?: 0) > 0) {
                 binding.savedIsInStock.text = context.getString(R.string.in_stock)
                 binding.savedIsInStock.setTextColor(context.resources.getColor(R.color.Success))
             } else {

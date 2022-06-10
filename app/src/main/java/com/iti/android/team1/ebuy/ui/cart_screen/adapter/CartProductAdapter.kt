@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.ui.cart_screen.view
+package com.iti.android.team1.ebuy.ui.cart_screen.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater

@@ -1,7 +1,5 @@
-package com.iti.android.team1.ebuy.model.datasource.remotesource
+package com.iti.android.team1.ebuy.model.pojo
 
-import com.iti.android.team1.ebuy.model.pojo.DraftsLineItems
-import com.iti.android.team1.ebuy.model.pojo.Product
 
 class DraftsLineItemConverter {
     companion object {
