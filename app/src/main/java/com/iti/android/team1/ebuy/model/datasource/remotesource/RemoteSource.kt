@@ -24,4 +24,7 @@ interface RemoteSource {
     suspend fun updateAddress(customerId: Long, addressId: Long): Response<Address>
     suspend fun setDefaultAddress(customerId: Long, addressId: Long): Response<Address>
     suspend fun deleteAddress(customerId: Long, addressId: Long): Response<Address>
+
+    suspend fun getAllPriceRules():Response<PriceRuleResponse>
+    suspend fun getDiscountCodes(price_rule_id: Long):Response<Discount>
 }

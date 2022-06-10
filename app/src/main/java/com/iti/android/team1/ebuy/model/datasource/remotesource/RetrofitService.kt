@@ -5,7 +5,7 @@ import retrofit2.Response
 import retrofit2.http.*
 
 
-private const val PASSWORD = "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"
+private const val PASSWORD = "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"
 
 interface RetrofitService {
 
@@ -106,5 +106,28 @@ interface RetrofitService {
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Address>
 
+    @POST("price_rules.json")
+    suspend fun addPriceRule(
+        @Body priceRulePost: PriceRulePost,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<PriceRuleResponse>
+
+    @GET("price_rules.json")
+    suspend fun getAllPriceRules(
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<PriceRuleResponse>
+
+    @POST("price_rules/{price_rule_id}/discount_codes.json")
+    suspend fun addDiscount(
+        @Path("price_rule_id") price_rule_id: Long,
+        @Body discountPost: DiscountPost,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Discount>
+
+    @GET("price_rules/{price_rule_id}/discount_codes.json")
+    suspend fun getDiscountCodes(
+        @Path("price_rule_id") price_rule_id: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Discount>
 
 }
