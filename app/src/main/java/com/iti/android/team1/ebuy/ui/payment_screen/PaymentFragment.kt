@@ -16,7 +16,6 @@ import com.paypal.checkout.createorder.UserAction
 
 class PaymentFragment : Fragment() {
 
-
     private lateinit var viewModel: PaymentViewModel
     private lateinit var binding: FragmentPaymentBinding
     override fun onCreateView(
@@ -33,7 +32,7 @@ class PaymentFragment : Fragment() {
             application = requireActivity().application,
             clientId = PAYPAL_CLINET_ID,
             environment = Environment.SANDBOX,
-            returnUrl = "BuildConfig.APPLICATION_ID",
+            returnUrl = "com.iti.android.team1.ebuy://paypalpay",
             currencyCode = CurrencyCode.USD,
             userAction = UserAction.PAY_NOW,
             settingsConfig = SettingsConfig(
