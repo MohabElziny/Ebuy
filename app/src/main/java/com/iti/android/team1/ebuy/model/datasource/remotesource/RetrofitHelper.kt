@@ -7,7 +7,6 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 private const val BASE_URL = "https://mad-ism2022.myshopify.com/admin/api/2022-04/"
 
-
 private val retrofit = Retrofit.Builder().apply {
     addConverterFactory(GsonConverterFactory.create())
     baseUrl(BASE_URL)
@@ -61,7 +60,6 @@ object RetrofitHelper : RemoteSource {
         return retrofitService.getCustomerOrders(customer_id)
     }
 
-
     override suspend fun getAllProductsByType(productType: String): Response<Products> {
         return retrofitService.getAllProductsByType(productType)
     }
@@ -93,6 +91,24 @@ object RetrofitHelper : RemoteSource {
         return retrofitService.getDiscountCodes(price_rule_id)
     }
 
+    override suspend fun postDraftOrder(draft: Draft): Response<Draft> {
+        return retrofitService.postDraftOrder(draft)
+    }
 
+    override suspend fun updateDraftOrder(draft: Draft): Response<Draft> {
+        return retrofitService.updateDraftOrder(draft.draftOrder.id, draft)
+    }
 
+    override suspend fun getDraftOrder(draftId: Long): Response<Draft> {
+        return retrofitService.getDraftOrder(draftId)
+    }
+
+    override suspend fun deleteDraftOrder(draftId: Long): Response<Unit> {
+        return retrofitService.deleteDraftOrder(draftId)
+    }
+
+    override suspend fun updateCustomer(customer: Customer): Response<Customer> {
+        val customerId = customer.id ?: 0
+        return retrofitService.updateCustomer(customerId, CustomerRegisterAPI(customer))
+    }
 }

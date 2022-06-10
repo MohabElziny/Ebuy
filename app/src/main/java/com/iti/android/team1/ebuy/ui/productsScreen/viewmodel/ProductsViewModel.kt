@@ -6,10 +6,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.domain.brandproducts.BrandProductsUseCase
 import com.iti.android.team1.ebuy.domain.brandproducts.IBrandProductsUseCase
-import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.pojo.DraftOrder
 import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.model.pojo.Products
 import kotlinx.coroutines.Dispatchers
@@ -26,10 +26,10 @@ class ProductsViewModel(private val repoInterface: IRepository) : ViewModel() {
     private val brandProductsUseCase: IBrandProductsUseCase
         get() = BrandProductsUseCase(repoInterface)
 
-    private val _resultOfAddingProductToFavorite: MutableLiveData<DatabaseResponse<Long?>> =
+    private val _resultOfAddingProductToFavorite: MutableLiveData<ResultState<DraftOrder>> =
         MutableLiveData()
     val resultOfAddingProductToFavorite get() = _resultOfAddingProductToFavorite
-    private val _resultOfDeletingProductToFavorite: MutableLiveData<DatabaseResponse<Int?>> =
+    private val _resultOfDeletingProductToFavorite: MutableLiveData<ResultState<DraftOrder>> =
         MutableLiveData()
     val resultOfDeletingProductToFavorite get() = _resultOfDeletingProductToFavorite
 
@@ -62,14 +62,37 @@ class ProductsViewModel(private val repoInterface: IRepository) : ViewModel() {
 
     fun addProductToFavorite(product: Product) {
         viewModelScope.launch(Dispatchers.IO) {
-            _resultOfAddingProductToFavorite.postValue(repoInterface.addProductToFavorite(product))
+            val result = async {
+                repoInterface.addFavorite(product)
+            }
+            addFavoriteResponse(result.await())
+        }
+    }
+
+    private fun addFavoriteResponse(response: NetworkResponse<DraftOrder>) {
+        when (response) {
+            is NetworkResponse.FailureResponse ->
+                _resultOfAddingProductToFavorite.postValue(ResultState.Error(response.errorString))
+            is NetworkResponse.SuccessResponse ->
+                _resultOfAddingProductToFavorite.postValue(ResultState.Success(response.data))
         }
     }
 
     fun removeProductFromFavorite(productId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            _resultOfDeletingProductToFavorite.postValue(repoInterface.deleteProductFromFavorite(
-                productId))
+            val result = async {
+                repoInterface.removeFromFavorite(productId)
+            }
+            removeFavoriteResponse(result.await())
+        }
+    }
+
+    private fun removeFavoriteResponse(response: NetworkResponse<DraftOrder>) {
+        when (response) {
+            is NetworkResponse.FailureResponse ->
+                _resultOfDeletingProductToFavorite.postValue(ResultState.Error(response.errorString))
+            is NetworkResponse.SuccessResponse ->
+                _resultOfDeletingProductToFavorite.postValue(ResultState.Success(response.data))
         }
     }
 }

@@ -48,10 +48,7 @@ interface RetrofitService {
 
     @GET("customers/search.json")
     suspend fun loginCustomer(
-     
-
         @Query("tag") password: String,
-      
         @Query("email") email: String,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<CustomerLoginAPI>
@@ -67,7 +64,6 @@ interface RetrofitService {
         @Path("customer_id") customer_id: Long,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<OrderAPI>
-
 
     @GET("products.json")
     suspend fun getAllProductsByType(
@@ -141,4 +137,36 @@ interface RetrofitService {
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Discount>
 
+
+    @POST("draft_orders.json")
+    suspend fun postDraftOrder(
+        @Body draft: Draft,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Draft>
+
+    @PUT("draft_orders/{draft_id}.json")
+    suspend fun updateDraftOrder(
+        @Path("draft_id") draft_id: Long,
+        @Body draft: Draft,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Draft>
+
+    @GET("draft_orders/{draft_id}.json")
+    suspend fun getDraftOrder(
+        @Path("draft_id") draft_id: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Draft>
+
+    @DELETE("draft_orders/{draft_id}.json")
+    suspend fun deleteDraftOrder(
+        @Path("draft_id") draft_id: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Unit>
+
+    @PUT("customers/{customer_id}.json")
+    suspend fun updateCustomer(
+        @Path("customer_id") customer_id: Long,
+        @Body customer: CustomerRegisterAPI,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Customer>
 }

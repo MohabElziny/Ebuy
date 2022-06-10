@@ -4,6 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.iti.android.team1.ebuy.domain.productdetails.IProductInCartUseCase
+import com.iti.android.team1.ebuy.domain.productdetails.ProductInCartUseCase
 import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
@@ -18,24 +20,27 @@ import kotlinx.coroutines.launch
 
 class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
 
-    private var _product: MutableStateFlow<ResultState<Product>> =
+    private val _product: MutableStateFlow<ResultState<Product>> =
         MutableStateFlow(ResultState.Loading)
     val product get() = _product.asStateFlow()
 
-    private var _dbDeleteProgress: MutableStateFlow<DatabaseResult<Int?>> =
+    private val _dbDeleteProgress: MutableStateFlow<DatabaseResult<Int?>> =
         MutableStateFlow(DatabaseResult.Loading)
     val dpDeleteProgress get() = _dbDeleteProgress.asStateFlow()
 
-    private var _dbInsertProgress: MutableStateFlow<DatabaseResult<Long?>> =
+    private val _dbInsertProgress: MutableStateFlow<DatabaseResult<Long?>> =
         MutableStateFlow(DatabaseResult.Loading)
     val dpInsertProgress get() = _dbInsertProgress.asStateFlow()
 
-    private var _productState: MutableStateFlow<Boolean> =
+    private val _productState: MutableStateFlow<Boolean> =
         MutableStateFlow(false)
     val productState get() = _productState.asStateFlow()
 
-    private var _productCartState = MutableLiveData<Boolean>()
+    private val _productCartState = MutableLiveData<Boolean>()
     val productCartState: LiveData<Boolean> get() = _productCartState
+
+    private val productInCartUseCase: IProductInCartUseCase
+        get() = ProductInCartUseCase(myRepo)
 
     fun getProductDetails(productId: Long = 0L) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -93,10 +98,9 @@ class ProductsDetailsViewModel(private val myRepo: IRepository) : ViewModel() {
         }
     }
 
-    fun getProductInCartState(product: Product) {
-        val productVariantId = product.productVariants?.get(0)?.productVariantId ?: 0
+    fun getProductInCartState(productId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = async { myRepo.isProductInCart(productVariantId) }
+            val result = async { productInCartUseCase.isProductInCart(productId) }
             _productCartState.postValue(result.await())
         }
     }

@@ -60,7 +60,7 @@
                 android:layout_below="@+id/cat_tv_name"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentEnd="true"
-                android:visibility="gone">
+                android:visibility="gone"/>
 
                 <include layout="@layout/products_shimmer_layout" />
 
