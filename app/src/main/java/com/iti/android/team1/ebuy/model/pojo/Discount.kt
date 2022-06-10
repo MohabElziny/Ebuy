@@ -46,10 +46,10 @@ data class PriceRules(
     )
 
 data class Discount(
-    @SerializedName("discount_code") var discountCode: DiscountCode? = DiscountCode(),
+    @SerializedName("discount_codes" ) var discountCodes : ArrayList<DiscountCodes> = arrayListOf()
 )
 
-data class DiscountCode(
+data class DiscountCodes(
     @SerializedName("id") var id: Int? = null,
     @SerializedName("price_rule_id") var priceRuleId: Int? = null,
     @SerializedName("code") var code: String? = null,

@@ -80,5 +80,13 @@ object RetrofitHelper : RemoteSource {
     override suspend fun deleteAddress(customerId: Long, addressId: Long) =
         retrofitService.deleteAddress(customerId, addressId)
 
+    override suspend fun getAllPriceRules(): Response<PriceRuleResponse> {
+        return retrofitService.getAllPriceRules()
+    }
+
+    override suspend fun getDiscountCodes(price_rule_id: Long): Response<Discount> {
+        return retrofitService.getDiscountCodes(price_rule_id)
+    }
+
 
 }
