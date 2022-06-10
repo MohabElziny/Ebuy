@@ -48,7 +48,10 @@ interface RetrofitService {
 
     @GET("customers/search.json")
     suspend fun loginCustomer(
+     
+
         @Query("tag") password: String,
+      
         @Query("email") email: String,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<CustomerLoginAPI>
@@ -64,6 +67,13 @@ interface RetrofitService {
         @Path("customer_id") customer_id: Long,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<OrderAPI>
+
+
+    @GET("products.json")
+    suspend fun getAllProductsByType(
+        @Query("product_type") productType: String,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Products>
 
     @GET("customers/{customerId}/addresses.json")
     suspend fun getAllAddresses(

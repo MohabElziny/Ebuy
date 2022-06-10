@@ -18,6 +18,8 @@ interface RemoteSource {
     suspend fun getCustomerByID(customer_id: Long): Response<CustomerRegisterAPI>
     suspend fun getCustomerOrders(customer_id: Long): Response<OrderAPI>
 
+    suspend fun getAllProductsByType(productType: String): Response<Products>
+
     suspend fun getAllAddresses(customerId: Long): Response<Addresses>
     suspend fun getAddressDetails(customerId: Long, addressId: Long): Response<Address>
     suspend fun addAddress(customerId: Long, address: AddressDto): Response<Address>

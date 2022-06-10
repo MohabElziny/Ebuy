@@ -112,11 +112,13 @@
     <string name="sign_in_insted">Sign in instead</string>
     <string name="OrdersFragment">Orders</string>
 
+
     <string-array name="sortProducts">
         <item>A to Z</item>
         <item>Z to A</item>
         <item>lowest to highest price</item>
         <item>highest to lowest price</item>
+
     </string-array>
 
     <string name="connected">Connected</string>
@@ -201,5 +203,6 @@
         <item>Qena</item>
         <item>North Sinai</item>
         <item>Sohag</item>
+
     </string-array>
 </resources>
