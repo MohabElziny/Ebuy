@@ -138,7 +138,7 @@ class ProductsDetailsFragment : Fragment() {
 
     private fun bindAddToCartButton() {
         binding.btnAddToCart.setOnClickListener {
-            cartProduct?.let { product -> viewModel.getProductInCartState(product) }
+            cartProduct?.let { product -> viewModel.getProductInCartState(product.productID ?: 0) }
         }
     }
 
@@ -178,10 +178,10 @@ class ProductsDetailsFragment : Fragment() {
                 dialog.dismiss()
             }
             .setPositiveButton(getString(R.string.go_to_cart)) { dialog, _ ->
+                dialog.dismiss()
                 findNavController().navigate(
                     ProductsDetailsFragmentDirections.actionProductsDetailsFragmentToCartFragment()
                 )
-                dialog.dismiss()
             }
             .show()
     }

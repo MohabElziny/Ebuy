@@ -91,30 +91,30 @@ class CategoryFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             categoryViewModel.insertFavoriteProductToDataBase.buffer().collect { response ->
                 when (response) {
-                    DatabaseResult.Empty -> {}
-                    is DatabaseResult.Error -> {
-                        Toast.makeText(context, response.errorMsg, Toast.LENGTH_SHORT).show()
+                    is ResultState.Error -> {
+                        Toast.makeText(context, response.errorString, Toast.LENGTH_SHORT).show()
                     }
-                    DatabaseResult.Loading -> {}
-                    is DatabaseResult.Success -> {
+                    ResultState.Loading -> {}
+                    is ResultState.Success -> {
                         Toast.makeText(context,
-                            "Successfully added to Favorites",
+                            "Successfully Successfully added to Favorites",
                             Toast.LENGTH_SHORT).show()
                     }
+                    ResultState.EmptyResult -> {}
                 }
             }
             categoryViewModel.deleteFavoriteProductToDataBase.buffer().collect { response ->
                 when (response) {
-                    DatabaseResult.Empty -> {}
-                    is DatabaseResult.Error -> {
-                        Toast.makeText(context, response.errorMsg, Toast.LENGTH_SHORT).show()
+                    is ResultState.Error -> {
+                        Toast.makeText(context, response.errorString, Toast.LENGTH_SHORT).show()
                     }
-                    DatabaseResult.Loading -> {}
-                    is DatabaseResult.Success -> {
+                    ResultState.Loading -> {}
+                    is ResultState.Success -> {
                         Toast.makeText(context,
-                            "Successfully removed to Favorites",
+                            "Successfully removed from Favorites",
                             Toast.LENGTH_SHORT).show()
                     }
+                    ResultState.EmptyResult -> {}
                 }
             }
         }
