@@ -245,6 +245,14 @@ class Repository(
 
     override fun getAuthStateFromPrefs() = localSource.getAuthStateFromPrefs()
 
+    override suspend fun getAllProductsByType(productType: String): NetworkResponse<Products> {
+        val response = remoteSource.getAllProductsByType(productType)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body() ?: Products(emptyList()))
+        } else {
+            parseError(response.errorBody())
+        }
+    }
 
 }
 

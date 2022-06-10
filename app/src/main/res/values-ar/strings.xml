@@ -83,4 +83,11 @@
     <string name="no_brands_found">No brands found!</string>
     <string name="sign_in_insted">Sign in instead</string>
     <string name="OrdersFragment">Orders</string>
+
+    <string-array name="sortProducts">
+        <item>A to Z</item>
+        <item>Z to A</item>
+        <item>lowest to highest price</item>
+        <item>highest to lowest price</item>
+    </string-array>
 </resources>

@@ -4,6 +4,7 @@ import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.flow.Flow
+import retrofit2.Response
 
 interface IRepository {
     suspend fun getAllProducts(): NetworkResponse<Products>
@@ -48,5 +49,7 @@ interface IRepository {
     fun setAuthStateToPrefs(state: Boolean)
     fun getUserIdFromPrefs(): Long
     fun getAuthStateFromPrefs(): Boolean
+
+    suspend fun getAllProductsByType(productType: String): NetworkResponse<Products>
 
 }

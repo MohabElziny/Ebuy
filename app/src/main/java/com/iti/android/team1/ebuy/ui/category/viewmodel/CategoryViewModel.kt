@@ -50,7 +50,6 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
 
     fun getAllProduct(category: Long = 0) {
         viewModelScope.launch(Dispatchers.IO) {
-            _allProducts.emit(ResultState.Loading)
             val result = async {
                 if (category == 0L) categoryProductsUseCase.getAllProducts()
                 else categoryProductsUseCase.getProductsByCollectionID(category)
@@ -74,11 +73,14 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     }
 
     //home is default category
-    fun getAllProductByType(categoryId: Long = 395727569125, productType: String = "SHOES") {
+    fun getAllProductByType(categoryId: Long, productType: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _allProducts.emit(ResultState.Loading)
             val result = async {
-                categoryProductsUseCase.getAllCategoryProductsByType(categoryId, productType)
+                if (categoryId == 0L)
+                    myRepo.getAllProductsByType(productType)
+                else
+                    categoryProductsUseCase.getAllCategoryProductsByType(categoryId, productType)
             }
             sendProductsByTypeResponse(result.await())
         }

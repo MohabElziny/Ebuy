@@ -122,6 +122,7 @@ class CategoryFragment : Fragment() {
 
     private fun onFabClickListener(productType: String) {
         categoryViewModel.getAllProductByType(defaultCategoryId, productType)
+        binding.fabMenuButton.collapse()
     }
 
     private fun handleCategoriesResult(result: ResultState<Categories>) {
@@ -131,7 +132,6 @@ class CategoryFragment : Fragment() {
                 result.data.categoriesList.let {
                     categoriesAdapter.setList(it)
                     binding.catTvName.text = it[0].categoryTitle
-                    defaultCategoryId = it[0].categoryId
                 }
             }
             is ResultState.EmptyResult -> {}
@@ -192,16 +192,18 @@ class CategoryFragment : Fragment() {
     }
 
     private fun startShimmer() {
-        binding.shimmer.apply {
-            this.visibility = View.VISIBLE
-            this.startShimmer()
+        binding.productRecycler.visibility = View.GONE
+        binding.shimmer1.root.apply {
+            visibility = View.VISIBLE
+            startShimmer()
         }
     }
 
     private fun stopShimmer() {
-        binding.shimmer.apply {
-            this.stopShimmer()
-            this.visibility = View.GONE
+        binding.productRecycler.visibility = View.VISIBLE
+        binding.shimmer1.root.apply {
+            stopShimmer()
+            visibility = View.GONE
         }
     }
 
