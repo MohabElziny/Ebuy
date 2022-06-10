@@ -127,6 +127,10 @@
     <string name="ok">OK</string>
     <string name="copy_code">Copy Code</string>
     <string name="no_addresses">You don\'t have any saved addresses</string>
+    <string name="add_address_title">Add address</string>
+    <string name="edit_address_title">Add address</string>
+    <string name="make_defult">Make defult</string>
+    <string name="update_address">Update Address</string>
 
 
     <string-array name="egypt_province_codes">

@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.main.view
+package com.iti.android.team1.ebuy.activities.main.view
 
 import android.os.Bundle
 import android.view.View
@@ -15,7 +15,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
-import com.iti.android.team1.ebuy.auth.viewmodel.ConnectionViewModel
+import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.connection.ConnectionLiveData
 import com.iti.android.team1.ebuy.databinding.ActivityMainBinding
 import kotlinx.coroutines.flow.buffer

@@ -71,8 +71,8 @@ object RetrofitHelper : RemoteSource {
     override suspend fun addAddress(customerId: Long, address: AddressDto) =
         retrofitService.addAddress(customerId, address = address)
 
-    override suspend fun updateAddress(customerId: Long, addressId: Long) =
-        retrofitService.updateAddress(customerId, addressId)
+    override suspend fun updateAddress(customerId: Long, addressId: Long, newAddress: AddressDto) =
+        retrofitService.updateAddress(customerId, addressId, newAddress)
 
     override suspend fun setDefaultAddress(customerId: Long, addressId: Long) =
         retrofitService.setDefaultAddress(customerId, addressId)
