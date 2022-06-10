@@ -1,4 +1,4 @@
 package com.iti.android.team1.ebuy.util
 
-const val PAYPAL_CLIENT_ID = "ASDLlGwpxhQ4n2CSc0Qon0Q1RvdXyjdp4-WsmaJF6B98uPzh65H8-hIsbxWvbBNqRKL2IPDinyUto34s"
+const val PAYPAL_CLIENT_ID = "ASPFY-r3ygRbyF7kXHekuQvYYyTG5oT6fhCjGDx6frMMPCrVBfb0XBzpSMSMq-LDDEpfE4jKtW06Q3dK"
 const val PAYPAL_SECRET = "ENNVEOEq1KjzarJOJ8cxGekoTrRXyfld7GDxTVycu7NaXeAHPwlOzZ0skFVeL99YGh76WQloUh0g9gqY"

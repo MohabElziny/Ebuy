@@ -28,7 +28,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data
                     android:host="paypalpay"
-                    android:scheme="com.iti.android.team1.ebuy.ui.payment_screen" />
+                    android:scheme="com.iti.android.team1.ebuy" />
 
             </intent-filter>
         </activity>
@@ -43,8 +43,8 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="paypalxo"
-                    android:scheme= "com.iti.android.team1.ebuy.ui.payment_screen" />
+                    android:host="paypalpay"
+                    android:scheme= "com.iti.android.team1.ebuy" />
 
             </intent-filter>
         </activity>
