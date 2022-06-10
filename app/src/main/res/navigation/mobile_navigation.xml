@@ -17,6 +17,13 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_navigation_home_to_settingsFragment"
+            app:destination="@id/settingsFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
 
     <fragment
@@ -47,7 +54,7 @@
         android:id="@+id/navigation_profile"
         android:name="com.iti.android.team1.ebuy.ui.profile_screen.view.ProfileFragment"
         android:label="fragment_profile"
-        tools:layout="@layout/fragment_profile" >
+        tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_navigation_profile_to_navigation_favorites"
             app:destination="@id/navigation_favorites" />
@@ -56,16 +63,11 @@
         android:id="@+id/navigation_favorites"
         android:name="com.iti.android.team1.ebuy.ui.savedItems.view.SavedItemsFragment"
         android:label="@string/saved_items"
-        tools:layout="@layout/fragment_saved_items" >
+        tools:layout="@layout/fragment_saved_items">
         <action
             android:id="@+id/action_navigation_favorites_to_productsDetailsFragment"
             app:destination="@id/productsDetailsFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/loginScreen"
-        android:name="com.iti.android.team1.ebuy.ui.login_screen.view.LoginScreen"
-        android:label="fragment_login_screen"
-        tools:layout="@layout/fragment_login_screen" />
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.iti.android.team1.ebuy.ui.payment_screen.PaymentFragment"
@@ -86,15 +88,14 @@
             app:destination="@id/cartFragment" />
     </fragment>
     <fragment
-        android:id="@+id/registerScreen"
-        android:name="com.iti.android.team1.ebuy.ui.register_screen.view.RegisterScreen"
-        android:label="fragment_register_screen"
-        tools:layout="@layout/fragment_register_screen" />
-    <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.iti.android.team1.ebuy.ui.settings.SettingsFragment"
-        android:label="fragment_settings"
-        tools:layout="@layout/fragment_settings" />
+        android:name="com.iti.android.team1.ebuy.ui.settings.view.SettingsFragment"
+        android:label="@string/settings_label"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_addressesFragment"
+            app:destination="@id/addressesFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_products"
         android:name="com.iti.android.team1.ebuy.ui.productsScreen.view.ProductsFragment"
@@ -116,4 +117,25 @@
         android:name="com.iti.android.team1.ebuy.ui.orders.view.OrdersFragment"
         android:label="@string/OrdersFragment"
         tools:layout="@layout/fragment_orders" />
+    <fragment
+        android:id="@+id/addressesFragment"
+        android:name="com.iti.android.team1.ebuy.ui.all_addresses.view.AddressesFragment"
+        android:label="@string/addresses_fragment"
+        tools:layout="@layout/fragment_addresses">
+        <action
+            android:id="@+id/action_addressesFragment_to_addAddressFragment"
+            app:destination="@id/addAddressFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addAddressFragment"
+        android:name="com.iti.android.team1.ebuy.ui.add_address.view.AddAddressFragment"
+        android:label="{title}"
+        tools:layout="@layout/fragment_add_address">
+        <argument
+            android:name="address"
+            app:argType="com.iti.android.team1.ebuy.model.pojo.Address" />
+        <argument
+            android:name="title"
+            app:argType="string" />
+    </fragment>
 </navigation>

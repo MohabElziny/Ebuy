@@ -29,7 +29,7 @@ interface IRepository {
     suspend fun getCustomerOrders(): NetworkResponse<OrderAPI>
     suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct): DatabaseResponse<Int>
 
-    suspend fun getFlowFavoriteProducts() : Flow<List<FavoriteProduct>>
+    suspend fun getFlowFavoriteProducts(): Flow<List<FavoriteProduct>>
     suspend fun getAllCartProducts(): List<CartItem>
     suspend fun removeAllCartProducts()
     suspend fun addProductToCart(product: Product, quantity: Int): DatabaseResponse<Long>
@@ -39,17 +39,31 @@ interface IRepository {
 
     suspend fun isProductInCart(productVariantID: Long): Boolean
 
-    fun isEmailValid(email: String): Boolean
-    fun isPasswordValid(password: String): Boolean
-
-    fun decodePassword(password: String): String
-    fun encodePassword(password: String): String
+    fun decode(input: String): String
+    fun encode(input: String): String
 
     fun setUserIdToPrefs(userId: Long)
     fun setAuthStateToPrefs(state: Boolean)
     fun getUserIdFromPrefs(): Long
     fun getAuthStateFromPrefs(): Boolean
 
+
     suspend fun getAllProductsByType(productType: String): NetworkResponse<Products>
+
+
+    suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses>
+    suspend fun getAddressDetails(customerId: Long, addressId: Long): NetworkResponse<Address>
+    suspend fun addAddress(customerId: Long, address: AddressDto): NetworkResponse<Address>
+    suspend fun updateAddress(
+        customerId: Long,
+        addressId: Long,
+        newAddress: AddressDto,
+    ): NetworkResponse<Address>
+
+    suspend fun setDefaultAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
+    suspend fun deleteAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
+
+    suspend fun getAllPriceRules():NetworkResponse<PriceRuleResponse>
+    suspend fun getDiscountCodes(price_rule_id: Long):NetworkResponse<Discount>
 
 }

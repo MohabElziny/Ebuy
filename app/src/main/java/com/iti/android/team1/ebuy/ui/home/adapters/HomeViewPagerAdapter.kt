@@ -1,29 +1,42 @@
 package com.iti.android.team1.ebuy.ui.home.adapters
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.iti.android.team1.ebuy.R
+import com.iti.android.team1.ebuy.databinding.AdLayoutBinding
+import com.iti.android.team1.ebuy.model.pojo.DiscountCodes
 
-class HomeViewPagerAdapter() : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
-    data class Card(val id: Int)
+class HomeViewPagerAdapter(private val showDiscountDialog: (DiscountCodes) -> Unit) :
+    RecyclerView.Adapter<HomeViewPagerAdapter.DiscountViewHolder>() {
 
-    val items = mutableListOf<Card>().apply {
-        repeat(10) { add(Card(it)) }
-    }
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return object : RecyclerView.ViewHolder(
-            LayoutInflater.from(parent.context).inflate(R.layout.ad_layout, parent, false)
-        ) {
-
+    var discountCodeList = emptyList<DiscountCodes>()
+        @SuppressLint("NotifyDataSetChanged")
+        set(value) {
+            field = value
+            notifyDataSetChanged()
         }
+
+    inner class DiscountViewHolder(val binding: AdLayoutBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                showDiscountDialog(discountCodeList[bindingAdapterPosition])
+            }
+        }
+
     }
 
-    override fun getItemCount() = items.size
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DiscountViewHolder =
+        DiscountViewHolder(AdLayoutBinding.inflate(LayoutInflater.from(
+            parent.context), parent, false)
+        )
 
-    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
-        // Empty
+
+    override fun getItemCount() = discountCodeList.size
+
+
+    override fun onBindViewHolder(holder: DiscountViewHolder, position: Int) {
     }
 
 }

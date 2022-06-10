@@ -49,6 +49,9 @@ interface RetrofitService {
     @GET("customers/search.json")
     suspend fun loginCustomer(
         @Query("query") password: String,
+
+        @Query("tag") password: String,
+      
         @Query("email") email: String,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<CustomerLoginAPI>
@@ -65,9 +68,77 @@ interface RetrofitService {
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<OrderAPI>
 
+
     @GET("products.json")
     suspend fun getAllProductsByType(
         @Query("product_type") productType: String,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Products>
+
+    @GET("customers/{customerId}/addresses.json")
+    suspend fun getAllAddresses(
+        @Path("customerId") customerId: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Addresses>
+
+    @GET("customers/{customerId}/addresses/{addressId}.json")
+    suspend fun getAddressDetails(
+        @Path("customerId") customerId: Long,
+        @Path("addressId") addressId: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Address>
+
+    @POST("customers/{customerId}/addresses.json")
+    suspend fun addAddress(
+        @Path("customerId") customerId: Long,
+        @Body address: AddressDto,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Address>
+
+    @PUT("customers/{customerId}/addresses/{addressId}.json")
+    suspend fun updateAddress(
+        @Path("customerId") customerId: Long,
+        @Path("addressId") addressId: Long,
+        @Body newAddress: AddressDto,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Address>
+
+    @PUT("customers/{customerId}/addresses/{addressId}/default.json")
+    suspend fun setDefaultAddress(
+        @Path("customerId") customerId: Long,
+        @Path("addressId") addressId: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Address>
+
+    @DELETE("customers/{customerId}/addresses/{addressId}.json")
+    suspend fun deleteAddress(
+        @Path("customerId") customerId: Long,
+        @Path("addressId") addressId: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Address>
+
+    @POST("price_rules.json")
+    suspend fun addPriceRule(
+        @Body priceRulePost: PriceRulePost,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<PriceRuleResponse>
+
+    @GET("price_rules.json")
+    suspend fun getAllPriceRules(
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<PriceRuleResponse>
+
+    @POST("price_rules/{price_rule_id}/discount_codes.json")
+    suspend fun addDiscount(
+        @Path("price_rule_id") price_rule_id: Long,
+        @Body discountPost: DiscountPost,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Discount>
+
+    @GET("price_rules/{price_rule_id}/discount_codes.json")
+    suspend fun getDiscountCodes(
+        @Path("price_rule_id") price_rule_id: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Discount>
+
 }

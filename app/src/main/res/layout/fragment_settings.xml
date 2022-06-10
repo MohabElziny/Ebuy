@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.settings.SettingsFragment"
+    tools:context=".ui.settings.view.SettingsFragment"
     android:orientation="vertical"
     android:padding="@dimen/_10sdp"
     android:background="@color/backgroundColor"
@@ -25,11 +25,12 @@
             style="@style/fontBoldStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_3sdp"
             android:drawablePadding="@dimen/_10sdp"
             android:text="@string/settings_address"
-            android:layout_marginEnd="@dimen/_20sdp"
             app:drawableStartCompat="@drawable/address_image" />
+
         <TextView
             android:id="@+id/tv_editable_adress"
             android:layout_width="wrap_content"
@@ -37,6 +38,7 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_toStartOf="@+id/relative1_arrow"
             android:layout_toEndOf="@+id/tv_address" />
+
         <ImageView
             android:id="@+id/relative1_arrow"
             android:layout_width="wrap_content"

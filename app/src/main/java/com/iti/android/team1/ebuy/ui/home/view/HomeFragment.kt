@@ -1,6 +1,10 @@
 package com.iti.android.team1.ebuy.ui.home.view
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -10,12 +14,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentHomeBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Brands
+import com.iti.android.team1.ebuy.model.pojo.DiscountCodes
 import com.iti.android.team1.ebuy.ui.home.adapters.HomeRecyclerAdapter
 import com.iti.android.team1.ebuy.ui.home.adapters.HomeViewPagerAdapter
 import com.iti.android.team1.ebuy.ui.home.viewmodel.HomeViewModel
@@ -33,6 +39,7 @@ class HomeFragment : Fragment() {
     // onDestroyView.
     private val binding get() = _binding!!
     private lateinit var brandsAdapter: HomeRecyclerAdapter
+    private lateinit var discountAdapter: HomeViewPagerAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -48,10 +55,30 @@ class HomeFragment : Fragment() {
         setHasOptionsMenu(true)
         initAdsViewPager()
         initBrandsRecyclerView()
+        handleDiscountCodes()
         homeViewModel.getAllBrands()
         lifecycleScope.launchWhenStarted {
             homeViewModel.brandsResult.buffer().collect { brandsResult ->
                 handleResultStates(brandsResult)
+            }
+        }
+    }
+
+    private fun handleDiscountCodes() {
+        lifecycleScope.launchWhenStarted {
+            homeViewModel.getAllDiscount()
+            homeViewModel.discountCodeList.buffer().collect { result ->
+                when (result) {
+                    ResultState.EmptyResult -> discountAdapter.discountCodeList = emptyList()
+//                    is ResultState.Error -> TODO()
+//                    ResultState.Loading -> TODO()
+                    is ResultState.Success -> {
+                        result.data.forEach {
+                            Log.i("AHMED", ": ${it.code}")
+                        }
+                        discountAdapter.discountCodeList = result.data
+                    }
+                }
             }
         }
     }
@@ -96,13 +123,36 @@ class HomeFragment : Fragment() {
     }
 
     private fun initAdsViewPager() {
-        val adapter = HomeViewPagerAdapter()
-        binding.viewPager2.adapter = adapter
+        discountAdapter = HomeViewPagerAdapter(showDiscountDialog)
+        binding.viewPager2.adapter = discountAdapter
         binding.wormDotsIndicator.attachTo(binding.viewPager2)
         val zoomOutPageTransformer = ZoomOutPageTransformer()
         binding.viewPager2.setPageTransformer { page, position ->
             zoomOutPageTransformer.transformPage(page, position)
         }
+    }
+
+    private fun copyTextToClipboard(text: String) {
+        val clipboardManager =
+            requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
+        val clipData = ClipData.newPlainText("text", text)
+        clipboardManager.setPrimaryClip(clipData)
+        Toast.makeText(requireContext(), "Code Copied", Toast.LENGTH_LONG).show()
+    }
+
+    private val showDiscountDialog: (DiscountCodes) -> Unit = {
+        MaterialAlertDialogBuilder(this.requireContext())
+            .setTitle(getString(R.string.discount))
+            .setMessage("${it.code}")
+            .setNegativeButton(getString(R.string.copy_code)) { dialog, which ->
+                copyTextToClipboard(it.code ?: "0")
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.ok)) { dialog, which ->
+                // Respond to positive button press
+                dialog.dismiss()
+            }
+            .show()
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -141,8 +191,8 @@ class HomeFragment : Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.action_settings -> {//TODO: Navigate to settings screen
-            }
+            R.id.action_settings -> findNavController().navigate(
+                HomeFragmentDirections.actionNavigationHomeToSettingsFragment())
             R.id.action_about -> {//TODO: Navigate to about screen
             }
         }
