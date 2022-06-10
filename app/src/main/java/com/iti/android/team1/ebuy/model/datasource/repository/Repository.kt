@@ -413,6 +413,7 @@ class Repository(
     private suspend fun updateCustomer(customer: Customer) {
         remoteSource.updateCustomer(customer)
     }
+
     override suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses> {
         val response = remoteSource.getAllAddresses(customerId)
         return if (response.isSuccessful)
@@ -446,7 +447,7 @@ class Repository(
     override suspend fun updateAddress(
         customerId: Long,
         addressId: Long,
-        newAddress: AddressDto
+        newAddress: AddressDto,
     ): NetworkResponse<Address> {
         val response = remoteSource.updateAddress(customerId, addressId, newAddress)
         return if (response.isSuccessful)
@@ -493,6 +494,7 @@ class Repository(
         } else {
             parseError(response.errorBody())
         }
+    }
 
     override suspend fun getDiscountCodes(price_rule_id: Long): NetworkResponse<Discount> {
         val response = remoteSource.getDiscountCodes(price_rule_id)
@@ -500,9 +502,7 @@ class Repository(
             SuccessResponse(data = response.body() ?: Discount())
         else
             parseError(response.errorBody())
-
     }
-
 }
 
 private fun parseError(errorBody: ResponseBody?): FailureResponse {
