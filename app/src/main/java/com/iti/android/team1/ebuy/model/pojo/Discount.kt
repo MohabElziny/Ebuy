@@ -50,8 +50,8 @@ data class Discount(
 )
 
 data class DiscountCodes(
-    @SerializedName("id") var id: Int? = null,
-    @SerializedName("price_rule_id") var priceRuleId: Int? = null,
+    @SerializedName("id") var id: Long? = null,
+    @SerializedName("price_rule_id") var priceRuleId: Long? = null,
     @SerializedName("code") var code: String? = null,
     @SerializedName("usage_count") var usageCount: Int? = null,
     )
@@ -61,5 +61,5 @@ data class DiscountPost(
 )
 
 data class DiscountCreate(
-    @SerializedName("price_rule_id") var priceRuleId: Int? = null,
+    @SerializedName("price_rule_id") var priceRuleId: Long? = null,
 )

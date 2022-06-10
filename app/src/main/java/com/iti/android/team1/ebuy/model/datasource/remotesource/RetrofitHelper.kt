@@ -5,7 +5,7 @@ import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
-private const val BASE_URL = "https://mobile-ismailia.myshopify.com/admin/api/2022-04/"
+private const val BASE_URL = "https://mad-ism2022.myshopify.com/admin/api/2022-04/"
 
 
 private val retrofit = Retrofit.Builder().apply {
