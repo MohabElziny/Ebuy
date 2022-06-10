@@ -1,11 +1,11 @@
-package com.iti.android.team1.ebuy.model.datasource.localsource.converters
-
-import com.iti.android.team1.ebuy.model.pojo.CartItem
-import com.iti.android.team1.ebuy.model.pojo.Product
+package com.iti.android.team1.ebuy.model.pojo
 
 class CartItemConverter {
     companion object {
-        fun convertProductToCartItemEntity(product: Product, quantity: Int = 1): CartItem {
+        fun convertProductToCartItemEntity(
+            product: Product,
+            quantity: Int = 1,
+        ): CartItem {
             val productVariant = product.productVariants?.get(0)
             return CartItem(
                 productVariantID = productVariant?.productVariantId ?: 0,
@@ -17,7 +17,7 @@ class CartItemConverter {
                 productVariantPrice = productVariant?.productVariantPrice?.toDouble() ?: 0.0,
                 productVariantOption1 = productVariant?.productVariantOption1 ?: "",
                 productVariantOption2 = productVariant?.productVariantOption2 ?: "",
-                customerProductQuantity = quantity
+                customerProductQuantity = quantity,
             )
         }
     }

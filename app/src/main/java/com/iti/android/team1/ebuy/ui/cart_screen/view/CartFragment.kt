@@ -16,6 +16,7 @@ import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.ui.cart_screen.adapter.CartProductAdapter
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartVMFactory
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartViewModel
 import kotlinx.coroutines.launch
@@ -30,7 +31,7 @@ class CartFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentCartBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -48,17 +49,14 @@ class CartFragment : Fragment() {
     private fun handleDeleteState() {
         viewModel.deleteState.observe(viewLifecycleOwner) { result ->
             when (result) {
-                DatabaseResult.Empty -> {
-                    Toast.makeText(requireContext(),
-                        getString(R.string.delete_success),
-                        Toast.LENGTH_SHORT).show()
+                is ResultState.Error -> Toast.makeText(requireContext(),
+                    result.errorString, Toast.LENGTH_SHORT).show()
+                ResultState.Loading -> {}
+                is ResultState.Success -> {
+//                    Toast.makeText(requireContext(),
+//                        getString(R.string.delete_success),
+//                        Toast.LENGTH_SHORT).show()
                 }
-                is DatabaseResult.Error -> {
-                    Toast.makeText(requireContext(),
-                        getString(R.string.delete_error),
-                        Toast.LENGTH_SHORT).show()
-                }
-
             }
 
         }
@@ -70,6 +68,7 @@ class CartFragment : Fragment() {
         binding.emptyLayout.root.visibility = View.VISIBLE
         binding.emptyLayout.txt.text = getString(R.string.no_item_in_cart)
     }
+
     private fun handleExistData() {
         binding.cardLayoutSum.visibility = View.VISIBLE
         binding.recyclerCart.visibility = View.VISIBLE
@@ -93,7 +92,8 @@ class CartFragment : Fragment() {
                         cartProductAdapter.setCartItems(emptyList())
                         handleTotalMoney(0L)
                     }
-//                    is ResultState.Error -> TODO()
+                    is ResultState.Error -> Toast.makeText(requireContext(),
+                        result.errorString, Toast.LENGTH_SHORT).show()
                     ResultState.Loading -> {
                     }
                     is ResultState.Success -> {

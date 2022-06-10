@@ -59,11 +59,20 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
             }
             is NetworkResponse.SuccessResponse -> {
                 if (result.data.id != null) {
+                    setIdsToPrefs(result.data.favoriteID, result.data.cartID)
                     _loginState.postValue(AuthResult.RegisterSuccess(result.data))
                 } else
                     _loginState.postValue(AuthResult.RegisterFail("Invalid data"))
             }
 
         }
+    }
+
+    private fun setIdsToPrefs(favoriteID: String, cartID: String) {
+        if (favoriteID.isNotEmpty())
+            repository.setFavoritesIdToPrefs(favoriteID)
+
+        if (cartID.isNotEmpty())
+            repository.setCartIdToPrefs(cartID)
     }
 }

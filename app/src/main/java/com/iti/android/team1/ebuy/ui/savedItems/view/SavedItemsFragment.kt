@@ -15,15 +15,18 @@ import com.iti.android.team1.ebuy.databinding.FragmentSavedItemsBinding
 import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
+import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.ui.savedItems.adapter.SavedRecyclerAdapter
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModel
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModelFactory
 import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.launch
 
 class SavedItemsFragment : Fragment() {
 
     private lateinit var binding: FragmentSavedItemsBinding
     private lateinit var favoritesAdapter: SavedRecyclerAdapter
+    private var position: Int = -1
 
     private val viewModel: SavedItemsViewModel by viewModels {
         SavedItemsViewModelFactory(
@@ -44,34 +47,56 @@ class SavedItemsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel.getFavoritesList()
+        initRecyclerView()
+        observeOnViewModel()
+
+    }
+
+    private fun observeOnViewModel() {
         lifecycleScope.launchWhenStarted {
             viewModel.allFavorites.buffer().collect { response ->
                 when (response) {
-                    DatabaseResult.Empty -> {
-
-                        binding.emptyLayout.root.visibility = View.VISIBLE
-                        binding.recyclerView.visibility = View.GONE
-
-                        binding.emptyLayout.txt.text = getString(R.string.favorite_empty_list_title)
+                    ResultState.EmptyResult -> setEmptyLayout()
+                    is ResultState.Error -> Toast.makeText(requireContext(),
+                        response.errorString, Toast.LENGTH_SHORT).show()
+                    ResultState.Loading -> {
+                        //TODO(show shimmer)
                     }
-                    is DatabaseResult.Success -> {
+                    is ResultState.Success -> {
                         binding.emptyLayout.root.visibility = View.GONE
                         binding.recyclerView.visibility = View.VISIBLE
-
-                        favoritesAdapter = SavedRecyclerAdapter(
-                            onItemClick, onUnlike
-                        )
-
                         favoritesAdapter.setAdapterList(response.data)
-
-                        binding.recyclerView.apply {
-                            layoutManager = LinearLayoutManager(requireContext())
-                            adapter = favoritesAdapter
-                        }
-
                     }
                 }
             }
+        }
+
+        lifecycleScope.launch {
+            viewModel.deleteState.observe(viewLifecycleOwner) { response ->
+                when (response) {
+                    is ResultState.Error -> Toast.makeText(requireContext(),
+                        response.errorString, Toast.LENGTH_SHORT).show()
+                    ResultState.EmptyResult -> setEmptyLayout()
+                    is ResultState.Success -> favoritesAdapter.removeItemFromList(position)
+                }
+            }
+        }
+    }
+
+    private fun setEmptyLayout() {
+        binding.emptyLayout.root.visibility = View.VISIBLE
+        binding.recyclerView.visibility = View.GONE
+        binding.emptyLayout.txt.text = getString(R.string.favorite_empty_list_title)
+    }
+
+    private fun initRecyclerView() {
+        favoritesAdapter = SavedRecyclerAdapter(
+            onItemClick, onUnlike
+        )
+
+        binding.recyclerView.apply {
+            layoutManager = LinearLayoutManager(requireContext())
+            adapter = favoritesAdapter
         }
     }
 
@@ -83,21 +108,8 @@ class SavedItemsFragment : Fragment() {
     }
 
     private var onUnlike: (Long, Int) -> Unit = { productId, position ->
+        this.position = position
         viewModel.deleteFavoriteProduct(productId)
-        lifecycleScope.launchWhenStarted {
-            viewModel.deleteState.buffer().collect { response ->
-                when (response) {
-                    DatabaseResult.Empty -> {
-                        favoritesAdapter.notifyItemRemoved(position)
-                    }
-                    is DatabaseResult.Error -> {
-                        Toast.makeText(requireContext(),
-                            response.errorMsg,
-                            Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
     }
 
 }

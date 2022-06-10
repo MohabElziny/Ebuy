@@ -7,6 +7,8 @@ private const val PREF_NAME = "E_BUY_APP"
 
 private const val USER_ID = "USER_ID_KEY"
 private const val IS_USER_SINGED_IN = "IS_USER_SINGED_IN"
+private const val FAVORITES_ID = "FAVORITES_ID_KEY"
+private const val CART_ID = "CART_ID_KEY"
 
 class PreferenceProvider private constructor() {
 
@@ -40,8 +42,18 @@ class PreferenceProvider private constructor() {
     fun getUserIdFromPrefs(): String =
         sharedPref.getString(USER_ID, "").toString()
 
-
     fun setUserIdToPrefs(userId: String) =
         sharedPref.edit().putString(USER_ID, userId).apply()
 
+    fun getFavoritesIdFromPrefs(): String =
+        sharedPref.getString(FAVORITES_ID, "").toString()
+
+    fun setFavoritesIdToPrefs(favId: String) =
+        sharedPref.edit().putString(FAVORITES_ID, favId).apply()
+
+    fun getCartIdFromPrefs(): String =
+        sharedPref.getString(CART_ID, "").toString()
+
+    fun setCartIdToPrefs(cartId: String) =
+        sharedPref.edit().putString(CART_ID, cartId).apply()
 }
