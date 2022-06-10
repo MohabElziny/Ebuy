@@ -132,10 +132,13 @@
     <fragment
         android:id="@+id/addAddressFragment"
         android:name="com.iti.android.team1.ebuy.ui.add_address.view.AddAddressFragment"
-        android:label="Add address"
+        android:label="{title}"
         tools:layout="@layout/fragment_add_address">
         <argument
-            android:name="addressid"
-            app:argType="long" />
+            android:name="address"
+            app:argType="com.iti.android.team1.ebuy.model.pojo.Address" />
+        <argument
+            android:name="title"
+            app:argType="string" />
     </fragment>
 </navigation>

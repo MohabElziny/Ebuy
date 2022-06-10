@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.auth.viewmodel
+package com.iti.android.team1.ebuy.activities.auth.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
