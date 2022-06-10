@@ -42,7 +42,8 @@ class AddressesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.floatingActionButton.setOnClickListener {
             findNavController().navigate(AddressesFragmentDirections
-                .actionAddressesFragmentToAddAddressFragment(0))
+                .actionAddressesFragmentToAddAddressFragment(address = Address(),
+                    title = getString(R.string.add_address_title)))
         }
         addressesAdapter = AddressAdapter(onItemClick, onDelete, onEdit)
         binding.recycler.apply {
@@ -57,12 +58,12 @@ class AddressesFragment : Fragment() {
     private fun fetchAddresses() {
         viewModel.allAddressesState.observe(viewLifecycleOwner) {
             when (it) {
+                ResultState.Loading -> setLoadingState()
+                is ResultState.Success -> setSuccessState(it)
                 ResultState.EmptyResult -> setEmptyState()
                 is ResultState.Error -> Snackbar.make(requireView(),
                     it.errorString,
                     Snackbar.LENGTH_SHORT).show()
-                ResultState.Loading -> setLoadingState()
-                is ResultState.Success -> setSuccessState(it)
             }
         }
     }
@@ -80,8 +81,8 @@ class AddressesFragment : Fragment() {
     }
 
     private fun setLoadingState() {
-        binding.recycler.visibility = View.GONE
         binding.emptyLayout.root.visibility = View.GONE
+        binding.recycler.visibility = View.GONE
         binding.shimmerLayout.root.apply {
             showShimmer(true)
             startShimmer()
@@ -90,6 +91,7 @@ class AddressesFragment : Fragment() {
     }
 
     private fun setEmptyState() {
+        binding.emptyLayout.root.visibility = View.VISIBLE
         binding.shimmerLayout.root.apply {
             hideShimmer()
             stopShimmer()
@@ -97,7 +99,6 @@ class AddressesFragment : Fragment() {
         }
         binding.recycler.visibility = View.GONE
         binding.floatingActionButton.visibility = View.VISIBLE
-        binding.emptyLayout.root.visibility = View.VISIBLE
         binding.emptyLayout.apply {
             animationView.apply {
                 setAnimation(R.raw.no_address)
@@ -131,6 +132,7 @@ class AddressesFragment : Fragment() {
 
     private val onEdit: (Address) -> (Unit) = { address ->
         findNavController().navigate(AddressesFragmentDirections
-            .actionAddressesFragmentToAddAddressFragment(address.id ?: 0))
+            .actionAddressesFragmentToAddAddressFragment(address,
+                title = getString(R.string.edit_address_title)))
     }
 }

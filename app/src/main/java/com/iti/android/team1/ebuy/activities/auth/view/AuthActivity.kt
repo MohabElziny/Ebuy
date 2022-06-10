@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.auth.view
+package com.iti.android.team1.ebuy.activities.auth.view
 
 import android.os.Bundle
 import android.view.View
@@ -12,7 +12,7 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
-import com.iti.android.team1.ebuy.auth.viewmodel.ConnectionViewModel
+import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.connection.ConnectionLiveData
 import com.iti.android.team1.ebuy.databinding.ActivityAuthBinding
 import kotlinx.coroutines.flow.buffer
