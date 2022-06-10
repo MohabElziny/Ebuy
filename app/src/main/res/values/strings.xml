@@ -119,9 +119,13 @@
         <item>lowest to highest price</item>
         <item>highest to lowest price</item>
 
+    </string-array>
+
     <string name="connected">Connected</string>
     <string name="not_connected">Not Connected</string>
     <string name="please_connect_to_network_to_use_our_application">Please Connect to Network to use our application</string>
+
+
     <string name="settings_label">Settings</string>
     <string name="addresses_fragment">Addresses</string>
     <string name="address_1">Address</string>

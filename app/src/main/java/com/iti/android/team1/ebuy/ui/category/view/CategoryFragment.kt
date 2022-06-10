@@ -132,6 +132,7 @@ class CategoryFragment : Fragment() {
                 result.data.categoriesList.let {
                     categoriesAdapter.setList(it)
                     binding.catTvName.text = it[0].categoryTitle
+                    defaultCategoryId = it[0].categoryId
                 }
             }
             is ResultState.EmptyResult -> {}
@@ -196,10 +197,12 @@ class CategoryFragment : Fragment() {
         binding.shimmer1.root.apply {
             visibility = View.VISIBLE
             startShimmer()
+
         }
     }
 
     private fun stopShimmer() {
+
         binding.productRecycler.visibility = View.VISIBLE
         binding.shimmer1.root.apply {
             stopShimmer()
