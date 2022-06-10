@@ -1,5 +1,7 @@
 package com.iti.android.team1.ebuy.ui.all_addresses.viewmodel
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
@@ -14,47 +16,47 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AddressesViewModel(private val repo: IRepository) : ViewModel() {
-    private val _addAddressState: MutableStateFlow<ResultState<List<Address>>> =
-        MutableStateFlow(ResultState.Loading)
-    val allAddressesState get() = _addAddressState.asStateFlow()
+    private val _addAddressState: MutableLiveData<ResultState<List<Address>>> =
+        MutableLiveData()
+    val allAddressesState get() = _addAddressState as LiveData<ResultState<List<Address>>>
 
-    private val _deleteAddressState: MutableStateFlow<ResultState<Address>> =
-        MutableStateFlow(ResultState.Loading)
-    val deleteAddressState get() = _deleteAddressState.asStateFlow()
+    private val _deleteAddressState: MutableLiveData<ResultState<Address>> =
+        MutableLiveData()
+    val deleteAddressState get() = _deleteAddressState as LiveData<*>
 
     fun deleteAddress(addressId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            _deleteAddressState.emit(ResultState.Loading)
+            _deleteAddressState.postValue(ResultState.Loading)
             val result = async { repo.deleteAddress(repo.getUserIdFromPrefs(), addressId) }
             setDeleteState(result.await())
         }
     }
 
-    private suspend fun setDeleteState(result: NetworkResponse<Address>) {
+    private fun setDeleteState(result: NetworkResponse<Address>) {
         when (result) {
             is NetworkResponse.FailureResponse ->
-                _deleteAddressState.emit(ResultState.Error(result.errorString))
-            is NetworkResponse.SuccessResponse -> _deleteAddressState.emit(ResultState.EmptyResult)
+                _deleteAddressState.postValue(ResultState.Error(result.errorString))
+            is NetworkResponse.SuccessResponse -> _deleteAddressState.postValue(ResultState.EmptyResult)
         }
     }
 
     fun getAllAddresses() {
         viewModelScope.launch(Dispatchers.IO) {
-            _deleteAddressState.emit(ResultState.Loading)
+            _deleteAddressState.postValue(ResultState.Loading)
             val result = async { repo.getAllAddresses(repo.getUserIdFromPrefs()) }
             setAddAddress(result.await())
         }
     }
 
-    private suspend fun setAddAddress(result: NetworkResponse<Addresses>) {
+    private fun setAddAddress(result: NetworkResponse<Addresses>) {
         when (result) {
             is NetworkResponse.FailureResponse ->
-                _addAddressState.emit(ResultState.Error(result.errorString))
+                _addAddressState.postValue(ResultState.Error(result.errorString))
             is NetworkResponse.SuccessResponse -> {
                 if (result.data.addresses.isEmpty())
-                    _addAddressState.emit(ResultState.EmptyResult)
+                    _addAddressState.postValue(ResultState.EmptyResult)
                 else
-                    _addAddressState.emit(ResultState.Success(data = result.data.addresses))
+                    _addAddressState.postValue(ResultState.Success(data = result.data.addresses))
             }
         }
     }

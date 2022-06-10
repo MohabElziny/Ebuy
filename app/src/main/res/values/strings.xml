@@ -123,10 +123,10 @@
     <string name="phone_number">Phone number</string>
     <string name="address_name">Address name</string>
     <string name="save_address">Save address</string>
-    <string name="no_addresses">You don\'t have any saved address</string>
     <string name="discount">Discount Code</string>
     <string name="ok">OK</string>
     <string name="copy_code">Copy Code</string>
+    <string name="no_addresses">You don\'t have any saved addresses</string>
 
 
     <string-array name="egypt_province_codes">
