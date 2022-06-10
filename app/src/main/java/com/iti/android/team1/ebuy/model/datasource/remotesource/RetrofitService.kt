@@ -48,7 +48,7 @@ interface RetrofitService {
 
     @GET("customers/search.json")
     suspend fun loginCustomer(
-        @Query("query") password: String,
+     
 
         @Query("tag") password: String,
       
