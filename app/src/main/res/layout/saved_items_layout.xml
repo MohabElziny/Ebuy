@@ -4,29 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp">
+    android:layout_margin="@dimen/_8sdp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/parent"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/_8sdp"
         android:backgroundTint="@color/white"
-        app:cardCornerRadius="10dp"
-        app:cardElevation="10dp">
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="@dimen/_8sdp">
 
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="150dp"
-            android:padding="10dp">
+            android:layout_height="@dimen/_115sdp"
+            android:padding="@dimen/_8sdp">
 
             <ImageView
                 android:id="@+id/savedImage"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="@dimen/_77sdp"
+                android:layout_height="@dimen/_77sdp"
                 android:layout_centerVertical="true"
-                android:padding="10dp"
+                android:padding="@dimen/_8sdp"
                 tools:src="@drawable/facebook_icon" />
 
             <TextView
@@ -35,8 +35,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/savedImage"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="4dp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_3sdp"
                 android:layout_toEndOf="@+id/savedImage"
                 android:textSize="@dimen/fontHeading5"
                 tools:text="Product name" />
@@ -47,8 +47,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/savedProductName"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:layout_toEndOf="@+id/savedImage"
                 android:textColor="@android:color/holo_green_light"
                 android:textSize="@dimen/fontHeading6"
@@ -60,20 +60,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/savedIsInStock"
-                android:layout_marginStart="10dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:layout_toEndOf="@+id/savedImage"
                 android:textSize="@dimen/fontHeading4"
                 tools:text="0 $" />
 
             <com.like.LikeButton
                 android:id="@+id/likeBtn"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="@dimen/_23sdp"
+                android:layout_height="@dimen/_23sdp"
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentBottom="true"
-                android:layout_margin="10dp"
-                app:icon_size="25dp"
+                android:layout_margin="@dimen/_8sdp"
+                app:icon_size="@dimen/_19sdp"
                 app:icon_type="heart"
                 app:like_drawable="@drawable/heart_on_b"
                 app:unlike_drawable="@drawable/heart_off_b" />
