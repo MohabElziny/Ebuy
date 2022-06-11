@@ -4,12 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.domain.category.CategoryProductsUseCase
 import com.iti.android.team1.ebuy.domain.category.ICategoryProductsUseCase
-import com.iti.android.team1.ebuy.model.DatabaseResponse
-import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Categories
+import com.iti.android.team1.ebuy.model.pojo.DraftOrder
 import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.model.pojo.Products
 import kotlinx.coroutines.Dispatchers
@@ -25,12 +24,12 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     val allCategories get() = _allCategories.asStateFlow()
 
     private var _insertFavoriteProductToDataBase =
-        MutableStateFlow<DatabaseResult<Long>>(DatabaseResult.Loading)
+        MutableStateFlow<ResultState<DraftOrder>>(ResultState.Loading)
     val insertFavoriteProductToDataBase
         get() = _insertFavoriteProductToDataBase.asStateFlow()
 
     private var _deleteFavoriteProductToDataBase =
-        MutableStateFlow<DatabaseResult<Int>>(DatabaseResult.Loading)
+        MutableStateFlow<ResultState<DraftOrder>>(ResultState.Loading)
     val deleteFavoriteProductToDataBase
         get() = _deleteFavoriteProductToDataBase.asStateFlow()
 
@@ -50,7 +49,6 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
 
     fun getAllProduct(category: Long = 0) {
         viewModelScope.launch(Dispatchers.IO) {
-            _allProducts.emit(ResultState.Loading)
             val result = async {
                 if (category == 0L) categoryProductsUseCase.getAllProducts()
                 else categoryProductsUseCase.getProductsByCollectionID(category)
@@ -74,11 +72,14 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     }
 
     //home is default category
-    fun getAllProductByType(categoryId: Long = 395727569125, productType: String = "SHOES") {
+    fun getAllProductByType(categoryId: Long, productType: String) {
         viewModelScope.launch(Dispatchers.IO) {
             _allProducts.emit(ResultState.Loading)
             val result = async {
-                categoryProductsUseCase.getAllCategoryProductsByType(categoryId, productType)
+                if (categoryId == 0L)
+                    myRepo.getAllProductsByType(productType)
+                else
+                    categoryProductsUseCase.getAllCategoryProductsByType(categoryId, productType)
             }
             sendProductsByTypeResponse(result.await())
         }
@@ -101,22 +102,18 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     fun addProductToFavorite(product: Product) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = async {
-                myRepo.addProductToFavorite(product)
+                myRepo.addFavorite(product)
             }
-            sendAddProductToFavoriteResponse(result.await())
+            addFavoriteResponse(result.await())
         }
     }
 
-    private fun sendAddProductToFavoriteResponse(response: DatabaseResponse<Long?>) {
+    private fun addFavoriteResponse(response: NetworkResponse<DraftOrder>) {
         when (response) {
-            is DatabaseResponse.Failure ->
-                _insertFavoriteProductToDataBase.value = DatabaseResult.Error(response.errorMsg)
-            is DatabaseResponse.Success -> {
-                if (response.data != null) {
-                    _insertFavoriteProductToDataBase.value = DatabaseResult.Success(response.data)
-                } else {
-                    _insertFavoriteProductToDataBase.value = DatabaseResult.Empty
-                }
+            is NetworkResponse.FailureResponse -> _insertFavoriteProductToDataBase.value =
+                ResultState.Error(response.errorString)
+            is NetworkResponse.SuccessResponse -> {
+                _insertFavoriteProductToDataBase.value = ResultState.Success(response.data)
             }
         }
     }
@@ -124,22 +121,18 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     fun removeFavoriteProduct(productID: Long) {
         viewModelScope.launch(Dispatchers.IO) {
             val result = async {
-                myRepo.deleteProductFromFavorite(productID)
+                myRepo.removeFromFavorite(productID)
             }
-            sendRemoveProductFromFavoriteResponse(result.await())
+            removeFavoriteResponse(result.await())
         }
     }
 
-    private fun sendRemoveProductFromFavoriteResponse(response: DatabaseResponse<Int?>) {
+    private fun removeFavoriteResponse(response: NetworkResponse<DraftOrder>) {
         when (response) {
-            is DatabaseResponse.Failure ->
-                _deleteFavoriteProductToDataBase.value = DatabaseResult.Error(response.errorMsg)
-            is DatabaseResponse.Success -> {
-                if (response.data != null) {
-                    _deleteFavoriteProductToDataBase.value = DatabaseResult.Success(response.data)
-                } else {
-                    _deleteFavoriteProductToDataBase.value = DatabaseResult.Empty
-                }
+            is NetworkResponse.FailureResponse -> _deleteFavoriteProductToDataBase.value =
+                ResultState.Error(response.errorString)
+            is NetworkResponse.SuccessResponse -> {
+                _deleteFavoriteProductToDataBase.value = ResultState.Success(response.data)
             }
         }
     }
@@ -170,6 +163,44 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
         cachedProducts?.let {
             _allProducts.value = ResultState.Success(Products(it))
         }
+    }
+
+    private fun sortProductList(sortType: SortType) {
+        val sortArray: List<Product> = cachedProducts ?: emptyList()
+
+        when (sortType) {
+            SortType.A_to_Z -> {
+                sortArray.sortedBy { it.productName }
+            }
+            SortType.Z_to_A -> {
+                sortArray.sortedByDescending { it.productName }
+            }
+            SortType.Lowest_to_highest_price -> {
+                sortArray.sortedBy {
+                    it.productVariants?.get(0)?.productVariantPrice?.toDouble()
+                }
+            }
+            SortType.Highest_to_lowest_price -> {
+                sortArray.sortedByDescending {
+                    it.productVariants?.get(0)?.productVariantPrice?.toDouble()
+                }
+            }
+        }.apply {
+            _allProducts.value = ResultState.Success(Products(this))
+        }
+    }
+
+    fun sortProducts(position: Int) {
+        when (position) {
+            0 -> sortProductList(SortType.A_to_Z)
+            1 -> sortProductList(SortType.Z_to_A)
+            2 -> sortProductList(SortType.Lowest_to_highest_price)
+            3 -> sortProductList(SortType.Highest_to_lowest_price)
+        }
+    }
+
+    enum class SortType {
+        A_to_Z, Z_to_A, Lowest_to_highest_price, Highest_to_lowest_price
     }
 }
 

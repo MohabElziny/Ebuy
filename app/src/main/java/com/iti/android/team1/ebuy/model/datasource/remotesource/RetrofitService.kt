@@ -5,7 +5,7 @@ import retrofit2.Response
 import retrofit2.http.*
 
 
-private const val PASSWORD = "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"
+private const val PASSWORD = "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"
 
 interface RetrofitService {
 
@@ -65,6 +65,12 @@ interface RetrofitService {
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<OrderAPI>
 
+    @GET("products.json")
+    suspend fun getAllProductsByType(
+        @Query("product_type") productType: String,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Products>
+
     @GET("customers/{customerId}/addresses.json")
     suspend fun getAllAddresses(
         @Path("customerId") customerId: Long,
@@ -89,6 +95,7 @@ interface RetrofitService {
     suspend fun updateAddress(
         @Path("customerId") customerId: Long,
         @Path("addressId") addressId: Long,
+        @Body newAddress: AddressDto,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Address>
 
@@ -106,5 +113,60 @@ interface RetrofitService {
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Address>
 
+    @POST("price_rules.json")
+    suspend fun addPriceRule(
+        @Body priceRulePost: PriceRulePost,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<PriceRuleResponse>
 
+    @GET("price_rules.json")
+    suspend fun getAllPriceRules(
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<PriceRuleResponse>
+
+    @POST("price_rules/{price_rule_id}/discount_codes.json")
+    suspend fun addDiscount(
+        @Path("price_rule_id") price_rule_id: Long,
+        @Body discountPost: DiscountPost,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Discount>
+
+    @GET("price_rules/{price_rule_id}/discount_codes.json")
+    suspend fun getDiscountCodes(
+        @Path("price_rule_id") price_rule_id: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Discount>
+
+
+    @POST("draft_orders.json")
+    suspend fun postDraftOrder(
+        @Body draft: Draft,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Draft>
+
+    @PUT("draft_orders/{draft_id}.json")
+    suspend fun updateDraftOrder(
+        @Path("draft_id") draft_id: Long,
+        @Body draft: Draft,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Draft>
+
+    @GET("draft_orders/{draft_id}.json")
+    suspend fun getDraftOrder(
+        @Path("draft_id") draft_id: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Draft>
+
+    @DELETE("draft_orders/{draft_id}.json")
+    suspend fun deleteDraftOrder(
+        @Path("draft_id") draft_id: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Unit>
+
+    @PUT("customers/{customer_id}.json")
+    suspend fun updateCustomer(
+        @Path("customer_id") customer_id: Long,
+        @Body customer: CustomerRegisterAPI,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Customer>
 }

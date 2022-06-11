@@ -1,6 +1,8 @@
 package com.iti.android.team1.ebuy.model.pojo
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 data class CustomerRegisterAPI(
     val customer: Customer,
@@ -13,6 +15,8 @@ data class CustomerRegister(
     @SerializedName("first_name") var firstName: String,
     @SerializedName("last_name") var lastName: String,
     @SerializedName("tags") var password: String,
+    @SerializedName("note") var favoriteID: String = "",
+    @SerializedName("multipass_identifier") var cartID: String = "",
 )
 
 data class CustomerLogin(
@@ -23,7 +27,7 @@ data class CustomerLogin(
 data class CustomerLoginAPI(
     val customers: ArrayList<Customer?>,
 )
-
+@Parcelize
 data class Customer(
     @SerializedName("id") var id: Long? = null,
     @SerializedName("email") var email: String? = null,
@@ -33,7 +37,8 @@ data class Customer(
     @SerializedName("state") var state: String? = null,
     @SerializedName("total_spent") var totalSpent: String? = null,
     @SerializedName("last_order_id") var lastOrderId: String? = null,
-    @SerializedName("note") var note: String? = null,
+    @SerializedName("note") var favoriteID: String = "",
+    @SerializedName("multipass_identifier") var cartID: String = "",
     @SerializedName("verified_email") var verifiedEmail: Boolean? = null,
     @SerializedName("tax_exempt") var taxExempt: Boolean? = null,
     @SerializedName("phone") var phone: String? = null,
@@ -47,12 +52,12 @@ data class Customer(
     @SerializedName("sms_marketing_consent") var smsMarketingConsent: SmsMarketingConsent? = SmsMarketingConsent(),
     @SerializedName("default_address") var defaultAddress: DefaultAddress? = DefaultAddress(),
 
-    )
+    ):Parcelable
+@Parcelize
+data class Addresses (@SerializedName("addresses") var addresses: ArrayList<Address> = arrayListOf()):Parcelable
 
-data class Addresses (@SerializedName("addresses") var addresses: ArrayList<Address> = arrayListOf())
 
-
-
+@Parcelize
 data class DefaultAddress(
     @SerializedName("id") var id: Long? = null,
     @SerializedName("customer_id") var customerId: Long? = null,
@@ -71,11 +76,11 @@ data class DefaultAddress(
     @SerializedName("country_code") var countryCode: String? = null,
     @SerializedName("country_name") var countryName: String? = null,
     @SerializedName("default") var default: Boolean? = null,
-)
-
+):Parcelable
+@Parcelize
 data class SmsMarketingConsent(
     @SerializedName("state") var state: String? = null,
     @SerializedName("opt_in_level") var optInLevel: String? = null,
     @SerializedName("consent_updated_at") var consentUpdatedAt: String? = null,
     @SerializedName("consent_collected_from") var consentCollectedFrom: String? = null,
-)
+):Parcelable

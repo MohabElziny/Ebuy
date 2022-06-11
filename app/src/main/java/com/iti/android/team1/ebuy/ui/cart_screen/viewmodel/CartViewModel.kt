@@ -1,15 +1,19 @@
 package com.iti.android.team1.ebuy.ui.cart_screen.viewmodel
 
 import androidx.lifecycle.*
-import com.iti.android.team1.ebuy.model.DatabaseResponse
-import com.iti.android.team1.ebuy.model.DatabaseResult
+import com.iti.android.team1.ebuy.domain.cart.IProductsInCartUseCase
+import com.iti.android.team1.ebuy.domain.cart.ProductsInCartUseCase
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
+import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
-import com.iti.android.team1.ebuy.model.pojo.CartItem
+import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+
+private const val DELIVER = 50L
 
 class CartViewModel(private val myRepo: IRepository) : ViewModel() {
     private var cartItemList = mutableListOf<CartItem>()
@@ -18,35 +22,51 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
     private val _isOverFlow = MutableLiveData(false)
     val isOverFlow: LiveData<Boolean> get() = _isOverFlow
     private val _deleteState =
-        MutableStateFlow<DatabaseResult<Int?>>(DatabaseResult.Loading)
-    val deleteState: LiveData<DatabaseResult<Int?>> get() = _deleteState.asLiveData()
+        MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
+    val deleteState: LiveData<ResultState<Boolean>> get() = _deleteState.asLiveData()
 
+    private val productsInCartUseCase: IProductsInCartUseCase
+        get() = ProductsInCartUseCase(myRepo)
+
+    private val _subTotal = MutableStateFlow(0L)
+    val subTotal = _subTotal.asStateFlow()
+
+    private val _total = MutableStateFlow(0L)
+    val total = _total.asStateFlow()
+
+    private val _oder = MutableStateFlow<Order>(Order())
+    val order = _oder.asStateFlow()
     fun getAllCartItems() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = async {
-                myRepo.getAllCartProducts()
+                productsInCartUseCase.getAllCartProducts()
             }
             sendResponseBackFavourites(res.await())
         }
     }
 
-    private fun sendResponseBackFavourites(items: List<CartItem>) {
-        cartItemList = items.toMutableList()
+
+    private fun sendResponseBackFavourites(response: NetworkResponse<List<CartItem>>) {
         _allCartItems.postValue(ResultState.Loading)
-        if (items.isNotEmpty()) {
-            _allCartItems.postValue(ResultState.Success(cartItemList))
-        } else {
-            _allCartItems.postValue(ResultState.EmptyResult)
+        when (response) {
+            is NetworkResponse.FailureResponse -> {
+                _allCartItems.postValue(ResultState.Error(response.errorString))
+            }
+            is NetworkResponse.SuccessResponse -> {
+                cartItemList = response.data.toMutableList()
+                if (response.data.isNotEmpty()) {
+                    _allCartItems.postValue(ResultState.Success(cartItemList))
+                } else {
+                    _allCartItems.postValue(ResultState.EmptyResult)
+                }
+            }
         }
     }
 
     fun updateToDB() {
         viewModelScope.launch(Dispatchers.IO) {
-            cartItemList.forEach {
-                myRepo.updateCartItem(it)
-            }
+            myRepo.updateCart(cartItemList.toList())
         }
-        ////
     }
 
     fun manipulateCartItem(cart_index: Int, operation: CartItemOperation) {
@@ -60,11 +80,38 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
 
     private fun updateItemList() {
         viewModelScope.launch(Dispatchers.Main) {
-            if (cartItemList.isNotEmpty())
+            if (cartItemList.isNotEmpty()) {
+                val sum = cartItemList.sumOf {
+                    it.productVariantPrice * it.customerProductQuantity
+                }.toLong()
                 _allCartItems.postValue(ResultState.Success(cartItemList))
-            else
+                _subTotal.emit(sum)
+                _total.emit(sum + DELIVER)
+
+            } else
                 _allCartItems.postValue(ResultState.EmptyResult)
         }
+    }
+
+     fun makeOrder() {
+        viewModelScope.launch(Dispatchers.Default) {
+            total.collect {
+                makeOrderRequest(cartItemList, it)
+            }
+        }
+    }
+
+    private suspend fun makeOrderRequest(
+        cartItemList: MutableList<CartItem>,
+        currentTotalPrice: Long,
+    ) {
+        val lineItems = mutableListOf<LineItems>()
+        cartItemList.forEach {
+            lineItems.add(DraftsLineItemConverter.convertToLineItem(it))
+        }
+        _oder.emit(Order(lineItems = lineItems as ArrayList<LineItems>,
+            currentTotalPrice = "$currentTotalPrice"))
+
     }
 
     private fun increaseItemQuantity(cart_index: Int) {
@@ -78,29 +125,25 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
 
     }
 
-
     private fun decreaseItemQuantity(cart_index: Int) {
         val item = cartItemList[cart_index]
         if (item.customerProductQuantity > 1)
             cartItemList[cart_index].customerProductQuantity--
     }
 
-
-    private suspend fun setDeleteState(result: DatabaseResponse<Int?>) {
+    private suspend fun setDeleteState(result: NetworkResponse<DraftOrder>) {
         when (result) {
-            is DatabaseResponse.Failure -> _deleteState.emit(
-                DatabaseResult.Error(result.errorMsg))
-            is DatabaseResponse.Success -> {
-                _deleteState.emit(DatabaseResult.Empty)
-            }
+            is NetworkResponse.FailureResponse -> _deleteState.emit(ResultState.Error(result.errorString))
+            is NetworkResponse.SuccessResponse -> _deleteState.emit(ResultState.Success(true))
         }
     }
 
     private fun deleteItem(cart_index: Int) {
+        _deleteState.value = ResultState.Loading
         val item = cartItemList[cart_index]
         viewModelScope.launch(Dispatchers.IO) {
             val result = async {
-                myRepo.removeProductFromCart(item.productVariantID)
+                myRepo.removeFromCart(item.productID)
             }
             setDeleteState(result.await())
         }
@@ -112,7 +155,6 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
         INCREASE,
         DECREASE,
         DELETE
-
     }
 }
 

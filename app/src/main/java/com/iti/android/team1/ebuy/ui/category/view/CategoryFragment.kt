@@ -2,6 +2,8 @@ package com.iti.android.team1.ebuy.ui.category.view
 
 import android.os.Bundle
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -82,36 +84,37 @@ class CategoryFragment : Fragment() {
             onFabClickListener("T-SHIRTS")
         }
         initFavoriteProductsStates()
+        initSpinner()
     }
 
     private fun initFavoriteProductsStates() {
         lifecycleScope.launchWhenStarted {
             categoryViewModel.insertFavoriteProductToDataBase.buffer().collect { response ->
                 when (response) {
-                    DatabaseResult.Empty -> {}
-                    is DatabaseResult.Error -> {
-                        Toast.makeText(context, response.errorMsg, Toast.LENGTH_SHORT).show()
+                    is ResultState.Error -> {
+                        Toast.makeText(context, response.errorString, Toast.LENGTH_SHORT).show()
                     }
-                    DatabaseResult.Loading -> {}
-                    is DatabaseResult.Success -> {
+                    ResultState.Loading -> {}
+                    is ResultState.Success -> {
                         Toast.makeText(context,
-                            "Successfully added to Favorites",
+                            "Successfully Successfully added to Favorites",
                             Toast.LENGTH_SHORT).show()
                     }
+                    ResultState.EmptyResult -> {}
                 }
             }
             categoryViewModel.deleteFavoriteProductToDataBase.buffer().collect { response ->
                 when (response) {
-                    DatabaseResult.Empty -> {}
-                    is DatabaseResult.Error -> {
-                        Toast.makeText(context, response.errorMsg, Toast.LENGTH_SHORT).show()
+                    is ResultState.Error -> {
+                        Toast.makeText(context, response.errorString, Toast.LENGTH_SHORT).show()
                     }
-                    DatabaseResult.Loading -> {}
-                    is DatabaseResult.Success -> {
+                    ResultState.Loading -> {}
+                    is ResultState.Success -> {
                         Toast.makeText(context,
-                            "Successfully removed to Favorites",
+                            "Successfully removed from Favorites",
                             Toast.LENGTH_SHORT).show()
                     }
+                    ResultState.EmptyResult -> {}
                 }
             }
         }
@@ -119,6 +122,7 @@ class CategoryFragment : Fragment() {
 
     private fun onFabClickListener(productType: String) {
         categoryViewModel.getAllProductByType(defaultCategoryId, productType)
+        binding.fabMenuButton.collapse()
     }
 
     private fun handleCategoriesResult(result: ResultState<Categories>) {
@@ -128,6 +132,7 @@ class CategoryFragment : Fragment() {
                 result.data.categoriesList.let {
                     categoriesAdapter.setList(it)
                     binding.catTvName.text = it[0].categoryTitle
+                    defaultCategoryId = it[0].categoryId
                 }
             }
             is ResultState.EmptyResult -> {}
@@ -143,7 +148,6 @@ class CategoryFragment : Fragment() {
             is ResultState.Success -> {
                 stopShimmer()
                 binding.emptyLayout.root.visibility = View.GONE
-                binding.productRecycler.visibility = View.VISIBLE
                 result.data.products?.let { categoryProductsAdapter.setList(it) }
             }
             is ResultState.EmptyResult -> {
@@ -172,6 +176,7 @@ class CategoryFragment : Fragment() {
         binding.catTvName.text = title
         defaultCategoryId = id
         categoryViewModel.getAllProduct(id)
+        binding.spinner.setSelection(0, true)
     }
 
     private fun initRecyclerView() {
@@ -189,25 +194,26 @@ class CategoryFragment : Fragment() {
 
     private fun startShimmer() {
         binding.productRecycler.visibility = View.GONE
-        binding.shimmer.apply {
-            this.visibility = View.VISIBLE
-            this.startShimmer()
+        binding.shimmer1.root.apply {
+            visibility = View.VISIBLE
+            startShimmer()
+
         }
     }
 
     private fun stopShimmer() {
-        binding.shimmer.apply {
-            this.stopShimmer()
-            this.visibility = View.GONE
-        }
+
         binding.productRecycler.visibility = View.VISIBLE
+        binding.shimmer1.root.apply {
+            stopShimmer()
+            visibility = View.GONE
+        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
-
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         activity?.menuInflater?.inflate(R.menu.category_menu, menu)
@@ -255,5 +261,28 @@ class CategoryFragment : Fragment() {
         findNavController().navigate(
             CategoryFragmentDirections.actionNavigationCategoryToProductsDetailsFragment(it)
         )
+    }
+
+    private fun initSpinner() {
+        binding.spinner.apply {
+            adapter = ArrayAdapter(requireContext(),
+                android.R.layout.simple_list_item_1,
+                resources.getStringArray(R.array.sortProducts))
+        }
+
+        binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
+                categoryViewModel.sortProducts(p2)
+            }
+
+            override fun onNothingSelected(p0: AdapterView<*>?) {
+
+            }
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.spinner.setSelection(0)
     }
 }
