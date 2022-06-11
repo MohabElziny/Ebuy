@@ -12,12 +12,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentProductsBinding
-import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.model.pojo.Products
@@ -89,9 +86,7 @@ class ProductsFragment : Fragment() {
                     it.errorString,
                     Toast.LENGTH_SHORT).show()
                 ResultState.Loading -> {}
-                is ResultState.Success -> Toast.makeText(requireContext(),
-                    getString(R.string.insert_seccuess),
-                    Toast.LENGTH_SHORT).show()
+                is ResultState.Success -> {}
             }
         }
     }
@@ -104,9 +99,7 @@ class ProductsFragment : Fragment() {
                     it.errorString,
                     Toast.LENGTH_SHORT).show()
                 ResultState.Loading -> {}
-                is ResultState.Success -> Toast.makeText(requireContext(),
-                    getString(R.string.delete_success),
-                    Toast.LENGTH_SHORT).show()
+                is ResultState.Success -> {}
             }
         }
     }

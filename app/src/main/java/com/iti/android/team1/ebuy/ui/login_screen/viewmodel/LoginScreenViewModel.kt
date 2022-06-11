@@ -64,15 +64,16 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
                 } else
                     _loginState.postValue(AuthResult.RegisterFail("Invalid data"))
             }
-
         }
     }
 
     private fun setIdsToPrefs(favoriteID: String, cartID: String) {
-        if (favoriteID.isNotEmpty())
-            repository.setFavoritesIdToPrefs(favoriteID)
+        viewModelScope.launch(Dispatchers.IO) {
+            if (favoriteID.isNotEmpty())
+                repository.setFavoritesIdToPrefs(favoriteID)
 
-        if (cartID.isNotEmpty())
-            repository.setCartIdToPrefs(cartID)
+            if (cartID.isNotEmpty())
+                repository.setCartIdToPrefs(cartID)
+        }
     }
 }
