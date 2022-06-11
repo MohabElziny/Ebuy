@@ -23,6 +23,7 @@ import com.paypal.checkout.order.Amount
 import com.paypal.checkout.order.AppContext
 import com.paypal.checkout.order.Order
 import com.paypal.checkout.order.PurchaseUnit
+import com.paypal.pyplcheckout.BuildConfig
 
 private const val TAG = "PaymentFragment"
 
@@ -44,7 +45,7 @@ class PaymentFragment : Fragment() {
             application = requireActivity().application,
             clientId = PAYPAL_CLIENT_ID,
             environment = Environment.SANDBOX,
-            returnUrl = "com.iti.android.team1.ebuy://paypalpay",
+            returnUrl = "${BuildConfig.APPLICATION_ID}://paypalpay",
             currencyCode = CurrencyCode.USD,
             userAction = UserAction.PAY_NOW,
             settingsConfig = SettingsConfig(
@@ -62,7 +63,7 @@ class PaymentFragment : Fragment() {
             CreateOrder { createOrderActions ->
                 val order =
                     Order(
-                        intent = OrderIntent.CAPTURE,
+                        intent = OrderIntent.AUTHORIZE,
                         appContext = AppContext(userAction = UserAction.PAY_NOW),
                         purchaseUnitList =
                         listOf(
@@ -84,7 +85,7 @@ class PaymentFragment : Fragment() {
                 Log.d(TAG, "OnCancel: Buyer canceled the PayPal experience.")
             },
             onError = OnError { errorInfo ->
-                Log.d(TAG, "OnError: Error: $errorInfo")
+                Log.d(TAG, "OnError: $errorInfo")
             }
 
         )
