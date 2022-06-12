@@ -4,7 +4,7 @@
     package="com.iti.android.team1.ebuy">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -20,12 +20,14 @@
         <activity
             android:name="com.paypal.openid.RedirectUriReceiverActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/PYPLAppTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/PYPLAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="paypalpay"
                     android:scheme="com.iti.android.team1.ebuy" />
@@ -33,12 +35,14 @@
         </activity>
         <activity
             android:name="com.paypal.pyplcheckout.home.view.activities.PYPLInitiateCheckoutActivity"
-            android:theme="@style/AppFullScreenTheme"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/AppFullScreenTheme">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data
                     android:host="paypalxo"
                     android:scheme="com.iti.android.team1.ebuy" />
@@ -46,19 +50,15 @@
         </activity>
         <activity
             android:name=".activities.auth.view.AuthActivity"
-            android:exported="true"
-            tools:node="replace">
-
-        </activity>
-        <activity
-            android:name=".activities.main.view.MainActivity"
-            android:exported="true"
-            tools:node="replace" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".activities.main.view.MainActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
