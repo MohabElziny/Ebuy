@@ -26,6 +26,7 @@ import com.iti.android.team1.ebuy.util.ZoomOutPageTransformer
 import com.like.LikeButton
 import com.like.OnLikeListener
 import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ProductsDetailsFragment : Fragment() {
@@ -60,6 +61,28 @@ class ProductsDetailsFragment : Fragment() {
         }
         handleProductResultCart()
         bindAddToCartButton()
+        observeOnFavoriteProgress()
+    }
+
+    private fun observeOnFavoriteProgress() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.favoriteProgress.buffer().collect {
+                when (it) {
+                    ResultState.EmptyResult -> {}
+                    is ResultState.Error -> Toast.makeText(requireContext(),
+                        it.errorString, Toast.LENGTH_LONG).show()
+                    ResultState.Loading -> {}
+                    is ResultState.Success -> {
+                        /*if (it.data)
+                            Toast.makeText(requireContext(),
+                                getString(R.string.insert_seccuess), Toast.LENGTH_SHORT).show()
+                        else
+                            Toast.makeText(requireContext(),
+                                getString(R.string.delete_success), Toast.LENGTH_SHORT).show()*/
+                    }
+                }
+            }
+        }
     }
 
     private fun initLikeBtn(product: Product) {
@@ -68,44 +91,12 @@ class ProductsDetailsFragment : Fragment() {
         binding.likeBtn.setOnLikeListener(object : OnLikeListener {
             override fun liked(likeButton: LikeButton?) {
                 viewModel.insertProductToFavorites(product)
-                insertEffect()
             }
 
             override fun unLiked(likeButton: LikeButton?) {
                 viewModel.deleteProductFromFavorites(args.product)
-                deleteEffect()
             }
         })
-    }
-
-    private fun insertEffect() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.dpInsertProgress.buffer().collect() {
-                when (it) {
-                    is DatabaseResult.Success -> Toast.makeText(requireContext(),
-                        getString(R.string.insert_seccuess),
-                        Toast.LENGTH_SHORT).show()
-                    is DatabaseResult.Error -> Toast.makeText(requireContext(),
-                        getString(R.string.insert_error),
-                        Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    private fun deleteEffect() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.dpDeleteProgress.buffer().collect() {
-                when (it) {
-                    is DatabaseResult.Success -> Toast.makeText(requireContext(),
-                        getString(R.string.delete_success),
-                        Toast.LENGTH_SHORT).show()
-                    is DatabaseResult.Error -> Toast.makeText(requireContext(),
-                        getString(R.string.delete_error),
-                        Toast.LENGTH_LONG).show()
-                }
-            }
-        }
     }
 
     private fun fetchProductState() {

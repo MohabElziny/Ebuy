@@ -2,18 +2,16 @@ package com.iti.android.team1.ebuy.ui.profile_screen.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iti.android.team1.ebuy.model.DatabaseResponse
-import com.iti.android.team1.ebuy.model.DatabaseResult
+import com.iti.android.team1.ebuy.domain.savedItems.ISavedItemsUseCase
+import com.iti.android.team1.ebuy.domain.savedItems.SavedItemsUseCase
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
@@ -25,7 +23,7 @@ class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
         MutableStateFlow(ResultState.Loading)
     val orderList = _orderList.asStateFlow()
 
-    private var _favouriteProducts: MutableStateFlow<ResultState<List<FavoriteProduct>>> =
+    private var _favouriteProducts: MutableStateFlow<ResultState<List<Product>>> =
         MutableStateFlow(ResultState.Loading)
     val favoriteProducts = _favouriteProducts.asStateFlow()
 
@@ -33,44 +31,46 @@ class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
         MutableStateFlow(ResultState.Loading)
     val deleteState get() = _deleteState.asStateFlow()
 
+    private val savedItemsUseCase: ISavedItemsUseCase
+        get() = SavedItemsUseCase(myRepo)
+
     fun deleteFavoriteProduct(productId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
-            val result = async { myRepo.deleteProductFromFavorite(productId) }
+            val result = async { myRepo.removeFromFavorite(productId) }
             setDeleteState(result.await())
         }
     }
 
-    private suspend fun setDeleteState(result: DatabaseResponse<Int?>) {
+    private suspend fun setDeleteState(result: NetworkResponse<DraftOrder>) {
         when (result) {
-            is DatabaseResponse.Failure ->
-                _deleteState.emit(ResultState.Error(result.errorMsg))
-            is DatabaseResponse.Success -> {
-                _deleteState.emit(ResultState.Success(1))
-            }
+            is NetworkResponse.FailureResponse -> _deleteState.emit(ResultState.Error(result.errorString))
+            is NetworkResponse.SuccessResponse -> _deleteState.emit(ResultState.Success(1))
         }
     }
 
     fun getFavouriteProducts() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = async {
-                myRepo.getFlowFavoriteProducts()
+                savedItemsUseCase.getFavoriteItems()
             }
             sendResponseBackFavourites(res.await())
         }
     }
 
-    private suspend fun sendResponseBackFavourites(favLists: Flow<List<FavoriteProduct>>) {
+    private suspend fun sendResponseBackFavourites(response: NetworkResponse<List<Product>>) {
         _favouriteProducts.emit(ResultState.Loading)
-
-        favLists.buffer().collect { data ->
-            if (data.isEmpty())
-                _favouriteProducts.emit(ResultState.EmptyResult)
-            else
-                _favouriteProducts.emit(ResultState.Success(getLastNElements(data, 4)))
+        when (response) {
+            is NetworkResponse.FailureResponse -> _favouriteProducts.emit(ResultState.Error(response.errorString))
+            is NetworkResponse.SuccessResponse -> {
+                if (response.data.isEmpty())
+                    _favouriteProducts.emit(ResultState.EmptyResult)
+                else
+                    _favouriteProducts.emit(ResultState.Success(getLastNElements(response.data, 4)))
+            }
         }
     }
 
-    private fun getLastNElements(favLists: List<FavoriteProduct>, n: Int): List<FavoriteProduct> {
+    private fun getLastNElements(favLists: List<Product>, n: Int): List<Product> {
         return favLists.takeLast(n)
     }
 

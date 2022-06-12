@@ -58,6 +58,9 @@
         <action
             android:id="@+id/action_navigation_profile_to_navigation_favorites"
             app:destination="@id/navigation_favorites" />
+        <action
+            android:id="@+id/action_navigation_profile_to_productsDetailsFragment"
+            app:destination="@id/productsDetailsFragment" />
     </fragment>
     <fragment
         android:id="@+id/navigation_favorites"

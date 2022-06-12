@@ -20,4 +20,21 @@ class ProductInCartUseCase(private val repository: IRepository) : IProductInCart
             }
         }
     }
+
+    override suspend fun isFavoriteProduct(productID: Long): Boolean {
+        return when (val favoriteProduct = repository.getFavoriteItems()) {
+            is NetworkResponse.FailureResponse -> false
+            is NetworkResponse.SuccessResponse -> {
+                val lineItems = favoriteProduct.data.draftOrder.lineItems
+                if (lineItems.isNotEmpty()) {
+                    val cartMap = lineItems.associateBy {
+                        it.productId
+                    }
+                    cartMap.containsKey(productID)
+                } else {
+                    false
+                }
+            }
+        }
+    }
 }

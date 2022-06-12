@@ -1,10 +1,7 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
-import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
-import com.iti.android.team1.ebuy.model.datasource.localsource.converters.CartItemConverter
-import com.iti.android.team1.ebuy.model.datasource.localsource.converters.ProductConverter
-import com.iti.android.team1.ebuy.model.datasource.remotesource.DraftsLineItemConverter
+import com.iti.android.team1.ebuy.model.pojo.DraftsLineItemConverter
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
@@ -12,7 +9,6 @@ import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.FailureR
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.SuccessResponse
 import com.iti.android.team1.ebuy.model.pojo.*
 import com.iti.android.team1.ebuy.util.Decoder
-import kotlinx.coroutines.flow.Flow
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
@@ -50,15 +46,6 @@ class Repository(
         }
     }
 
-
-//    private fun <T> sendResponseBack( obj :Any,response: Response<T>): NetworkResponse<Any> {
-//        return if (response.isSuccessful) {
-//            SuccessResponse(response.body() ?: obj())
-//        } else {
-//            parseError(response.errorBody())
-//        }
-//    }
-
     override suspend fun getAllCategories(): NetworkResponse<Categories> {
         val response = remoteSource.getAllCategories()
         return if (response.isSuccessful) {
@@ -87,47 +74,6 @@ class Repository(
         } else {
             parseError(response.errorBody())
         }
-    }
-
-    override suspend fun getAllFavoritesProducts(): List<FavoriteProduct> {
-        return localSource.getAllFavoriteProducts()
-    }
-
-    override suspend fun removeAllFavoritesProducts() {
-        localSource.removeAllFavoriteProducts()
-    }
-
-    override suspend fun addProductToFavorite(
-        product: Product,
-    ): DatabaseResponse<Long> {
-        return if (
-            product.productID == localSource.addProductToFavorites(ProductConverter.convertProductToEntity(
-                product))
-        )
-            DatabaseResponse.Success(data = product.productID)
-        else
-            DatabaseResponse.Failure("Error duo inserting product to favorite with id ${product.productID}")
-    }
-
-    override suspend fun deleteProductFromFavorite(productId: Long): DatabaseResponse<Int> {
-        val insertCode = localSource.removeProductFromFavorites(productId)
-        return if (insertCode > 0)
-            DatabaseResponse.Success(data = insertCode)
-        else
-            DatabaseResponse.Failure(errorMsg = "Error duo inserting product to favorite with id $productId")
-    }
-
-    override suspend fun isFavoriteProduct(productID: Long): Boolean {
-        return localSource.isFavoriteProduct(productID)
-    }
-
-
-    override suspend fun updateFavoriteProduct(favoriteProduct: FavoriteProduct): DatabaseResponse<Int> {
-        val state = localSource.updateFavoriteProduct(favoriteProduct)
-        return if (state > 0)
-            DatabaseResponse.Success(state)
-        else
-            DatabaseResponse.Failure("Error duo updating product with id: ${favoriteProduct.productID} with code state: $state")
     }
 
     override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
@@ -174,58 +120,20 @@ class Repository(
         }
     }
 
-
-    override suspend fun getFlowFavoriteProducts(): Flow<List<FavoriteProduct>> {
-        return localSource.getFlowFavoriteProducts()
-    }
-
-    override suspend fun getAllCartProducts(): List<CartItem> {
-        return localSource.getAllCartProducts()
-    }
-
-    override suspend fun removeAllCartProducts() {
-        localSource.removeAllFavoriteProducts()
-    }
-
-    override suspend fun addProductToCart(product: Product, quantity: Int): DatabaseResponse<Long> {
-        val addResult =
-            localSource.addProductToCart(CartItemConverter.convertProductToCartItemEntity(product,
-                quantity))
-        return if (product.productVariants?.get(0)?.productVariantId == addResult) {
-            DatabaseResponse.Success(addResult)
-        } else {
-            DatabaseResponse.Failure("Error while adding product ${product.productName} to cart with code $addResult")
-        }
-    }
-
-    override suspend fun removeProductFromCart(productVariantID: Long): DatabaseResponse<Int> {
-        val removeResult = localSource.removeProductFromCart(productVariantID)
-        return if (removeResult > 0) {
-            DatabaseResponse.Success(removeResult)
-        } else {
-            DatabaseResponse.Failure("Error while remove the product with code $removeResult")
-        }
-    }
-
-    override suspend fun updateProductInCart(product: Product, quantity: Int) {
-        localSource.updateProductInCart(CartItemConverter.convertProductToCartItemEntity(product,
-            quantity))
-    }
-
-    override suspend fun updateCartItem(cartItem: CartItem) {
-        localSource.updateProductInCart(cartItem)
-    }
-
-    override suspend fun isProductInCart(productVariantID: Long): Boolean {
-        return localSource.isProductInCart(productVariantID)
-    }
-
     override fun decode(input: String): String {
         return decoder.decode(input)
     }
 
     override fun encode(input: String): String {
         return decoder.encode(input)
+    }
+
+    override fun setCartIdToPrefs(cartId: String) {
+        localSource.setCartIdToPrefs(encode(cartId))
+    }
+
+    override fun setFavoritesIdToPrefs(favId: String) {
+        localSource.setFavoritesIdToPrefs(encode(favId))
     }
 
     override fun setUserIdToPrefs(userId: Long) =
@@ -237,73 +145,79 @@ class Repository(
 
     override fun getAuthStateFromPrefs() = localSource.getAuthStateFromPrefs()
 
+    private fun getFavoritesIdFromPrefs() = decode(localSource.getFavoritesIdFromPrefs())
+
+    private fun getCartIdFromPrefs() = decode(localSource.getCartIdFromPrefs())
+
     override suspend fun addFavorite(
         product: Product,
     ): NetworkResponse<DraftOrder> {
-        getCustomer()?.let {
-            if (it.favoriteID.isEmpty()) {
-                return postDraftOrder(product, it, isFavorite = true)
-            } else {
-                return updateDraftOrder(product, draftId = it.favoriteID.toLong())
-            }
-        } ?: return FailureResponse("Can't find User")
+        val favoriteID = getFavoritesIdFromPrefs()
+        return if (favoriteID.isEmpty()) {
+            postDraftOrder(product, isFavorite = true)
+        } else {
+            updateDraftOrder(product, draftId = favoriteID.toLong())
+        }
     }
 
     override suspend fun removeFromFavorite(productId: Long): NetworkResponse<DraftOrder> {
-        getCustomer()?.let {
-            return removeFavoriteOrCartItem(it, productId, true)
-        } ?: return FailureResponse("Can't find User")
+        return removeFavoriteOrCartItem(productId, true)
     }
 
     override suspend fun addCart(product: Product, quantity: Int): NetworkResponse<DraftOrder> {
-        getCustomer()?.let {
-            if (it.cartID.isEmpty()) {
-                return postDraftOrder(product, it, quantity, false)
-            } else {
-                return updateDraftOrder(product, quantity, it.cartID.toLong())
-            }
-        } ?: return FailureResponse("Can't find User")
+        val cartId = getCartIdFromPrefs()
+        return if (cartId.isEmpty()) {
+            postDraftOrder(product, quantity, false)
+        } else {
+            updateDraftOrder(product, quantity, cartId.toLong())
+        }
     }
 
     override suspend fun removeFromCart(productId: Long): NetworkResponse<DraftOrder> {
-        getCustomer()?.let {
-            return removeFavoriteOrCartItem(it, productId, false)
-        } ?: return FailureResponse("Can't find User")
+        return removeFavoriteOrCartItem(productId, false)
     }
 
     private suspend fun removeFavoriteOrCartItem(
-        customer: Customer,
         productId: Long,
         isFavorite: Boolean,
     ): NetworkResponse<DraftOrder> {
-        val draft =
-            if (isFavorite) getDraft(customer.favoriteID.toLong()) else getDraft(customer.cartID.toLong())
-        if (draft?.draftOrder?.lineItems != null) {
+        val favId = getFavoritesIdFromPrefs()
+        val cartId = getCartIdFromPrefs()
+        val draft = if (isFavorite) getDraft(favId.toLong()) else getDraft(cartId.toLong())
+        return if (draft?.draftOrder?.lineItems != null) {
             if (draft.draftOrder.lineItems.count() > 1) {
                 draft.apply {
                     draftOrder.lineItems.removeAll {
                         it.productId == productId
                     }
                 }
-                return removeLineItem(draft)
+                removeLineItem(draft)
             } else {
-                val deleteResponse = deleteDraftOrder(draft.draftOrder.id)
-                return if (deleteResponse.isSuccessful) {
-                    if (isFavorite) customer.favoriteID = "" else customer.cartID = ""
-                    updateCustomer(customer)
-                    SuccessResponse(DraftOrder())
-                } else {
-                    parseError(deleteResponse.errorBody())
-                }
+                deleteLastDraftItem(isFavorite, draft.draftOrder.id)
             }
         } else {
-            return FailureResponse("Your Inventory is already empty")
+            FailureResponse("Your Inventory is already empty")
+        }
+    }
+
+    private suspend fun deleteLastDraftItem(
+        isFavorite: Boolean,
+        draftOrderId: Long,
+    ): NetworkResponse<DraftOrder> {
+        val deleteResponse = deleteDraftOrder(draftOrderId)
+        return if (deleteResponse.isSuccessful) {
+            val customer = getCustomer()
+            if (isFavorite) customer.favoriteID = "" else customer.cartID = ""
+            updateCustomer(customer)
+            if (isFavorite) setFavoritesIdToPrefs("") else setCartIdToPrefs("")
+            SuccessResponse(DraftOrder())
+        } else {
+            parseError(deleteResponse.errorBody())
         }
     }
 
     private suspend fun postDraftOrder(
         product: Product,
-        customer: Customer,
         quantity: Int = 1,
         isFavorite: Boolean,
     ): NetworkResponse<DraftOrder> {
@@ -316,11 +230,33 @@ class Repository(
 
         val response = remoteSource.postDraftOrder(draft)
         return if (response.isSuccessful) {
-            setDraftIdToCustomer(customer, isFavorite, response.body()?.draftOrder?.id)
+            setDraftIdToCustomer(getCustomer(), isFavorite, response.body()?.draftOrder?.id)
             SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
         } else {
             parseError(response.errorBody())
         }
+    }
+
+    override suspend fun updateCart(cartItems: List<CartItem>) {
+        val draftId = getCartIdFromPrefs()
+        if (draftId.isEmpty()) return
+        val draft = getDraft(draftId.toLong())
+        remoteSource.updateDraftOrder(updateItems(draft, cartItems) ?: Draft())
+    }
+
+    private fun updateItems(draft: Draft?, cartItems: List<CartItem>): Draft? {
+        val lineItemsMap = draft?.draftOrder?.lineItems?.associateBy { item ->
+            item.productId
+        }
+        cartItems.forEach { cartItem ->
+            lineItemsMap?.get(cartItem.productID).apply {
+                this?.quantity = cartItem.customerProductQuantity
+            }
+        }
+        draft?.apply {
+            this.draftOrder.lineItems = lineItemsMap?.values!!.toCollection(ArrayList())
+        }
+        return draft
     }
 
     private suspend fun updateDraftOrder(
@@ -366,17 +302,11 @@ class Repository(
         }
     }
 
-    override suspend fun getFavoriteItems(): NetworkResponse<Draft> {
-        getCustomer()?.let {
-            return getItemsData(it.favoriteID)
-        } ?: return FailureResponse("Can't find User")
-    }
+    override suspend fun getFavoriteItems(): NetworkResponse<Draft> =
+        getItemsData(getFavoritesIdFromPrefs())
 
-    override suspend fun getCartItems(): NetworkResponse<Draft> {
-        getCustomer()?.let {
-            return getItemsData(it.cartID)
-        } ?: return FailureResponse("Can't find User")
-    }
+    override suspend fun getCartItems(): NetworkResponse<Draft> =
+        getItemsData(getCartIdFromPrefs())
 
     private suspend fun getItemsData(id: String): NetworkResponse<Draft> {
         return if (id.isEmpty()) {
@@ -386,11 +316,10 @@ class Repository(
         }
     }
 
-
-    private suspend fun getCustomer(): Customer? {
+    private suspend fun getCustomer(): Customer {
         return when (val response = getCustomerByID()) {
             is FailureResponse -> {
-                null
+                Customer()
             }
             is SuccessResponse -> {
                 response.data
@@ -399,20 +328,21 @@ class Repository(
     }
 
     private suspend fun setDraftIdToCustomer(customer: Customer, isFavorite: Boolean, id: Long?) {
-        if (isFavorite)
+        if (isFavorite) {
             customer.favoriteID = "$id"
-        else
+            setFavoritesIdToPrefs("$id")
+        } else {
             customer.cartID = "$id"
+            setCartIdToPrefs("$id")
+        }
         updateCustomer(customer)
     }
 
-    private suspend fun deleteDraftOrder(draftId: Long): Response<Unit> {
-        return remoteSource.deleteDraftOrder(draftId)
-    }
+    private suspend fun deleteDraftOrder(draftId: Long): Response<Unit> =
+        remoteSource.deleteDraftOrder(draftId)
 
-    private suspend fun updateCustomer(customer: Customer) {
+    private suspend fun updateCustomer(customer: Customer) =
         remoteSource.updateCustomer(customer)
-    }
 
     override suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses> {
         val response = remoteSource.getAllAddresses(customerId)
@@ -485,7 +415,6 @@ class Repository(
         else
             parseError(response.errorBody())
     }
-
 
     override suspend fun getAllProductsByType(productType: String): NetworkResponse<Products> {
         val response = remoteSource.getAllProductsByType(productType)
