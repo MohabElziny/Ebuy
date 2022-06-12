@@ -45,7 +45,7 @@ class PaymentFragment : Fragment() {
             application = requireActivity().application,
             clientId = PAYPAL_CLIENT_ID,
             environment = Environment.SANDBOX,
-            returnUrl = "${BuildConfig.APPLICATION_ID}://paypalpay",
+            returnUrl = "com.iti.android.team1.ebuy://paypalpay",
             currencyCode = CurrencyCode.USD,
             userAction = UserAction.PAY_NOW,
             settingsConfig = SettingsConfig(
