@@ -45,6 +45,8 @@ class CartFragment : Fragment() {
         handleCheckoutButton()
         handleOverFlow()
         handleDeleteState()
+        handleCost()
+
     }
 
     private fun handleDeleteState() {
@@ -104,7 +106,6 @@ class CartFragment : Fragment() {
                     is ResultState.Success -> {
                         handleExistData()
                         cartProductAdapter.setCartItems(result.data)
-                        handleCost()
                     }
                 }
             }
@@ -113,14 +114,24 @@ class CartFragment : Fragment() {
 
     private fun handleCost() {
         lifecycleScope.launchWhenStarted {
-            viewModel.subTotal.collect { subtotal ->
-                viewModel.total.collect { total ->
-                    bindCostText(subtotal, total)
+            var res: Long? = null
+
+            launch {
+                viewModel.subTotal.collect { subtotal ->
+                    res = subtotal
                 }
             }
+            launch {
+                viewModel.total.collect { total ->
+                    bindCostText(res ?: 0, total)
+                }
+            }
+
         }
 
+
     }
+
 
     private fun bindCostText(subTotal: Long, total: Long) {
         binding.textProductSubTotal.text = "$subTotal".plus(" EGP")

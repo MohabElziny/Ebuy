@@ -15,8 +15,8 @@ class PaymentFragment : Fragment() {
         fun newInstance() = PaymentFragment()
     }
 
-    private val args by navArgs<PaymentFragmentArgs>()
-    private val order = args.order
+//    private val args by navArgs<PaymentFragmentArgs>()
+//    private val order = args.order
     private lateinit var viewModel: PaymentViewModel
 
     override fun onCreateView(

@@ -136,6 +136,13 @@ class Repository(
     override fun getUserIdFromPrefs() = decode(localSource.getUserIdFromPrefs()).toLong()
 
     override fun getAuthStateFromPrefs() = localSource.getAuthStateFromPrefs()
+    override fun setFavoritesIdToPrefs(favId: String) {
+        localSource.setFavoritesIdToPrefs(encode(favId))
+    }
+
+    override fun setCartIdToPrefs(cartId: String) {
+        localSource.setCartIdToPrefs(encode(cartId))
+    }
 
     private fun getFavoritesIdFromPrefs() = decode(localSource.getFavoritesIdFromPrefs())
 
@@ -215,7 +222,7 @@ class Repository(
     ): NetworkResponse<DraftOrder> {
         val draft =
             Draft(DraftOrder(
-                lineItems = arrayListOf(DraftsLineItemConverter.convertToLineItem(product,
+                lineItems = arrayListOf(DraftsLineItemConverter.convertToDraftLineItem(product,
                     quantity)),
                 customer = DraftCustomerID(getUserIdFromPrefs())
             ))
@@ -256,7 +263,7 @@ class Repository(
         quantity: Int = 1,
         draftId: Long,
     ): NetworkResponse<DraftOrder> {
-        val draftProduct = DraftsLineItemConverter.convertToLineItem(product, quantity)
+        val draftProduct = DraftsLineItemConverter.convertToDraftLineItem(product, quantity)
         val draft = getDraft(draftId)?.apply {
             this.draftOrder.lineItems.add(draftProduct)
         }

@@ -56,6 +56,9 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
                 cartItemList = response.data.toMutableList()
                 if (response.data.isNotEmpty()) {
                     _allCartItems.postValue(ResultState.Success(cartItemList))
+                   viewModelScope.launch(Dispatchers.IO) {
+                       updateCosts()
+                   }
                 } else {
                     _allCartItems.postValue(ResultState.EmptyResult)
                 }
@@ -81,16 +84,18 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
     private fun updateItemList() {
         viewModelScope.launch(Dispatchers.Main) {
             if (cartItemList.isNotEmpty()) {
-                val sum = cartItemList.sumOf {
-                    it.productVariantPrice * it.customerProductQuantity
-                }.toLong()
-                _allCartItems.postValue(ResultState.Success(cartItemList))
-                _subTotal.emit(sum)
-                _total.emit(sum + DELIVER)
-
+              updateCosts()
             } else
                 _allCartItems.postValue(ResultState.EmptyResult)
         }
+    }
+    private suspend fun updateCosts(){
+        val sum = cartItemList.sumOf {
+            it.productVariantPrice * it.customerProductQuantity
+        }.toLong()
+        _allCartItems.postValue(ResultState.Success(cartItemList))
+        _subTotal.emit(sum)
+        _total.emit(sum + DELIVER)
     }
 
      fun makeOrder() {
