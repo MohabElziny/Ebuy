@@ -13,9 +13,9 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
-        android:layout_marginBottom="-32dp"
-        app:cardCornerRadius="32dp"
+        android:layout_marginTop="@dimen/_25sdp"
+        android:layout_marginBottom="@dimen/_minus25sdp"
+        app:cardCornerRadius="@dimen/_25sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -24,112 +24,48 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="32dp">
-
-            <Button
-                android:id="@+id/btn_google"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="12dp"
-                android:backgroundTint="@color/btnColor"
-                android:textSize="@dimen/fontHeading1"
-                app:cornerRadius="8dp"
-                app:icon="@drawable/google_icon"
-                app:iconGravity="textEnd"
-                app:iconTint="@color/Secondary"
-                app:layout_constraintEnd_toStartOf="@id/btn_facebook"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <Button
-                android:id="@+id/btn_facebook"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="12dp"
-                android:layout_marginTop="24dp"
-                android:layout_marginEnd="24dp"
-                android:backgroundTint="@color/btnColor"
-                android:textSize="@dimen/fontHeading1"
-                app:cornerRadius="8dp"
-                app:icon="@drawable/facebook_icon"
-                app:iconGravity="textEnd"
-                app:iconTint="@color/Secondary"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@id/btn_google"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="SpeakableTextPresentCheck" />
-
-            <TextView
-                android:id="@+id/textView3"
-                style="@style/fontBoldStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="@string/email_address"
-                android:textSize="@dimen/fontHeading4"
-                app:layout_constraintEnd_toEndOf="@+id/btn_facebook"
-                app:layout_constraintStart_toStartOf="@+id/btn_google"
-                app:layout_constraintTop_toBottomOf="@+id/btn_google" />
+            android:layout_marginBottom="@dimen/_25sdp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/enter_email_address"
-                app:boxStrokeColor="@color/Primary"
-                app:hintAnimationEnabled="true"
-                app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
-                app:hintTextColor="@color/Disable"
-                app:layout_constraintEnd_toEndOf="@id/textView3"
-                app:layout_constraintStart_toStartOf="@+id/textView3"
-                app:layout_constraintTop_toBottomOf="@+id/textView3">
+                android:layout_marginStart="@dimen/_18sdp"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:layout_marginEnd="@dimen/_18sdp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/btnColor"
                     android:fontFamily="@font/poppins"
+                    android:hint="@string/enter_email_address"
                     android:inputType="textEmailAddress"
                     android:textSize="@dimen/fontHeading5"
                     tools:ignore="TextContrastCheck" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <TextView
-                android:id="@+id/textView4"
-                style="@style/fontBoldStyle"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
-                android:text="@string/password"
-                android:textSize="@dimen/fontHeading4"
-                app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
-                app:layout_constraintStart_toStartOf="@+id/textInputLayout"
-                app:layout_constraintTop_toBottomOf="@+id/textInputLayout" />
-
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/textInputLayout2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:hint="@string/enter_password"
-                app:boxStrokeColor="@color/Primary"
+                android:layout_marginTop="@dimen/_18sdp"
                 app:endIconMode="password_toggle"
-                app:hintAnimationEnabled="true"
-                app:hintTextAppearance="@style/TextAppearance.AppCompat.Small"
-                app:hintTextColor="@color/Disable"
-                app:layout_constraintEnd_toEndOf="@+id/textView4"
-                app:layout_constraintStart_toStartOf="@+id/textView4"
-                app:layout_constraintTop_toBottomOf="@+id/textView4">
+                app:layout_constraintEnd_toEndOf="@+id/textInputLayout"
+                app:layout_constraintStart_toStartOf="@+id/textInputLayout"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/edt_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/btnColor"
                     android:fontFamily="@font/poppins"
+                    android:hint="@string/enter_password"
                     android:inputType="textPassword"
                     android:textSize="@dimen/fontHeading5"
                     tools:ignore="TextContrastCheck" />
@@ -140,12 +76,12 @@
                 style="@style/fontBoldStyle"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_marginTop="@dimen/_25sdp"
                 android:backgroundTint="@color/Primary"
-                android:padding="8dp"
+                android:padding="@dimen/_6sdp"
                 android:text="@string/login"
                 android:textSize="@dimen/fontHeading3"
-                app:cornerRadius="8dp"
+                app:cornerRadius="@dimen/_6sdp"
                 app:layout_constraintEnd_toEndOf="@+id/textInputLayout2"
                 app:layout_constraintStart_toStartOf="@+id/textInputLayout2"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout2" />
@@ -154,10 +90,10 @@
                 android:id="@+id/textView5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/_8sdp"
                 android:fontFamily="@font/poppins"
                 android:gravity="center"
-                android:minHeight="48dp"
+                android:minHeight="@dimen/_37sdp"
                 android:text="@string/don_t_have_an_account"
                 android:textColor="@color/Disable"
                 android:textSize="@dimen/fontHeading6"
@@ -174,10 +110,8 @@
                 android:clickable="true"
                 android:focusable="true"
                 android:gravity="center"
-                android:minWidth="48dp"
-                android:minHeight="48dp"
-                android:paddingStart="8dp"
-                android:paddingEnd="8dp"
+                android:paddingStart="@dimen/_6sdp"
+                android:paddingEnd="@dimen/_6sdp"
                 android:text="@string/sign_up"
                 android:textSize="@dimen/fontHeading6"
                 app:layout_constraintStart_toEndOf="@+id/textView5"
