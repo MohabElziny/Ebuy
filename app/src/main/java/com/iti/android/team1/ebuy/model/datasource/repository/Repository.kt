@@ -128,14 +128,6 @@ class Repository(
         return decoder.encode(input)
     }
 
-    override fun setCartIdToPrefs(cartId: String) {
-        localSource.setCartIdToPrefs(encode(cartId))
-    }
-
-    override fun setFavoritesIdToPrefs(favId: String) {
-        localSource.setFavoritesIdToPrefs(encode(favId))
-    }
-
     override fun setUserIdToPrefs(userId: Long) =
         localSource.setUserIdToPrefs(encode(userId.toString()))
 
@@ -223,7 +215,7 @@ class Repository(
     ): NetworkResponse<DraftOrder> {
         val draft =
             Draft(DraftOrder(
-                lineItems = arrayListOf(DraftsLineItemConverter.convertToDraftLineItem(product,
+                lineItems = arrayListOf(DraftsLineItemConverter.convertToLineItem(product,
                     quantity)),
                 customer = DraftCustomerID(getUserIdFromPrefs())
             ))
@@ -264,7 +256,7 @@ class Repository(
         quantity: Int = 1,
         draftId: Long,
     ): NetworkResponse<DraftOrder> {
-        val draftProduct = DraftsLineItemConverter.convertToDraftLineItem(product, quantity)
+        val draftProduct = DraftsLineItemConverter.convertToLineItem(product, quantity)
         val draft = getDraft(draftId)?.apply {
             this.draftOrder.lineItems.add(draftProduct)
         }

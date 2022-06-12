@@ -3,6 +3,7 @@ package com.iti.android.team1.ebuy.ui.login_screen.view
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentLoginScreenBinding
-import com.iti.android.team1.ebuy.main.view.MainActivity
+import com.iti.android.team1.ebuy.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.pojo.CustomerLogin

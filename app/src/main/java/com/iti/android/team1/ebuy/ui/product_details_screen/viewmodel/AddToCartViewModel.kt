@@ -3,6 +3,8 @@ package com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
+import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
+import com.iti.android.team1.ebuy.model.networkresponse.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -11,14 +13,18 @@ import kotlinx.coroutines.launch
 
 class AddToCartViewModel(private val repository: IRepository) : ViewModel() {
 
-    private var _plusButtonState: MutableStateFlow<Boolean> = MutableStateFlow(true)
+    private val _plusButtonState: MutableStateFlow<Boolean> = MutableStateFlow(true)
     val plusButtonsState = _plusButtonState.asStateFlow()
 
-    private var _minusButtonState: MutableStateFlow<Boolean> = MutableStateFlow(false)
+    private val _minusButtonState: MutableStateFlow<Boolean> = MutableStateFlow(false)
     val minusButtonState = _minusButtonState.asStateFlow()
 
-    private var _quantityText: MutableStateFlow<Int> = MutableStateFlow(1)
+    private val _quantityText: MutableStateFlow<Int> = MutableStateFlow(1)
     val quantityText = _quantityText.asStateFlow()
+
+    private val _addProductClicked: MutableStateFlow<ResultState<Boolean>> =
+        MutableStateFlow(ResultState.Loading)
+    val addProductClicked = _addProductClicked.asStateFlow()
 
     private var quantity = 1
     private var productQuantity = 0
@@ -29,7 +35,12 @@ class AddToCartViewModel(private val repository: IRepository) : ViewModel() {
 
     fun insertProductToCart(product: Product) {
         viewModelScope.launch(Dispatchers.IO) {
-            repository.addProductToCart(product, quantity)
+            when (val response = repository.addCart(product, quantity)) {
+                is NetworkResponse.FailureResponse -> _addProductClicked.emit(ResultState.Error(
+                    response.errorString))
+                is NetworkResponse.SuccessResponse -> _addProductClicked.emit(ResultState.Success(
+                    true))
+            }
         }
     }
 

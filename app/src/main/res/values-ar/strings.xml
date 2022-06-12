@@ -9,9 +9,9 @@
     <string name="checkout">Checkout</string>
     <string name="sign_in">Sign In</string>
     <string name="email_address">Email address</string>
-    <string name="enter_email_address">Enter Email address</string>
+    <string name="enter_email_address">Email</string>
     <string name="password">Password</string>
-    <string name="enter_password">Enter Password</string>
+    <string name="enter_password">Password</string>
     <string name="login">Login</string>
     <string name="don_t_have_an_account">Don\'t have an account? </string>
     <string name="sign_up">Sign Up</string>
@@ -83,6 +83,22 @@
     <string name="no_brands_found">No brands found!</string>
     <string name="sign_in_insted">Sign in instead</string>
     <string name="OrdersFragment">Orders</string>
+
+
+    <string-array name="sortProducts">
+        <item>A to Z</item>
+        <item>Z to A</item>
+        <item>lowest to highest price</item>
+        <item>highest to lowest price</item>
+    </string-array>
+
     <string name="not_connected">Not Connected</string>
     <string name="please_connect_to_network_to_use_our_application">Please Connect to Network to use our application</string>
+    <string name="discount">Discount Code</string>
+    <string name="ok">OK</string>
+    <string name="copy_code">Copy Code</string>
+    <string name="size">Size</string>
+    <string name="messing_details">Missing details</string>
+    <string name="AddToCartDialogTag">AddToCartDialog</string>
+
 </resources>

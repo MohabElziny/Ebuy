@@ -24,6 +24,7 @@
 
 
     <include
+        android:visibility="gone"
         android:id="@+id/emptyLayout"
         layout="@layout/empty_layout" />
 

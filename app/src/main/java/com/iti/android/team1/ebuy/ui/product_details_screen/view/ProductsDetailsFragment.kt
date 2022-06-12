@@ -13,7 +13,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentProductsDetailsBinding
-import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
@@ -46,7 +45,6 @@ class ProductsDetailsFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initProductPagerAdapter()
@@ -56,10 +54,27 @@ class ProductsDetailsFragment : Fragment() {
             viewModel.product.buffer().collect { resultState ->
                 handleResultStates(resultState)
             }
-
         }
         handleProductResultCart()
         bindAddToCartButton()
+        observeOnFavoriteProgress()
+    }
+
+    private fun observeOnFavoriteProgress() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.favoriteProgress.buffer().collect {
+                when (it) {
+                    ResultState.EmptyResult -> {}
+                    is ResultState.Error -> {
+                        Toast.makeText(requireContext(),
+                            it.errorString, Toast.LENGTH_LONG).show()
+                        binding.likeBtn.isLiked = !binding.likeBtn.isLiked
+                    }
+                    ResultState.Loading -> {}
+                    is ResultState.Success -> {}
+                }
+            }
+        }
     }
 
     private fun initLikeBtn(product: Product) {
@@ -68,49 +83,17 @@ class ProductsDetailsFragment : Fragment() {
         binding.likeBtn.setOnLikeListener(object : OnLikeListener {
             override fun liked(likeButton: LikeButton?) {
                 viewModel.insertProductToFavorites(product)
-                insertEffect()
             }
 
             override fun unLiked(likeButton: LikeButton?) {
                 viewModel.deleteProductFromFavorites(args.product)
-                deleteEffect()
             }
         })
     }
 
-    private fun insertEffect() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.dpInsertProgress.buffer().collect() {
-                when (it) {
-                    is DatabaseResult.Success -> Toast.makeText(requireContext(),
-                        getString(R.string.insert_seccuess),
-                        Toast.LENGTH_SHORT).show()
-                    is DatabaseResult.Error -> Toast.makeText(requireContext(),
-                        getString(R.string.insert_error),
-                        Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
-    private fun deleteEffect() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.dpDeleteProgress.buffer().collect() {
-                when (it) {
-                    is DatabaseResult.Success -> Toast.makeText(requireContext(),
-                        getString(R.string.delete_success),
-                        Toast.LENGTH_SHORT).show()
-                    is DatabaseResult.Error -> Toast.makeText(requireContext(),
-                        getString(R.string.delete_error),
-                        Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-    }
-
     private fun fetchProductState() {
         lifecycleScope.launchWhenStarted {
-            viewModel.productState.buffer().collect() {
+            viewModel.productState.buffer().collect {
                 binding.likeBtn.isLiked = it
             }
         }
@@ -138,7 +121,7 @@ class ProductsDetailsFragment : Fragment() {
 
     private fun bindAddToCartButton() {
         binding.btnAddToCart.setOnClickListener {
-            cartProduct?.let { product -> viewModel.getProductInCartState(product) }
+            cartProduct?.let { product -> viewModel.getProductInCartState(product.productID ?: 0) }
         }
     }
 
@@ -166,7 +149,7 @@ class ProductsDetailsFragment : Fragment() {
     private fun showAddToCartDialog() {
         cartProduct?.let { product ->
             AddToCartDialog(product).show(requireActivity().supportFragmentManager,
-                "AddToCartDialog")
+                getString(R.string.AddToCartDialogTag))
         }
     }
 
@@ -178,10 +161,10 @@ class ProductsDetailsFragment : Fragment() {
                 dialog.dismiss()
             }
             .setPositiveButton(getString(R.string.go_to_cart)) { dialog, _ ->
+                dialog.dismiss()
                 findNavController().navigate(
                     ProductsDetailsFragmentDirections.actionProductsDetailsFragmentToCartFragment()
                 )
-                dialog.dismiss()
             }
             .show()
     }
@@ -210,7 +193,9 @@ class ProductsDetailsFragment : Fragment() {
         binding.txtProductDescription.text = data.productDescription
         binding.txtProductPrice.text =
             ("${(data.productVariants?.get(0)?.productVariantPrice ?: 0)}").plus("  EGP")
-
+        binding.txtProductSize.text =
+            data.productVariants?.get(0)?.productVariantOption1 ?: getString(
+                R.string.messing_details)
     }
 
     private fun initProductPagerAdapter() {

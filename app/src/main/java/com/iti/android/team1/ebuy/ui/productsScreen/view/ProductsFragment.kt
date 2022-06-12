@@ -12,9 +12,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentProductsBinding
-import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
@@ -83,12 +81,12 @@ class ProductsFragment : Fragment() {
     private fun startObserveToAddingFavoriteResult() {
         viewModel.resultOfAddingProductToFavorite.observe(viewLifecycleOwner) {
             when (it) {
-                is DatabaseResponse.Success -> Toast.makeText(requireContext(),
-                    getString(R.string.insert_seccuess),
+                ResultState.EmptyResult -> {}
+                is ResultState.Error -> Toast.makeText(requireContext(),
+                    it.errorString,
                     Toast.LENGTH_SHORT).show()
-                is DatabaseResponse.Failure -> Toast.makeText(requireContext(),
-                    getString(R.string.insert_error),
-                    Toast.LENGTH_LONG).show()
+                ResultState.Loading -> {}
+                is ResultState.Success -> {}
             }
         }
     }
@@ -96,19 +94,18 @@ class ProductsFragment : Fragment() {
     private fun startObserveToDeletingFavoriteResult() {
         viewModel.resultOfDeletingProductToFavorite.observe(viewLifecycleOwner) {
             when (it) {
-                is DatabaseResponse.Success -> Toast.makeText(requireContext(),
-                    getString(R.string.delete_success),
+                ResultState.EmptyResult -> {}
+                is ResultState.Error -> Toast.makeText(requireContext(),
+                    it.errorString,
                     Toast.LENGTH_SHORT).show()
-                is DatabaseResponse.Failure -> Toast.makeText(requireContext(),
-                    getString(R.string.delete_error),
-                    Toast.LENGTH_LONG).show()
+                ResultState.Loading -> {}
+                is ResultState.Success -> {}
             }
         }
     }
 
 
     private var onItemClick: (Long) -> Unit = { productId ->
-        //TODO: navigate to details_screen
         findNavController().navigate(
             ProductsFragmentDirections.actionNavigationProductsToProductsDetailsFragment(productId)
         )

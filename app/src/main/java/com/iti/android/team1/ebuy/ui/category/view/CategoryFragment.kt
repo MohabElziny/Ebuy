@@ -95,11 +95,7 @@ class CategoryFragment : Fragment() {
                         Toast.makeText(context, response.errorString, Toast.LENGTH_SHORT).show()
                     }
                     ResultState.Loading -> {}
-                    is ResultState.Success -> {
-                        Toast.makeText(context,
-                            "Successfully Successfully added to Favorites",
-                            Toast.LENGTH_SHORT).show()
-                    }
+                    is ResultState.Success -> {}
                     ResultState.EmptyResult -> {}
                 }
             }
@@ -109,11 +105,7 @@ class CategoryFragment : Fragment() {
                         Toast.makeText(context, response.errorString, Toast.LENGTH_SHORT).show()
                     }
                     ResultState.Loading -> {}
-                    is ResultState.Success -> {
-                        Toast.makeText(context,
-                            "Successfully removed from Favorites",
-                            Toast.LENGTH_SHORT).show()
-                    }
+                    is ResultState.Success -> {}
                     ResultState.EmptyResult -> {}
                 }
             }

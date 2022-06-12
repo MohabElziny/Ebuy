@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentProfileBinding
-import com.iti.android.team1.ebuy.main.view.MainActivity
+import com.iti.android.team1.ebuy.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
@@ -19,7 +19,6 @@ import com.iti.android.team1.ebuy.ui.profile_screen.adapters.OrdersAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.adapters.ProfileFavoritesAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileVMFactory
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileViewModel
-import com.iti.android.team1.ebuy.ui.savedItems.view.SavedItemsFragmentDirections
 import kotlinx.coroutines.flow.buffer
 
 class ProfileFragment : Fragment() {
@@ -55,8 +54,6 @@ class ProfileFragment : Fragment() {
         binding.btnMoreOrders.setOnClickListener {
 
         }
-
-
     }
 
     override fun onStop() {
@@ -80,21 +77,16 @@ class ProfileFragment : Fragment() {
 
     private var onItemClick: (Long) -> Unit = { productId ->
         findNavController().navigate(
-            SavedItemsFragmentDirections.actionNavigationFavoritesToProductsDetailsFragment(
-                productId)
+            ProfileFragmentDirections.actionNavigationProfileToProductsDetailsFragment(productId)
         )
     }
 
-    private var onUnlike: (Long) -> Unit = { productId ->
+    private var onUnlike: (Long, Int) -> Unit = { productId, index ->
         viewModel.deleteFavoriteProduct(productId)
         lifecycleScope.launchWhenStarted {
             viewModel.deleteState.buffer().collect { response ->
                 when (response) {
-                    is ResultState.Success -> {
-                        Toast.makeText(requireContext(),
-                            "Delete Done",
-                            Toast.LENGTH_SHORT).show()
-                    }
+                    is ResultState.Success -> profileFavoritesAdapter.removeItemFromList(index)
                     is ResultState.Error -> {
                         Toast.makeText(requireContext(),
                             response.errorString,
@@ -111,7 +103,8 @@ class ProfileFragment : Fragment() {
             viewModel.favoriteProducts.buffer().collect { result ->
                 when (result) {
                     ResultState.EmptyResult -> profileFavoritesAdapter.setFavouriteList(emptyList())
-//                    is ResultState.Error -> TODO()
+                    is ResultState.Error -> Toast.makeText(requireContext(),
+                        result.errorString, Toast.LENGTH_SHORT).show()
 //                    ResultState.Loading -> TODO()
                     is ResultState.Success -> {
                         profileFavoritesAdapter.setFavouriteList(result.data)

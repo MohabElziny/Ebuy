@@ -53,11 +53,7 @@ class CartFragment : Fragment() {
                 is ResultState.Error -> Toast.makeText(requireContext(),
                     result.errorString, Toast.LENGTH_SHORT).show()
                 ResultState.Loading -> {}
-                is ResultState.Success -> {
-//                    Toast.makeText(requireContext(),
-//                        getString(R.string.delete_success),
-//                        Toast.LENGTH_SHORT).show()
-                }
+                is ResultState.Success -> {}
             }
 
         }
