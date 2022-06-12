@@ -1,20 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardElevation="9dp"
-    app:cardUseCompatPadding="true"
     app:cardCornerRadius="@dimen/_7sdp"
-    >
+    app:cardElevation="@dimen/_7sdp"
+    app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:padding="@dimen/_5sdp"
-        >
+        android:padding="@dimen/_5sdp">
 
         <ImageView
             android:id="@+id/cat_custom_image"
@@ -38,11 +35,10 @@
             android:id="@+id/cat_custom_img_favo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/Primary"
-            android:src="@drawable/empty_heart_image"
             android:layout_below="@+id/cat_custom_image"
             android:layout_alignEnd="@+id/cat_custom_image"
-            />
+            android:backgroundTint="@color/Primary"
+            android:src="@drawable/empty_heart_image" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cat_custom_btn_add_cart"
@@ -56,9 +52,7 @@
             app:cornerRadius="@dimen/_20sdp" />
 
 
-
     </RelativeLayout>
-
 
 
 </androidx.cardview.widget.CardView>

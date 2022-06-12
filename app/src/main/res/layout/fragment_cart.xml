@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -8,7 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     tools:context=".ui.cart_screen.view.CartFragment">
-
 
     <ScrollView
         android:id="@+id/scroll_bottom"
@@ -34,9 +32,8 @@
                 android:id="@+id/text_all_items"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="@dimen/_12sdp"
                 android:fontFamily="@font/poppins"
-
                 android:text="@string/all_items"
                 android:textSize="@dimen/fontHeading2"
                 app:layout_constraintBottom_toTopOf="@+id/recycler_cart"
@@ -49,10 +46,9 @@
                 android:id="@+id/text_brand"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="@dimen/_6sdp"
                 android:fontFamily="@font/poppins"
                 android:text="@string/Brand"
-
                 android:textSize="@dimen/fontHeading2"
                 app:layout_constraintBottom_toTopOf="@+id/recycler_cart"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -64,8 +60,8 @@
             <include
                 android:id="@+id/emptyLayout"
                 layout="@layout/empty_layout"
-                android:layout_height="wrap_content"
                 android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -76,8 +72,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_cart"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginTop="8dp"
+                android:layout_height="@dimen/_231sdp"
+                android:layout_marginTop="@dimen/_6sdp"
                 app:layout_constraintBottom_toTopOf="@+id/card_layout_sum"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -86,13 +82,11 @@
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/card_layout_sum"
-
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/_6sdp"
                 android:layout_marginBottom="-24dp"
-                app:cardCornerRadius="24dp"
+                app:cardCornerRadius="@dimen/_18sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -102,8 +96,8 @@
                     android:id="@+id/constrain_layout_sum"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginBottom="64dp"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginBottom="@dimen/_49sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -112,10 +106,9 @@
                     <TextView
                         android:id="@+id/textView"
                         android:layout_width="wrap_content"
-
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginTop="@dimen/_9sdp"
                         android:alpha="0.5"
                         android:fontFamily="@font/poppins"
                         android:text="@string/sub_total"
@@ -130,8 +123,7 @@
                         android:id="@+id/text_product_subTotal"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="8dp"
-
+                        android:layout_marginEnd="@dimen/_6sdp"
                         android:fontFamily="@font/poppins"
                         android:text="123166$"
                         android:textColor="@color/black"
@@ -145,12 +137,11 @@
 
                     <TextView
                         android:id="@+id/textView6"
-                        android:layout_width="53dp"
-                        android:layout_height="23dp"
-                        android:layout_marginTop="16dp"
+                        android:layout_width="@dimen/_41sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_marginTop="@dimen/_12sdp"
                         android:alpha="0.5"
                         android:fontFamily="@font/poppins"
-
                         android:text="@string/delivery"
                         android:textSize="@dimen/fontHeading4"
                         app:layout_constraintBottom_toTopOf="@+id/textView8"
@@ -165,7 +156,6 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins"
                         android:text="@string/DeliveryPrice"
-
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontHeading4"
                         app:layout_constraintBottom_toBottomOf="@+id/textView6"
@@ -178,10 +168,9 @@
 
                     <TextView
                         android:id="@+id/textView8"
-                        android:layout_width="53dp"
-
-                        android:layout_height="23dp"
-                        android:layout_marginTop="24dp"
+                        android:layout_width="@dimen/_41sdp"
+                        android:layout_height="@dimen/_18sdp"
+                        android:layout_marginTop="@dimen/_18sdp"
                         android:fontFamily="@font/poppins"
                         android:text="@string/sub_total"
                         android:textColor="@color/black"
@@ -197,7 +186,6 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins"
                         android:text="1665656$"
-
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontHeading4"
                         app:layout_constraintBottom_toBottomOf="@+id/textView8"
@@ -209,16 +197,15 @@
                     <Button
                         android:id="@+id/btn_add_card"
                         android:layout_width="0dp"
-                        android:layout_height="64dp"
-                        android:layout_margin="8dp"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="24dp"
+                        android:layout_height="@dimen/_49sdp"
+                        android:layout_margin="@dimen/_6sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginBottom="@dimen/_18sdp"
                         android:backgroundTint="@color/Primary"
-
                         android:fontFamily="@font/poppins"
                         android:text="@string/checkout"
                         android:textColor="@color/Secondary"
-                        app:cornerRadius="10dp"
+                        app:cornerRadius="@dimen/_8sdp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
