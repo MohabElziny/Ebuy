@@ -19,7 +19,6 @@ import com.iti.android.team1.ebuy.ui.profile_screen.adapters.OrdersAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.adapters.ProfileFavoritesAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileVMFactory
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileViewModel
-import com.iti.android.team1.ebuy.ui.savedItems.view.SavedItemsFragmentDirections
 import kotlinx.coroutines.flow.buffer
 
 class ProfileFragment : Fragment() {

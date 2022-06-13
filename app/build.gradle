@@ -1,6 +1,8 @@
+
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.android.extensions'
     id 'kotlin-kapt'
     id 'androidx.navigation.safeargs.kotlin'
 }
@@ -127,5 +129,8 @@ dependencies {
 
     //likeBtn
     implementation 'com.github.jd-alexander:LikeButton:0.2.3'
+
+    //paypal
+    implementation('com.paypal.checkout:android-sdk:0.2.0')
 
 }

@@ -20,5 +20,10 @@ class CartItemConverter {
                 customerProductQuantity = quantity,
             )
         }
+
+        fun convertCartItemToProduct(){
+
+        }
+
     }
 }

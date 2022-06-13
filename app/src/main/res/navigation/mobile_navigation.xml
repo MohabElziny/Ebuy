@@ -49,7 +49,11 @@
         android:id="@+id/cartFragment"
         android:name="com.iti.android.team1.ebuy.ui.cart_screen.view.CartFragment"
         android:label="fragment_cart"
-        tools:layout="@layout/fragment_cart" />
+        tools:layout="@layout/fragment_cart" >
+        <action
+            android:id="@+id/action_cartFragment_to_paymentFragment"
+            app:destination="@id/paymentFragment" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.iti.android.team1.ebuy.ui.profile_screen.view.ProfileFragment"
@@ -73,9 +77,13 @@
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
-        android:name="com.iti.android.team1.ebuy.ui.payment_screen.PaymentFragment"
+        android:name="com.iti.android.team1.ebuy.ui.payment_screen.view.PaymentFragment"
         android:label="fragment_payment"
-        tools:layout="@layout/fragment_payment" />
+        tools:layout="@layout/fragment_payment" >
+        <argument
+            android:name="order"
+            app:argType="com.iti.android.team1.ebuy.model.pojo.Order" />
+    </fragment>
     <fragment
         android:id="@+id/productsDetailsFragment"
         android:name="com.iti.android.team1.ebuy.ui.product_details_screen.view.ProductsDetailsFragment"

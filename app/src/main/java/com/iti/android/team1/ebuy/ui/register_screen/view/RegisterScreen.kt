@@ -1,5 +1,6 @@
 package com.iti.android.team1.ebuy.ui.register_screen.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.iti.android.team1.ebuy.R
 import androidx.navigation.fragment.findNavController
+import com.iti.android.team1.ebuy.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentRegisterScreenBinding
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
@@ -39,7 +41,6 @@ class RegisterScreen : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.btnSignIn.setOnClickListener {
@@ -62,14 +63,11 @@ class RegisterScreen : Fragment() {
                     Toast.makeText(requireContext(),
                         "fail ${it.errorMsg}",
                         Toast.LENGTH_SHORT).show()
-                    Log.i("TAG", "onViewCreated:${it.errorMsg} ")
                     hideProgressBar()
                 }
                 is AuthResult.RegisterSuccess -> {
-                    Toast.makeText(requireContext(),
-                        "Welcome ${it.customer.firstName}",
-                        Toast.LENGTH_SHORT).show()
                     hideProgressBar()
+                    navigateToMainActivity()
                 }
             }
         }
@@ -115,5 +113,8 @@ class RegisterScreen : Fragment() {
         }
     }
 
-
+    private fun navigateToMainActivity() {
+        requireContext().startActivity(Intent(requireActivity(), MainActivity::class.java))
+        requireActivity().finish()
+    }
 }
