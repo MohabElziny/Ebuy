@@ -30,6 +30,7 @@ interface IRepository {
     fun getAuthStateFromPrefs(): Boolean
     fun setFavoritesIdToPrefs(favId: String)
     fun setCartIdToPrefs(cartId: String)
+    fun logOut()
 
     suspend fun getAllProductsByType(productType: String): NetworkResponse<Products>
     suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses>
@@ -44,8 +45,8 @@ interface IRepository {
     suspend fun setDefaultAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
     suspend fun deleteAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
 
-    suspend fun getAllPriceRules():NetworkResponse<PriceRuleResponse>
-    suspend fun getDiscountCodes(price_rule_id: Long):NetworkResponse<Discount>
+    suspend fun getAllPriceRules(): NetworkResponse<PriceRuleResponse>
+    suspend fun getDiscountCodes(price_rule_id: Long): NetworkResponse<Discount>
 
     suspend fun addFavorite(
         product: Product,

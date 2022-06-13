@@ -133,6 +133,11 @@ class Repository(
 
     override fun setAuthStateToPrefs(state: Boolean) = localSource.setAuthStateToPrefs(state)
 
+    override fun logOut() {
+        localSource.setAuthStateToPrefs(false)
+        localSource.setUserIdToPrefs("")
+    }
+
     override fun getUserIdFromPrefs() = decode(localSource.getUserIdFromPrefs()).toLong()
 
     override fun getAuthStateFromPrefs() = localSource.getAuthStateFromPrefs()
