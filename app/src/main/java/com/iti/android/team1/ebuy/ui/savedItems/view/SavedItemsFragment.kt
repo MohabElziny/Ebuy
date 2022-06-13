@@ -59,7 +59,7 @@ class SavedItemsFragment : Fragment() {
                     is ResultState.Error -> Toast.makeText(requireContext(),
                         response.errorString, Toast.LENGTH_SHORT).show()
                     ResultState.Loading -> {
-                        showShimmer()
+                       // showShimmer()
                     }
                     is ResultState.Success -> {
                         binding.emptyLayout.root.visibility = View.GONE

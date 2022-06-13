@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/_7sdp">
+
+    <ImageView
+        android:id="@+id/imgProduct"
+        android:layout_width="@dimen/_77sdp"
+        android:layout_height="@dimen/_77sdp"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginTop="@dimen/_6sdp"
+        android:background="@color/background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/text_product_name"
+        style="@style/cardTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_7sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:background="@color/background"
+        android:fontFamily="@font/poppins"
+        android:minWidth="@dimen/_36sdp"
+        android:padding="@dimen/_8sdp"
+        android:textAlignment="textStart"
+        android:textColor="@color/Secondary"
+        android:textSize="@dimen/_16ssp"
+        app:layout_constraintBottom_toBottomOf="@+id/imgProduct"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imgProduct"
+        app:layout_constraintTop_toTopOf="@+id/imgProduct"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/text_product_salary"
+        style="@style/cardTextStyle"
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:background="@color/background"
+        android:fontFamily="@font/poppins"
+        android:gravity="center"
+        android:minWidth="@dimen/_36sdp"
+        android:padding="@dimen/_8sdp"
+        android:textColor="@color/Secondary"
+        android:textSize="@dimen/_16ssp"
+        app:layout_constraintStart_toStartOf="@+id/text_product_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_product_name" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constrain_product_quantity"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/_5sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/text_product_salary">
+
+        <ImageButton
+            android:id="@+id/button_increase"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="0dp"
+            android:background="@color/background"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/text_product_quantity"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+        <ImageButton
+            android:id="@+id/btn_minus"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="0dp"
+            android:background="@color/background"
+            android:padding="@dimen/_8sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/text_product_quantity"
+            app:layout_constraintEnd_toStartOf="@+id/text_product_quantity"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/text_product_quantity"
+            tools:ignore="TouchTargetSizeCheck,SpeakableTextPresentCheck" />
+
+        <TextView
+            android:id="@+id/text_product_quantity"
+            style="@style/cardTextStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_9sdp"
+            android:layout_marginEnd="@dimen/_9sdp"
+            android:background="@color/background"
+            android:gravity="center"
+            android:minWidth="@dimen/_36sdp"
+            android:padding="@dimen/_8sdp"
+            android:textSize="@dimen/_16ssp"
+            app:layout_constraintBottom_toBottomOf="@+id/button_increase"
+            app:layout_constraintEnd_toStartOf="@+id/button_increase"
+            app:layout_constraintStart_toEndOf="@+id/btn_minus"
+            app:layout_constraintTop_toTopOf="@+id/button_increase" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/deleteProduct"
+        android:layout_width="@dimen/_80sdp"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_marginStart="@dimen/_12sdp"
+        android:layout_marginEnd="@dimen/_12sdp"
+        android:background="@color/background"
+        android:backgroundTint="@color/background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
