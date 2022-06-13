@@ -3,17 +3,17 @@ package com.iti.android.team1.ebuy.ui.cart_screen.viewmodel
 import androidx.lifecycle.*
 import com.iti.android.team1.ebuy.domain.cart.IProductsInCartUseCase
 import com.iti.android.team1.ebuy.domain.cart.ProductsInCartUseCase
-import com.iti.android.team1.ebuy.model.DatabaseResponse
-import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
-import com.iti.android.team1.ebuy.model.pojo.CartItem
-import com.iti.android.team1.ebuy.model.pojo.DraftOrder
+import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+
+private const val DELIVER = 50L
 
 class CartViewModel(private val myRepo: IRepository) : ViewModel() {
     private var cartItemList = mutableListOf<CartItem>()
@@ -28,6 +28,14 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
     private val productsInCartUseCase: IProductsInCartUseCase
         get() = ProductsInCartUseCase(myRepo)
 
+    private val _subTotal = MutableStateFlow(0L)
+    val subTotal = _subTotal.asStateFlow()
+
+    private val _total = MutableStateFlow(0L)
+    val total = _total.asStateFlow()
+
+    private val _oder = MutableStateFlow<Order>(Order())
+    val order = _oder.asStateFlow()
     fun getAllCartItems() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = async {
@@ -36,6 +44,7 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
             sendResponseBackFavourites(res.await())
         }
     }
+
 
     private fun sendResponseBackFavourites(response: NetworkResponse<List<CartItem>>) {
         _allCartItems.postValue(ResultState.Loading)
@@ -47,6 +56,9 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
                 cartItemList = response.data.toMutableList()
                 if (response.data.isNotEmpty()) {
                     _allCartItems.postValue(ResultState.Success(cartItemList))
+                   viewModelScope.launch(Dispatchers.IO) {
+                       updateCosts()
+                   }
                 } else {
                     _allCartItems.postValue(ResultState.EmptyResult)
                 }
@@ -71,11 +83,40 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
 
     private fun updateItemList() {
         viewModelScope.launch(Dispatchers.Main) {
-            if (cartItemList.isNotEmpty())
-                _allCartItems.postValue(ResultState.Success(cartItemList))
-            else
+            if (cartItemList.isNotEmpty()) {
+              updateCosts()
+            } else
                 _allCartItems.postValue(ResultState.EmptyResult)
         }
+    }
+    private suspend fun updateCosts(){
+        val sum = cartItemList.sumOf {
+            it.productVariantPrice * it.customerProductQuantity
+        }.toLong()
+        _allCartItems.postValue(ResultState.Success(cartItemList))
+        _subTotal.emit(sum)
+        _total.emit(sum + DELIVER)
+    }
+
+     fun makeOrder() {
+        viewModelScope.launch(Dispatchers.Default) {
+            total.collect {
+                makeOrderRequest(cartItemList, it)
+            }
+        }
+    }
+
+    private suspend fun makeOrderRequest(
+        cartItemList: MutableList<CartItem>,
+        currentTotalPrice: Long,
+    ) {
+        val lineItems = mutableListOf<LineItems>()
+        cartItemList.forEach {
+            lineItems.add(DraftsLineItemConverter.convertToLineItem(it))
+        }
+        _oder.emit(Order(lineItems = lineItems as ArrayList<LineItems>,
+            currentTotalPrice = "$currentTotalPrice"))
+
     }
 
     private fun increaseItemQuantity(cart_index: Int) {

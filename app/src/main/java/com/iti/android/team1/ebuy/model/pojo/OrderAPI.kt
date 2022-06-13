@@ -1,26 +1,28 @@
 package com.iti.android.team1.ebuy.model.pojo
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
 class OrderAPI {
     @SerializedName("orders")
     var orders: ArrayList<Order> = arrayListOf()
 }
-
+@Parcelize
 data class Money(
 
     @SerializedName("amount") var amount: String? = null,
     @SerializedName("currency_code") var currencyCode: String? = null,
 
-    )
-
+    ):Parcelable
+@Parcelize
 data class PriceSet(
 
     @SerializedName("shop_money") var shopMoney: Money? = Money(),
     @SerializedName("presentment_money") var presentmentMoney: Money? = Money(),
 
-    )
-
+    ):Parcelable
+@Parcelize
 data class BillingAddress(
 
     @SerializedName("first_name") var firstName: String? = null,
@@ -39,7 +41,7 @@ data class BillingAddress(
     @SerializedName("country_code") var countryCode: String? = null,
     @SerializedName("province_code") var provinceCode: String? = null,
 
-    )
+    ):Parcelable
 
 data class EmailMarketingConsent(
 
@@ -48,7 +50,7 @@ data class EmailMarketingConsent(
     @SerializedName("consent_updated_at") var consentUpdatedAt: String? = null,
 
     )
-
+@Parcelize
 data class LineItems(
 
     @SerializedName("id") var id: Long? = null,
@@ -79,8 +81,8 @@ data class LineItems(
     @SerializedName("duties") var duties: ArrayList<String> = arrayListOf(),
     @SerializedName("discount_allocations") var discountAllocations: ArrayList<String> = arrayListOf(),
 
-    )
-
+    ):Parcelable
+@Parcelize
 data class ShippingAddress(
 
     @SerializedName("first_name") var firstName: String? = null,
@@ -99,9 +101,9 @@ data class ShippingAddress(
     @SerializedName("country_code") var countryCode: String? = null,
     @SerializedName("province_code") var provinceCode: String? = null,
 
-    )
-
-data class Order(
+    ):Parcelable
+@Parcelize
+data class Order (
 
     @SerializedName("id") var id: Long? = null,
     @SerializedName("admin_graphql_api_id") var adminGraphqlApiId: String? = null,
@@ -187,4 +189,4 @@ data class Order(
     @SerializedName("shipping_address") var shippingAddress: ShippingAddress? = ShippingAddress(),
     @SerializedName("shipping_lines") var shippingLines: ArrayList<String> = arrayListOf(),
 
-    )
+    ):Parcelable
