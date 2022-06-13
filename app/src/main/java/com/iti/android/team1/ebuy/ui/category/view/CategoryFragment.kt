@@ -100,7 +100,10 @@ class CategoryFragment : Fragment() {
                             "Successfully Successfully added to Favorites",
                             Toast.LENGTH_SHORT).show()
                     }
-                    ResultState.EmptyResult -> {}
+                    ResultState.EmptyResult -> {
+                        binding.emptyLayout.root.visibility = View.VISIBLE
+
+                    }
                 }
             }
             categoryViewModel.deleteFavoriteProductToDataBase.buffer().collect { response ->

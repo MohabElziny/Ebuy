@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/_8sdp">
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/parent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/_8sdp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="@dimen/_8sdp"
+        app:cardElevation="@dimen/_8sdp">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_115sdp"
+            android:padding="@dimen/_8sdp">
+
+            <ImageView
+                android:id="@+id/savedImage"
+                android:layout_width="@dimen/_77sdp"
+                android:layout_height="@dimen/_77sdp"
+                android:layout_centerVertical="true"
+                android:padding="@dimen/_8sdp"
+               android:background="@color/background" />
+
+            <TextView
+                android:id="@+id/savedProductName"
+                style="@style/heading3"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/savedImage"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_3sdp"
+                android:layout_toEndOf="@+id/savedImage"
+                android:textSize="@dimen/fontHeading5"
+                android:background="@color/background" />
+
+            <TextView
+                android:id="@+id/savedIsInStock"
+                style="@style/heading3"
+                android:layout_width="@dimen/_40sdp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/savedProductName"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_toEndOf="@+id/savedImage"
+                android:textColor="@android:color/holo_green_light"
+                android:textSize="@dimen/fontHeading6"
+                android:background="@color/background" />
+
+            <TextView
+                android:id="@+id/savedPrice"
+                style="@style/heading3"
+                android:layout_width="@dimen/_25sdp"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/savedIsInStock"
+                android:layout_marginStart="@dimen/_8sdp"
+                android:layout_marginTop="@dimen/_4sdp"
+                android:layout_toEndOf="@+id/savedImage"
+                android:textSize="@dimen/fontHeading4"
+                android:background="@color/background" />
+
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>
