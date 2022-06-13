@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
     android:orientation="vertical"
-    tools:context=".ui.payment_screen.PaymentFragment">
+    tools:context=".ui.payment_screen.view.PaymentFragment">
 
     <TextView
         android:id="@+id/noSavedPayment"
