@@ -7,8 +7,8 @@
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/animationView"
-        android:layout_width="250dp"
-        android:layout_height="250dp"
+        android:layout_width="@dimen/_192sdp"
+        android:layout_height="@dimen/_192sdp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,7 +23,7 @@
         style="@style/heading3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="@dimen/_23sdp"
         android:gravity="center"
         android:textColor="@android:color/darker_gray"
         android:textSize="@dimen/fontHeading4"

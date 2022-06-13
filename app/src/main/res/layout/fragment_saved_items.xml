@@ -13,9 +13,14 @@
 
 
     <include
-        android:visibility="gone"
         android:id="@+id/emptyLayout"
-        layout="@layout/empty_layout" />
+        layout="@layout/empty_layout"
+        android:visibility="gone" />
+
+    <include
+        android:id="@+id/shimmer"
+        layout="@layout/favorite_layout_shimmer"
+        android:visibility="gone" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,10 +3,10 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
+    android:layout_margin="@dimen/_8sdp"
     android:background="@android:color/transparent"
-    app:cardCornerRadius="9dp"
-    app:cardElevation="10dp">
+    app:cardCornerRadius="@dimen/_7sdp"
+    app:cardElevation="@dimen/_8sdp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:background="@android:color/transparent"
             android:orientation="horizontal"
             android:weightSum="3">
@@ -26,7 +26,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="1"
                 android:background="@color/background"
                 android:textSize="@dimen/fontHeading6" />
@@ -35,7 +35,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="0.2" />
 
             <TextView
@@ -43,7 +43,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="1"
                 android:background="@color/background"
                 android:textSize="@dimen/fontHeading6" />
@@ -53,7 +53,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:background="@android:color/transparent"
             android:orientation="horizontal"
             android:weightSum="3">
@@ -63,7 +63,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="1"
                 android:background="@color/background"
                 android:textSize="@dimen/fontHeading6" />
@@ -72,7 +72,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="0.2" />
 
             <TextView
@@ -80,7 +80,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="1"
                 android:background="@color/background"
                 android:textSize="@dimen/fontHeading6" />
@@ -90,7 +90,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:background="@android:color/transparent"
             android:orientation="horizontal"
             android:weightSum="3">
@@ -100,7 +100,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="1"
                 android:background="@color/background"
                 android:textSize="@dimen/fontHeading6" />
@@ -109,7 +109,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="0.2" />
 
             <TextView
@@ -117,7 +117,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="1"
                 android:background="@color/background"
                 android:textSize="@dimen/fontHeading6" />
@@ -127,7 +127,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:background="@android:color/transparent"
             android:orientation="horizontal"
             android:weightSum="3">
@@ -137,7 +137,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="1"
                 android:background="@color/background"
                 android:textSize="@dimen/fontHeading6" />
@@ -146,7 +146,7 @@
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="0.2" />
 
             <TextView
@@ -154,7 +154,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
                 android:layout_weight="1"
                 android:background="@color/background"
                 android:textSize="@dimen/fontHeading6" />

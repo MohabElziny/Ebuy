@@ -89,21 +89,23 @@ class CartFragment : Fragment() {
         }
     }
 
-
     private fun handleAllCartItems() {
         viewModel.getAllCartItems()
         lifecycleScope.launch {
             viewModel.allCartItems.observe(viewLifecycleOwner) { result ->
                 when (result) {
                     ResultState.EmptyResult -> {
+                        hideShimmer()
                         handleEmptyData()
                         cartProductAdapter.setCartItems(emptyList())
                     }
                     is ResultState.Error -> Toast.makeText(requireContext(),
                         result.errorString, Toast.LENGTH_SHORT).show()
                     ResultState.Loading -> {
+                        showShimmer()
                     }
                     is ResultState.Success -> {
+                        hideShimmer()
                         handleExistData()
                         cartProductAdapter.setCartItems(result.data)
                     }
@@ -177,5 +179,21 @@ class CartFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         viewModel.updateToDB()
+    }
+
+    private fun showShimmer() {
+        binding.scrollBottom.visibility = View.GONE
+        binding.shimmer.root.apply {
+            visibility = View.VISIBLE
+            startShimmer()
+        }
+    }
+
+    private fun hideShimmer() {
+        binding.shimmer.root.apply {
+            stopShimmer()
+            visibility = View.GONE
+        }
+        binding.scrollBottom.visibility = View.VISIBLE
     }
 }
