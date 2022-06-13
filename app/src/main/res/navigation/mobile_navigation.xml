@@ -46,9 +46,9 @@
         android:label="CreditFragment"
         tools:layout="@layout/fragment_payment" />
     <fragment
-        android:id="@+id/cartFragment"
+        android:id="@+id/navigation_cart"
         android:name="com.iti.android.team1.ebuy.ui.cart_screen.view.CartFragment"
-        android:label="fragment_cart"
+        android:label="@string/cart"
         tools:layout="@layout/fragment_cart" >
         <action
             android:id="@+id/action_cartFragment_to_paymentFragment"
@@ -96,7 +96,7 @@
             app:argType="long" />
         <action
             android:id="@+id/action_productsDetailsFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
+            app:destination="@id/navigation_cart" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

@@ -94,7 +94,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_Category, R.id.navigation_profile,
-                R.id.navigation_favorites
+                R.id.navigation_cart
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
