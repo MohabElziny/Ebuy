@@ -36,8 +36,8 @@
             <androidx.viewpager2.widget.ViewPager2
                 android:id="@+id/product_images_viewPager"
                 android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_margin="16dp"
+                android:layout_height="@dimen/_230sdp"
+                android:layout_margin="@dimen/_12sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -46,11 +46,11 @@
                 android:id="@+id/dotsIndicator"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/_6sdp"
                 app:dotsColor="@color/unselected_indicator"
-                app:dotsCornerRadius="8dp"
-                app:dotsSize="16dp"
-                app:dotsSpacing="4dp"
+                app:dotsCornerRadius="@dimen/_6sdp"
+                app:dotsSize="@dimen/_12sdp"
+                app:dotsSpacing="@dimen/_3sdp"
                 app:dotsWidthFactor="2.5"
                 app:layout_constraintEnd_toEndOf="@id/product_images_viewPager"
                 app:layout_constraintStart_toStartOf="@id/product_images_viewPager"
@@ -61,9 +61,9 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="-32dp"
-                app:cardCornerRadius="32dp"
+                android:layout_marginTop="@dimen/_12sdp"
+                android:layout_marginBottom="@dimen/_minus25sdp"
+                app:cardCornerRadius="@dimen/_25sdp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -72,35 +72,60 @@
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginBottom="32dp"
-                    android:padding="24dp">
+                    android:layout_marginBottom="@dimen/_25sdp"
+                    android:padding="@dimen/_19sdp">
 
                     <TextView
                         android:id="@+id/txt_product_title"
                         style="@style/fontBoldStyle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_14sdp"
                         android:textSize="@dimen/fontHeading3"
+                        app:layout_constraintEnd_toStartOf="@id/likeBtn"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         tools:text="Nike Blazer Mid 77" />
+
+                    <TextView
+                        android:id="@+id/const_size"
+                        style="@style/fontBoldStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:text="@string/size"
+                        android:textSize="@dimen/fontHeading4"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/txt_product_title" />
+
+                    <TextView
+                        android:id="@+id/txt_productSize"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:fontFamily="@font/poppins"
+                        android:textColor="@color/Disable"
+                        android:textSize="@dimen/fontHeading4"
+                        app:layout_constraintStart_toEndOf="@+id/const_size"
+                        app:layout_constraintTop_toTopOf="@+id/const_size"
+                        tools:text="255" />
 
                     <TextView
                         android:id="@+id/const_description"
                         style="@style/fontBoldStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/_8sdp"
                         android:text="@string/description"
                         android:textSize="@dimen/fontHeading4"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@id/txt_product_title" />
+                        app:layout_constraintTop_toBottomOf="@id/txt_productSize" />
 
                     <TextView
                         android:id="@+id/txt_product_description"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
+                        android:layout_marginTop="@dimen/_6sdp"
                         android:fontFamily="@font/poppins"
                         android:textColor="@color/Disable"
                         android:textSize="@dimen/fontHeading4"
@@ -113,14 +138,14 @@
                         android:id="@+id/btn_add_to_cart"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="16dp"
+                        android:layout_marginTop="@dimen/_12sdp"
                         android:backgroundTint="@color/Primary"
-                        android:padding="16dp"
+                        android:padding="@dimen/_12sdp"
                         android:text="@string/add_to_cart"
                         android:textColor="@color/Secondary"
                         android:textSize="@dimen/fontHeading5"
                         android:textStyle="bold"
-                        app:cornerRadius="8dp"
+                        app:cornerRadius="@dimen/_6sdp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/txt_product_description" />
 
@@ -138,19 +163,21 @@
                     <TextView
                         android:id="@+id/txt_product_price"
                         style="@style/fontBoldStyle"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
+                        android:layout_marginEnd="@dimen/_12sdp"
                         android:textSize="@dimen/fontHeading3"
+                        app:layout_constraintEnd_toStartOf="@id/btn_add_to_cart"
                         app:layout_constraintStart_toStartOf="@+id/const_price"
                         app:layout_constraintTop_toBottomOf="@+id/const_price"
                         tools:text="EGP 22.00" />
 
                     <com.like.LikeButton
                         android:id="@+id/likeBtn"
-                        android:layout_width="30dp"
-                        android:layout_height="30dp"
+                        android:layout_width="@dimen/_25sdp"
+                        android:layout_height="@dimen/_25sdp"
                         android:layout_alignParentEnd="true"
-                        app:icon_size="25dp"
+                        app:icon_size="@dimen/_18sdp"
                         app:icon_type="heart"
                         app:layout_constraintBottom_toBottomOf="@+id/txt_product_title"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -160,8 +187,6 @@
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.cardview.widget.CardView>
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>

@@ -13,7 +13,6 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentProductsDetailsBinding
-import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
@@ -26,7 +25,6 @@ import com.iti.android.team1.ebuy.util.ZoomOutPageTransformer
 import com.like.LikeButton
 import com.like.OnLikeListener
 import kotlinx.coroutines.flow.buffer
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
 
 class ProductsDetailsFragment : Fragment() {
@@ -47,7 +45,6 @@ class ProductsDetailsFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initProductPagerAdapter()
@@ -57,7 +54,6 @@ class ProductsDetailsFragment : Fragment() {
             viewModel.product.buffer().collect { resultState ->
                 handleResultStates(resultState)
             }
-
         }
         handleProductResultCart()
         bindAddToCartButton()
@@ -69,17 +65,13 @@ class ProductsDetailsFragment : Fragment() {
             viewModel.favoriteProgress.buffer().collect {
                 when (it) {
                     ResultState.EmptyResult -> {}
-                    is ResultState.Error -> Toast.makeText(requireContext(),
-                        it.errorString, Toast.LENGTH_LONG).show()
-                    ResultState.Loading -> {}
-                    is ResultState.Success -> {
-                        /*if (it.data)
-                            Toast.makeText(requireContext(),
-                                getString(R.string.insert_seccuess), Toast.LENGTH_SHORT).show()
-                        else
-                            Toast.makeText(requireContext(),
-                                getString(R.string.delete_success), Toast.LENGTH_SHORT).show()*/
+                    is ResultState.Error -> {
+                        Toast.makeText(requireContext(),
+                            it.errorString, Toast.LENGTH_LONG).show()
+                        binding.likeBtn.isLiked = !binding.likeBtn.isLiked
                     }
+                    ResultState.Loading -> {}
+                    is ResultState.Success -> {}
                 }
             }
         }
@@ -101,7 +93,7 @@ class ProductsDetailsFragment : Fragment() {
 
     private fun fetchProductState() {
         lifecycleScope.launchWhenStarted {
-            viewModel.productState.buffer().collect() {
+            viewModel.productState.buffer().collect {
                 binding.likeBtn.isLiked = it
             }
         }
@@ -157,7 +149,7 @@ class ProductsDetailsFragment : Fragment() {
     private fun showAddToCartDialog() {
         cartProduct?.let { product ->
             AddToCartDialog(product).show(requireActivity().supportFragmentManager,
-                "AddToCartDialog")
+                getString(R.string.AddToCartDialogTag))
         }
     }
 
@@ -201,7 +193,9 @@ class ProductsDetailsFragment : Fragment() {
         binding.txtProductDescription.text = data.productDescription
         binding.txtProductPrice.text =
             ("${(data.productVariants?.get(0)?.productVariantPrice ?: 0)}").plus("  EGP")
-
+        binding.txtProductSize.text =
+            data.productVariants?.get(0)?.productVariantOption1 ?: getString(
+                R.string.messing_details)
     }
 
     private fun initProductPagerAdapter() {

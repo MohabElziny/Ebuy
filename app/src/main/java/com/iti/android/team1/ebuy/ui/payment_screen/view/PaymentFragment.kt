@@ -32,6 +32,8 @@ private const val TAG = "PaymentFragment"
 
 class PaymentFragment : Fragment() {
 
+    //private val args by navArgs<PaymentFragmentArgs>()
+    //private val order = args.order
     private val viewModel: PaymentViewModel by viewModels {
         PaymentViewModelFactory(Repository(LocalSource(requireContext())))
     }
@@ -69,7 +71,7 @@ class PaymentFragment : Fragment() {
             CreateOrder { createOrderActions ->
                 val order =
                     Order(
-                        intent = OrderIntent.AUTHORIZE,
+                        intent = OrderIntent.CAPTURE,
                         appContext = AppContext(userAction = UserAction.PAY_NOW),
                         purchaseUnitList =
                         listOf(
