@@ -11,8 +11,6 @@ import com.iti.android.team1.ebuy.model.pojo.Address
 import com.iti.android.team1.ebuy.model.pojo.Addresses
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AddressesViewModel(private val repo: IRepository) : ViewModel() {
@@ -23,6 +21,9 @@ class AddressesViewModel(private val repo: IRepository) : ViewModel() {
     private val _deleteAddressState: MutableLiveData<ResultState<Address>> =
         MutableLiveData()
     val deleteAddressState get() = _deleteAddressState as LiveData<*>
+
+    private val _addressDefState: MutableLiveData<ResultState<Address>> = MutableLiveData()
+    val addressDefState get() = _addressDefState as LiveData<ResultState<Address>>
 
     fun deleteAddress(addressId: Long) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -58,6 +59,22 @@ class AddressesViewModel(private val repo: IRepository) : ViewModel() {
                 else
                     _addAddressState.postValue(ResultState.Success(data = result.data.addresses))
             }
+        }
+    }
+
+    fun setAddressAsDef(addressId: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            _addressDefState.postValue(ResultState.Loading)
+            val result = async { repo.setDefaultAddress(repo.getUserIdFromPrefs(), addressId) }
+            setAddressDef(result.await())
+        }
+    }
+
+    private fun setAddressDef(result: NetworkResponse<Address>) {
+        when (result) {
+            is NetworkResponse.FailureResponse -> _addressDefState.postValue(ResultState.Error(
+                result.errorString))
+            is NetworkResponse.SuccessResponse -> _addressDefState.postValue(ResultState.EmptyResult)
         }
     }
 }
