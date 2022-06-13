@@ -77,7 +77,7 @@
     </fragment>
     <fragment
         android:id="@+id/paymentFragment"
-        android:name="com.iti.android.team1.ebuy.ui.payment_screen.PaymentFragment"
+        android:name="com.iti.android.team1.ebuy.ui.payment_screen.view.PaymentFragment"
         android:label="fragment_payment"
         tools:layout="@layout/fragment_payment" >
         <argument
