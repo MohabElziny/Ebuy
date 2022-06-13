@@ -1,6 +1,7 @@
 package com.iti.android.team1.ebuy.ui.payment_screen.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -69,7 +70,7 @@ class PaymentFragment : Fragment() {
             CreateOrder { createOrderActions ->
                 val order =
                     Order(
-                        intent = OrderIntent.AUTHORIZE,
+                        intent = OrderIntent.CAPTURE,
                         appContext = AppContext(userAction = UserAction.PAY_NOW),
                         purchaseUnitList =
                         listOf(
@@ -85,6 +86,7 @@ class PaymentFragment : Fragment() {
             OnApprove { approval ->
                 approval.orderActions.capture { captureOrderResult ->
                     ///TODO: ADD order to API
+                    Log.d(TAG, "OnApprove: $captureOrderResult")
                 }
             },
             onCancel = OnCancel {
@@ -92,6 +94,8 @@ class PaymentFragment : Fragment() {
             },
             onError = OnError { errorInfo ->
                 ///TODO: Indicate the user that there's an error the order
+                Log.d(TAG, "OnApprove: $errorInfo")
+
             }
 
         )
