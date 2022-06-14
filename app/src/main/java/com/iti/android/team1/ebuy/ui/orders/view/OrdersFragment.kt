@@ -4,9 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentOrdersBinding
@@ -34,7 +36,7 @@ class OrdersFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentOrdersBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -51,7 +53,8 @@ class OrdersFragment : Fragment() {
             viewModel.customerOrders.buffer().collect { result ->
                 when (result) {
                     ResultState.EmptyResult -> handleEmptyResult()
-//                    is ResultState.Error -> TODO()
+                    is ResultState.Error -> Toast.makeText(requireContext(),
+                        result.errorString, Toast.LENGTH_SHORT).show()
                     ResultState.Loading -> handleLoading()
                     is ResultState.Success -> handleSuccessResult(result.data)
                 }
@@ -96,7 +99,7 @@ class OrdersFragment : Fragment() {
     }
 
     private fun initOrdersRecycler() {
-        ordersAdapter = OrdersAdapter()
+        ordersAdapter = OrdersAdapter(onClickOrderItem)
         binding.recycler.apply {
             adapter = ordersAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -104,5 +107,11 @@ class OrdersFragment : Fragment() {
         }
     }
 
-
+    private val onClickOrderItem: (orderName: String, orderFinancialStatus: String, orderStatus: String)
+    -> Unit = { orderName, orderFinancialStatus, orderStatus ->
+        findNavController().navigate(OrdersFragmentDirections.actionOrdersFragmentToTrackOrder(
+            orderFinancialStatus,
+            orderName,
+            orderStatus))
+    }
 }

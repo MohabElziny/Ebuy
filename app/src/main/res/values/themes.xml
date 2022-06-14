@@ -13,7 +13,7 @@
         <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
 
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" >@color/white</item>
+        <item name="android:statusBarColor">@color/white</item>
         <!-- Customize your theme here. -->
     </style>
 
@@ -36,14 +36,22 @@
         <item name="android:textStyle">normal</item>
         <item name="android:textSize">@dimen/fontHeading6</item>
     </style>
-        
+
     <style name="textInputEditTextStyle" parent="Widget.AppCompat.EditText">
         <item name="android:fontFamily">@font/poppins</item>
         <item name="android:background">@color/btnColor</item>
         <item name="android:textSize">@dimen/fontHeading5</item>
     </style>
+
     <style name="textStyle" parent="Widget.AppCompat.TextView">
         <item name="android:fontFamily">@font/poppins</item>
+    </style>
+
+    <style name="orderTextStyle" parent="Widget.AppCompat.TextView">
+        <item name="android:textColor">@color/Disable</item>
+        <item name="android:fontFamily">@font/poppins</item>
+        <item name="android:textStyle">normal</item>
+        <item name="android:textSize">@dimen/_13ssp</item>
     </style>
 
 </resources>

@@ -75,6 +75,8 @@ class AddToCartDialog(private val product: Product) : DialogFragment() {
                         is ResultState.Success -> {
                             dialog?.dismiss()
                         }
+                        ResultState.EmptyResult -> {}
+                        ResultState.Loading -> {}
                     }
                 }
             }
