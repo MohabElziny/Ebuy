@@ -43,6 +43,7 @@ class SettingsFragment : Fragment() {
         bindding.logoutRelative.setOnClickListener {
             viewModel.logOut()
             startActivity(Intent(requireContext(), AuthActivity::class.java))
+            activity?.finish()
         }
     }
 
