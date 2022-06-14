@@ -176,6 +176,7 @@ class Repository(
     }
 
     override suspend fun removeFromFavorite(productId: Long): NetworkResponse<DraftOrder> {
+        setFavoritesNo(getFavoritesNo().value - 1)
         return removeFavoriteOrCartItem(productId, true)
     }
 
@@ -189,6 +190,7 @@ class Repository(
     }
 
     override suspend fun removeFromCart(productId: Long): NetworkResponse<DraftOrder> {
+        setCartNo(getCartNo().value - 1)
         return removeFavoriteOrCartItem(productId, false)
     }
 
@@ -246,9 +248,9 @@ class Repository(
         val response = remoteSource.postDraftOrder(draft)
         return if (response.isSuccessful) {
             if (!isFavorite)
-                setCartNo(quantity)
+                setCartNo(getCartNo().value + 1)
             else
-                setFavoritesNo(quantity)
+                setFavoritesNo(getFavoritesNo().value + 1)
             setDraftIdToCustomer(getCustomer(), isFavorite, response.body()?.draftOrder?.id)
             SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
         } else {
@@ -291,9 +293,9 @@ class Repository(
         val response = remoteSource.updateDraftOrder(draft ?: Draft())
         return if (response.isSuccessful) {
             if (draftId == getCartIdFromPrefs().toLong())
-                setCartNo(getCartNo().value + quantity)
+                setCartNo(getCartNo().value + 1)
             else
-                setFavoritesNo(getFavoritesNo().value + quantity)
+                setFavoritesNo(getFavoritesNo().value + 1)
             SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
         } else {
             parseError(response.errorBody())
