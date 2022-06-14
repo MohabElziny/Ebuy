@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentCategoryBinding
-import com.iti.android.team1.ebuy.model.DatabaseResult
 import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.datasource.repository.Repository
 import com.iti.android.team1.ebuy.model.networkresponse.ResultState
@@ -214,6 +213,14 @@ class CategoryFragment : Fragment() {
         onQueryTextListener()
         onCloseSearch()
         return super.onCreateOptionsMenu(menu, inflater)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_favorite -> findNavController().navigate(
+                CategoryFragmentDirections.actionNavigationCategoryToNavigationFavorites())
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun onQueryTextListener() {
