@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-
-    app:cardCornerRadius="16dp">
+    android:layout_margin="@dimen/_12sdp"
+    app:cardCornerRadius="@dimen/_12sdp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,10 +13,10 @@
 
         <ImageView
             android:id="@+id/imgProduct"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="8dp"
+            android:layout_width="@dimen/_77sdp"
+            android:layout_height="@dimen/_77sdp"
+            android:layout_marginStart="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_6sdp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             tools:srcCompat="@tools:sample/backgrounds/scenic" />
@@ -29,7 +28,7 @@
             android:layout_width="0dp"
 
             android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
+            android:layout_marginEnd="@dimen/_12sdp"
 
             android:fontFamily="@font/poppins"
             android:minWidth="@dimen/_36sdp"
@@ -46,15 +45,11 @@
 
         <TextView
             android:id="@+id/text_product_salary"
-
-
             style="@style/cardTextStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:fontFamily="@font/poppins"
             android:gravity="center"
-
             android:minWidth="@dimen/_36sdp"
             android:padding="@dimen/_8sdp"
             android:text="12.36$"

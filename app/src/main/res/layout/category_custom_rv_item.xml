@@ -1,23 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    app:cardElevation="9dp"
-    app:cardUseCompatPadding="true"
     app:cardCornerRadius="@dimen/_7sdp"
-    >
+    app:cardElevation="@dimen/_7sdp"
+    app:cardUseCompatPadding="true">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:padding="@dimen/_5sdp"
-        >
+        android:padding="@dimen/_5sdp">
 
         <ImageView
-            android:id="@+id/cat_custom_image"
+            android:id="@+id/image"
             android:layout_width="@dimen/_130sdp"
             android:layout_height="@dimen/_110sdp"
             android:layout_marginBottom="@dimen/_6sdp"
@@ -26,11 +24,11 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/cat_custom_tv_price"
+            android:id="@+id/txtProductName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/cat_custom_image"
-            android:layout_alignStart="@+id/cat_custom_image"
+            android:layout_below="@id/image"
+            android:layout_alignStart="@+id/image"
             android:layout_marginEnd="@dimen/_6sdp"
             android:layout_marginBottom="@dimen/_6sdp" />
 
@@ -38,17 +36,27 @@
             android:id="@+id/cat_custom_img_favo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@+id/image"
+            android:layout_alignEnd="@+id/image"
             android:backgroundTint="@color/Primary"
-            android:src="@drawable/empty_heart_image"
-            android:layout_below="@+id/cat_custom_image"
-            android:layout_alignEnd="@+id/cat_custom_image"
-            />
+            android:src="@drawable/empty_heart_image" />
+
+        <TextView
+            android:id="@+id/txtProductPrice"
+            style="@style/heading3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:textSize="@dimen/fontHeading6"
+            android:textStyle="normal"
+            tools:text="100 EGP" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/cat_custom_btn_add_cart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/cat_custom_tv_price"
+            android:layout_below="@+id/txtProductName"
             android:layout_centerHorizontal="true"
             android:backgroundTint="@color/Primary"
             android:text="@string/cat_custom_btn_addCart_text"
@@ -56,9 +64,7 @@
             app:cornerRadius="@dimen/_20sdp" />
 
 
-
     </RelativeLayout>
-
 
 
 </androidx.cardview.widget.CardView>

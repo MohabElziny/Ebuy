@@ -4,11 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.settings.view.SettingsFragment"
+    android:background="@color/backgroundColor"
     android:orientation="vertical"
     android:padding="@dimen/_10sdp"
-    android:background="@color/backgroundColor"
-    >
+    tools:context=".ui.settings.view.SettingsFragment">
 
     <RelativeLayout
         android:id="@+id/address_relative"
@@ -53,25 +52,23 @@
         android:id="@+id/currency_relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/address_relative"
         android:layout_marginBottom="@dimen/_8sdp"
         android:background="@drawable/settings_item_shape"
         android:padding="@dimen/_5sdp"
         android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_5sdp"
-         android:layout_below="@+id/address_relative"
-        >
+        android:paddingEnd="@dimen/_5sdp">
 
         <TextView
             android:id="@+id/tv_currency"
             style="@style/fontBoldStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/_20sdp"
             android:layout_marginBottom="@dimen/_3sdp"
             android:drawablePadding="@dimen/_10sdp"
             android:text="@string/settings_currency"
-            app:drawableStartCompat="@drawable/money_icon"
-            android:layout_marginEnd="@dimen/_20sdp"
-            />
+            app:drawableStartCompat="@drawable/money_icon" />
 
         <TextView
             android:id="@+id/tv_editable_currency"
@@ -80,21 +77,23 @@
             android:layout_marginEnd="@dimen/_10sdp"
             android:layout_toStartOf="@+id/relative2_arrow"
             android:layout_toEndOf="@+id/tv_currency" />
+
         <ImageView
             android:id="@+id/relative2_arrow"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentEnd="true"
             android:layout_marginEnd="@dimen/_10sdp"
-            android:src="@drawable/right_arrow"
-            />
+            android:src="@drawable/right_arrow" />
 
     </RelativeLayout>
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/dark_mode"
+        style="@style/fontBoldStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/currency_relative"
         android:layout_marginBottom="@dimen/_8sdp"
         android:background="@drawable/settings_item_shape"
         android:drawableStart="@drawable/night_image"
@@ -103,22 +102,18 @@
         android:paddingStart="@dimen/_10sdp"
         android:paddingEnd="@dimen/_5sdp"
         android:text="@string/dark_mode"
-        app:thumbTint="@color/Primary"
-        style="@style/fontBoldStyle"
-        android:layout_below="@+id/currency_relative"
-        />
+        app:thumbTint="@color/Primary" />
 
     <RelativeLayout
         android:id="@+id/logout_relative"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/dark_mode"
         android:layout_marginBottom="@dimen/_8sdp"
         android:background="@drawable/settings_item_shape"
         android:padding="@dimen/_5sdp"
         android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_5sdp"
-        android:layout_below="@id/dark_mode"
-        >
+        android:paddingEnd="@dimen/_5sdp">
 
         <TextView
             android:id="@+id/tv_logOut"
@@ -146,25 +141,23 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:gravity="center"
-        android:visibility="gone"
-        >
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_no_account"
+            style="@style/fontBoldStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/there_is_no_account"
-            style="@style/fontBoldStyle"
             android:layout_marginEnd="@dimen/_3sdp"
-        />
+            android:text="@string/there_is_no_account" />
+
         <TextView
             android:id="@+id/tv_signIn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/sign_in"
             android:layout_toEndOf="@+id/tv_no_account"
-            android:textColor="@color/purple_700"
-            />
+            android:text="@string/sign_in"
+            android:textColor="@color/purple_700" />
     </RelativeLayout>
 
 </RelativeLayout>

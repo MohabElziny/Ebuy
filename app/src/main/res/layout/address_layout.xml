@@ -4,30 +4,31 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <androidx.cardview.widget.CardView
         android:id="@+id/parent"
         android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_marginStart="9dp"
-        android:layout_marginTop="9dp"
-        android:layout_marginEnd="9dp"
-        android:layout_marginBottom="9dp"
-        app:cardCornerRadius="9dp"
-        app:cardElevation="3dp">
+        android:layout_height="@dimen/_77sdp"
+        android:layout_marginStart="@dimen/_7sdp"
+        android:layout_marginTop="@dimen/_7sdp"
+        android:layout_marginEnd="@dimen/_7sdp"
+        android:layout_marginBottom="@dimen/_7sdp"
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:cardElevation="@dimen/_2sdp">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginStart="@dimen/_8sdp"
+            android:layout_marginTop="@dimen/_8sdp"
+            android:layout_marginBottom="@dimen/_8sdp">
 
             <TextView
                 android:id="@+id/name"
                 style="@style/heading3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
+                android:layout_marginBottom="@dimen/_2sdp"
                 android:textSize="@dimen/fontHeading6"
                 tools:text="Address Name" />
 
@@ -36,9 +37,9 @@
                 style="@style/heading3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="1dp"
-                android:layout_marginBottom="3dp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_1sdp"
+                android:layout_marginBottom="@dimen/_2sdp"
                 android:layout_toEndOf="@id/name"
                 android:textSize="@dimen/fontHeading6"
                 android:textStyle="italic"
@@ -50,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:textSize="@dimen/fontHeading6"
                 android:textStyle="normal"
                 tools:text="102, ahmed helmy," />
@@ -61,8 +62,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/name"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:layout_toEndOf="@id/address"
                 android:textSize="@dimen/fontHeading6"
                 android:textStyle="normal"
@@ -74,7 +75,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/city"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:textSize="@dimen/fontHeading6"
                 android:textStyle="normal"
                 tools:text="Cairo," />
@@ -85,8 +86,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/city"
-                android:layout_marginStart="4dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginStart="@dimen/_3sdp"
+                android:layout_marginTop="@dimen/_4sdp"
                 android:layout_toEndOf="@id/province"
                 android:textSize="@dimen/fontHeading6"
                 android:textStyle="normal"
@@ -99,7 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end|bottom"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
@@ -110,7 +111,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="end"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"

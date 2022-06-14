@@ -59,7 +59,7 @@ class SavedItemsFragment : Fragment() {
                     is ResultState.Error -> Toast.makeText(requireContext(),
                         response.errorString, Toast.LENGTH_SHORT).show()
                     ResultState.Loading -> {
-                        //TODO(show shimmer)
+                       // showShimmer()
                     }
                     is ResultState.Success -> {
                         binding.emptyLayout.root.visibility = View.GONE
@@ -109,6 +109,22 @@ class SavedItemsFragment : Fragment() {
     private var onUnlike: (Long, Int) -> Unit = { productId, position ->
         this.position = position
         viewModel.deleteFavoriteProduct(productId)
+    }
+
+    private fun showShimmer() {
+        binding.recyclerView.visibility = View.GONE
+        binding.shimmer.root.apply {
+            visibility = View.VISIBLE
+            startShimmer()
+        }
+    }
+
+    private fun hideShimmer() {
+        binding.recyclerView.visibility = View.VISIBLE
+        binding.shimmer.root.apply {
+            startShimmer()
+            visibility = View.GONE
+        }
     }
 
 }
