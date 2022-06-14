@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.model
+package com.iti.android.team1.ebuy.model.factories
 
 
 sealed class DatabaseResponse<out R> {

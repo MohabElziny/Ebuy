@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.model.datasource.localsource.prefs
+package com.iti.android.team1.ebuy.model.data.localsource.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,6 +9,8 @@ private const val USER_ID = "USER_ID_KEY"
 private const val IS_USER_SINGED_IN = "IS_USER_SINGED_IN"
 private const val FAVORITES_ID = "FAVORITES_ID_KEY"
 private const val CART_ID = "CART_ID_KEY"
+private const val CART_NO = "CART_NO"
+private const val FAVORITES_NO = "FAVORITE_NO"
 
 class PreferenceProvider private constructor() {
 
@@ -56,4 +58,16 @@ class PreferenceProvider private constructor() {
 
     fun setCartIdToPrefs(cartId: String) =
         sharedPref.edit().putString(CART_ID, cartId).apply()
+
+    fun setFavoriteNo(favoriteNo: Int) =
+        sharedPref.edit().putInt(FAVORITES_NO, favoriteNo).apply()
+
+    fun getFavrotieNo() =
+        sharedPref.getInt(FAVORITES_NO, 0)
+
+    fun setCartNo(cartNo: Int) =
+        sharedPref.edit().putInt(CART_NO, cartNo).apply()
+
+    fun getCartNo() =
+        sharedPref.getInt(CART_NO, 0)
 }

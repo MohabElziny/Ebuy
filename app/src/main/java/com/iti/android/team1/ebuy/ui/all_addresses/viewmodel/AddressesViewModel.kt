@@ -4,15 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.data.repository.IRepository
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse
+import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Address
 import com.iti.android.team1.ebuy.model.pojo.Addresses
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AddressesViewModel(private val repo: IRepository) : ViewModel() {

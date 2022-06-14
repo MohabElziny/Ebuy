@@ -1,9 +1,7 @@
-package com.iti.android.team1.ebuy.model.datasource.repository
+package com.iti.android.team1.ebuy.model.data.repository
 
-import com.iti.android.team1.ebuy.model.DatabaseResponse
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.*
-import kotlinx.coroutines.flow.Flow
 
 interface IRepository {
     suspend fun getAllProducts(): NetworkResponse<Products>
@@ -30,22 +28,24 @@ interface IRepository {
     fun getAuthStateFromPrefs(): Boolean
     fun setFavoritesIdToPrefs(favId: String)
     fun setCartIdToPrefs(cartId: String)
+    fun getFavoritesNo(): Int
+    fun setFavoritesNo(favoritesNo: Int)
+    fun getCartNo(): Int
+    fun setCartNo(cartNo: Int)
 
     suspend fun getAllProductsByType(productType: String): NetworkResponse<Products>
     suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses>
     suspend fun getAddressDetails(customerId: Long, addressId: Long): NetworkResponse<Address>
     suspend fun addAddress(customerId: Long, address: AddressDto): NetworkResponse<Address>
     suspend fun updateAddress(
-        customerId: Long,
-        addressId: Long,
-        newAddress: AddressDto,
+        customerId: Long, addressId: Long, newAddress: AddressDto,
     ): NetworkResponse<Address>
 
     suspend fun setDefaultAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
     suspend fun deleteAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
 
-    suspend fun getAllPriceRules():NetworkResponse<PriceRuleResponse>
-    suspend fun getDiscountCodes(price_rule_id: Long):NetworkResponse<Discount>
+    suspend fun getAllPriceRules(): NetworkResponse<PriceRuleResponse>
+    suspend fun getDiscountCodes(price_rule_id: Long): NetworkResponse<Discount>
 
     suspend fun addFavorite(
         product: Product,

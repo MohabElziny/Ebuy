@@ -1,8 +1,4 @@
-package com.iti.android.team1.ebuy.model.datasource.localsource
-
-import com.iti.android.team1.ebuy.model.pojo.CartItem
-import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
-import kotlinx.coroutines.flow.Flow
+package com.iti.android.team1.ebuy.model.data.localsource
 
 interface ILocalSource {
     fun setUserIdToPrefs(userId: String)
@@ -13,4 +9,8 @@ interface ILocalSource {
     fun setCartIdToPrefs(cartId: String)
     fun getFavoritesIdFromPrefs(): String
     fun getCartIdFromPrefs(): String
+    fun setFavroitesNo(favoritesNo: Int)
+    fun getFavoritesNo(): Int
+    fun setCartNo(cartNo: Int)
+    fun getCartNo(): Int
 }

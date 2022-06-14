@@ -1,12 +1,11 @@
-package com.iti.android.team1.ebuy.model.datasource.repository
+package com.iti.android.team1.ebuy.model.data.repository
 
-import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
-import com.iti.android.team1.ebuy.model.pojo.DraftsLineItemConverter
-import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
-import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.FailureResponse
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.SuccessResponse
+import com.iti.android.team1.ebuy.model.data.localsource.ILocalSource
+import com.iti.android.team1.ebuy.model.data.remotesource.RemoteSource
+import com.iti.android.team1.ebuy.model.data.remotesource.RetrofitHelper
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse.FailureResponse
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse.SuccessResponse
 import com.iti.android.team1.ebuy.model.pojo.*
 import com.iti.android.team1.ebuy.util.Decoder
 import okhttp3.ResponseBody
@@ -144,6 +143,14 @@ class Repository(
         localSource.setCartIdToPrefs(encode(cartId))
     }
 
+    override fun getFavoritesNo() = localSource.getFavoritesNo()
+
+    override fun setFavoritesNo(favoritesNo: Int) = localSource.setFavroitesNo(favoritesNo)
+
+    override fun getCartNo() = localSource.getCartNo()
+
+    override fun setCartNo(cartNo: Int) = localSource.setCartNo(cartNo)
+
     private fun getFavoritesIdFromPrefs() = decode(localSource.getFavoritesIdFromPrefs())
 
     private fun getCartIdFromPrefs() = decode(localSource.getCartIdFromPrefs())
@@ -229,6 +236,10 @@ class Repository(
 
         val response = remoteSource.postDraftOrder(draft)
         return if (response.isSuccessful) {
+            if (!isFavorite)
+                setCartNo(quantity)
+            else
+                setFavoritesNo(quantity)
             setDraftIdToCustomer(getCustomer(), isFavorite, response.body()?.draftOrder?.id)
             SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
         } else {
@@ -270,6 +281,10 @@ class Repository(
 
         val response = remoteSource.updateDraftOrder(draft ?: Draft())
         return if (response.isSuccessful) {
+            if (draftId == getCartIdFromPrefs().toLong())
+                setCartNo(getCartNo() + quantity)
+            else
+                setFavoritesNo(getFavoritesNo() + quantity)
             SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
         } else {
             parseError(response.errorBody())

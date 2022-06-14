@@ -17,9 +17,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentHomeBinding
-import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.repository.Repository
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
+import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Brands
 import com.iti.android.team1.ebuy.model.pojo.DiscountCodes
 import com.iti.android.team1.ebuy.ui.home.adapters.HomeRecyclerAdapter
