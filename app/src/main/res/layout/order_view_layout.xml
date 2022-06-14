@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/order_icon"
+        android:layout_width="@dimen/_54sdp"
+        android:layout_height="@dimen/_54sdp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:src="@drawable/ic_placed" />
+
+    <View
+        android:id="@+id/placed_Supporter"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/order_icon"
+        app:layout_constraintEnd_toEndOf="@id/order_icon"
+        app:layout_constraintStart_toStartOf="@id/order_icon"
+        app:layout_constraintTop_toTopOf="@id/order_icon" />
+
+    <TextView
+        android:id="@+id/order_header"
+        style="@style/orderTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@id/placed_Supporter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/order_icon"
+        tools:text="@string/order_placed" />
+
+    <TextView
+        android:id="@+id/order_subtitle"
+        style="@style/orderTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/order_header"
+        app:layout_constraintTop_toBottomOf="@id/order_header"
+        tools:text="@string/we_have_received_your_order" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -161,7 +161,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initOrdersRecyclerView() {
-        ordersAdapter = OrdersAdapter()
+        ordersAdapter = OrdersAdapter(onClickOrderItem)
         binding.ordersRecyclerView.apply {
             layoutManager = LinearLayoutManager(
                 requireContext(),
@@ -169,6 +169,13 @@ class ProfileFragment : Fragment() {
                 false)
             adapter = ordersAdapter
         }
+    }
+
+    private val onClickOrderItem: (orderName: String, orderFinancialStatus: String, orderStatus: String)
+    -> Unit = { orderName, orderFinancialStatus, orderStatus ->
+        findNavController().navigate(ProfileFragmentDirections.actionNavigationProfileToTrackOrder(
+            orderFinancialStatus, orderName, orderStatus
+        ))
     }
 
 }
