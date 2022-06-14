@@ -1,5 +1,7 @@
 package com.iti.android.team1.ebuy.model.data.localsource
 
+import kotlinx.coroutines.flow.StateFlow
+
 interface ILocalSource {
     fun setUserIdToPrefs(userId: String)
     fun getUserIdFromPrefs(): String
@@ -9,8 +11,8 @@ interface ILocalSource {
     fun setCartIdToPrefs(cartId: String)
     fun getFavoritesIdFromPrefs(): String
     fun getCartIdFromPrefs(): String
-    fun setFavroitesNo(favoritesNo: Int)
-    fun getFavoritesNo(): Int
-    fun setCartNo(cartNo: Int)
-    fun getCartNo(): Int
+    suspend fun setFavoritesNo(favoritesNo: Int)
+    fun getFavoritesNo(): StateFlow<Int>
+    suspend fun setCartNo(cartNo: Int)
+    fun getCartNo(): StateFlow<Int>
 }

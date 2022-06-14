@@ -18,7 +18,7 @@ import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.activities.main.viewmodel.MainViewModel
 import com.iti.android.team1.ebuy.activities.main.viewmodel.MainViewModelFactory
-import com.iti.android.team1.ebuy.connection.ConnectionLiveData
+import com.iti.android.team1.ebuy.activities.main.connection.ConnectionLiveData
 import com.iti.android.team1.ebuy.databinding.ActivityMainBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
@@ -49,7 +49,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         setDefault()
-        viewMode.getCartNo()
         fetchCartNo()
         navController.addOnDestinationChangedListener(this::onDestinationChanged)
         setConnectionState()
@@ -58,8 +57,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
 
     private fun fetchCartNo() {
         lifecycleScope.launchWhenStarted {
-            viewMode.cartNo.buffer().collect{
-                if (it >= 1) {
+            viewMode.cartNo.buffer().collect {
+                if (it > 0) {
                     val badge = navView.getOrCreateBadge(R.id.navigation_cart)
                     badge.isVisible = true
                     badge.number = it
@@ -93,8 +92,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         binding.appBarLayout.visibility = View.VISIBLE
         binding.navView.visibility = View.VISIBLE
         showSnackBar(getString(R.string.connected))
-
-
     }
 
     private fun handleNotConnected() {

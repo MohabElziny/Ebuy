@@ -154,11 +154,11 @@ class Repository(
 
     override fun getFavoritesNo() = localSource.getFavoritesNo()
 
-    override fun setFavoritesNo(favoritesNo: Int) = localSource.setFavroitesNo(favoritesNo)
+    override suspend fun setFavoritesNo(favoritesNo: Int) = localSource.setFavoritesNo(favoritesNo)
 
     override fun getCartNo() = localSource.getCartNo()
 
-    override fun setCartNo(cartNo: Int) = localSource.setCartNo(cartNo)
+    override suspend fun setCartNo(cartNo: Int) = localSource.setCartNo(cartNo)
 
     private fun getFavoritesIdFromPrefs() = decode(localSource.getFavoritesIdFromPrefs())
 
@@ -291,9 +291,9 @@ class Repository(
         val response = remoteSource.updateDraftOrder(draft ?: Draft())
         return if (response.isSuccessful) {
             if (draftId == getCartIdFromPrefs().toLong())
-                setCartNo(getCartNo() + quantity)
+                setCartNo(getCartNo().value + quantity)
             else
-                setFavoritesNo(getFavoritesNo() + quantity)
+                setFavoritesNo(getFavoritesNo().value + quantity)
             SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
         } else {
             parseError(response.errorBody())

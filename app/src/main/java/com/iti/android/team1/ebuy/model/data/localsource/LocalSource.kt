@@ -24,11 +24,11 @@ class LocalSource(
 
     override fun getCartIdFromPrefs(): String = prefs.getCartIdFromPrefs()
 
-    override fun setFavroitesNo(favoritesNo: Int) = prefs.setFavoriteNo(favoritesNo)
+    override suspend fun setFavoritesNo(favoritesNo: Int) = prefs.setFavoriteNo(favoritesNo)
 
-    override fun getFavoritesNo() = prefs.getFavrotieNo()
+    override fun getFavoritesNo() = prefs.noOfFavorites
 
-    override fun setCartNo(cartNo: Int) = prefs.setCartNo(cartNo)
+    override suspend fun setCartNo(cartNo: Int) = prefs.setCartNo(cartNo)
 
-    override fun getCartNo() = prefs.getCartNo()
+    override fun getCartNo() = prefs.noOfCart
 }

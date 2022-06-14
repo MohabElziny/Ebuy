@@ -2,6 +2,8 @@ package com.iti.android.team1.ebuy.model.data.localsource.prefs
 
 import android.content.Context
 import android.content.SharedPreferences
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 
 private const val PREF_NAME = "E_BUY_APP"
 
@@ -59,15 +61,25 @@ class PreferenceProvider private constructor() {
     fun setCartIdToPrefs(cartId: String) =
         sharedPref.edit().putString(CART_ID, cartId).apply()
 
-    fun setFavoriteNo(favoriteNo: Int) =
-        sharedPref.edit().putInt(FAVORITES_NO, favoriteNo).apply()
+    private val _noOfCart: MutableStateFlow<Int> = MutableStateFlow(getCartNo())
+    val noOfCart get() = _noOfCart.asStateFlow()
 
-    fun getFavrotieNo() =
+    private val _noOfFavorites: MutableStateFlow<Int> = MutableStateFlow(getFavoriteNo())
+    val noOfFavorites get() = _noOfFavorites.asStateFlow()
+
+    suspend fun setFavoriteNo(favoriteNo: Int) {
+        _noOfFavorites.emit(favoriteNo)
+        sharedPref.edit().putInt(FAVORITES_NO, favoriteNo).apply()
+    }
+
+    private fun getFavoriteNo() =
         sharedPref.getInt(FAVORITES_NO, 0)
 
-    fun setCartNo(cartNo: Int) =
+    suspend fun setCartNo(cartNo: Int) {
+        _noOfCart.emit(cartNo)
         sharedPref.edit().putInt(CART_NO, cartNo).apply()
+    }
 
-    fun getCartNo() =
+    private fun getCartNo() =
         sharedPref.getInt(CART_NO, 0)
 }

@@ -2,6 +2,7 @@ package com.iti.android.team1.ebuy.model.data.repository
 
 import com.iti.android.team1.ebuy.model.factories.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.*
+import kotlinx.coroutines.flow.StateFlow
 
 interface IRepository {
     suspend fun getAllProducts(): NetworkResponse<Products>
@@ -28,10 +29,10 @@ interface IRepository {
     fun getAuthStateFromPrefs(): Boolean
     fun setFavoritesIdToPrefs(favId: String)
     fun setCartIdToPrefs(cartId: String)
-    fun getFavoritesNo(): Int
-    fun setFavoritesNo(favoritesNo: Int)
-    fun getCartNo(): Int
-    fun setCartNo(cartNo: Int)
+    fun getFavoritesNo(): StateFlow<Int>
+    suspend fun setFavoritesNo(favoritesNo: Int)
+    fun getCartNo(): StateFlow<Int>
+    suspend fun setCartNo(cartNo: Int)
     fun logOut()
 
     suspend fun getAllProductsByType(productType: String): NetworkResponse<Products>
