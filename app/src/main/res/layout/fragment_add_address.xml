@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="10dp"
+    android:padding="@dimen/_8sdp"
     tools:context=".ui.add_address.view.AddAddressFragment">
 
     <com.google.android.material.textfield.TextInputLayout
@@ -13,7 +13,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="@dimen/_8sdp">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:hint="@string/address_1">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -43,7 +43,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:hint="@string/city_title">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -59,7 +59,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense.ExposedDropdownMenu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="@dimen/_8sdp">
 
         <AutoCompleteTextView
             android:layout_width="match_parent"
@@ -74,7 +74,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="@dimen/_8sdp"
         android:hint="@string/phone_number">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -93,7 +93,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/_12sdp"
             android:gravity="center"
             android:text="@string/save_address"
             app:backgroundTint="@color/Primary" />

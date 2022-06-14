@@ -10,42 +10,42 @@
         android:id="@+id/parent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="@dimen/_8sdp"
         android:backgroundTint="@color/white"
         android:clickable="true"
         android:focusable="true"
         android:foreground="?selectableItemBackground"
-        app:cardCornerRadius="9dp"
-        app:cardElevation="3dp">
+        app:cardCornerRadius="@dimen/_7sdp"
+        app:cardElevation="@dimen/_2sdp">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="@dimen/_8sdp"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/image"
-                android:layout_width="130dp"
-                android:layout_height="110dp"
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_85sdp"
                 android:contentDescription="@string/product_image"
                 tools:src="@drawable/shirt" />
 
             <TextView
                 android:id="@+id/txtProductName"
                 style="@style/heading3"
-                android:minLines="3"
-                android:maxLines="3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:layout_margin="5dp"
+                android:layout_margin="@dimen/_4sdp"
+                android:maxLines="3"
+                android:minLines="3"
                 android:textSize="@dimen/fontHeading6"
                 tools:text="T-shit" />
 
             <RelativeLayout
-                android:layout_width="130dp"
-                android:layout_height="30dp">
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_23sdp">
 
                 <TextView
                     android:id="@+id/txtProductPrice"
@@ -53,17 +53,17 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginStart="5dp"
+                    android:layout_marginStart="@dimen/_4sdp"
                     android:textSize="@dimen/fontHeading6"
                     android:textStyle="normal"
                     tools:text="100 EGP" />
 
                 <com.like.LikeButton
                     android:id="@+id/likeBtn"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="@dimen/_23sdp"
+                    android:layout_height="@dimen/_23sdp"
                     android:layout_alignParentEnd="true"
-                    app:icon_size="25dp"
+                    app:icon_size="@dimen/_19sdp"
                     app:icon_type="heart"
                     app:like_drawable="@drawable/heart_on_b"
                     app:unlike_drawable="@drawable/heart_off_b" />
