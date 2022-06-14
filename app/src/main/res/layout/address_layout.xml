@@ -117,7 +117,7 @@
             android:clickable="true"
             android:focusable="true"
             android:src="@drawable/ic_round_edit_24" />
-b
+
         <com.like.LikeButton
             android:id="@+id/defBtn"
             android:layout_width="@dimen/_19sdp"
