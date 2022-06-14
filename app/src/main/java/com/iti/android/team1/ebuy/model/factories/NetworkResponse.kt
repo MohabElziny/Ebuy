@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.model.networkresponse
+package com.iti.android.team1.ebuy.model.factories
 
 // from network to view model
 sealed class NetworkResponse<out R> {

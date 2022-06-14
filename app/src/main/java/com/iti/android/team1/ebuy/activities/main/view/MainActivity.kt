@@ -16,8 +16,12 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
-import com.iti.android.team1.ebuy.connection.ConnectionLiveData
+import com.iti.android.team1.ebuy.activities.main.viewmodel.MainViewModel
+import com.iti.android.team1.ebuy.activities.main.viewmodel.MainViewModelFactory
+import com.iti.android.team1.ebuy.activities.main.connection.ConnectionLiveData
 import com.iti.android.team1.ebuy.databinding.ActivityMainBinding
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
 import kotlinx.coroutines.flow.buffer
 
 
@@ -28,8 +32,10 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private lateinit var navController: NavController
     private lateinit var binding: ActivityMainBinding
     private lateinit var fragmentContainer: FragmentContainerView
-    private val viewModel: ConnectionViewModel by viewModels()
-
+    private val connectionViewModel: ConnectionViewModel by viewModels()
+    private val viewMode: MainViewModel by viewModels {
+        MainViewModelFactory(Repository(LocalSource(this)))
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -43,20 +49,33 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         setDefault()
+        fetchCartNo()
         navController.addOnDestinationChangedListener(this::onDestinationChanged)
         setConnectionState()
         handleConnection()
     }
 
+    private fun fetchCartNo() {
+        lifecycleScope.launchWhenStarted {
+            viewMode.cartNo.buffer().collect {
+                if (it > 0) {
+                    val badge = navView.getOrCreateBadge(R.id.navigation_cart)
+                    badge.isVisible = true
+                    badge.number = it
+                }
+            }
+        }
+    }
+
     private fun setConnectionState() {
         ConnectionLiveData(this).observe(this) { connection ->
-            viewModel.updateConnection(connection)
+            connectionViewModel.updateConnection(connection)
         }
     }
 
     private fun handleConnection() {
         lifecycleScope.launchWhenStarted {
-            viewModel.isConnected.buffer().collect { connection ->
+            connectionViewModel.isConnected.buffer().collect { connection ->
                 if (connection) {
                     handleIsConnected()
                     navView.setupWithNavController(navController)
@@ -73,8 +92,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         binding.appBarLayout.visibility = View.VISIBLE
         binding.navView.visibility = View.VISIBLE
         showSnackBar(getString(R.string.connected))
-
-
     }
 
     private fun handleNotConnected() {
@@ -94,7 +111,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.navigation_home, R.id.navigation_Category, R.id.navigation_profile,
-                R.id.navigation_favorites
+                R.id.navigation_cart
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

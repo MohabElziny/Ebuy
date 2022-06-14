@@ -113,7 +113,10 @@
         android:background="@drawable/settings_item_shape"
         android:padding="@dimen/_5sdp"
         android:paddingStart="@dimen/_10sdp"
-        android:paddingEnd="@dimen/_5sdp">
+        android:paddingEnd="@dimen/_5sdp"
+        android:clickable="true"
+        android:focusable="true"
+        >
 
         <TextView
             android:id="@+id/tv_logOut"

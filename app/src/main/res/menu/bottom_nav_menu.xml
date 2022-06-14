@@ -12,9 +12,9 @@
         android:title="@string/title_category" />
 
     <item
-        android:id="@+id/navigation_favorites"
-        android:icon="@drawable/ic_round_favorite_24"
-        android:title="@string/fav" />
+        android:id="@+id/navigation_cart"
+        android:icon="@drawable/cart_icon"
+        android:title="@string/cart" />
 
     <item
         android:id="@+id/navigation_profile"

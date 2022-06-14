@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.connection
+package com.iti.android.team1.ebuy.activities.main.connection
 
 import java.io.IOException
 import java.net.InetSocketAddress

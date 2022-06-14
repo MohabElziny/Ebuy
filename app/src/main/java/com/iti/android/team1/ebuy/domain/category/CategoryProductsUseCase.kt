@@ -1,8 +1,8 @@
 package com.iti.android.team1.ebuy.domain.category
 
 import com.iti.android.team1.ebuy.domain.productsResponse
-import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
+import com.iti.android.team1.ebuy.model.data.repository.IRepository
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.Categories
 import com.iti.android.team1.ebuy.model.pojo.DraftsLineItems
 import com.iti.android.team1.ebuy.model.pojo.Products
