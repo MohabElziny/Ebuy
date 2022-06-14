@@ -45,14 +45,31 @@ class AddressesFragment : Fragment() {
                 .actionAddressesFragmentToAddAddressFragment(address = Address(),
                     title = getString(R.string.add_address_title)))
         }
-        addressesAdapter = AddressAdapter(onItemClick, onDelete, onEdit)
+        addressesAdapter = AddressAdapter(onItemClick, onDelete, onEdit, addAddressAsDef)
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = addressesAdapter
         }
         fetchAddresses()
         fetchDeletedData()
+        fetchAddressDefChanges()
         viewModel.getAllAddresses()
+    }
+
+    private fun fetchAddressDefChanges() {
+        viewModel.addressDefState.observe(viewLifecycleOwner) {
+            when (it) {
+                ResultState.EmptyResult -> {
+                    binding.progress.visibility = View.GONE
+                    addressesAdapter.changeDefaultAddress(position ?: 0)
+                }
+                is ResultState.Error -> {
+                    binding.progress.visibility = View.GONE
+                    Snackbar.make(requireView(), it.errorString, Snackbar.LENGTH_SHORT).show()
+                }
+                ResultState.Loading -> binding.progress.visibility = View.VISIBLE
+            }
+        }
     }
 
     private fun fetchAddresses() {
@@ -134,5 +151,10 @@ class AddressesFragment : Fragment() {
         findNavController().navigate(AddressesFragmentDirections
             .actionAddressesFragmentToAddAddressFragment(address,
                 title = getString(R.string.edit_address_title)))
+    }
+
+    private val addAddressAsDef: (Long, Int) -> (Unit) = { addressId, position ->
+        this.position = position
+        viewModel.setAddressAsDef(addressId)
     }
 }

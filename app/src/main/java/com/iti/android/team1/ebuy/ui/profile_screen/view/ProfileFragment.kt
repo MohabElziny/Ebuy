@@ -41,7 +41,6 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
         initOrdersRecyclerView()
         initFavoritesRecyclerView()
         handleCustomerInfo()
@@ -59,20 +58,6 @@ class ProfileFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         (activity as MainActivity).setDefault()
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.profile_top_app_bar, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.favIcon -> findNavController().navigate(
-                ProfileFragmentDirections.actionNavigationProfileToNavigationFavorites()
-            )
-        }
-        return super.onOptionsItemSelected(item)
     }
 
     private var onItemClick: (Long) -> Unit = { productId ->

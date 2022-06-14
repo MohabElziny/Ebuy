@@ -215,6 +215,14 @@ class CategoryFragment : Fragment() {
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_favorite -> findNavController().navigate(
+                CategoryFragmentDirections.actionNavigationCategoryToNavigationFavorites())
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     private fun onQueryTextListener() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {

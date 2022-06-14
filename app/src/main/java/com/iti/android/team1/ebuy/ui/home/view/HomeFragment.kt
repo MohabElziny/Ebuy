@@ -195,6 +195,8 @@ class HomeFragment : Fragment() {
                 HomeFragmentDirections.actionNavigationHomeToSettingsFragment())
             R.id.action_about -> {//TODO: Navigate to about screen
             }
+            R.id.action_favorite -> findNavController().navigate(
+                HomeFragmentDirections.actionNavigationHomeToNavigationFavorites())
         }
         return super.onOptionsItemSelected(item)
     }

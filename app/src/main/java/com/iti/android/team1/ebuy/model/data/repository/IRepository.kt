@@ -32,6 +32,7 @@ interface IRepository {
     fun setFavoritesNo(favoritesNo: Int)
     fun getCartNo(): Int
     fun setCartNo(cartNo: Int)
+    fun logOut()
 
     suspend fun getAllProductsByType(productType: String): NetworkResponse<Products>
     suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses>
