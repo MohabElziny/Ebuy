@@ -13,7 +13,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
-import com.iti.android.team1.ebuy.connection.ConnectionLiveData
+import com.iti.android.team1.ebuy.activities.main.connection.ConnectionLiveData
 import com.iti.android.team1.ebuy.databinding.ActivityAuthBinding
 import kotlinx.coroutines.flow.buffer
 
