@@ -1,7 +1,6 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
-import com.iti.android.team1.ebuy.model.pojo.DraftsLineItemConverter
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
@@ -146,7 +145,7 @@ class Repository(
 
     private fun getFavoritesIdFromPrefs() = decode(localSource.getFavoritesIdFromPrefs())
 
-    private fun getCartIdFromPrefs() = decode(localSource.getCartIdFromPrefs())
+    override fun getCartIdFromPrefs() = decode(localSource.getCartIdFromPrefs())
 
     override suspend fun addFavorite(
         product: Product,
@@ -199,7 +198,7 @@ class Repository(
         }
     }
 
-    private suspend fun deleteLastDraftItem(
+     override suspend fun deleteLastDraftItem(
         isFavorite: Boolean,
         draftOrderId: Long,
     ): NetworkResponse<DraftOrder> {
@@ -306,6 +305,16 @@ class Repository(
 
     override suspend fun getCartItems(): NetworkResponse<Draft> =
         getItemsData(getCartIdFromPrefs())
+
+    override suspend fun postOrder(order: Order): NetworkResponse<Order> {
+        order.customer = Customer(id = getUserIdFromPrefs())
+        val response = remoteSource.postOrder(order)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body() ?: Order())
+        } else {
+            parseError(response.errorBody())
+        }
+    }
 
     private suspend fun getItemsData(id: String): NetworkResponse<Draft> {
         return if (id.isEmpty()) {

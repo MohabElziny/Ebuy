@@ -1,9 +1,7 @@
 package com.iti.android.team1.ebuy.model.datasource.repository
 
-import com.iti.android.team1.ebuy.model.DatabaseResponse
 import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.*
-import kotlinx.coroutines.flow.Flow
 
 interface IRepository {
     suspend fun getAllProducts(): NetworkResponse<Products>
@@ -44,8 +42,8 @@ interface IRepository {
     suspend fun setDefaultAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
     suspend fun deleteAddress(customerId: Long, addressId: Long): NetworkResponse<Address>
 
-    suspend fun getAllPriceRules():NetworkResponse<PriceRuleResponse>
-    suspend fun getDiscountCodes(price_rule_id: Long):NetworkResponse<Discount>
+    suspend fun getAllPriceRules(): NetworkResponse<PriceRuleResponse>
+    suspend fun getDiscountCodes(price_rule_id: Long): NetworkResponse<Discount>
 
     suspend fun addFavorite(
         product: Product,
@@ -69,4 +67,12 @@ interface IRepository {
     suspend fun getDraftFromApi(draftId: Long): NetworkResponse<Draft>
     suspend fun getFavoriteItems(): NetworkResponse<Draft>
     suspend fun getCartItems(): NetworkResponse<Draft>
+    suspend fun postOrder(
+        order: Order,
+    ): NetworkResponse<Order>
+    suspend fun deleteLastDraftItem(
+        isFavorite: Boolean,
+        draftOrderId: Long,
+    ): NetworkResponse<DraftOrder>
+    fun getCartIdFromPrefs(): String
 }

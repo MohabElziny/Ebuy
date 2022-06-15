@@ -111,4 +111,8 @@ object RetrofitHelper : RemoteSource {
         val customerId = customer.id ?: 0
         return retrofitService.updateCustomer(customerId, CustomerRegisterAPI(customer))
     }
+
+    override suspend fun postOrder(order: Order): Response<Order> {
+        return retrofitService.postOrder(OrderPost(order))
+    }
 }

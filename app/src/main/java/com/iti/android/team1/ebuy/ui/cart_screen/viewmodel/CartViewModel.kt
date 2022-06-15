@@ -34,8 +34,8 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
     private val _total = MutableStateFlow(0L)
     val total = _total.asStateFlow()
 
-    private val _oder = MutableStateFlow<Order>(Order())
-    val order = _oder.asStateFlow()
+    private val _oder = MutableLiveData<Order>()
+    val order = _oder as LiveData<Order>
     fun getAllCartItems() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = async {
@@ -106,7 +106,7 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
         }
     }
 
-    private suspend fun makeOrderRequest(
+    private  fun makeOrderRequest(
         cartItemList: MutableList<CartItem>,
         currentTotalPrice: Long,
     ) {
@@ -114,8 +114,10 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
         cartItemList.forEach {
             lineItems.add(DraftsLineItemConverter.convertToLineItem(it))
         }
-        _oder.emit(Order(lineItems = lineItems as ArrayList<LineItems>,
-            currentTotalPrice = "$currentTotalPrice"))
+        val orderMade = Order(lineItems = lineItems as ArrayList<LineItems>,
+            currentTotalPrice = "$currentTotalPrice")
+
+        _oder.postValue(orderMade)
 
     }
 

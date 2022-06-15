@@ -146,6 +146,8 @@
     <string name="size">Size</string>
     <string name="messing_details">Missing details</string>
     <string name="AddToCartDialogTag">AddToCartDialog</string>
+    <string name="order_done">Order is Done</string>
+    <string name="order_error">Error in order</string>
 
 
     <string-array name="egypt_province_codes">

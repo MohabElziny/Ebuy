@@ -8,9 +8,10 @@ import com.iti.android.team1.ebuy.databinding.AddressLayoutBinding
 import com.iti.android.team1.ebuy.model.pojo.Address
 
 class AddressAdapter(
-    private val onItemClick: (Int) -> (Unit),
+    private val onItemClicked: (Int) -> (Unit),
     private val onDeleteClick: (Address, Int) -> (Unit),
     private val onEditClick: (Address) -> (Unit),
+    private inline val onAddSelected: (Address) -> (Unit),
 ) : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
 
     private var addresses: ArrayList<Address> = arrayListOf()
@@ -33,11 +34,14 @@ class AddressAdapter(
             get() = addresses[bindingAdapterPosition]
 
         init {
-            binding.parent.setOnClickListener { onItemClick(bindingAdapterPosition) }
+//            binding.parent.setOnClickListener { onItemClicked(bindingAdapterPosition) }
             binding.imageDelete.setOnClickListener {
                 onDeleteClick(address, bindingAdapterPosition)
             }
             binding.imageEdit.setOnClickListener { onEditClick(address) }
+            binding.parent.setOnClickListener {
+                onAddSelected(address)
+            }
         }
 
         fun bindView() {
