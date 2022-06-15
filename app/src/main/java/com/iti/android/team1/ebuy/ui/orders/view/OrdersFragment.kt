@@ -4,15 +4,17 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentOrdersBinding
-import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.repository.Repository
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
+import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Order
 import com.iti.android.team1.ebuy.ui.orders.viewModel.OrdersViewModel
 import com.iti.android.team1.ebuy.ui.orders.viewModel.OrdersViewModelFactory
@@ -34,7 +36,7 @@ class OrdersFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View? {
+    ): View {
         _binding = FragmentOrdersBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -51,7 +53,8 @@ class OrdersFragment : Fragment() {
             viewModel.customerOrders.buffer().collect { result ->
                 when (result) {
                     ResultState.EmptyResult -> handleEmptyResult()
-//                    is ResultState.Error -> TODO()
+                    is ResultState.Error -> Toast.makeText(requireContext(),
+                        result.errorString, Toast.LENGTH_SHORT).show()
                     ResultState.Loading -> handleLoading()
                     is ResultState.Success -> handleSuccessResult(result.data)
                 }
@@ -60,10 +63,11 @@ class OrdersFragment : Fragment() {
     }
 
     private fun handleLoading() {
-      showShimmer()
+        showShimmer()
         binding.recycler.visibility = View.INVISIBLE
         binding.emptyLayout.root.visibility = View.INVISIBLE
     }
+
     private fun showShimmer() {
         binding.ordersShimmer.root.apply {
             visibility = View.VISIBLE
@@ -79,6 +83,7 @@ class OrdersFragment : Fragment() {
             visibility = View.GONE
         }
     }
+
     private fun handleEmptyResult() {
         hideShimmer()
         binding.emptyLayout.root.visibility = View.VISIBLE
@@ -94,7 +99,7 @@ class OrdersFragment : Fragment() {
     }
 
     private fun initOrdersRecycler() {
-        ordersAdapter = OrdersAdapter()
+        ordersAdapter = OrdersAdapter(onClickOrderItem)
         binding.recycler.apply {
             adapter = ordersAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -102,5 +107,11 @@ class OrdersFragment : Fragment() {
         }
     }
 
-
+    private val onClickOrderItem: (orderName: String, orderFinancialStatus: String, orderStatus: String)
+    -> Unit = { orderName, orderFinancialStatus, orderStatus ->
+        findNavController().navigate(OrdersFragmentDirections.actionOrdersFragmentToTrackOrder(
+            orderFinancialStatus,
+            orderName,
+            orderStatus))
+    }
 }

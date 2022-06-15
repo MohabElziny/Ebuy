@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.model.datasource.repository
+package com.iti.android.team1.ebuy.model.data.repository
 
 import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
 import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
@@ -132,6 +132,15 @@ class Repository(
 
     override fun setAuthStateToPrefs(state: Boolean) = localSource.setAuthStateToPrefs(state)
 
+    override fun logOut() {
+        localSource.apply {
+            setAuthStateToPrefs(false)
+            setUserIdToPrefs("")
+            setCartIdToPrefs("")
+            setFavoritesIdToPrefs("")
+        }
+    }
+
     override fun getUserIdFromPrefs() = decode(localSource.getUserIdFromPrefs()).toLong()
 
     override fun getAuthStateFromPrefs() = localSource.getAuthStateFromPrefs()
@@ -142,6 +151,14 @@ class Repository(
     override fun setCartIdToPrefs(cartId: String) {
         localSource.setCartIdToPrefs(encode(cartId))
     }
+
+    override fun getFavoritesNo() = localSource.getFavoritesNo()
+
+    override suspend fun setFavoritesNo(favoritesNo: Int) = localSource.setFavoritesNo(favoritesNo)
+
+    override fun getCartNo() = localSource.getCartNo()
+
+    override suspend fun setCartNo(cartNo: Int) = localSource.setCartNo(cartNo)
 
     private fun getFavoritesIdFromPrefs() = decode(localSource.getFavoritesIdFromPrefs())
 
@@ -228,6 +245,10 @@ class Repository(
 
         val response = remoteSource.postDraftOrder(draft)
         return if (response.isSuccessful) {
+            if (!isFavorite)
+                setCartNo(quantity)
+            else
+                setFavoritesNo(quantity)
             setDraftIdToCustomer(getCustomer(), isFavorite, response.body()?.draftOrder?.id)
             SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
         } else {
@@ -269,6 +290,10 @@ class Repository(
 
         val response = remoteSource.updateDraftOrder(draft ?: Draft())
         return if (response.isSuccessful) {
+            if (draftId == getCartIdFromPrefs().toLong())
+                setCartNo(getCartNo().value + quantity)
+            else
+                setFavoritesNo(getFavoritesNo().value + quantity)
             SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
         } else {
             parseError(response.errorBody())

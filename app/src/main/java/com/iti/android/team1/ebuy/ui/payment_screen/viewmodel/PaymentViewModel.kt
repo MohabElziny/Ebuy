@@ -22,6 +22,7 @@ class PaymentViewModel(private val myRepo: IRepository) : ViewModel() {
             handlePostResponse(result.await())
         }
     }
+import com.iti.android.team1.ebuy.model.data.repository.IRepository
 
     fun removeCartItems() {
         viewModelScope.launch {

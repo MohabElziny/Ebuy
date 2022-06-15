@@ -151,7 +151,7 @@ data class Order(
     @SerializedName("landing_site_ref") var landingSiteRef: String? = null,
     @SerializedName("location_id") var locationId: String? = null,
     @SerializedName("name") var name: String? = null,
-    @SerializedName("note") var note: String? = null,
+    @SerializedName("note") var orderStatus: String? = null,
     @SerializedName("note_attributes") var noteAttributes: ArrayList<String> = arrayListOf(),
     @SerializedName("number") var number: Int? = null,
     @SerializedName("order_number") var orderNumber: Int? = null,

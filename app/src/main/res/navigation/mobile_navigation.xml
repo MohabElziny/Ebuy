@@ -24,6 +24,9 @@
             app:exitAnim="@anim/fade_out"
             app:popEnterAnim="@anim/fade_in"
             app:popExitAnim="@anim/fade_out" />
+        <action
+            android:id="@+id/action_navigation_home_to_navigation_favorites"
+            app:destination="@id/navigation_favorites" />
     </fragment>
 
     <fragment
@@ -38,6 +41,9 @@
             app:exitAnim="@anim/nav_default_exit_anim"
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+        <action
+            android:id="@+id/action_navigation_Category_to_navigation_favorites"
+            app:destination="@id/navigation_favorites" />
     </fragment>
 
     <fragment
@@ -46,9 +52,9 @@
         android:label="CreditFragment"
         tools:layout="@layout/fragment_payment" />
     <fragment
-        android:id="@+id/cartFragment"
+        android:id="@+id/navigation_cart"
         android:name="com.iti.android.team1.ebuy.ui.cart_screen.view.CartFragment"
-        android:label="fragment_cart"
+        android:label="@string/cart"
         tools:layout="@layout/fragment_cart" >
         <action
             android:id="@+id/action_cartFragment_to_paymentFragment"
@@ -77,6 +83,9 @@
         <action
             android:id="@+id/action_navigation_profile_to_productsDetailsFragment"
             app:destination="@id/productsDetailsFragment" />
+        <action
+            android:id="@+id/action_navigation_profile_to_trackOrder"
+            app:destination="@id/trackOrder" />
     </fragment>
     <fragment
         android:id="@+id/navigation_favorites"
@@ -91,7 +100,7 @@
         android:id="@+id/paymentFragment"
         android:name="com.iti.android.team1.ebuy.ui.payment_screen.view.PaymentFragment"
         android:label="fragment_payment"
-        tools:layout="@layout/fragment_payment" >
+        tools:layout="@layout/fragment_payment">
         <argument
             android:name="order"
             app:argType="com.iti.android.team1.ebuy.model.pojo.Order" />
@@ -113,7 +122,7 @@
             app:argType="long" />
         <action
             android:id="@+id/action_productsDetailsFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
+            app:destination="@id/navigation_cart" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"
@@ -144,7 +153,11 @@
         android:id="@+id/ordersFragment"
         android:name="com.iti.android.team1.ebuy.ui.orders.view.OrdersFragment"
         android:label="@string/OrdersFragment"
-        tools:layout="@layout/fragment_orders" />
+        tools:layout="@layout/fragment_orders">
+        <action
+            android:id="@+id/action_ordersFragment_to_trackOrder"
+            app:destination="@id/trackOrder" />
+    </fragment>
     <fragment
         android:id="@+id/addressesFragment"
         android:name="com.iti.android.team1.ebuy.ui.all_addresses.view.AddressesFragment"
@@ -171,6 +184,22 @@
             app:argType="com.iti.android.team1.ebuy.model.pojo.Address" />
         <argument
             android:name="title"
+            app:argType="string" />
+    </fragment>
+    <fragment
+        android:id="@+id/trackOrder"
+        android:name="com.iti.android.team1.ebuy.ui.track_order.view.TrackOrder"
+        android:label="@string/fragment_track_order"
+        tools:layout="@layout/fragment_track_order">
+        <argument
+            android:name="order_financial_status"
+            app:argType="string" />
+        <argument
+            android:name="order_name"
+            app:argType="string" />
+        <argument
+            android:name="order_status"
+            app:nullable="false"
             app:argType="string" />
     </fragment>
 </navigation>
