@@ -58,10 +58,12 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private fun fetchCartNo() {
         lifecycleScope.launchWhenStarted {
             viewMode.cartNo.buffer().collect {
+                val badge = navView.getOrCreateBadge(R.id.navigation_cart)
                 if (it > 0) {
-                    val badge = navView.getOrCreateBadge(R.id.navigation_cart)
                     badge.isVisible = true
                     badge.number = it
+                } else {
+                    badge.isVisible = false
                 }
             }
         }

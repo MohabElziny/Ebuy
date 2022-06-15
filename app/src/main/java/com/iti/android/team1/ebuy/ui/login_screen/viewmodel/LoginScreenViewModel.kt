@@ -4,10 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.iti.android.team1.ebuy.domain.cart.IProductsInCartUseCase
+import com.iti.android.team1.ebuy.domain.cart.ProductsInCartUseCase
+import com.iti.android.team1.ebuy.domain.savedItems.ISavedItemsUseCase
+import com.iti.android.team1.ebuy.domain.savedItems.SavedItemsUseCase
 import com.iti.android.team1.ebuy.model.data.repository.IRepository
 import com.iti.android.team1.ebuy.model.factories.NetworkResponse
+import com.iti.android.team1.ebuy.model.pojo.CartItem
 import com.iti.android.team1.ebuy.model.pojo.Customer
 import com.iti.android.team1.ebuy.model.pojo.CustomerLogin
+import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
 import com.iti.android.team1.ebuy.util.AuthRegex
@@ -15,13 +21,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-
 class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
     private val _loginState: MutableLiveData<AuthResult> =
         MutableLiveData()
     val loginState get() = _loginState as LiveData<AuthResult>
 
+    private val savedItemsUseCase: ISavedItemsUseCase
+        get() = SavedItemsUseCase(repository)
+
+    private val productsInCartUseCase: IProductsInCartUseCase
+        get() = ProductsInCartUseCase(repository)
 
     fun setUserIdToPrefs(userId: Long) = repository.setUserIdToPrefs(userId)
 
@@ -52,7 +62,7 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
     }
 
-    private fun setLoginState(result: NetworkResponse<Customer>) {
+    private suspend fun setLoginState(result: NetworkResponse<Customer>) {
         when (result) {
             is NetworkResponse.FailureResponse -> {
                 _loginState.postValue(AuthResult.RegisterFail(result.errorString))
@@ -67,13 +77,38 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
         }
     }
 
-    private fun setIdsToPrefs(favoriteID: String, cartID: String) {
+    private suspend fun setIdsToPrefs(favoriteID: String, cartID: String) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (favoriteID.isNotEmpty())
+            if (favoriteID.isNotEmpty()) {
                 repository.setFavoritesIdToPrefs(favoriteID)
+                val result = async { savedItemsUseCase.getFavoriteItems() }
+                setFavoriteSizeToPrefs(result.await())
+            }
 
-            if (cartID.isNotEmpty())
+            if (cartID.isNotEmpty()) {
                 repository.setCartIdToPrefs(cartID)
+                val result = async { productsInCartUseCase.getAllCartProducts() }
+                setCartSizeToPrefs(result.await())
+            }
+        }
+    }
+
+    private suspend fun setCartSizeToPrefs(result: NetworkResponse<List<CartItem>>) {
+        when (result) {
+            is NetworkResponse.FailureResponse -> Unit
+            is NetworkResponse.SuccessResponse ->
+                repository.setCartNo(result.data.size)
+
+
+        }
+    }
+
+    private suspend fun setFavoriteSizeToPrefs(result: NetworkResponse<List<Product>>) {
+        when (result) {
+            is NetworkResponse.FailureResponse -> Unit
+            is NetworkResponse.SuccessResponse ->
+                repository.setFavoritesNo(result.data.size)
+
         }
     }
 }

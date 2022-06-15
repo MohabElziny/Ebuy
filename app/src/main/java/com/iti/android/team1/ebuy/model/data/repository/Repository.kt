@@ -8,6 +8,8 @@ import com.iti.android.team1.ebuy.model.factories.NetworkResponse.FailureRespons
 import com.iti.android.team1.ebuy.model.factories.NetworkResponse.SuccessResponse
 import com.iti.android.team1.ebuy.model.pojo.*
 import com.iti.android.team1.ebuy.util.Decoder
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
@@ -132,12 +134,14 @@ class Repository(
 
     override fun setAuthStateToPrefs(state: Boolean) = localSource.setAuthStateToPrefs(state)
 
-    override fun logOut() {
+    override suspend fun logOut() {
         localSource.apply {
             setAuthStateToPrefs(false)
             setUserIdToPrefs("")
             setCartIdToPrefs("")
             setFavoritesIdToPrefs("")
+            setCartNo(0)
+            setFavoritesNo(0)
         }
     }
 
@@ -168,6 +172,7 @@ class Repository(
         product: Product,
     ): NetworkResponse<DraftOrder> {
         val favoriteID = getFavoritesIdFromPrefs()
+        setFavoritesNo(getFavoritesNo().value + 1)
         return if (favoriteID.isEmpty()) {
             postDraftOrder(product, isFavorite = true)
         } else {
@@ -176,11 +181,13 @@ class Repository(
     }
 
     override suspend fun removeFromFavorite(productId: Long): NetworkResponse<DraftOrder> {
+        setFavoritesNo(getFavoritesNo().value - 1)
         return removeFavoriteOrCartItem(productId, true)
     }
 
     override suspend fun addCart(product: Product, quantity: Int): NetworkResponse<DraftOrder> {
         val cartId = getCartIdFromPrefs()
+        setCartNo(getCartNo().value + 1)
         return if (cartId.isEmpty()) {
             postDraftOrder(product, quantity, false)
         } else {
@@ -189,6 +196,7 @@ class Repository(
     }
 
     override suspend fun removeFromCart(productId: Long): NetworkResponse<DraftOrder> {
+        setCartNo(getCartNo().value - 1)
         return removeFavoriteOrCartItem(productId, false)
     }
 
@@ -244,10 +252,6 @@ class Repository(
 
         val response = remoteSource.postDraftOrder(draft)
         return if (response.isSuccessful) {
-            if (!isFavorite)
-                setCartNo(quantity)
-            else
-                setFavoritesNo(quantity)
             setDraftIdToCustomer(getCustomer(), isFavorite, response.body()?.draftOrder?.id)
             SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
         } else {
@@ -289,10 +293,6 @@ class Repository(
 
         val response = remoteSource.updateDraftOrder(draft ?: Draft())
         return if (response.isSuccessful) {
-            if (draftId == getCartIdFromPrefs().toLong())
-                setCartNo(getCartNo().value + quantity)
-            else
-                setFavoritesNo(getFavoritesNo().value + quantity)
             SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
         } else {
             parseError(response.errorBody())
