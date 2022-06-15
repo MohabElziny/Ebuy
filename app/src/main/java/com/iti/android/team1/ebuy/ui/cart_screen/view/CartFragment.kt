@@ -15,9 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentCartBinding
-import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.repository.Repository
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+
 import com.iti.android.team1.ebuy.model.pojo.ConvertAddToShoppingAdd
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
@@ -91,7 +89,7 @@ class CartFragment : Fragment() {
                         viewModel.order.observe(viewLifecycleOwner) { order ->
                             order.shippingAddress = ConvertAddToShoppingAdd.convertToShipping(add)
                             order.billingAddress = ConvertAddToShoppingAdd.convertToBilling(add)
-                            order.note = "placed"
+                            order.orderStatus = "placed"
                             val action =
                                 CartFragmentDirections.actionCartFragmentToPaymentFragment(order)
                             findNavController().navigate(action)

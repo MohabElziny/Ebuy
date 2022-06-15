@@ -168,7 +168,7 @@
             app:destination="@id/addAddressFragment" />
         <action
             android:id="@+id/action_addressesFragment_to_cartFragment"
-            app:destination="@id/cartFragment" />
+            app:destination="@id/navigation_cart" />
         <argument
             android:name="destination"
             app:argType="integer"

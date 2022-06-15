@@ -1,11 +1,11 @@
 package com.iti.android.team1.ebuy.model.data.repository
 
-import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
-import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
-import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.FailureResponse
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.SuccessResponse
+import com.iti.android.team1.ebuy.model.data.localsource.ILocalSource
+import com.iti.android.team1.ebuy.model.data.remotesource.RemoteSource
+import com.iti.android.team1.ebuy.model.data.remotesource.RetrofitHelper
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse.FailureResponse
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse.SuccessResponse
 import com.iti.android.team1.ebuy.model.pojo.*
 import com.iti.android.team1.ebuy.util.Decoder
 import okhttp3.ResponseBody

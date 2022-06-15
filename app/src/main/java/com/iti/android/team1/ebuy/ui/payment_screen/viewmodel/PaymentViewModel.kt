@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
+import com.iti.android.team1.ebuy.model.data.repository.IRepository
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.Order
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -22,7 +22,6 @@ class PaymentViewModel(private val myRepo: IRepository) : ViewModel() {
             handlePostResponse(result.await())
         }
     }
-import com.iti.android.team1.ebuy.model.data.repository.IRepository
 
     fun removeCartItems() {
         viewModelScope.launch {
