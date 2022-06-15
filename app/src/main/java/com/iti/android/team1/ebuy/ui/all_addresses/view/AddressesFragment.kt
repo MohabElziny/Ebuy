@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
@@ -26,6 +27,7 @@ class AddressesFragment : Fragment() {
 
     private lateinit var binding: FragmentAddressesBinding
     private lateinit var addressesAdapter: AddressAdapter
+    private var destinationID = 0
     private var position: Int? = null
     private val viewModel: AddressesViewModel by viewModels {
         AddressesViewModelFactory(Repository(LocalSource(requireContext())))
@@ -45,7 +47,7 @@ class AddressesFragment : Fragment() {
                 .actionAddressesFragmentToAddAddressFragment(address = Address(),
                     title = getString(R.string.add_address_title)))
         }
-        addressesAdapter = AddressAdapter(onItemClick, onDelete, onEdit, addAddressAsDef)
+        addressesAdapter = AddressAdapter(onItemClick, onDelete, onEdit, onAddSelected,addAddressAsDef)
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = addressesAdapter
@@ -70,6 +72,17 @@ class AddressesFragment : Fragment() {
                 ResultState.Loading -> binding.progress.visibility = View.VISIBLE
             }
         }
+    }
+
+    private fun checkDestination() {
+        val args by navArgs<AddressesFragmentArgs>()
+        if (args.destination == 1)
+            destinationID = 1
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkDestination()
     }
 
     private fun fetchAddresses() {
@@ -134,6 +147,14 @@ class AddressesFragment : Fragment() {
         }
     }
 
+    private val onAddSelected: (Address) -> Unit = {
+        if (destinationID == 1) {
+            // come from check Screen
+            val action = AddressesFragmentDirections.actionAddressesFragmentToCartFragment(it,1)
+            findNavController().navigate(action)
+            destinationID = 0
+        }
+    }
     private val onItemClick: (Int) -> (Unit) = { }
 
     private val onDelete: (Address, Int) -> (Unit) = { address, position ->

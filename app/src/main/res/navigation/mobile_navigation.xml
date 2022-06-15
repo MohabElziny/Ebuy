@@ -59,6 +59,18 @@
         <action
             android:id="@+id/action_cartFragment_to_paymentFragment"
             app:destination="@id/paymentFragment" />
+        <action
+            android:id="@+id/action_cartFragment_to_addressesFragment"
+            app:destination="@id/addressesFragment" />
+        <argument
+            android:name="add"
+            app:argType="com.iti.android.team1.ebuy.model.pojo.Address"
+           app:nullable="true"
+            android:defaultValue="@null"/>
+        <argument
+            android:name="destination"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/navigation_profile"
@@ -92,6 +104,11 @@
         <argument
             android:name="order"
             app:argType="com.iti.android.team1.ebuy.model.pojo.Order" />
+        <action
+            android:id="@+id/action_paymentFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="false" />
     </fragment>
     <fragment
         android:id="@+id/productsDetailsFragment"
@@ -149,6 +166,13 @@
         <action
             android:id="@+id/action_addressesFragment_to_addAddressFragment"
             app:destination="@id/addAddressFragment" />
+        <action
+            android:id="@+id/action_addressesFragment_to_cartFragment"
+            app:destination="@id/navigation_cart" />
+        <argument
+            android:name="destination"
+            app:argType="integer"
+            android:defaultValue="0" />
     </fragment>
     <fragment
         android:id="@+id/addAddressFragment"

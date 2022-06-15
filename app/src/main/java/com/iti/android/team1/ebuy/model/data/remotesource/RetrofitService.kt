@@ -169,4 +169,10 @@ interface RetrofitService {
         @Body customer: CustomerRegisterAPI,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Customer>
+
+    @POST("orders.json")
+    suspend fun postOrder(
+        @Body orderPost: OrderPost,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Order>
 }

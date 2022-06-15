@@ -47,7 +47,6 @@ class ProfileFragment : Fragment() {
         handleCustomerOrders()
         handleCustomerFavProducts()
         binding.btnMoreFavorites.setOnClickListener {
-            (activity as MainActivity).profileNavigation()
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_favorites)
         }
         binding.btnMoreOrders.setOnClickListener {
@@ -55,10 +54,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        (activity as MainActivity).setDefault()
-    }
+
 
     private var onItemClick: (Long) -> Unit = { productId ->
         findNavController().navigate(

@@ -71,4 +71,14 @@ interface IRepository {
     suspend fun getDraftFromApi(draftId: Long): NetworkResponse<Draft>
     suspend fun getFavoriteItems(): NetworkResponse<Draft>
     suspend fun getCartItems(): NetworkResponse<Draft>
+    suspend fun postOrder(
+        order: Order,
+    ): NetworkResponse<Order>
+
+    suspend fun deleteLastDraftItem(
+        isFavorite: Boolean,
+        draftOrderId: Long,
+    ): NetworkResponse<DraftOrder>
+
+    fun getCartIdFromPrefs(): String
 }

@@ -11,9 +11,10 @@ import com.like.LikeButton
 import com.like.OnLikeListener
 
 class AddressAdapter(
-    private val onItemClick: (Int) -> (Unit),
+    private val onItemClicked: (Int) -> (Unit),
     private val onDeleteClick: (Address, Int) -> (Unit),
     private val onEditClick: (Address) -> (Unit),
+    private inline val onAddSelected: (Address) -> (Unit),
     private val addAsDefAddress: (Long, Int) -> (Unit),
 ) : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
 
@@ -47,11 +48,14 @@ class AddressAdapter(
             get() = addresses[bindingAdapterPosition]
 
         init {
-            binding.parent.setOnClickListener { onItemClick(bindingAdapterPosition) }
+//            binding.parent.setOnClickListener { onItemClicked(bindingAdapterPosition) }
             binding.imageDelete.setOnClickListener {
                 onDeleteClick(address, bindingAdapterPosition)
             }
             binding.imageEdit.setOnClickListener { onEditClick(address) }
+            binding.parent.setOnClickListener {
+                onAddSelected(address)
+            }
 
             binding.defBtn.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton?) {

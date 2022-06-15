@@ -38,4 +38,6 @@ interface RemoteSource {
     suspend fun getDraftOrder(draftId: Long): Response<Draft>
     suspend fun deleteDraftOrder(draftId: Long): Response<Unit>
     suspend fun updateCustomer(customer: Customer): Response<Customer>
+
+    suspend fun postOrder(order: Order):Response<Order>
 }

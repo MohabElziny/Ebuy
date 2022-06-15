@@ -17,6 +17,7 @@ class DraftsLineItemConverter {
             variantId = cartItem.productVariantID,
             quantity = cartItem.customerProductQuantity,
             name = cartItem.productName,
+            price = cartItem.productVariantPrice.toString()
         )
     }
 }
