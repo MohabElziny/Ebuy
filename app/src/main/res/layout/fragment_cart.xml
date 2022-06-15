@@ -28,35 +28,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constrain_tool_bar">
 
-            <TextView
-                android:id="@+id/text_all_items"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/_12sdp"
-                android:fontFamily="@font/poppins"
-                android:text="@string/all_items"
-                android:textSize="@dimen/fontHeading2"
-                app:layout_constraintBottom_toTopOf="@+id/recycler_cart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.049"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/text_brand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="@dimen/_6sdp"
-                android:fontFamily="@font/poppins"
-                android:text="@string/Brand"
-                android:textSize="@dimen/fontHeading2"
-                app:layout_constraintBottom_toTopOf="@+id/recycler_cart"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.912"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/text_all_items"
-                app:layout_constraintVertical_bias="0.0" />
-
             <include
                 android:id="@+id/emptyLayout"
                 layout="@layout/empty_layout"
@@ -67,17 +38,17 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@id/text_all_items" />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recycler_cart"
                 android:layout_width="match_parent"
-                android:layout_height="@dimen/_231sdp"
+                android:layout_height="@dimen/_200sdp"
                 android:layout_marginTop="@dimen/_6sdp"
                 app:layout_constraintBottom_toTopOf="@+id/card_layout_sum"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_all_items"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:listitem="@layout/recycler_row_product_cart" />
 
             <com.google.android.material.card.MaterialCardView
@@ -97,7 +68,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="@dimen/_12sdp"
-                    android:layout_marginBottom="@dimen/_49sdp"
+                    android:layout_marginBottom="@dimen/_12sdp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -108,7 +79,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/_6sdp"
-                        android:layout_marginTop="@dimen/_9sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
                         android:alpha="0.5"
                         android:fontFamily="@font/poppins"
                         android:text="@string/sub_total"
@@ -125,7 +96,6 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/_6sdp"
                         android:fontFamily="@font/poppins"
-                        android:text="123166$"
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontHeading4"
                         app:layout_constraintBottom_toBottomOf="@+id/textView"
@@ -133,13 +103,14 @@
                         app:layout_constraintHorizontal_bias="0.953"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@+id/textView"
-                        app:layout_constraintVertical_bias="0.0" />
+                        app:layout_constraintVertical_bias="0.0"
+                        tools:text="123166$" />
 
                     <TextView
                         android:id="@+id/textView6"
-                        android:layout_width="@dimen/_41sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:layout_marginTop="@dimen/_12sdp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_6sdp"
                         android:alpha="0.5"
                         android:fontFamily="@font/poppins"
                         android:text="@string/delivery"
@@ -168,11 +139,11 @@
 
                     <TextView
                         android:id="@+id/textView8"
-                        android:layout_width="@dimen/_41sdp"
-                        android:layout_height="@dimen/_18sdp"
-                        android:layout_marginTop="@dimen/_18sdp"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginTop="@dimen/_6sdp"
                         android:fontFamily="@font/poppins"
-                        android:text="@string/sub_total"
+                        android:text="@string/total"
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontHeading4"
                         app:layout_constraintBottom_toTopOf="@+id/btn_add_card"
@@ -185,22 +156,20 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/poppins"
-                        android:text="1665656$"
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontHeading4"
                         app:layout_constraintBottom_toBottomOf="@+id/textView8"
                         app:layout_constraintEnd_toEndOf="@+id/text_product_Delivery"
                         app:layout_constraintHorizontal_bias="1.0"
                         app:layout_constraintStart_toStartOf="@+id/text_product_Delivery"
-                        app:layout_constraintTop_toTopOf="@+id/textView8" />
+                        app:layout_constraintTop_toTopOf="@+id/textView8"
+                        tools:text="1665656$" />
 
                     <Button
                         android:id="@+id/btn_add_card"
                         android:layout_width="0dp"
                         android:layout_height="@dimen/_49sdp"
                         android:layout_margin="@dimen/_6sdp"
-                        android:layout_marginTop="@dimen/_6sdp"
-                        android:layout_marginBottom="@dimen/_18sdp"
                         android:backgroundTint="@color/Primary"
                         android:fontFamily="@font/poppins"
                         android:text="@string/checkout"
