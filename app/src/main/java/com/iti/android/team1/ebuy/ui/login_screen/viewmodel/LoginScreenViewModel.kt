@@ -1,6 +1,5 @@
 package com.iti.android.team1.ebuy.ui.login_screen.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,7 +10,10 @@ import com.iti.android.team1.ebuy.domain.savedItems.ISavedItemsUseCase
 import com.iti.android.team1.ebuy.domain.savedItems.SavedItemsUseCase
 import com.iti.android.team1.ebuy.model.data.repository.IRepository
 import com.iti.android.team1.ebuy.model.factories.NetworkResponse
-import com.iti.android.team1.ebuy.model.pojo.*
+import com.iti.android.team1.ebuy.model.pojo.CartItem
+import com.iti.android.team1.ebuy.model.pojo.Customer
+import com.iti.android.team1.ebuy.model.pojo.CustomerLogin
+import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
 import com.iti.android.team1.ebuy.util.AuthRegex
@@ -19,7 +21,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-private const val TAG = "LoginScreenViewModel"
 class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
     private val _loginState: MutableLiveData<AuthResult> =
@@ -94,26 +95,20 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
     private suspend fun setCartSizeToPrefs(result: NetworkResponse<List<CartItem>>) {
         when (result) {
-            is NetworkResponse.FailureResponse -> {
-                Log.d(TAG, "setCartSizeToPrefs: ${result.errorString}")
-            }
-            is NetworkResponse.SuccessResponse -> {
-                Log.d(TAG, "setCartSizeToPrefs: ${result.data.size}")
+            is NetworkResponse.FailureResponse -> Unit
+            is NetworkResponse.SuccessResponse ->
                 repository.setCartNo(result.data.size)
-            }
+
 
         }
     }
 
     private suspend fun setFavoriteSizeToPrefs(result: NetworkResponse<List<Product>>) {
         when (result) {
-            is NetworkResponse.FailureResponse -> {
-                Log.d(TAG, "setFavoriteSizeToPrefs: ${result.errorString}")
-            }
-            is NetworkResponse.SuccessResponse -> {
-                Log.d(TAG, "setFavoriteSizeToPrefs: ${result.data.size}")
+            is NetworkResponse.FailureResponse -> Unit
+            is NetworkResponse.SuccessResponse ->
                 repository.setFavoritesNo(result.data.size)
-            }
+
         }
     }
 }
