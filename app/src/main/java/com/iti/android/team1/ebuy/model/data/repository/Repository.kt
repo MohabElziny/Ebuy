@@ -196,13 +196,12 @@ class Repository(
         productId: Long,
         isFavorite: Boolean,
     ): NetworkResponse<DraftOrder> {
-        val favId = getFavoritesIdFromPrefs()
-        val cartId = getCartIdFromPrefs()
-        val draft = if (isFavorite) getDraft(favId.toLong()) else getDraft(cartId.toLong())
+        val draft = if (isFavorite) getDraft(getFavoritesIdFromPrefs().toLong()) else getDraft(
+            getCartIdFromPrefs().toLong())
         return if (draft?.draftOrder?.lineItems != null) {
             if (draft.draftOrder.lineItems.count() > 1) {
                 draft.apply {
-                    draftOrder.lineItems.removeAll {
+                    draftOrder.lineItems.removeIf {
                         it.productId == productId
                     }
                 }

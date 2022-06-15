@@ -109,5 +109,6 @@
     <string name="order_delivered">Order Delivered</string>
     <string name="ordere_delivered_subtitle">Your order has been delivered</string>
     <string name="fragment_track_order">Track order</string>
+    <string name="total">Total</string>
 
 </resources>

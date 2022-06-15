@@ -8,13 +8,11 @@ import com.bumptech.glide.Glide
 import com.iti.android.team1.ebuy.databinding.RecyclerRowProductCartBinding
 import com.iti.android.team1.ebuy.model.pojo.CartItem
 
-
 class CartProductAdapter(
     private val deleteItem: (Int) -> Unit,
     private val increaseQuantity: (Int) -> Unit,
     private val decreaseQuantity: (Int) -> Unit,
-
-    ) : RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder>() {
+) : RecyclerView.Adapter<CartProductAdapter.CartProductViewHolder>() {
 
     private var _cartItems: List<CartItem> = emptyList()
 
@@ -26,7 +24,7 @@ class CartProductAdapter(
 
     inner class CartProductViewHolder(var binding: RecyclerRowProductCartBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val cartItem get() = _cartItems[bindingAdapterPosition]
+        private val cartItem get() = _cartItems[bindingAdapterPosition]
 
         init {
             binding.deleteProduct.setOnClickListener {
@@ -42,7 +40,7 @@ class CartProductAdapter(
 
         fun bindCartProduct() {
             binding.textProductName.text = cartItem.productName
-            binding.textProductSalary.text = cartItem.productVariantPrice.toString().plus("EGB")
+            binding.textProductSalary.text = cartItem.productVariantPrice.toString().plus(" EGP")
             binding.textProductQuantity.text = cartItem.customerProductQuantity.toString()
             Glide.with(binding.root.context).load(cartItem.productImageURL).into(binding.imgProduct)
         }
@@ -57,12 +55,8 @@ class CartProductAdapter(
         return CartProductViewHolder(view)
     }
 
-    override fun onBindViewHolder(holder: CartProductViewHolder, position: Int) {
-        // to use binding to bind each view with its value
+    override fun onBindViewHolder(holder: CartProductViewHolder, position: Int) =
         holder.bindCartProduct()
-    }
 
-    override fun getItemCount(): Int {
-        return _cartItems.count()
-    }
+    override fun getItemCount(): Int = _cartItems.count()
 }

@@ -49,7 +49,7 @@
     <fragment
         android:id="@+id/creditFragment"
         android:name="com.iti.android.team1.ebuy.ui.credit_screen.view.CreditFragment"
-        android:label="CreditFragment"
+        android:label="@string/credit"
         tools:layout="@layout/fragment_payment" />
     <fragment
         android:id="@+id/navigation_cart"
@@ -63,7 +63,7 @@
     <fragment
         android:id="@+id/navigation_profile"
         android:name="com.iti.android.team1.ebuy.ui.profile_screen.view.ProfileFragment"
-        android:label="fragment_profile"
+        android:label="@string/profile"
         tools:layout="@layout/fragment_profile">
         <action
             android:id="@+id/action_navigation_profile_to_navigation_favorites"
@@ -87,7 +87,7 @@
     <fragment
         android:id="@+id/paymentFragment"
         android:name="com.iti.android.team1.ebuy.ui.payment_screen.view.PaymentFragment"
-        android:label="fragment_payment"
+        android:label="@string/payment"
         tools:layout="@layout/fragment_payment">
         <argument
             android:name="order"
