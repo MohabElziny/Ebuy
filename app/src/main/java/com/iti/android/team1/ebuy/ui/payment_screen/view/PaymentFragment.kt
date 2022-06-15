@@ -94,9 +94,8 @@ class PaymentFragment : Fragment() {
             onApprove =
             OnApprove { approval ->
                 approval.orderActions.capture { captureOrderResult ->
-                    ///TODO: ADD order to API
-                    Log.d(TAG, "OnApprove: $captureOrderResult")
-
+                    viewModel.postOrder(args.order)
+                    handlePostResponse()
                 }
 
             },
@@ -105,9 +104,7 @@ class PaymentFragment : Fragment() {
             },
             onError = OnError { errorInfo ->
                 ///TODO: Indicate the user that there's an error the order
-                Log.d(TAG, "onError: $errorInfo")
-                viewModel.postOrder(args.order)
-                handlePostResponse()
+
             }
 
         )
