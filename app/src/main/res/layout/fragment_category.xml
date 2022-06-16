@@ -66,14 +66,13 @@
 
             <Spinner
                 android:id="@+id/spinner"
-                android:layout_width="0dp"
+                android:layout_width="@dimen/_150sdp"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/cat_tv_name"
                 android:layout_marginStart="@dimen/_50sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:padding="@dimen/_5sdp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/cat_tv_name"
                 app:layout_constraintTop_toBottomOf="@id/category_recycler" />
 
 
@@ -81,12 +80,21 @@
                 android:id="@+id/product_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cat_tv_name"
-                tools:listitem="@layout/product_layout"
-                android:padding="@dimen/_5sdp"
-                />
+                tools:listitem="@layout/product_layout" />
+
+            <include
+                android:id="@+id/emptyProductLayout"
+                layout="@layout/empty_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/cat_tv_name" />
 
 
             <include
@@ -139,9 +147,10 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-         />
+        app:layout_constraintTop_toTopOf="parent" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

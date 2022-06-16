@@ -114,6 +114,7 @@
 
 
     <string-array name="sortProducts">
+        <item>Sort</item>
         <item>A to Z</item>
         <item>Z to A</item>
         <item>lowest to highest price</item>
