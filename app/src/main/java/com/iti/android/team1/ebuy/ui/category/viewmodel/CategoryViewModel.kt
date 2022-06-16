@@ -48,6 +48,7 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     }
 
     fun getAllProduct(category: Long = 0) {
+        _allProducts.value = ResultState.Loading
         viewModelScope.launch(Dispatchers.IO) {
             val result = async {
                 if (category == 0L) categoryProductsUseCase.getAllProducts()
@@ -71,10 +72,9 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
         }
     }
 
-    //home is default category
     fun getAllProductByType(categoryId: Long, productType: String) {
+        _allProducts.value = ResultState.Loading
         viewModelScope.launch(Dispatchers.IO) {
-            _allProducts.emit(ResultState.Loading)
             val result = async {
                 if (categoryId == 0L)
                     myRepo.getAllProductsByType(productType)
@@ -92,9 +92,10 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
             is NetworkResponse.SuccessResponse -> {
                 if (result.data.products.isNullOrEmpty()) {
                     _allProducts.emit(ResultState.EmptyResult)
-                } else
+                } else {
                     cachedProducts = result.data.products
-                _allProducts.emit(ResultState.Success(result.data))
+                    _allProducts.emit(ResultState.Success(result.data))
+                }
             }
         }
     }
@@ -167,7 +168,7 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
 
     private fun sortProductList(sortType: SortType) {
         val sortArray: List<Product> = cachedProducts ?: emptyList()
-
+        _allProducts.value = ResultState.Loading
         when (sortType) {
             SortType.A_to_Z -> {
                 sortArray.sortedBy { it.productName }
@@ -192,10 +193,10 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
 
     fun sortProducts(position: Int) {
         when (position) {
-            0 -> sortProductList(SortType.A_to_Z)
-            1 -> sortProductList(SortType.Z_to_A)
-            2 -> sortProductList(SortType.Lowest_to_highest_price)
-            3 -> sortProductList(SortType.Highest_to_lowest_price)
+            1 -> sortProductList(SortType.A_to_Z)
+            2 -> sortProductList(SortType.Z_to_A)
+            3 -> sortProductList(SortType.Lowest_to_highest_price)
+            4 -> sortProductList(SortType.Highest_to_lowest_price)
         }
     }
 
