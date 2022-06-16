@@ -22,8 +22,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:descendantFocusability="blocksDescendants"
-            android:paddingStart="@dimen/_5sdp"
-            android:paddingEnd="@dimen/_5sdp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +45,7 @@
                 android:id="@+id/category_recycler"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginStart="@dimen/_15sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cat_tv_discover" />
@@ -57,7 +55,7 @@
                 android:id="@+id/cat_tv_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_4sdp"
+                android:layout_marginStart="@dimen/_9sdp"
                 android:layout_marginBottom="@dimen/_6sdp"
                 android:textColor="@color/black"
                 android:textSize="@dimen/_17ssp"
@@ -71,8 +69,9 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_alignBaseline="@+id/cat_tv_name"
-                android:layout_marginStart="@dimen/_6sdp"
+                android:layout_marginStart="@dimen/_50sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
+                android:padding="@dimen/_5sdp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@+id/cat_tv_name"
                 app:layout_constraintTop_toBottomOf="@id/category_recycler" />
@@ -85,7 +84,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cat_tv_name"
-                tools:listitem="@layout/product_layout" />
+                tools:listitem="@layout/product_layout"
+                android:padding="@dimen/_5sdp"
+                />
 
 
             <include

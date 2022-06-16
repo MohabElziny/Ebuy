@@ -11,26 +11,25 @@
     android:foreground="?selectableItemBackground"
     app:cardCornerRadius="@dimen/_7sdp"
     app:cardElevation="@dimen/_2sdp"
-    app:cardUseCompatPadding="true"
-    android:layout_marginStart="@dimen/_10sdp"
-    android:layout_marginEnd="@dimen/_10sdp"
-    >
+    app:cardUseCompatPadding="true">
 
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_gravity="center"
         android:gravity="center"
-        android:padding="@dimen/_5sdp"
-        >
+        android:orientation="vertical"
+        android:padding="@dimen/_5sdp">
 
         <ImageView
             android:id="@+id/image"
             android:layout_width="@dimen/_100sdp"
             android:layout_height="@dimen/_85sdp"
             android:contentDescription="@string/product_image"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             tools:src="@drawable/shirt" />
 
         <TextView
@@ -38,38 +37,38 @@
             style="@style/heading3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
             android:layout_margin="@dimen/_4sdp"
             android:maxLines="3"
             android:minLines="3"
             android:textSize="@dimen/fontHeading6"
+            app:layout_constraintTop_toBottomOf="@+id/image"
             tools:text="T-shit" />
 
-        <RelativeLayout
-            android:layout_width="@dimen/_100sdp"
-            android:layout_height="@dimen/_23sdp">
 
-            <TextView
-                android:id="@+id/txtProductPrice"
-                style="@style/heading3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_marginStart="@dimen/_4sdp"
-                android:textSize="@dimen/fontHeading6"
-                android:textStyle="normal"
-                tools:text="100 EGP" />
+        <TextView
+            android:id="@+id/txtProductPrice"
+            style="@style/heading3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:textSize="@dimen/fontHeading6"
+            android:textStyle="normal"
+            android:layout_marginTop="@dimen/_2sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtProductName"
+            tools:text="100 EGP" />
 
-            <com.like.LikeButton
-                android:id="@+id/likeBtn"
-                android:layout_width="@dimen/_23sdp"
-                android:layout_height="@dimen/_23sdp"
-                android:layout_alignParentEnd="true"
-                app:icon_size="@dimen/_19sdp"
-                app:icon_type="heart"
-                app:like_drawable="@drawable/heart_on_b"
-                app:unlike_drawable="@drawable/heart_off_b" />
-        </RelativeLayout>
+        <com.like.LikeButton
+            android:id="@+id/likeBtn"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
+            app:icon_size="@dimen/_19sdp"
+            app:icon_type="heart"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtProductName"
+            app:like_drawable="@drawable/heart_on_b"
+            app:unlike_drawable="@drawable/heart_off_b"
+            />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.cardview.widget.CardView>

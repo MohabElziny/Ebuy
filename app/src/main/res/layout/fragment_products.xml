@@ -9,7 +9,9 @@
         android:id="@+id/productsRecycler"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/category_custom_rv_item" />
+        tools:listitem="@layout/product_layout"
+        android:padding="@dimen/_5sdp"
+        />
 
     <include
         android:id="@+id/shimmer"
