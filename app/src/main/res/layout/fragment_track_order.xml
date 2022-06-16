@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/backgroundColor"
+    android:padding="@dimen/_12sdp"
+    tools:context=".ui.track_order.view.TrackOrder">
+
+    <TextView
+        android:id="@+id/status_const"
+        style="@style/orderTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:paddingStart="@dimen/_16sdp"
+        android:text="@string/status"
+        app:layout_constraintEnd_toStartOf="@id/order_number_const"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/order_number_const"
+        style="@style/orderTextStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="@string/order_number_const"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/status_const"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txt_financial_status"
+        style="@style/fontBoldStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:paddingStart="@dimen/_24sdp"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintEnd_toEndOf="@id/status_const"
+        app:layout_constraintStart_toStartOf="@id/status_const"
+        app:layout_constraintTop_toBottomOf="@id/status_const"
+        tools:text="Paid" />
+
+    <TextView
+        android:id="@+id/txt_order_number"
+        style="@style/fontBoldStyle"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/poppins"
+        android:gravity="center"
+        android:textSize="@dimen/_11ssp"
+        app:layout_constraintEnd_toEndOf="@id/order_number_const"
+        app:layout_constraintStart_toStartOf="@id/order_number_const"
+        app:layout_constraintTop_toBottomOf="@id/order_number_const"
+        tools:text="#1048" />
+
+    <View
+        android:id="@+id/placed_order_status"
+        android:layout_width="@dimen/_14sdp"
+        android:layout_height="@dimen/_14sdp"
+        android:layout_marginStart="@dimen/_29sdp"
+        android:background="@drawable/shape_status_completed"
+        app:layout_constraintBottom_toBottomOf="@id/placed_order"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/placed_order" />
+
+    <include
+        android:id="@+id/placed_order"
+        layout="@layout/order_view_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_31sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/placed_order_status"
+        app:layout_constraintTop_toBottomOf="@id/txt_financial_status" />
+
+    <View
+        android:id="@+id/line_from_placing_to_shipping"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_marginBottom="@dimen/_3sdp"
+        android:background="@color/Primary"
+        app:layout_constraintBottom_toTopOf="@id/shipping_order_status"
+        app:layout_constraintEnd_toEndOf="@id/shipping_order_status"
+        app:layout_constraintStart_toStartOf="@id/shipping_order_status"
+        app:layout_constraintTop_toBottomOf="@id/placed_order_status" />
+
+    <View
+        android:id="@+id/shipping_order_status"
+        android:layout_width="@dimen/_14sdp"
+        android:layout_height="@dimen/_14sdp"
+        android:layout_marginStart="@dimen/_29sdp"
+        android:background="@drawable/shape_status_remaining"
+        app:layout_constraintBottom_toBottomOf="@id/shipping_order"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/shipping_order" />
+
+    <include
+        android:id="@+id/shipping_order"
+        layout="@layout/order_view_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_31sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/shipping_order_status"
+        app:layout_constraintTop_toBottomOf="@id/placed_order" />
+
+    <View
+        android:id="@+id/delivered_order_status"
+        android:layout_width="@dimen/_14sdp"
+        android:layout_height="@dimen/_14sdp"
+        android:layout_marginStart="@dimen/_29sdp"
+        android:background="@drawable/shape_status_remaining"
+        app:layout_constraintBottom_toBottomOf="@id/delivered_order"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/delivered_order" />
+
+    <include
+        android:id="@+id/delivered_order"
+        layout="@layout/order_view_layout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/_15sdp"
+        android:layout_marginTop="@dimen/_31sdp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/delivered_order_status"
+        app:layout_constraintTop_toBottomOf="@id/shipping_order" />
+
+    <View
+        android:id="@+id/line_from_shipping_to_deliver"
+        android:layout_width="2dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/_3sdp"
+        android:layout_marginBottom="@dimen/_3sdp"
+        android:background="@color/Disable"
+        app:layout_constraintBottom_toTopOf="@id/delivered_order_status"
+        app:layout_constraintEnd_toEndOf="@id/shipping_order_status"
+        app:layout_constraintStart_toStartOf="@id/shipping_order_status"
+        app:layout_constraintTop_toBottomOf="@id/shipping_order_status" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

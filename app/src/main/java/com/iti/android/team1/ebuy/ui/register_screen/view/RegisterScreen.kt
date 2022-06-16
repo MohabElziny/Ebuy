@@ -2,11 +2,9 @@ package com.iti.android.team1.ebuy.ui.register_screen.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -14,8 +12,8 @@ import com.iti.android.team1.ebuy.R
 import androidx.navigation.fragment.findNavController
 import com.iti.android.team1.ebuy.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentRegisterScreenBinding
-import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.repository.Repository
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
 import com.iti.android.team1.ebuy.model.pojo.CustomerRegister
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
 import com.iti.android.team1.ebuy.ui.register_screen.AuthResult

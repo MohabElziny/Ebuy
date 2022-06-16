@@ -6,8 +6,14 @@
         android:id="@+id/action_search"
         android:icon="@drawable/ic_search"
         android:title="@string/search"
-        app:showAsAction="ifRoom|collapseActionView"
-        app:actionViewClass="androidx.appcompat.widget.SearchView"/>
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="ifRoom|collapseActionView" />
+
+    <item
+        android:id="@+id/action_favorite"
+        android:icon="@drawable/ic_round_favorite_24"
+        android:title="@string/fav"
+        app:showAsAction="always" />
 
     <item
         android:id="@+id/action_settings"

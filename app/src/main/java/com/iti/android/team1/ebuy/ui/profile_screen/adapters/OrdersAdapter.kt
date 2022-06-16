@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.databinding.OrdersCardRowBinding
 import com.iti.android.team1.ebuy.model.pojo.Order
 
-class OrdersAdapter() :
+class OrdersAdapter(private val onClickOrderItem: (orderName: String, orderFinancialStatus: String, orderStatus: String) -> Unit) :
     RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>() {
     private var _orderList: List<Order> = emptyList()
 
@@ -23,7 +23,9 @@ class OrdersAdapter() :
 
         init {
             binding.ordersCard.setOnClickListener {
-                // will go
+                onClickOrderItem(order.name ?: "",
+                    order.financialStatus ?: "",
+                    order.orderStatus ?: "")
             }
         }
 

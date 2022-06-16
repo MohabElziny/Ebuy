@@ -1,14 +1,15 @@
-package com.iti.android.team1.ebuy.model.datasource.repository
+package com.iti.android.team1.ebuy.model.data.repository
 
-import com.iti.android.team1.ebuy.model.datasource.localsource.ILocalSource
-import com.iti.android.team1.ebuy.model.pojo.DraftsLineItemConverter
-import com.iti.android.team1.ebuy.model.datasource.remotesource.RemoteSource
-import com.iti.android.team1.ebuy.model.datasource.remotesource.RetrofitHelper
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.FailureResponse
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse.SuccessResponse
+import com.iti.android.team1.ebuy.model.data.localsource.ILocalSource
+import com.iti.android.team1.ebuy.model.data.remotesource.RemoteSource
+import com.iti.android.team1.ebuy.model.data.remotesource.RetrofitHelper
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse.FailureResponse
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse.SuccessResponse
 import com.iti.android.team1.ebuy.model.pojo.*
 import com.iti.android.team1.ebuy.util.Decoder
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
@@ -133,12 +134,14 @@ class Repository(
 
     override fun setAuthStateToPrefs(state: Boolean) = localSource.setAuthStateToPrefs(state)
 
-    override fun logOut() {
+    override suspend fun logOut() {
         localSource.apply {
             setAuthStateToPrefs(false)
             setUserIdToPrefs("")
             setCartIdToPrefs("")
             setFavoritesIdToPrefs("")
+            setCartNo(0)
+            setFavoritesNo(0)
         }
     }
 
@@ -153,14 +156,23 @@ class Repository(
         localSource.setCartIdToPrefs(encode(cartId))
     }
 
+    override fun getFavoritesNo() = localSource.getFavoritesNo()
+
+    override suspend fun setFavoritesNo(favoritesNo: Int) = localSource.setFavoritesNo(favoritesNo)
+
+    override fun getCartNo() = localSource.getCartNo()
+
+    override suspend fun setCartNo(cartNo: Int) = localSource.setCartNo(cartNo)
+
     private fun getFavoritesIdFromPrefs() = decode(localSource.getFavoritesIdFromPrefs())
 
-    private fun getCartIdFromPrefs() = decode(localSource.getCartIdFromPrefs())
+    override fun getCartIdFromPrefs() = decode(localSource.getCartIdFromPrefs())
 
     override suspend fun addFavorite(
         product: Product,
     ): NetworkResponse<DraftOrder> {
         val favoriteID = getFavoritesIdFromPrefs()
+        setFavoritesNo(getFavoritesNo().value + 1)
         return if (favoriteID.isEmpty()) {
             postDraftOrder(product, isFavorite = true)
         } else {
@@ -169,11 +181,13 @@ class Repository(
     }
 
     override suspend fun removeFromFavorite(productId: Long): NetworkResponse<DraftOrder> {
+        setFavoritesNo(getFavoritesNo().value - 1)
         return removeFavoriteOrCartItem(productId, true)
     }
 
     override suspend fun addCart(product: Product, quantity: Int): NetworkResponse<DraftOrder> {
         val cartId = getCartIdFromPrefs()
+        setCartNo(getCartNo().value + 1)
         return if (cartId.isEmpty()) {
             postDraftOrder(product, quantity, false)
         } else {
@@ -182,6 +196,7 @@ class Repository(
     }
 
     override suspend fun removeFromCart(productId: Long): NetworkResponse<DraftOrder> {
+        setCartNo(getCartNo().value - 1)
         return removeFavoriteOrCartItem(productId, false)
     }
 
@@ -189,13 +204,12 @@ class Repository(
         productId: Long,
         isFavorite: Boolean,
     ): NetworkResponse<DraftOrder> {
-        val favId = getFavoritesIdFromPrefs()
-        val cartId = getCartIdFromPrefs()
-        val draft = if (isFavorite) getDraft(favId.toLong()) else getDraft(cartId.toLong())
+        val draft = if (isFavorite) getDraft(getFavoritesIdFromPrefs().toLong()) else getDraft(
+            getCartIdFromPrefs().toLong())
         return if (draft?.draftOrder?.lineItems != null) {
             if (draft.draftOrder.lineItems.count() > 1) {
                 draft.apply {
-                    draftOrder.lineItems.removeAll {
+                    draftOrder.lineItems.removeIf {
                         it.productId == productId
                     }
                 }
@@ -208,7 +222,7 @@ class Repository(
         }
     }
 
-    private suspend fun deleteLastDraftItem(
+     override suspend fun deleteLastDraftItem(
         isFavorite: Boolean,
         draftOrderId: Long,
     ): NetworkResponse<DraftOrder> {
@@ -315,6 +329,16 @@ class Repository(
 
     override suspend fun getCartItems(): NetworkResponse<Draft> =
         getItemsData(getCartIdFromPrefs())
+
+    override suspend fun postOrder(order: Order): NetworkResponse<Order> {
+        order.customer = Customer(id = getUserIdFromPrefs())
+        val response = remoteSource.postOrder(order)
+        return if (response.isSuccessful) {
+            SuccessResponse(response.body() ?: Order())
+        } else {
+            parseError(response.errorBody())
+        }
+    }
 
     private suspend fun getItemsData(id: String): NetworkResponse<Draft> {
         return if (id.isEmpty()) {

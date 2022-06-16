@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.model.datasource.remotesource
+package com.iti.android.team1.ebuy.model.data.remotesource
 
 import com.iti.android.team1.ebuy.model.pojo.*
 import retrofit2.Response
@@ -169,4 +169,10 @@ interface RetrofitService {
         @Body customer: CustomerRegisterAPI,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Customer>
+
+    @POST("orders.json")
+    suspend fun postOrder(
+        @Body orderPost: OrderPost,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ): Response<Order>
 }

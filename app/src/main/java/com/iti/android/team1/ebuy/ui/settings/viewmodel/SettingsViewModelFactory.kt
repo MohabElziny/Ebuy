@@ -2,7 +2,7 @@ package com.iti.android.team1.ebuy.ui.settings.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
+import com.iti.android.team1.ebuy.model.data.repository.IRepository
 
 class SettingsViewModelFactory(private val repo: IRepository) : ViewModelProvider.Factory {
 

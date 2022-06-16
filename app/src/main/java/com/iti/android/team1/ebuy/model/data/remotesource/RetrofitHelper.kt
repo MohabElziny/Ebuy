@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.model.datasource.remotesource
+package com.iti.android.team1.ebuy.model.data.remotesource
 
 import com.iti.android.team1.ebuy.model.pojo.*
 import retrofit2.Response
@@ -110,5 +110,9 @@ object RetrofitHelper : RemoteSource {
     override suspend fun updateCustomer(customer: Customer): Response<Customer> {
         val customerId = customer.id ?: 0
         return retrofitService.updateCustomer(customerId, CustomerRegisterAPI(customer))
+    }
+
+    override suspend fun postOrder(order: Order): Response<Order> {
+        return retrofitService.postOrder(OrderPost(order))
     }
 }

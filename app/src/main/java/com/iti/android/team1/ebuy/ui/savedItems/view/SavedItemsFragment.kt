@@ -12,9 +12,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentSavedItemsBinding
-import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.repository.Repository
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
+import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.ui.savedItems.adapter.SavedRecyclerAdapter
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModel
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModelFactory
@@ -59,10 +59,11 @@ class SavedItemsFragment : Fragment() {
                     is ResultState.Error -> Toast.makeText(requireContext(),
                         response.errorString, Toast.LENGTH_SHORT).show()
                     ResultState.Loading -> {
-                       // showShimmer()
+                        showShimmer()
                     }
                     is ResultState.Success -> {
                         binding.emptyLayout.root.visibility = View.GONE
+                        hideShimmer()
                         binding.recyclerView.visibility = View.VISIBLE
                         favoritesAdapter.setAdapterList(response.data)
                     }

@@ -10,11 +10,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.R
-import com.iti.android.team1.ebuy.databinding.FragmentProfileBinding
 import com.iti.android.team1.ebuy.activities.main.view.MainActivity
-import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.repository.Repository
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.databinding.FragmentProfileBinding
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
+import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.ui.profile_screen.adapters.OrdersAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.adapters.ProfileFavoritesAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileVMFactory
@@ -41,14 +41,12 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setHasOptionsMenu(true)
         initOrdersRecyclerView()
         initFavoritesRecyclerView()
         handleCustomerInfo()
         handleCustomerOrders()
         handleCustomerFavProducts()
         binding.btnMoreFavorites.setOnClickListener {
-            (activity as MainActivity).profileNavigation()
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_favorites)
         }
         binding.btnMoreOrders.setOnClickListener {
@@ -56,24 +54,7 @@ class ProfileFragment : Fragment() {
         }
     }
 
-    override fun onStop() {
-        super.onStop()
-        (activity as MainActivity).setDefault()
-    }
 
-    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
-        super.onCreateOptionsMenu(menu, inflater)
-        inflater.inflate(R.menu.profile_top_app_bar, menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.favIcon -> findNavController().navigate(
-                ProfileFragmentDirections.actionNavigationProfileToNavigationFavorites()
-            )
-        }
-        return super.onOptionsItemSelected(item)
-    }
 
     private var onItemClick: (Long) -> Unit = { productId ->
         findNavController().navigate(
@@ -161,7 +142,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initOrdersRecyclerView() {
-        ordersAdapter = OrdersAdapter()
+        ordersAdapter = OrdersAdapter(onClickOrderItem)
         binding.ordersRecyclerView.apply {
             layoutManager = LinearLayoutManager(
                 requireContext(),
@@ -169,6 +150,13 @@ class ProfileFragment : Fragment() {
                 false)
             adapter = ordersAdapter
         }
+    }
+
+    private val onClickOrderItem: (orderName: String, orderFinancialStatus: String, orderStatus: String)
+    -> Unit = { orderName, orderFinancialStatus, orderStatus ->
+        findNavController().navigate(ProfileFragmentDirections.actionNavigationProfileToTrackOrder(
+            orderFinancialStatus, orderName, orderStatus
+        ))
     }
 
 }

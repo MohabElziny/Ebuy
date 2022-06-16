@@ -1,11 +1,7 @@
 package com.iti.android.team1.ebuy.domain
 
-import androidx.lifecycle.MutableLiveData
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.DraftsLineItems
-import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
-import com.iti.android.team1.ebuy.model.pojo.LineItems
 import com.iti.android.team1.ebuy.model.pojo.Products
 
 fun productsResponse(

@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.model.datasource.remotesource
+package com.iti.android.team1.ebuy.model.data.remotesource
 
 import retrofit2.Response
 import com.iti.android.team1.ebuy.model.pojo.*
@@ -38,4 +38,6 @@ interface RemoteSource {
     suspend fun getDraftOrder(draftId: Long): Response<Draft>
     suspend fun deleteDraftOrder(draftId: Long): Response<Unit>
     suspend fun updateCustomer(customer: Customer): Response<Customer>
+
+    suspend fun postOrder(order: Order):Response<Order>
 }
