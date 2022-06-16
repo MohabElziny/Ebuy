@@ -116,7 +116,7 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
             lineItems.add(DraftsLineItemConverter.convertToLineItem(it))
         }
         val orderMade = Order(lineItems = lineItems as ArrayList<LineItems>,
-            currentTotalPrice = "${currentTotalPrice + DELIVER}")
+            currentTotalPrice = "$currentTotalPrice")
 
         _oder.postValue(orderMade)
 
