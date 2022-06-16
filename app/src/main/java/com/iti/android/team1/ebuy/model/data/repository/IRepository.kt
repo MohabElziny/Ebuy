@@ -75,10 +75,5 @@ interface IRepository {
         order: Order,
     ): NetworkResponse<Order>
 
-    suspend fun deleteLastDraftItem(
-        isFavorite: Boolean,
-        draftOrderId: Long,
-    ): NetworkResponse<DraftOrder>
-
     fun getCartIdFromPrefs(): String
 }

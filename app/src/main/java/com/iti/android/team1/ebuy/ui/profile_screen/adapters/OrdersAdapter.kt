@@ -30,7 +30,7 @@ class OrdersAdapter(private val onClickOrderItem: (orderName: String, orderFinan
         }
 
         fun bindOrderCard() {
-            binding.txtOrderPrice.text = order.totalPrice ?: ""
+            binding.txtOrderPrice.text = order.currentTotalPrice.plus(" EGP") ?: ""
             binding.txtOrderDate.text = order.createdAt ?: ""
             binding.txtOrderNumber.text = "${order.orderNumber ?: 0}"
             binding.txtOrderStatus.text = order.financialStatus ?: ""
