@@ -2,7 +2,8 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
+    android:id="@+id/parent"
+    android:layout_width="@dimen/_150sdp"
     android:layout_height="wrap_content"
     app:cardCornerRadius="@dimen/_7sdp"
     app:cardElevation="@dimen/_7sdp"
@@ -32,14 +33,15 @@
             android:layout_marginEnd="@dimen/_6sdp"
             android:layout_marginBottom="@dimen/_6sdp" />
 
-        <ImageView
-            android:id="@+id/cat_custom_img_favo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <com.like.LikeButton
+            android:id="@+id/likeBtn"
+            android:layout_width="@dimen/_23sdp"
+            android:layout_height="@dimen/_23sdp"
             android:layout_below="@+id/image"
-            android:layout_alignEnd="@+id/image"
-            android:backgroundTint="@color/Primary"
-            android:src="@drawable/empty_heart_image" />
+            app:icon_size="@dimen/_19sdp"
+            app:icon_type="heart"
+            app:like_drawable="@drawable/heart_on_b"
+            app:unlike_drawable="@drawable/heart_off_b" />
 
         <TextView
             android:id="@+id/txtProductPrice"

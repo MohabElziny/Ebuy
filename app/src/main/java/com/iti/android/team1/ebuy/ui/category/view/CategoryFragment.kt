@@ -123,10 +123,11 @@ class CategoryFragment : Fragment() {
                 result.data.categoriesList.let {
                     categoriesAdapter.setList(it)
                     binding.catTvName.text = it[0].categoryTitle
-                    defaultCategoryId = it[0].categoryId
                 }
             }
-            is ResultState.EmptyResult -> {}
+            is ResultState.EmptyResult -> {
+                binding.emptyLayout.root.visibility = View.VISIBLE
+            }
             is ResultState.Error -> {}
         }
     }
@@ -135,24 +136,26 @@ class CategoryFragment : Fragment() {
         when (result) {
             is ResultState.Loading -> {
                 startShimmer()
+                binding.emptyProductLayout.root.visibility = View.GONE
             }
             is ResultState.Success -> {
                 stopShimmer()
                 binding.emptyLayout.root.visibility = View.GONE
+                binding.productRecycler.visibility = View.VISIBLE
                 result.data.products?.let { categoryProductsAdapter.setList(it) }
+                binding.emptyProductLayout.root.visibility = View.GONE
             }
             is ResultState.EmptyResult -> {
                 stopShimmer()
-                binding.emptyLayout.root.visibility = View.VISIBLE
+                binding.emptyProductLayout.root.visibility = View.VISIBLE
                 binding.productRecycler.visibility = View.GONE
-                binding.emptyLayout.txt.text = getString(R.string.empty_products)
+                binding.emptyProductLayout.txt.text = getString(R.string.empty_products)
             }
             is ResultState.Error -> {}
         }
     }
 
     private fun initCategoriesRecyclerView() {
-
         categoriesAdapter = CategoriesAdapter(onCategoryBtnClick)
         binding.categoryRecycler.apply {
             this.adapter = categoriesAdapter
@@ -187,17 +190,14 @@ class CategoryFragment : Fragment() {
         binding.productRecycler.visibility = View.GONE
         binding.shimmer1.root.apply {
             visibility = View.VISIBLE
-            startShimmer()
-
+            this.startShimmer()
         }
     }
 
     private fun stopShimmer() {
-
-        binding.productRecycler.visibility = View.VISIBLE
         binding.shimmer1.root.apply {
-            stopShimmer()
-            visibility = View.GONE
+            this.stopShimmer()
+            this.visibility = View.GONE
         }
     }
 
@@ -264,8 +264,7 @@ class CategoryFragment : Fragment() {
 
     private fun initSpinner() {
         binding.spinner.apply {
-            adapter = ArrayAdapter(requireContext(),
-                android.R.layout.simple_list_item_1,
+            adapter = ArrayAdapter(requireContext(), android.R.layout.simple_list_item_1,
                 resources.getStringArray(R.array.sortProducts))
         }
 
@@ -282,6 +281,6 @@ class CategoryFragment : Fragment() {
 
     override fun onStart() {
         super.onStart()
-        binding.spinner.setSelection(0)
+        binding.spinner.setSelection(0, true)
     }
 }
