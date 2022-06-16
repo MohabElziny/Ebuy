@@ -66,7 +66,7 @@ class ProductsRecyclerAdapter(
                 .into(productLayoutBinding.image)
             productLayoutBinding.txtProductName.text = product.productName
             productLayoutBinding.txtProductPrice.text =
-                (product.productVariants?.get(0)?.productVariantPrice ?: 0).toString()
+                (product.productVariants?.get(0)?.productVariantPrice ?: 0).toString().plus(" EGP")
             productLayoutBinding.likeBtn.isLiked = product.isFavorite
         }
     }

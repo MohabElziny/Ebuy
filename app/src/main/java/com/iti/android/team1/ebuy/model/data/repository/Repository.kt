@@ -8,8 +8,6 @@ import com.iti.android.team1.ebuy.model.factories.NetworkResponse.FailureRespons
 import com.iti.android.team1.ebuy.model.factories.NetworkResponse.SuccessResponse
 import com.iti.android.team1.ebuy.model.pojo.*
 import com.iti.android.team1.ebuy.util.Decoder
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
@@ -222,19 +220,31 @@ class Repository(
         }
     }
 
-     override suspend fun deleteLastDraftItem(
+    private suspend fun deleteLastDraftItem(
         isFavorite: Boolean,
         draftOrderId: Long,
     ): NetworkResponse<DraftOrder> {
         val deleteResponse = deleteDraftOrder(draftOrderId)
         return if (deleteResponse.isSuccessful) {
+            resetFavOrCartInSharedPref(isFavorite)
             val customer = getCustomer()
             if (isFavorite) customer.favoriteID = "" else customer.cartID = ""
             updateCustomer(customer)
-            if (isFavorite) setFavoritesIdToPrefs("") else setCartIdToPrefs("")
             SuccessResponse(DraftOrder())
         } else {
             parseError(deleteResponse.errorBody())
+        }
+    }
+
+    private suspend fun resetFavOrCartInSharedPref(isFavorite: Boolean) {
+        localSource.apply {
+            if (isFavorite) {
+                setFavoritesIdToPrefs("")
+                setFavoritesNo(0)
+            } else {
+                setCartIdToPrefs("")
+                setCartNo(0)
+            }
         }
     }
 
@@ -334,6 +344,7 @@ class Repository(
         order.customer = Customer(id = getUserIdFromPrefs())
         val response = remoteSource.postOrder(order)
         return if (response.isSuccessful) {
+            deleteLastDraftItem(false, getCartIdFromPrefs().toLong())
             SuccessResponse(response.body() ?: Order())
         } else {
             parseError(response.errorBody())

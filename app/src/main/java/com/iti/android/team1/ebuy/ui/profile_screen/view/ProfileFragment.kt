@@ -50,7 +50,7 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_favorites)
         }
         binding.btnMoreOrders.setOnClickListener {
-
+            findNavController().navigate(R.id.action_navigation_profile_to_ordersFragment)
         }
     }
 

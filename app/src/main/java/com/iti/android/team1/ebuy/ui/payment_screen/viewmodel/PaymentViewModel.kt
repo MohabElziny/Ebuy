@@ -23,12 +23,6 @@ class PaymentViewModel(private val myRepo: IRepository) : ViewModel() {
         }
     }
 
-    fun removeCartItems() {
-        viewModelScope.launch {
-            myRepo.deleteLastDraftItem(false, myRepo.getCartIdFromPrefs().toLong())
-        }
-    }
-
     private fun handlePostResponse(response: NetworkResponse<Order>) {
         when (response) {
             is NetworkResponse.FailureResponse -> {

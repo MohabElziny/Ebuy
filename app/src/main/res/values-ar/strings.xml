@@ -110,5 +110,8 @@
     <string name="ordere_delivered_subtitle">Your order has been delivered</string>
     <string name="fragment_track_order">Track order</string>
     <string name="total">Total</string>
+    <string name="cancel_order">Order canceled</string>
+    <string name="pay_cash">Pay Cash</string>
+    <string name="yes">Yes</string>
 
 </resources>

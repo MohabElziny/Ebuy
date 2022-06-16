@@ -1,22 +1,25 @@
 package com.iti.android.team1.ebuy.ui.payment_screen.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
+import com.iti.android.team1.ebuy.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentPaymentBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
 import com.iti.android.team1.ebuy.ui.payment_screen.viewmodel.PaymentViewModel
 import com.iti.android.team1.ebuy.ui.payment_screen.viewmodel.PaymentViewModelFactory
+import com.iti.android.team1.ebuy.ui.product_details_screen.view.ProductsDetailsFragmentDirections
 import com.iti.android.team1.ebuy.util.PAYPAL_CLIENT_ID
 import com.paypal.checkout.PayPalCheckout
 import com.paypal.checkout.approve.OnApprove
@@ -33,8 +36,6 @@ import com.paypal.checkout.order.Amount
 import com.paypal.checkout.order.AppContext
 import com.paypal.checkout.order.Order
 import com.paypal.checkout.order.PurchaseUnit
-
-private const val TAG = "PaymentFragment"
 
 class PaymentFragment : Fragment() {
 
@@ -85,7 +86,8 @@ class PaymentFragment : Fragment() {
                             PurchaseUnit(
                                 amount =
                                 Amount(currencyCode = CurrencyCode.USD,
-                                    value = args.order.totalPrice.toString())
+                                    value = (args.order.currentTotalPrice!!.toLong() * 0.053).toLong()
+                                        .toString())
                             )
                         )
                     )
@@ -93,32 +95,55 @@ class PaymentFragment : Fragment() {
             },
             onApprove =
             OnApprove { approval ->
-                approval.orderActions.capture { captureOrderResult ->
+                approval.orderActions.capture {
+                    showProgressbar()
                     viewModel.postOrder(args.order)
                     handlePostResponse()
                 }
 
             },
             onCancel = OnCancel {
-                ///TODO: Indicate the user that he has canceled the order
+                Toast.makeText(requireContext(),
+                    getString(R.string.cancel_order),
+                    Toast.LENGTH_SHORT).show()
             },
             onError = OnError { errorInfo ->
-                ///TODO: Indicate the user that there's an error the order
-
+                Toast.makeText(requireContext(), errorInfo.reason, Toast.LENGTH_SHORT).show()
             }
 
         )
+
+        binding.payCashButton.setOnClickListener {
+            showAlertDialog()
+        }
+    }
+
+    private fun showAlertDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.pay_cash))
+            .setMessage("Are you sure you want to place The order?")
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.yes)) { dialog, _ ->
+                dialog.dismiss()
+                showProgressbar()
+                args.order.financialStatus = "pending"
+                viewModel.postOrder(args.order)
+                handlePostResponse()
+            }
+            .show()
     }
 
     private fun handlePostResponse() {
         lifecycleScope.launchWhenStarted {
             viewModel.requestSucceed.observe(viewLifecycleOwner) { result ->
+                hideProgressbar()
                 if (result) {
                     Snackbar.make(binding.root,
                         getString(R.string.order_done),
                         Snackbar.LENGTH_SHORT)
                         .show()
-                    viewModel.removeCartItems()
                     findNavController().navigate(R.id.action_paymentFragment_to_navigation_home)
 
                 } else {
@@ -129,6 +154,26 @@ class PaymentFragment : Fragment() {
                 }
 
             }
+        }
+    }
+
+    private fun showProgressbar() {
+        binding.apply {
+            payPalButton.isClickable = false
+            payPalButton.isFocusable = false
+            payCashButton.isClickable = false
+            payCashButton.isFocusable = false
+            progressBar.visibility = View.VISIBLE
+        }
+    }
+
+    private fun hideProgressbar() {
+        binding.apply {
+            payPalButton.isClickable = true
+            payPalButton.isFocusable = true
+            payCashButton.isClickable = true
+            payCashButton.isFocusable = true
+            progressBar.visibility = View.GONE
         }
     }
 }

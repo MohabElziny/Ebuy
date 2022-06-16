@@ -56,9 +56,9 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
                 cartItemList = response.data.toMutableList()
                 if (response.data.isNotEmpty()) {
                     _allCartItems.postValue(ResultState.Success(cartItemList))
-                   viewModelScope.launch(Dispatchers.IO) {
-                       updateCosts()
-                   }
+                    viewModelScope.launch(Dispatchers.IO) {
+                        updateCosts()
+                    }
                 } else {
                     _allCartItems.postValue(ResultState.EmptyResult)
                 }
@@ -84,12 +84,13 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
     private fun updateItemList() {
         viewModelScope.launch(Dispatchers.Main) {
             if (cartItemList.isNotEmpty()) {
-              updateCosts()
+                updateCosts()
             } else
                 _allCartItems.postValue(ResultState.EmptyResult)
         }
     }
-    private suspend fun updateCosts(){
+
+    private suspend fun updateCosts() {
         val sum = cartItemList.sumOf {
             it.productVariantPrice * it.customerProductQuantity
         }.toLong()
@@ -98,7 +99,7 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
         _total.emit(sum + DELIVER)
     }
 
-     fun makeOrder() {
+    fun makeOrder() {
         viewModelScope.launch(Dispatchers.Default) {
             total.collect {
                 makeOrderRequest(cartItemList, it)
@@ -106,7 +107,7 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
         }
     }
 
-    private  fun makeOrderRequest(
+    private fun makeOrderRequest(
         cartItemList: MutableList<CartItem>,
         currentTotalPrice: Long,
     ) {
@@ -115,7 +116,7 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
             lineItems.add(DraftsLineItemConverter.convertToLineItem(it))
         }
         val orderMade = Order(lineItems = lineItems as ArrayList<LineItems>,
-            currentTotalPrice = "$currentTotalPrice")
+            currentTotalPrice = "${currentTotalPrice + DELIVER}")
 
         _oder.postValue(orderMade)
 

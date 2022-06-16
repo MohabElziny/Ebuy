@@ -127,8 +127,12 @@ class CartFragment : Fragment() {
                         handleEmptyData()
                         cartProductAdapter.setCartItems(emptyList())
                     }
-                    is ResultState.Error -> Toast.makeText(requireContext(),
+                    is ResultState.Error -> {
+                        hideShimmer()
+                        handleEmptyData()
+                        Toast.makeText(requireContext(),
                         result.errorString, Toast.LENGTH_SHORT).show()
+                    }
                     ResultState.Loading -> {
                         showShimmer()
                     }

@@ -86,6 +86,13 @@
         <action
             android:id="@+id/action_navigation_profile_to_trackOrder"
             app:destination="@id/trackOrder" />
+        <action
+            android:id="@+id/action_navigation_profile_to_ordersFragment"
+            app:destination="@id/ordersFragment"
+            app:enterAnim="@anim/fade_in"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/fade_out" />
     </fragment>
     <fragment
         android:id="@+id/navigation_favorites"
