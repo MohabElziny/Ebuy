@@ -11,8 +11,8 @@ import androidx.navigation.fragment.findNavController
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.view.AuthActivity
 import com.iti.android.team1.ebuy.databinding.FragmentSettingsBinding
-import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.repository.Repository
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
 import com.iti.android.team1.ebuy.ui.settings.viewmodel.SettingsViewModel
 import com.iti.android.team1.ebuy.ui.settings.viewmodel.SettingsViewModelFactory
 

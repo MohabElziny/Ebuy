@@ -9,13 +9,14 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentAddressesBinding
-import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.repository.Repository
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
+import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Address
 import com.iti.android.team1.ebuy.ui.all_addresses.adapters.AddressAdapter
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModel
@@ -26,6 +27,7 @@ class AddressesFragment : Fragment() {
 
     private lateinit var binding: FragmentAddressesBinding
     private lateinit var addressesAdapter: AddressAdapter
+    private var destinationID = 0
     private var position: Int? = null
     private val viewModel: AddressesViewModel by viewModels {
         AddressesViewModelFactory(Repository(LocalSource(requireContext())))
@@ -45,14 +47,42 @@ class AddressesFragment : Fragment() {
                 .actionAddressesFragmentToAddAddressFragment(address = Address(),
                     title = getString(R.string.add_address_title)))
         }
-        addressesAdapter = AddressAdapter(onItemClick, onDelete, onEdit)
+        addressesAdapter = AddressAdapter(onItemClick, onDelete, onEdit, onAddSelected,addAddressAsDef)
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = addressesAdapter
         }
         fetchAddresses()
         fetchDeletedData()
+        fetchAddressDefChanges()
         viewModel.getAllAddresses()
+    }
+
+    private fun fetchAddressDefChanges() {
+        viewModel.addressDefState.observe(viewLifecycleOwner) {
+            when (it) {
+                ResultState.EmptyResult -> {
+                    binding.progress.visibility = View.GONE
+                    addressesAdapter.changeDefaultAddress(position ?: 0)
+                }
+                is ResultState.Error -> {
+                    binding.progress.visibility = View.GONE
+                    Snackbar.make(requireView(), it.errorString, Snackbar.LENGTH_SHORT).show()
+                }
+                ResultState.Loading -> binding.progress.visibility = View.VISIBLE
+            }
+        }
+    }
+
+    private fun checkDestination() {
+        val args by navArgs<AddressesFragmentArgs>()
+        if (args.destination == 1)
+            destinationID = 1
+    }
+
+    override fun onResume() {
+        super.onResume()
+        checkDestination()
     }
 
     private fun fetchAddresses() {
@@ -117,6 +147,14 @@ class AddressesFragment : Fragment() {
         }
     }
 
+    private val onAddSelected: (Address) -> Unit = {
+        if (destinationID == 1) {
+            // come from check Screen
+            val action = AddressesFragmentDirections.actionAddressesFragmentToCartFragment(it,1)
+            findNavController().navigate(action)
+            destinationID = 0
+        }
+    }
     private val onItemClick: (Int) -> (Unit) = { }
 
     private val onDelete: (Address, Int) -> (Unit) = { address, position ->
@@ -134,5 +172,10 @@ class AddressesFragment : Fragment() {
         findNavController().navigate(AddressesFragmentDirections
             .actionAddressesFragmentToAddAddressFragment(address,
                 title = getString(R.string.edit_address_title)))
+    }
+
+    private val addAddressAsDef: (Long, Int) -> (Unit) = { addressId, position ->
+        this.position = position
+        viewModel.setAddressAsDef(addressId)
     }
 }

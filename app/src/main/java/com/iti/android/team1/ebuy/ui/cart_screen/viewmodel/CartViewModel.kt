@@ -3,9 +3,9 @@ package com.iti.android.team1.ebuy.ui.cart_screen.viewmodel
 import androidx.lifecycle.*
 import com.iti.android.team1.ebuy.domain.cart.IProductsInCartUseCase
 import com.iti.android.team1.ebuy.domain.cart.ProductsInCartUseCase
-import com.iti.android.team1.ebuy.model.datasource.repository.IRepository
-import com.iti.android.team1.ebuy.model.networkresponse.NetworkResponse
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.data.repository.IRepository
+import com.iti.android.team1.ebuy.model.factories.NetworkResponse
+import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -34,8 +34,8 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
     private val _total = MutableStateFlow(0L)
     val total = _total.asStateFlow()
 
-    private val _oder = MutableStateFlow<Order>(Order())
-    val order = _oder.asStateFlow()
+    private val _oder = MutableLiveData<Order>()
+    val order = _oder as LiveData<Order>
     fun getAllCartItems() {
         viewModelScope.launch(Dispatchers.IO) {
             val res = async {
@@ -106,7 +106,7 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
         }
     }
 
-    private suspend fun makeOrderRequest(
+    private  fun makeOrderRequest(
         cartItemList: MutableList<CartItem>,
         currentTotalPrice: Long,
     ) {
@@ -114,8 +114,10 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
         cartItemList.forEach {
             lineItems.add(DraftsLineItemConverter.convertToLineItem(it))
         }
-        _oder.emit(Order(lineItems = lineItems as ArrayList<LineItems>,
-            currentTotalPrice = "$currentTotalPrice"))
+        val orderMade = Order(lineItems = lineItems as ArrayList<LineItems>,
+            currentTotalPrice = "$currentTotalPrice")
+
+        _oder.postValue(orderMade)
 
     }
 

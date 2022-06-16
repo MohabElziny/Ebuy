@@ -12,10 +12,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
+import com.iti.android.team1.ebuy.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentProductsDetailsBinding
-import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.repository.Repository
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
+import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.ui.product_details_screen.adapter.ProductPagerAdapter
 import com.iti.android.team1.ebuy.ui.product_details_screen.dialog.AddToCartDialog
@@ -162,6 +163,7 @@ class ProductsDetailsFragment : Fragment() {
             }
             .setPositiveButton(getString(R.string.go_to_cart)) { dialog, _ ->
                 dialog.dismiss()
+                (activity as MainActivity).profileNavigation()
                 findNavController().navigate(
                     ProductsDetailsFragmentDirections.actionProductsDetailsFragmentToCartFragment()
                 )
@@ -211,6 +213,12 @@ class ProductsDetailsFragment : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as MainActivity).setDefault()
+
     }
 
 }

@@ -8,20 +8,27 @@ class OrderAPI {
     @SerializedName("orders")
     var orders: ArrayList<Order> = arrayListOf()
 }
+
+data class OrderPost(
+    var order: Order,
+)
+
 @Parcelize
 data class Money(
 
     @SerializedName("amount") var amount: String? = null,
     @SerializedName("currency_code") var currencyCode: String? = null,
 
-    ):Parcelable
+    ) : Parcelable
+
 @Parcelize
 data class PriceSet(
 
     @SerializedName("shop_money") var shopMoney: Money? = Money(),
     @SerializedName("presentment_money") var presentmentMoney: Money? = Money(),
 
-    ):Parcelable
+    ) : Parcelable
+
 @Parcelize
 data class BillingAddress(
 
@@ -41,7 +48,7 @@ data class BillingAddress(
     @SerializedName("country_code") var countryCode: String? = null,
     @SerializedName("province_code") var provinceCode: String? = null,
 
-    ):Parcelable
+    ) : Parcelable
 
 data class EmailMarketingConsent(
 
@@ -50,6 +57,7 @@ data class EmailMarketingConsent(
     @SerializedName("consent_updated_at") var consentUpdatedAt: String? = null,
 
     )
+
 @Parcelize
 data class LineItems(
 
@@ -81,7 +89,8 @@ data class LineItems(
     @SerializedName("duties") var duties: ArrayList<String> = arrayListOf(),
     @SerializedName("discount_allocations") var discountAllocations: ArrayList<String> = arrayListOf(),
 
-    ):Parcelable
+    ) : Parcelable
+
 @Parcelize
 data class ShippingAddress(
 
@@ -101,9 +110,10 @@ data class ShippingAddress(
     @SerializedName("country_code") var countryCode: String? = null,
     @SerializedName("province_code") var provinceCode: String? = null,
 
-    ):Parcelable
+    ) : Parcelable
+
 @Parcelize
-data class Order (
+data class Order(
 
     @SerializedName("id") var id: Long? = null,
     @SerializedName("admin_graphql_api_id") var adminGraphqlApiId: String? = null,
@@ -141,7 +151,7 @@ data class Order (
     @SerializedName("landing_site_ref") var landingSiteRef: String? = null,
     @SerializedName("location_id") var locationId: String? = null,
     @SerializedName("name") var name: String? = null,
-    @SerializedName("note") var note: String? = null,
+    @SerializedName("note") var orderStatus: String? = null,
     @SerializedName("note_attributes") var noteAttributes: ArrayList<String> = arrayListOf(),
     @SerializedName("number") var number: Int? = null,
     @SerializedName("order_number") var orderNumber: Int? = null,
@@ -189,4 +199,4 @@ data class Order (
     @SerializedName("shipping_address") var shippingAddress: ShippingAddress? = ShippingAddress(),
     @SerializedName("shipping_lines") var shippingLines: ArrayList<String> = arrayListOf(),
 
-    ):Parcelable
+    ) : Parcelable

@@ -6,7 +6,7 @@
     <string name="all_items">All Items</string>
     <string name="brand">Brand</string>
     <string name="Brand">Brand</string>
-    <string name="sub_total">Sub Total</string>
+    <string name="sub_total">Subtotal</string>
     <string name="delivery">Delivery</string>
     <string name="checkout">Checkout</string>
     <string name="new_trends" translatable="false">New Trends</string>
@@ -96,7 +96,7 @@
     <string name="email_error" translatable="false" tools:ignore="ExtraTranslation">Email must be in format example@gmail.com</string>
     <string name="password_error" tools:ignore="MissingTranslation">Password must be upper lower special char number and greater than 8</string>
     <string name="name_error" tools:ignore="MissingTranslation">Enter a valid Name</string>
-    <string name="DeliveryPrice" translatable="false">50</string>
+    <string name="DeliveryPrice" translatable="false">50 EGP</string>
     <string name="invalid_password" translatable="false">Invalid  password</string>
     <string name="invalid_email" translatable="false">Invalid  email</string>
     <string name="invailed_auth_data" translatable="false">Your data does not match an Ebuy account.</string>
@@ -146,6 +146,21 @@
     <string name="size">Size</string>
     <string name="messing_details">Missing details</string>
     <string name="AddToCartDialogTag">AddToCartDialog</string>
+    <string name="order_done">Order is Done</string>
+    <string name="order_error">Error in order</string>
+    <string name="status">Status</string>
+    <string name="order_number_const">Order Number</string>
+    <string name="order_placed">Order Placed</string>
+    <string name="we_have_received_your_order">We have received your order</string>
+    <string name="order_shipping">Order Shipping</string>
+    <string name="order_shipping_shubtitle">Your order is ready for shipping</string>
+    <string name="order_delivered">Order Delivered</string>
+    <string name="ordere_delivered_subtitle">Your order has been delivered</string>
+    <string name="fragment_track_order">Track order</string>
+    <string name="credit">Credit</string>
+    <string name="profile">Profile</string>
+    <string name="payment">Payment</string>
+    <string name="total">Total</string>
 
 
     <string-array name="egypt_province_codes">

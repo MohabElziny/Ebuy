@@ -10,9 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.AddToCartDialougeLayoutBinding
-import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.repository.Repository
-import com.iti.android.team1.ebuy.model.networkresponse.ResultState
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
+import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.AddToCartVMFactory
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.AddToCartViewModel
@@ -75,6 +75,8 @@ class AddToCartDialog(private val product: Product) : DialogFragment() {
                         is ResultState.Success -> {
                             dialog?.dismiss()
                         }
+                        ResultState.EmptyResult -> {}
+                        ResultState.Loading -> {}
                     }
                 }
             }
@@ -113,17 +115,27 @@ class AddToCartDialog(private val product: Product) : DialogFragment() {
     }
 
     private fun disableButtons() {
-        binding.btnMinus.isEnabled = false
-        binding.btnPlus.isEnabled = false
-        binding.btnAddToCart.isEnabled = false
-        binding.btnCancel.isEnabled = false
+        binding.btnMinus.isClickable = false
+        binding.btnMinus.isFocusable = false
+        binding.btnPlus.isClickable = false
+        binding.btnPlus.isFocusable = false
+        binding.btnAddToCart.isClickable = false
+        binding.btnAddToCart.isFocusable = false
+        binding.btnCancel.isClickable = false
+        binding.btnCancel.isFocusable = false
+        binding.progressBar.visibility = View.VISIBLE
     }
 
     private fun enableButtons() {
-        binding.btnMinus.isEnabled = true
-        binding.btnPlus.isEnabled = true
-        binding.btnAddToCart.isEnabled = true
-        binding.btnCancel.isEnabled = true
+        binding.btnMinus.isClickable = true
+        binding.btnMinus.isFocusable = true
+        binding.btnPlus.isClickable = true
+        binding.btnPlus.isFocusable = true
+        binding.btnAddToCart.isClickable = true
+        binding.btnAddToCart.isFocusable = true
+        binding.btnCancel.isClickable = true
+        binding.btnCancel.isFocusable = true
+        binding.progressBar.visibility = View.GONE
     }
 
     override fun onStart() {

@@ -18,4 +18,5 @@
 
     <color name="Disable">#757575</color>
     <color name="btnColor">#F5F5F7</color>
+    <color name="completed">#4CAF50</color>
 </resources>

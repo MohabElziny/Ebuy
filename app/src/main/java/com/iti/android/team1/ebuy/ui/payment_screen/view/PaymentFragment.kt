@@ -7,9 +7,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import com.google.android.material.snackbar.Snackbar
+import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentPaymentBinding
-import com.iti.android.team1.ebuy.model.datasource.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.datasource.repository.Repository
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
 import com.iti.android.team1.ebuy.ui.payment_screen.viewmodel.PaymentViewModel
 import com.iti.android.team1.ebuy.ui.payment_screen.viewmodel.PaymentViewModelFactory
 import com.iti.android.team1.ebuy.util.PAYPAL_CLIENT_ID
@@ -33,8 +38,7 @@ private const val TAG = "PaymentFragment"
 
 class PaymentFragment : Fragment() {
 
-    //private val args by navArgs<PaymentFragmentArgs>()
-    //private val order = args.order
+    private val args by navArgs<PaymentFragmentArgs>()
     private val viewModel: PaymentViewModel by viewModels {
         PaymentViewModelFactory(Repository(LocalSource(requireContext())))
     }
@@ -63,10 +67,12 @@ class PaymentFragment : Fragment() {
             )
         )
         PayPalCheckout.setConfig(config)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding.payPalButton.setup(
             createOrder =
             CreateOrder { createOrderActions ->
@@ -78,7 +84,8 @@ class PaymentFragment : Fragment() {
                         listOf(
                             PurchaseUnit(
                                 amount =
-                                Amount(currencyCode = CurrencyCode.USD, value = "10.00")
+                                Amount(currencyCode = CurrencyCode.USD,
+                                    value = args.order.totalPrice.toString())
                             )
                         )
                     )
@@ -87,20 +94,42 @@ class PaymentFragment : Fragment() {
             onApprove =
             OnApprove { approval ->
                 approval.orderActions.capture { captureOrderResult ->
-                    ///TODO: ADD order to API
-                    Log.d(TAG, "OnApprove: $captureOrderResult")
+                    viewModel.postOrder(args.order)
+                    handlePostResponse()
                 }
+
             },
             onCancel = OnCancel {
                 ///TODO: Indicate the user that he has canceled the order
             },
             onError = OnError { errorInfo ->
                 ///TODO: Indicate the user that there's an error the order
-                Log.d(TAG, "OnApprove: $errorInfo")
 
             }
 
         )
     }
 
+    private fun handlePostResponse() {
+        lifecycleScope.launchWhenStarted {
+            viewModel.requestSucceed.observe(viewLifecycleOwner) { result ->
+                if (result) {
+                    Snackbar.make(binding.root,
+                        getString(R.string.order_done),
+                        Snackbar.LENGTH_SHORT)
+                        .show()
+                    viewModel.removeCartItems()
+                    findNavController().navigate(R.id.action_paymentFragment_to_navigation_home)
+
+                } else {
+                    Snackbar.make(binding.root,
+                        getString(R.string.order_error),
+                        Snackbar.LENGTH_SHORT)
+                        .show()
+                }
+
+            }
+        }
+    }
 }
+
