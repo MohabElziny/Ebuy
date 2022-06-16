@@ -72,6 +72,7 @@
                 android:layout_marginStart="@dimen/_50sdp"
                 android:layout_marginEnd="@dimen/_15sdp"
                 android:padding="@dimen/_5sdp"
+                app:layout_constraintBottom_toBottomOf="@+id/cat_tv_name"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/category_recycler" />
 
@@ -85,7 +86,9 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cat_tv_name"
-                tools:listitem="@layout/product_layout" />
+                tools:listitem="@layout/product_layout"
+                android:padding="@dimen/_5sdp"
+                />
 
             <include
                 android:id="@+id/emptyProductLayout"
