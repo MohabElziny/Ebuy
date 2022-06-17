@@ -87,7 +87,6 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/cat_tv_name"
                 tools:listitem="@layout/product_layout"
-                android:padding="@dimen/_5sdp"
                 />
 
             <include
