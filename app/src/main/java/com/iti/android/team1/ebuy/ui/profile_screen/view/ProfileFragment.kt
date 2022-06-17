@@ -83,11 +83,15 @@ class ProfileFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.favoriteProducts.buffer().collect { result ->
                 when (result) {
-                    ResultState.EmptyResult -> profileFavoritesAdapter.setFavouriteList(emptyList())
+                    ResultState.EmptyResult -> {
+                        binding.emptyTxtFavorites.visibility = View.VISIBLE
+                        profileFavoritesAdapter.setFavouriteList(emptyList())
+                    }
                     is ResultState.Error -> Toast.makeText(requireContext(),
                         result.errorString, Toast.LENGTH_SHORT).show()
 //                    ResultState.Loading -> TODO()
                     is ResultState.Success -> {
+                        binding.emptyTxtFavorites.visibility = View.GONE
                         profileFavoritesAdapter.setFavouriteList(result.data)
                     }
                 }
@@ -100,10 +104,14 @@ class ProfileFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.orderList.buffer().collect { result ->
                 when (result) {
-                    ResultState.EmptyResult -> ordersAdapter.setOrderList(emptyList())
+                    ResultState.EmptyResult -> {
+                        binding.emptyTxtOrders.visibility = View.VISIBLE
+                        ordersAdapter.setOrderList(emptyList())
+                    }
 //                    is ResultState.Error -> TODO()
 //                    ResultState.Loading -> TODO()
                     is ResultState.Success -> {
+                        binding.emptyTxtOrders.visibility = View.GONE
                         ordersAdapter.setOrderList(result.data)
                     }
                 }
