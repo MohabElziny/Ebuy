@@ -92,12 +92,12 @@ class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
                     if (networkResponse.data.orders.isNotEmpty()) {
                         _orderList.emit(ResultState.Success(getFirstNElements(it.orders)))
                     } else {
-                        _customer.emit(ResultState.EmptyResult)
+                        _orderList.emit(ResultState.EmptyResult)
                     }
                 }
             }
             is NetworkResponse.FailureResponse -> {
-                _customer.emit(ResultState.Error(networkResponse.errorString))
+                _orderList.emit(ResultState.Error(networkResponse.errorString))
             }
         }
     }
