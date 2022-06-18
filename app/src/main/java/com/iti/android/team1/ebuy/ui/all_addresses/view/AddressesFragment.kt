@@ -18,6 +18,7 @@ import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
 import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Address
+import com.iti.android.team1.ebuy.model.pojo.ConvertAddToShoppingAdd
 import com.iti.android.team1.ebuy.ui.all_addresses.adapters.AddressAdapter
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModel
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModelFactory
@@ -32,6 +33,7 @@ class AddressesFragment : Fragment() {
     private val viewModel: AddressesViewModel by viewModels {
         AddressesViewModelFactory(Repository(LocalSource(requireContext())))
     }
+    val args by navArgs<AddressesFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, bundle: Bundle?,
@@ -47,7 +49,8 @@ class AddressesFragment : Fragment() {
                 .actionAddressesFragmentToAddAddressFragment(address = Address(),
                     title = getString(R.string.add_address_title)))
         }
-        addressesAdapter = AddressAdapter(onItemClick, onDelete, onEdit, onAddSelected,addAddressAsDef)
+        addressesAdapter =
+            AddressAdapter(onItemClick, onDelete, onEdit, onAddSelected, addAddressAsDef)
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = addressesAdapter
@@ -75,7 +78,6 @@ class AddressesFragment : Fragment() {
     }
 
     private fun checkDestination() {
-        val args by navArgs<AddressesFragmentArgs>()
         if (args.destination == 1)
             destinationID = 1
     }
@@ -147,10 +149,13 @@ class AddressesFragment : Fragment() {
         }
     }
 
-    private val onAddSelected: (Address) -> Unit = {
+    private val onAddSelected: (Address) -> Unit = { add ->
         if (destinationID == 1) {
-            // come from check Screen
-            val action = AddressesFragmentDirections.actionAddressesFragmentToCartFragment(it,1)
+            val order = args.order!!
+            order.shippingAddress = ConvertAddToShoppingAdd.convertToShipping(add)
+            order.billingAddress = ConvertAddToShoppingAdd.convertToBilling(add)
+            order.orderStatus = "placed"
+            val action = AddressesFragmentDirections.actionAddressesFragmentToPaymentFragment(order)
             findNavController().navigate(action)
             destinationID = 0
         }
