@@ -46,16 +46,6 @@
             app:layout_constraintStart_toStartOf="@+id/viewPager2"
             app:layout_constraintTop_toBottomOf="@+id/worm_dots_indicator" />
 
-        <Button
-            android:id="@+id/btn_view_all"
-            style="@style/Widget.MaterialComponents.Button.TextButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/view_all"
-            app:layout_constraintBottom_toBottomOf="@+id/textView2"
-            app:layout_constraintEnd_toEndOf="@+id/viewPager2"
-            app:layout_constraintTop_toTopOf="@+id/textView2" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/home_recyclerview"
             android:layout_width="0dp"
@@ -63,9 +53,9 @@
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_6sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/btn_view_all"
+            app:layout_constraintEnd_toEndOf="@+id/viewPager2"
             app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/btn_view_all"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/brands_layout" />
 
@@ -77,9 +67,9 @@
             android:layout_marginTop="@dimen/_4sdp"
             android:layout_marginBottom="@dimen/_6sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/btn_view_all"
+            app:layout_constraintEnd_toEndOf="@+id/viewPager2"
             app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/btn_view_all"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintVertical_bias="0.0"
             tools:visibility="invisible" />
 
@@ -92,9 +82,9 @@
             android:layout_marginBottom="@dimen/_6sdp"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="@+id/btn_view_all"
+            app:layout_constraintEnd_toEndOf="@+id/viewPager2"
             app:layout_constraintStart_toStartOf="@+id/textView2"
-            app:layout_constraintTop_toBottomOf="@+id/btn_view_all"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
             app:layout_constraintVertical_bias="0.0"
             tools:visibility="invisible" />
     </androidx.constraintlayout.widget.ConstraintLayout>
