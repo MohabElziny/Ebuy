@@ -13,13 +13,11 @@ import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
-import com.iti.android.team1.ebuy.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentPaymentBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
 import com.iti.android.team1.ebuy.ui.payment_screen.viewmodel.PaymentViewModel
 import com.iti.android.team1.ebuy.ui.payment_screen.viewmodel.PaymentViewModelFactory
-import com.iti.android.team1.ebuy.ui.product_details_screen.view.ProductsDetailsFragmentDirections
 import com.iti.android.team1.ebuy.util.PAYPAL_CLIENT_ID
 import com.paypal.checkout.PayPalCheckout
 import com.paypal.checkout.approve.OnApprove

@@ -1,8 +1,9 @@
 package com.iti.android.team1.ebuy.ui.profile_screen.view
 
 import android.os.Bundle
-import android.util.Log
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -11,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.R
-import com.iti.android.team1.ebuy.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentProfileBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
@@ -22,7 +22,6 @@ import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileVMFactory
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileViewModel
 import kotlinx.coroutines.flow.buffer
 
-private const val TAG = "ProfileFragment"
 class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
@@ -48,7 +47,6 @@ class ProfileFragment : Fragment() {
         handleCustomerInfo()
         handleCustomerOrders()
         handleCustomerFavProducts()
-        Log.d(TAG, "onViewCreated: ")
         binding.btnMoreFavorites.setOnClickListener {
             findNavController().navigate(R.id.action_navigation_profile_to_navigation_favorites)
         }
@@ -56,7 +54,6 @@ class ProfileFragment : Fragment() {
             findNavController().navigate(R.id.action_navigation_profile_to_ordersFragment)
         }
     }
-
 
 
     private var onItemClick: (Long) -> Unit = { productId ->
@@ -109,14 +106,12 @@ class ProfileFragment : Fragment() {
                 when (result) {
                     ResultState.EmptyResult -> {
                         binding.emptyTxtOrders.visibility = View.VISIBLE
-                        Log.d(TAG, "handleCustomerOrders: EmptyResult")
                         ordersAdapter.setOrderList(emptyList())
                     }
 //                    is ResultState.Error -> TODO()
 //                    ResultState.Loading -> TODO()
                     is ResultState.Success -> {
                         binding.emptyTxtOrders.visibility = View.GONE
-                        Log.d(TAG, "handleCustomerOrders: Success")
                         ordersAdapter.setOrderList(result.data)
                     }
                 }
