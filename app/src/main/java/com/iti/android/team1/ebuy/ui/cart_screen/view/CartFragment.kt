@@ -217,6 +217,7 @@ class CartFragment : Fragment() {
                 dialog.dismiss()
                 viewModel.manipulateCartItem(index, CartViewModel.CartItemOperation.DELETE)
             }
+
             .show()
     }
 
