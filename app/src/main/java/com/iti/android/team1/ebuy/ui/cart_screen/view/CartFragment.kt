@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
@@ -19,7 +18,6 @@ import com.iti.android.team1.ebuy.databinding.FragmentCartBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
 import com.iti.android.team1.ebuy.model.factories.ResultState
-import com.iti.android.team1.ebuy.model.pojo.ConvertAddToShoppingAdd
 import com.iti.android.team1.ebuy.ui.cart_screen.adapter.CartProductAdapter
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartVMFactory
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartViewModel
@@ -80,32 +78,12 @@ class CartFragment : Fragment() {
 
     private fun handleCheckoutButton() {
         binding.btnAddCard.setOnClickListener {
-            val args by navArgs<CartFragmentArgs>()
-            when (args.destination) {
-                1 -> {
-                    viewModel.updateToDB()
-                    viewModel.makeOrder()
-                    args.add?.let { add ->
-                        viewModel.order.observe(viewLifecycleOwner) { order ->
-                            order.shippingAddress = ConvertAddToShoppingAdd.convertToShipping(add)
-                            order.billingAddress = ConvertAddToShoppingAdd.convertToBilling(add)
-                            order.orderStatus = "placed"
-                            val action =
-                                CartFragmentDirections.actionCartFragmentToPaymentFragment(order)
-                            findNavController().navigate(action)
-                        }
-
-                    } ?: run {
-                        showSnackMessage("You can't make order without choosing Shipping Address")
-                        val action = CartFragmentDirections.actionCartFragmentToAddressesFragment(1)
-                        findNavController().navigate(action)
-                    }
-                }
-                else -> {
-                    showSnackMessage("must choose The Shipping Address")
-                    val action = CartFragmentDirections.actionCartFragmentToAddressesFragment(1)
-                    findNavController().navigate(action)
-                }
+            viewModel.updateToDB()
+            viewModel.makeOrder()
+            viewModel.order.observe(viewLifecycleOwner) { order ->
+                showSnackMessage("must choose The Shipping Address")
+                val action = CartFragmentDirections.actionCartFragmentToAddressesFragment(1,order)
+                findNavController().navigate(action)
             }
         }
     }
