@@ -12,14 +12,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentCartBinding
-
-import com.iti.android.team1.ebuy.model.pojo.ConvertAddToShoppingAdd
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
 import com.iti.android.team1.ebuy.model.factories.ResultState
+import com.iti.android.team1.ebuy.model.pojo.ConvertAddToShoppingAdd
 import com.iti.android.team1.ebuy.ui.cart_screen.adapter.CartProductAdapter
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartVMFactory
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartViewModel
@@ -131,7 +131,7 @@ class CartFragment : Fragment() {
                         hideShimmer()
                         handleEmptyData()
                         Toast.makeText(requireContext(),
-                        result.errorString, Toast.LENGTH_SHORT).show()
+                            result.errorString, Toast.LENGTH_SHORT).show()
                     }
                     ResultState.Loading -> {
                         showShimmer()
@@ -204,9 +204,22 @@ class CartFragment : Fragment() {
 
     }
     private val deleteQuantity: (Int) -> Unit = {
-        viewModel.manipulateCartItem(it, CartViewModel.CartItemOperation.DELETE)
+        showDialog("item removed", it)
+
     }
 
+    private fun showDialog(messageSnackBar: String, index: Int) {
+        MaterialAlertDialogBuilder(binding.root.context).setTitle("Removing Cart Item")
+            .setMessage("Are you sure to remove this item ?")
+            .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
+            .setPositiveButton("Yes") { dialog, _ ->
+                showSnackMessage(messageSnackBar)
+                dialog.dismiss()
+                viewModel.manipulateCartItem(index, CartViewModel.CartItemOperation.DELETE)
+            }
+
+            .show()
+    }
 
     override fun onStop() {
         super.onStop()
