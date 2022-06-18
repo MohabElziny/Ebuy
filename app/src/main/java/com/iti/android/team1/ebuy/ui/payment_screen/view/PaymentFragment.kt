@@ -73,7 +73,7 @@ class PaymentFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        binding.totalPriceTxt.text = args.order.currentTotalPrice + " EGP"
         binding.payPalButton.setup(
             createOrder =
             CreateOrder { createOrderActions ->
@@ -159,21 +159,21 @@ class PaymentFragment : Fragment() {
 
     private fun showProgressbar() {
         binding.apply {
+            samerfahmy.visibility = View.VISIBLE
             payPalButton.isClickable = false
             payPalButton.isFocusable = false
             payCashButton.isClickable = false
             payCashButton.isFocusable = false
-            progressBar.visibility = View.VISIBLE
         }
     }
 
     private fun hideProgressbar() {
         binding.apply {
+            samerfahmy.visibility = View.INVISIBLE
             payPalButton.isClickable = true
             payPalButton.isFocusable = true
             payCashButton.isClickable = true
             payCashButton.isFocusable = true
-            progressBar.visibility = View.GONE
         }
     }
 }
