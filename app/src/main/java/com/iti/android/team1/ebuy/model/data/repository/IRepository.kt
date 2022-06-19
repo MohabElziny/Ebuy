@@ -3,6 +3,7 @@ package com.iti.android.team1.ebuy.model.data.repository
 import com.iti.android.team1.ebuy.model.factories.NetworkResponse
 import com.iti.android.team1.ebuy.model.pojo.*
 import kotlinx.coroutines.flow.StateFlow
+import retrofit2.Response
 
 interface IRepository {
     suspend fun getAllProducts(): NetworkResponse<Products>
@@ -77,6 +78,7 @@ interface IRepository {
 
     fun getCartIdFromPrefs(): String
 
+
     suspend fun getPriceRuleById(price_rule_id: Long): NetworkResponse<PriceRule>
 
     suspend fun getDiscountById(code: String): NetworkResponse<DiscountCode>
@@ -84,6 +86,11 @@ interface IRepository {
     fun isRunFirstTime(): Boolean
 
     fun setRunFirstTime()
+
+    suspend fun getPriceRuleById(price_rule_id:Long): NetworkResponse<PriceRule>
+
+    suspend fun getDiscountById(code:String):NetworkResponse<DiscountCode>
+
 
 
 }
