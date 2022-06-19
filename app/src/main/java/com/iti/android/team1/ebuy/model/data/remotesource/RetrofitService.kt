@@ -175,4 +175,16 @@ interface RetrofitService {
         @Body orderPost: OrderPost,
         @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
     ): Response<Order>
+
+    @GET("price_rules/{price_rule_id}.json")
+    suspend fun getPriceRuleById(
+        @Path("price_rule_id") price_rule_id: Long,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ):Response<PriceRule>
+
+    @GET("discount_codes/lookup.json")
+    suspend fun getDiscountById(
+        @Query("code") code11: String,
+        @Header("X-Shopify-Access-Token") pass: String = PASSWORD,
+    ):Response<DiscountCode>
 }

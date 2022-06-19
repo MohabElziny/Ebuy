@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -49,6 +50,13 @@ class CartFragment : Fragment() {
         handleOverFlow()
         handleDeleteState()
         handleCost()
+        handleDiscountResult()
+        observeToPriceAfterDiscount()
+
+        binding.btnDiscount.setOnClickListener {
+            viewModel.getDiscountValue(binding.etCoupon.text.toString())
+        }
+
     }
 
 
@@ -131,7 +139,7 @@ class CartFragment : Fragment() {
                         hideShimmer()
                         handleEmptyData()
                         Toast.makeText(requireContext(),
-                        result.errorString, Toast.LENGTH_SHORT).show()
+                            result.errorString, Toast.LENGTH_SHORT).show()
                     }
                     ResultState.Loading -> {
                         showShimmer()
@@ -171,6 +179,7 @@ class CartFragment : Fragment() {
         binding.textProductSubTotal.text = "$subTotal".plus(" EGP")
         binding.textProductLastSubTotal.text =
             "$total".plus(" EGP")
+        binding.textPriceAfterDiscount.text = "$total".plus(" EGP")
     }
 
     // function
@@ -205,6 +214,43 @@ class CartFragment : Fragment() {
     }
     private val deleteQuantity: (Int) -> Unit = {
         viewModel.manipulateCartItem(it, CartViewModel.CartItemOperation.DELETE)
+    }
+
+    private fun handleDiscountResult() {
+        viewModel.discountValue.observe(viewLifecycleOwner, Observer {
+            when (it) {
+                is ResultState.Loading -> {
+                    onDiscountResult(View.VISIBLE, false)
+                    enableDiscountButton(false)
+                }
+                is ResultState.Success -> {
+                    viewModel.calculatePriceAfterDiscount(it.data, viewModel.total.value)
+                    onDiscountResult(View.GONE, true)
+                    enableDiscountButton(false)
+                }
+                is ResultState.Error -> {
+                    Toast.makeText(requireContext(), it.errorString, Toast.LENGTH_SHORT).show()
+                    onDiscountResult(View.GONE, true)
+                    enableDiscountButton(true)
+                }
+            }
+        })
+    }
+
+    private fun observeToPriceAfterDiscount() {
+        viewModel.totalAfterDiscount.observe(viewLifecycleOwner, Observer {
+            binding.textPriceAfterDiscount.text = it.toString().plus(" EGP")
+        })
+    }
+
+    private fun onDiscountResult(visibility: Int, isEnabled: Boolean) {
+        binding.progress.visibility = visibility
+        binding.btnAddCard.isEnabled = isEnabled
+    }
+
+    private fun enableDiscountButton(isEnabled: Boolean) {
+        binding.btnDiscount.isEnabled = isEnabled
+        binding.etCoupon.isEnabled = isEnabled
     }
 
 

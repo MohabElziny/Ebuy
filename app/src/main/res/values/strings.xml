@@ -166,6 +166,8 @@
     <string name="pay_cash">Pay Cash</string>
     <string name="yes">Yes</string>
     <string name="there_s_no_orders_yet">There\'s no orders yet</string>
+    <string name="btn_check_discount">get discount</string>
+    <string name="total_price_after_discount">Total Price After Discount</string>
 
 
     <string-array name="egypt_province_codes">
