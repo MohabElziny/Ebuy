@@ -106,15 +106,16 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
         _totalAfterDiscount.postValue(sum + DELIVER)
     }
 
-    fun makeOrder() {
+    fun makeOrder(code: String) {
         viewModelScope.launch(Dispatchers.Default) {
-            _totalAfterDiscount.value?.let { makeOrderRequest(cartItemList, it) }
+            _totalAfterDiscount.value?.let { makeOrderRequest(cartItemList, it, code) }
         }
     }
 
     private fun makeOrderRequest(
         cartItemList: MutableList<CartItem>,
         currentTotalPrice: Long,
+        code: String,
     ) {
         val lineItems = mutableListOf<LineItems>()
         cartItemList.forEach {
@@ -122,6 +123,9 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
         }
         val orderMade = Order(lineItems = lineItems as ArrayList<LineItems>,
             currentTotalPrice = "$currentTotalPrice")
+
+        if (code.isNotEmpty())
+            orderMade.discountCodes = arrayListOf(code)
 
         _oder.postValue(orderMade)
 
