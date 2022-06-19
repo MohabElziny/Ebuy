@@ -29,8 +29,10 @@ class ProfileFragment : Fragment() {
         ProfileVMFactory(Repository(LocalSource(requireContext().applicationContext)))
     }
     private val binding get() = _binding!!
-    private lateinit var ordersAdapter: OrdersAdapter
-    private lateinit var profileFavoritesAdapter: ProfileFavoritesAdapter
+    private var _ordersAdapter: OrdersAdapter? = null
+    private var _profileFavoritesAdapter: ProfileFavoritesAdapter? = null
+    private val ordersAdapter get() = _ordersAdapter!!
+    private val profileFavoritesAdapter get() = _profileFavoritesAdapter!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -139,7 +141,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initFavoritesRecyclerView() {
-        profileFavoritesAdapter = ProfileFavoritesAdapter(onItemClick, onUnlike)
+        _profileFavoritesAdapter = ProfileFavoritesAdapter(onItemClick, onUnlike)
         binding.favoritesRecyclerView.apply {
             layoutManager = LinearLayoutManager(
                 requireContext(),
@@ -150,7 +152,7 @@ class ProfileFragment : Fragment() {
     }
 
     private fun initOrdersRecyclerView() {
-        ordersAdapter = OrdersAdapter(onClickOrderItem)
+        _ordersAdapter = OrdersAdapter(onClickOrderItem)
         binding.ordersRecyclerView.apply {
             layoutManager = LinearLayoutManager(
                 requireContext(),
@@ -165,6 +167,13 @@ class ProfileFragment : Fragment() {
         findNavController().navigate(ProfileFragmentDirections.actionNavigationProfileToTrackOrder(
             orderFinancialStatus, orderName, orderStatus
         ))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _ordersAdapter = null
+        _profileFavoritesAdapter = null
+        _binding = null
     }
 
 }
