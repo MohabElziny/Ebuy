@@ -40,4 +40,6 @@ interface RemoteSource {
     suspend fun updateCustomer(customer: Customer): Response<Customer>
 
     suspend fun postOrder(order: Order):Response<Order>
+    suspend fun getPriceRuleById(price_rule_id:Long):Response<PriceRule>
+    suspend fun getDiscountById(code:String):Response<DiscountCode>
 }

@@ -115,4 +115,12 @@ object RetrofitHelper : RemoteSource {
     override suspend fun postOrder(order: Order): Response<Order> {
         return retrofitService.postOrder(OrderPost(order))
     }
+
+    override suspend fun getPriceRuleById(price_rule_id: Long): Response<PriceRule> {
+        return retrofitService.getPriceRuleById(price_rule_id)
+    }
+
+    override suspend fun getDiscountById(code:String): Response<DiscountCode> {
+        return retrofitService.getDiscountById(code)
+    }
 }
