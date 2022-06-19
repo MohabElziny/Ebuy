@@ -14,8 +14,12 @@ import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.activities.main.connection.ConnectionLiveData
+import com.iti.android.team1.ebuy.activities.main.connection.DoesNetworkHaveInternet
 import com.iti.android.team1.ebuy.databinding.ActivityAuthBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.launch
 
 class AuthActivity : AppCompatActivity() {
 
@@ -61,11 +65,21 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkResumeConnection()
+    }
+
+    private fun checkResumeConnection() {
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.updateConnection(DoesNetworkHaveInternet.execute())
+        }
+    }
+
     private fun handleIsConnected() {
         binding.noConnection.root.visibility = View.INVISIBLE
         fragmentContainer.visibility = View.VISIBLE
         binding.appBarLayout.visibility = View.VISIBLE
-        showSnackBar(getString(R.string.connected))
 
     }
 
