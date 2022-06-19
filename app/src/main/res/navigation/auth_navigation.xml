@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/auth_navigation"
-    app:startDestination="@id/loginScreen2">
+    app:startDestination="@id/onBoardingFragment">
 
     <fragment
         android:id="@+id/loginScreen2"
@@ -18,9 +18,24 @@
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
     </fragment>
+
     <fragment
         android:id="@+id/registerScreen2"
         android:name="com.iti.android.team1.ebuy.ui.register_screen.view.RegisterScreen"
         android:label="Register"
         tools:layout="@layout/fragment_register_screen" />
+
+    <fragment
+        android:id="@+id/onBoardingFragment"
+        android:name="com.iti.android.team1.ebuy.ui.onbording.OnBoardingFragment"
+        android:label=""
+        tools:layout="@layout/fragment_on_boarding" >
+        <action
+            android:id="@+id/action_onBoardingFragment_to_loginScreen2"
+            app:destination="@id/loginScreen2"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"/>
+    </fragment>
 </navigation>
