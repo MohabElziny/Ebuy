@@ -82,4 +82,8 @@ class TrackOrder : Fragment() {
         binding.deliveredOrder.root.alpha = 1f
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

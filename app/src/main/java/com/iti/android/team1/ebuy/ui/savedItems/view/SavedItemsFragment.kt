@@ -23,8 +23,10 @@ import kotlinx.coroutines.launch
 
 class SavedItemsFragment : Fragment() {
 
-    private lateinit var binding: FragmentSavedItemsBinding
-    private lateinit var favoritesAdapter: SavedRecyclerAdapter
+    private var _binding: FragmentSavedItemsBinding? = null
+    private val binding get() = _binding!!
+    private var _favoritesAdapter: SavedRecyclerAdapter? = null
+    private val favoritesAdapter get() = _favoritesAdapter!!
     private var position: Int = -1
 
     private val viewModel: SavedItemsViewModel by viewModels {
@@ -39,7 +41,7 @@ class SavedItemsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentSavedItemsBinding.inflate(inflater, container, false)
+        _binding = FragmentSavedItemsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -48,7 +50,6 @@ class SavedItemsFragment : Fragment() {
         viewModel.getFavoritesList()
         initRecyclerView()
         observeOnViewModel()
-
     }
 
     private fun observeOnViewModel() {
@@ -90,7 +91,7 @@ class SavedItemsFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        favoritesAdapter = SavedRecyclerAdapter(
+        _favoritesAdapter = SavedRecyclerAdapter(
             onItemClick, onUnlike
         )
 
@@ -126,6 +127,12 @@ class SavedItemsFragment : Fragment() {
             startShimmer()
             visibility = View.GONE
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _favoritesAdapter = null
+        _binding = null
     }
 
 }
