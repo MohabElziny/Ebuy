@@ -34,7 +34,7 @@ class AuthActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment_activity_auth)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.loginScreen2, R.id.registerScreen2
+                R.id.loginScreen2, R.id.registerScreen2, R.id.splashFragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)

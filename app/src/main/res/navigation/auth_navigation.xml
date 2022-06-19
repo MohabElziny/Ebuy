@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/auth_navigation"
-    app:startDestination="@id/loginScreen2">
+    app:startDestination="@id/splashFragment">
 
     <fragment
         android:id="@+id/loginScreen2"
@@ -23,4 +23,13 @@
         android:name="com.iti.android.team1.ebuy.ui.register_screen.view.RegisterScreen"
         android:label="Register"
         tools:layout="@layout/fragment_register_screen" />
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.iti.android.team1.ebuy.ui.Splah.SplashFragment"
+        android:label="fragment_splash"
+        tools:layout="@layout/fragment_splash" >
+        <action
+            android:id="@+id/action_splashFragment_to_loginScreen2"
+            app:destination="@id/loginScreen2" />
+    </fragment>
 </navigation>
