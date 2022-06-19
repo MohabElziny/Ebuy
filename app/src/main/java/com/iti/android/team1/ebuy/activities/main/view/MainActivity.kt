@@ -19,10 +19,14 @@ import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.activities.main.viewmodel.MainViewModel
 import com.iti.android.team1.ebuy.activities.main.viewmodel.MainViewModelFactory
 import com.iti.android.team1.ebuy.activities.main.connection.ConnectionLiveData
+import com.iti.android.team1.ebuy.activities.main.connection.DoesNetworkHaveInternet
 import com.iti.android.team1.ebuy.databinding.ActivityMainBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.launch
 
 
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
@@ -69,6 +73,15 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkResumeConnection()
+    }
+    private fun checkResumeConnection(){
+        CoroutineScope(Dispatchers.IO).launch {
+            connectionViewModel.updateConnection(DoesNetworkHaveInternet.execute())
+        }
+    }
     private fun setConnectionState() {
         ConnectionLiveData(this).observe(this) { connection ->
             connectionViewModel.updateConnection(connection)
@@ -93,7 +106,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         fragmentContainer.visibility = View.VISIBLE
         binding.appBarLayout.visibility = View.VISIBLE
         binding.navView.visibility = View.VISIBLE
-        showSnackBar(getString(R.string.connected))
     }
 
     private fun handleNotConnected() {
