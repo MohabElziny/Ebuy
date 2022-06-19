@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Adapter
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
@@ -13,19 +14,23 @@ import kotlinx.android.synthetic.main.fragment_on_boarding.*
 
 class OnBoardingFragment : Fragment() {
 
-    private lateinit var binding: FragmentOnBoardingBinding
+    private var _binding: FragmentOnBoardingBinding? = null
+    private val binding get() = _binding!!
+
+    private var _adapter: OnBoardingAdapter? = null
+    private val adapter get() = _adapter!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentOnBoardingBinding.inflate(inflater, container, false)
+        _binding = FragmentOnBoardingBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val adapter = OnBoardingAdapter()
+        _adapter = OnBoardingAdapter()
         binding.viewPager2.adapter = adapter
         binding.wormDotsIndicator.attachTo(binding.viewPager2)
         binding.viewPager2.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
@@ -48,6 +53,12 @@ class OnBoardingFragment : Fragment() {
         binding.btnSkip.setOnClickListener {
             findNavController().navigate(OnBoardingFragmentDirections.actionOnBoardingFragmentToLoginScreen2())
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _adapter = null
+        _binding = null
     }
 
 }
