@@ -46,6 +46,10 @@ class SplashFragment : Fragment() {
             }
         }
 
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
         requireActivity().findViewById<Toolbar>(R.id.toolbar).visibility = View.GONE
     }
 

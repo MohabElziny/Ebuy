@@ -87,10 +87,10 @@ class CartFragment : Fragment() {
     private fun handleCheckoutButton() {
         binding.btnAddCard.setOnClickListener {
             viewModel.updateToDB()
-            viewModel.makeOrder()
+            viewModel.makeOrder(binding.etCoupon.text.toString())
             viewModel.order.observe(viewLifecycleOwner) { order ->
                 showSnackMessage("must choose The Shipping Address")
-                val action = CartFragmentDirections.actionCartFragmentToAddressesFragment(1,order)
+                val action = CartFragmentDirections.actionCartFragmentToAddressesFragment(1, order)
                 findNavController().navigate(action)
             }
         }
@@ -207,6 +207,7 @@ class CartFragment : Fragment() {
 
             .show()
     }
+
     private fun handleDiscountResult() {
         viewModel.discountValue.observe(viewLifecycleOwner, Observer {
             when (it) {
