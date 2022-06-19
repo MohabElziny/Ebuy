@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -14,10 +15,14 @@ import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.activities.main.connection.ConnectionLiveData
+import com.iti.android.team1.ebuy.activities.main.connection.DoesNetworkHaveInternet
 import com.iti.android.team1.ebuy.databinding.ActivityAuthBinding
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.buffer
+import kotlinx.coroutines.launch
 
-class AuthActivity : AppCompatActivity() {
+class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -34,12 +39,13 @@ class AuthActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment_activity_auth)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.loginScreen2, R.id.registerScreen2, R.id.splashFragment
+                R.id.loginScreen2, R.id.registerScreen2, R.id.onBoardingFragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         setConnectionState()
         handleConnection()
+        navController.addOnDestinationChangedListener(this::onDestinationChanged)
     }
 
     private fun setConnectionState() {
@@ -61,11 +67,21 @@ class AuthActivity : AppCompatActivity() {
         }
     }
 
+    override fun onResume() {
+        super.onResume()
+        checkResumeConnection()
+    }
+
+    private fun checkResumeConnection() {
+        CoroutineScope(Dispatchers.IO).launch {
+            viewModel.updateConnection(DoesNetworkHaveInternet.execute())
+        }
+    }
+
     private fun handleIsConnected() {
         binding.noConnection.root.visibility = View.INVISIBLE
         fragmentContainer.visibility = View.VISIBLE
         binding.appBarLayout.visibility = View.VISIBLE
-        showSnackBar(getString(R.string.connected))
 
     }
 
@@ -79,5 +95,16 @@ class AuthActivity : AppCompatActivity() {
     private fun showSnackBar(msg: String) {
         Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
             .show()
+    }
+
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?,
+    ) {
+        when (destination.id) {
+            R.id.onBoardingFragment -> binding.appBarLayout.visibility = View.GONE
+            else -> binding.appBarLayout.visibility = View.VISIBLE
+        }
     }
 }

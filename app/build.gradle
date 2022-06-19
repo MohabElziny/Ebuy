@@ -133,4 +133,7 @@ dependencies {
     //paypal
     implementation('com.paypal.checkout:android-sdk:0.2.0')
 
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:2.9.1'
+
+
 }
