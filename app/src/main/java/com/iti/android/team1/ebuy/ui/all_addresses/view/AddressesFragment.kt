@@ -36,7 +36,7 @@ class AddressesFragment : Fragment() {
     private val viewModel: AddressesViewModel by viewModels {
         AddressesViewModelFactory(Repository(LocalSource(requireContext())))
     }
-    val args by navArgs<AddressesFragmentArgs>()
+    private val args by navArgs<AddressesFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, bundle: Bundle?,
