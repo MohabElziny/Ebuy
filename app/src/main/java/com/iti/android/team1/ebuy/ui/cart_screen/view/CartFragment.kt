@@ -24,12 +24,17 @@ import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartViewModel
 import kotlinx.coroutines.launch
 
 class CartFragment : Fragment() {
+
     private var _binding: FragmentCartBinding? = null
+    private val binding get() = _binding!!
+
+    private var _cartProductAdapter: CartProductAdapter? = null
+    private val cartProductAdapter get() = _cartProductAdapter!!
+
     private val viewModel: CartViewModel by viewModels<CartViewModel> {
         CartVMFactory(Repository(LocalSource(requireContext().applicationContext)))
     }
-    private lateinit var cartProductAdapter: CartProductAdapter
-    private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
@@ -153,7 +158,7 @@ class CartFragment : Fragment() {
 
     // function
     private fun initCartRecycler() {
-        cartProductAdapter = CartProductAdapter(deleteQuantity, increaseQuantity, decreaseQuantity)
+        _cartProductAdapter = CartProductAdapter(deleteQuantity, increaseQuantity, decreaseQuantity)
         binding.recyclerCart.apply {
             layoutManager = LinearLayoutManager(
                 requireParentFragment().requireContext(),
@@ -218,5 +223,11 @@ class CartFragment : Fragment() {
             visibility = View.GONE
         }
         binding.scrollBottom.visibility = View.VISIBLE
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        _cartProductAdapter = null
     }
 }

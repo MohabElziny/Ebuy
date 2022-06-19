@@ -27,7 +27,8 @@ import kotlinx.coroutines.flow.buffer
 
 class AddAddressFragment : Fragment() {
 
-    private lateinit var binding: FragmentAddAddressBinding
+    private var _binding: FragmentAddAddressBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: AddAddressViewModel by viewModels {
         AddViewModelFactory(Repository(LocalSource(requireContext())))
@@ -39,7 +40,7 @@ class AddAddressFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentAddAddressBinding.inflate(inflater, container, false)
+        _binding = FragmentAddAddressBinding.inflate(inflater, container, false)
         return binding.root
     }
 

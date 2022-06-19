@@ -26,8 +26,11 @@ import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModelF
 
 class AddressesFragment : Fragment() {
 
-    private lateinit var binding: FragmentAddressesBinding
-    private lateinit var addressesAdapter: AddressAdapter
+    private var _binding: FragmentAddressesBinding? = null
+    private val binding get() = _binding!!
+    private var _addressesAdapter: AddressAdapter? = null
+    private val addressesAdapter get() = _addressesAdapter!!
+
     private var destinationID = 0
     private var position: Int? = null
     private val viewModel: AddressesViewModel by viewModels {
@@ -38,7 +41,9 @@ class AddressesFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, bundle: Bundle?,
     ): View {
-        binding = FragmentAddressesBinding.inflate(inflater, container, false)
+        _binding = FragmentAddressesBinding.inflate(inflater, container, false)
+        _addressesAdapter =
+            AddressAdapter(onItemClick, onDelete, onEdit, onAddSelected, addAddressAsDef)
         return binding.root
     }
 
@@ -49,8 +54,6 @@ class AddressesFragment : Fragment() {
                 .actionAddressesFragmentToAddAddressFragment(address = Address(),
                     title = getString(R.string.add_address_title)))
         }
-        addressesAdapter =
-            AddressAdapter(onItemClick, onDelete, onEdit, onAddSelected, addAddressAsDef)
         binding.recycler.apply {
             layoutManager = LinearLayoutManager(requireContext())
             adapter = addressesAdapter
@@ -182,5 +185,11 @@ class AddressesFragment : Fragment() {
     private val addAddressAsDef: (Long, Int) -> (Unit) = { addressId, position ->
         this.position = position
         viewModel.setAddressAsDef(addressId)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _addressesAdapter = null
+        _binding = null
     }
 }
