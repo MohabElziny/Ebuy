@@ -28,6 +28,7 @@ import kotlinx.coroutines.flow.buffer
 class CategoryFragment : Fragment() {
 
     private var _binding: FragmentCategoryBinding? = null
+    private val binding get() = _binding!!
 
     private var defaultCategoryId: Long = 0
 
@@ -37,10 +38,12 @@ class CategoryFragment : Fragment() {
 
     // This property is only valid between onCreateView and
     // onDestroyView.
-    private val binding get() = _binding!!
-    private lateinit var categoriesAdapter: CategoriesAdapter
-    private lateinit var categoryProductsAdapter: CategoryProductsAdapter
+    private var _categoriesAdapter: CategoriesAdapter? = null
+    private val categoriesAdapter get() = _categoriesAdapter!!
+    private var _categoryProductsAdapter: CategoryProductsAdapter? = null
+    private val categoryProductsAdapter get() = _categoryProductsAdapter!!
     private lateinit var searchView: SearchView
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -156,7 +159,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun initCategoriesRecyclerView() {
-        categoriesAdapter = CategoriesAdapter(onCategoryBtnClick)
+        _categoriesAdapter = CategoriesAdapter(onCategoryBtnClick)
         binding.categoryRecycler.apply {
             this.adapter = categoriesAdapter
             this.layoutManager =
@@ -174,7 +177,7 @@ class CategoryFragment : Fragment() {
     }
 
     private fun initRecyclerView() {
-        categoryProductsAdapter = CategoryProductsAdapter(
+        _categoryProductsAdapter = CategoryProductsAdapter(
             onClickLike,
             onClickUnLike,
             onProductClick
@@ -204,6 +207,8 @@ class CategoryFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        _categoryProductsAdapter = null
+        _categoriesAdapter = null
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
