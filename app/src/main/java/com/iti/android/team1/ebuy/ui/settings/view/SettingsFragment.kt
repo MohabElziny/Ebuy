@@ -8,7 +8,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.view.AuthActivity
 import com.iti.android.team1.ebuy.databinding.FragmentSettingsBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
@@ -18,8 +17,8 @@ import com.iti.android.team1.ebuy.ui.settings.viewmodel.SettingsViewModelFactory
 
 class SettingsFragment : Fragment() {
 
-    private lateinit var bindding: FragmentSettingsBinding
-
+    private var _binding: FragmentSettingsBinding? = null
+    private val binding get() = _binding!!
     private val viewModel: SettingsViewModel by viewModels {
         SettingsViewModelFactory(Repository(LocalSource(requireContext())))
     }
@@ -28,24 +27,28 @@ class SettingsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        bindding = FragmentSettingsBinding.inflate(inflater, container, false)
-        return bindding.root
+        _binding = FragmentSettingsBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        bindding.addressRelative.setOnClickListener {
+        binding.addressRelative.setOnClickListener {
             findNavController().navigate(
                 SettingsFragmentDirections.actionSettingsFragmentToAddressesFragment()
             )
         }
 
-        bindding.logoutRelative.setOnClickListener {
+        binding.logoutRelative.setOnClickListener {
             viewModel.logOut()
             startActivity(Intent(requireContext(), AuthActivity::class.java))
             activity?.finish()
         }
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 }
