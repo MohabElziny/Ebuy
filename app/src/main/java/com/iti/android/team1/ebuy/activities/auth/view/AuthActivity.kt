@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentContainerView
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
@@ -17,7 +18,7 @@ import com.iti.android.team1.ebuy.activities.main.connection.ConnectionLiveData
 import com.iti.android.team1.ebuy.databinding.ActivityAuthBinding
 import kotlinx.coroutines.flow.buffer
 
-class AuthActivity : AppCompatActivity() {
+class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
 
     private lateinit var navController: NavController
     private lateinit var appBarConfiguration: AppBarConfiguration
@@ -34,12 +35,13 @@ class AuthActivity : AppCompatActivity() {
         navController = findNavController(R.id.nav_host_fragment_activity_auth)
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.loginScreen2, R.id.registerScreen2
+                R.id.loginScreen2, R.id.registerScreen2, R.id.onBoardingFragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         setConnectionState()
         handleConnection()
+        navController.addOnDestinationChangedListener(this::onDestinationChanged)
     }
 
     private fun setConnectionState() {
@@ -79,5 +81,16 @@ class AuthActivity : AppCompatActivity() {
     private fun showSnackBar(msg: String) {
         Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
             .show()
+    }
+
+    override fun onDestinationChanged(
+        controller: NavController,
+        destination: NavDestination,
+        arguments: Bundle?,
+    ) {
+        when (destination.id) {
+            R.id.onBoardingFragment -> binding.appBarLayout.visibility = View.GONE
+            else -> binding.appBarLayout.visibility = View.VISIBLE
+        }
     }
 }

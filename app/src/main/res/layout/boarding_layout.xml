@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center">
+
+        <ImageView
+            android:layout_centerHorizontal="true"
+            android:id="@+id/image"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            tools:src="@drawable/ic_credit_card" />
+
+        <TextView
+            android:id="@+id/title"
+            style="@style/heading3"
+            tools:text="You're safe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/image"
+            android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/_9sdp"
+            android:textSize="@dimen/fontHeading1" />
+
+        <TextView
+            android:id="@+id/desc"
+            style="@style/heading3"
+            android:gravity="center"
+            android:textColor="@android:color/darker_gray"
+            android:layout_below="@id/title"
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="wrap_content"
+            tools:text="Make sure that every thing will be same with us"
+            android:layout_centerHorizontal="true"
+            android:textSize="@dimen/fontHeading4" />
+    </RelativeLayout>
