@@ -475,6 +475,22 @@ class Repository(
         else
             parseError(response.errorBody())
     }
+
+    override suspend fun getPriceRuleById(price_rule_id: Long): NetworkResponse<PriceRule> {
+        val response = remoteSource.getPriceRuleById(price_rule_id)
+        return if (response.isSuccessful)
+            SuccessResponse(response.body() ?: PriceRule())
+        else
+            parseError(response.errorBody())
+    }
+
+    override suspend fun getDiscountById(code: String): NetworkResponse<DiscountCode> {
+        val response = remoteSource.getDiscountById(code)
+        return if (response.isSuccessful)
+            SuccessResponse(response.body() ?: DiscountCode())
+        else
+            parseError(response.errorBody())
+    }
 }
 
 private fun parseError(errorBody: ResponseBody?): FailureResponse {

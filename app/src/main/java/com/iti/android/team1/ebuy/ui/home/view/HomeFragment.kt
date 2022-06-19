@@ -34,11 +34,12 @@ class HomeFragment : Fragment() {
     }
     private var _binding: FragmentHomeBinding? = null
 
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+
     private val binding get() = _binding!!
-    private lateinit var brandsAdapter: HomeRecyclerAdapter
-    private lateinit var discountAdapter: HomeViewPagerAdapter
+    private var _brandsAdapter: HomeRecyclerAdapter? = null
+    private val brandsAdapter get() = _brandsAdapter!!
+    private var _discountAdapter: HomeViewPagerAdapter? = null
+    private val discountAdapter get() = _discountAdapter!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -104,7 +105,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initBrandsRecyclerView() {
-        brandsAdapter = HomeRecyclerAdapter(
+        _brandsAdapter = HomeRecyclerAdapter(
             onBrandClick
         )
         binding.homeRecyclerview.apply {
@@ -119,7 +120,7 @@ class HomeFragment : Fragment() {
     }
 
     private fun initAdsViewPager() {
-        discountAdapter = HomeViewPagerAdapter(showDiscountDialog)
+        _discountAdapter = HomeViewPagerAdapter(showDiscountDialog)
         binding.viewPager2.adapter = discountAdapter
         binding.wormDotsIndicator.attachTo(binding.viewPager2)
         val zoomOutPageTransformer = ZoomOutPageTransformer()
@@ -224,5 +225,7 @@ class HomeFragment : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+        _brandsAdapter = null
+        _discountAdapter = null
     }
 }

@@ -29,9 +29,10 @@ class OrdersFragment : Fragment() {
         OrdersViewModelFactory(Repository(LocalSource(requireContext())))
     }
 
-    private lateinit var _binding: FragmentOrdersBinding
-    private lateinit var ordersAdapter: OrdersAdapter
-    private val binding get() = _binding
+    private var _binding: FragmentOrdersBinding? = null
+    private val binding get() = _binding!!
+    private var _ordersAdapter: OrdersAdapter? = null
+    private val ordersAdapter get() = _ordersAdapter!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -99,7 +100,7 @@ class OrdersFragment : Fragment() {
     }
 
     private fun initOrdersRecycler() {
-        ordersAdapter = OrdersAdapter(onClickOrderItem)
+        _ordersAdapter = OrdersAdapter(onClickOrderItem)
         binding.recycler.apply {
             adapter = ordersAdapter
             layoutManager = LinearLayoutManager(requireContext())
@@ -113,5 +114,11 @@ class OrdersFragment : Fragment() {
             orderFinancialStatus,
             orderName,
             orderStatus))
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+        _ordersAdapter = null
     }
 }

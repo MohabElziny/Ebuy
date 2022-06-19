@@ -1,16 +1,15 @@
 package com.iti.android.team1.ebuy.ui.credit_screen.view
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.addTextChangedListener
-import com.iti.android.team1.ebuy.ui.credit_screen.CreditViewModel
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import com.iti.android.team1.ebuy.databinding.FragmentCreditBinding
+import com.iti.android.team1.ebuy.ui.credit_screen.CreditViewModel
 
 class CreditFragment : Fragment() {
 
@@ -23,7 +22,7 @@ class CreditFragment : Fragment() {
     private val binding get() = _binding!!
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+        savedInstanceState: Bundle?,
     ): View? {
         _binding = FragmentCreditBinding.inflate(inflater, container, false)
         return binding.root
@@ -37,7 +36,7 @@ class CreditFragment : Fragment() {
                 p0: CharSequence?,
                 start: Int,
                 added: Int,
-                removed: Int
+                removed: Int,
             ) {
 
             }
@@ -107,7 +106,7 @@ class CreditFragment : Fragment() {
                 p0: CharSequence?,
                 start: Int,
                 removed: Int,
-                added: Int
+                added: Int,
             ) {
                 if (p0?.contains('/') == false) {
                     addSlashMark(p0, start, removed, added)
@@ -131,8 +130,8 @@ class CreditFragment : Fragment() {
         // TODO: Use the ViewModel
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
 
