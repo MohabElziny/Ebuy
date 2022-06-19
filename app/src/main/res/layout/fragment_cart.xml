@@ -146,7 +146,6 @@
                         android:text="@string/total"
                         android:textColor="@color/black"
                         android:textSize="@dimen/fontHeading4"
-                        app:layout_constraintBottom_toTopOf="@+id/btn_add_card"
                         app:layout_constraintEnd_toEndOf="@+id/textView6"
                         app:layout_constraintStart_toStartOf="@+id/textView6"
                         app:layout_constraintTop_toBottomOf="@+id/textView6" />
@@ -165,6 +164,59 @@
                         app:layout_constraintTop_toTopOf="@+id/textView8"
                         tools:text="1665656$" />
 
+                    <LinearLayout
+                        android:id="@+id/linear1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/_6sdp"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:layout_marginEnd="@dimen/_6sdp"
+                        android:orientation="horizontal"
+                        android:weightSum="5"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/textView8">
+
+                        <EditText
+                            android:id="@+id/et_coupon"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="@dimen/_5sdp"
+                            android:layout_weight="3" />
+
+                        <Button
+                            android:id="@+id/btn_discount"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="2"
+                            android:text="@string/btn_check_discount" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:id="@+id/textAfter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/_6sdp"
+                        android:fontFamily="@font/poppins"
+                        android:text="@string/total_price_after_discount"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fontHeading4"
+                        app:layout_constraintStart_toStartOf="@+id/textView6"
+                        app:layout_constraintTop_toBottomOf="@id/linear1" />
+
+                    <TextView
+                        android:id="@+id/text_price_after_discount"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/poppins"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/fontHeading4"
+                        app:layout_constraintBottom_toBottomOf="@+id/textAfter"
+                        app:layout_constraintEnd_toEndOf="@id/text_product_last_subTotal"
+                        app:layout_constraintTop_toBottomOf="@+id/linear1"
+                        tools:text="1665656$" />
+
+
                     <Button
                         android:id="@+id/btn_add_card"
                         android:layout_width="0dp"
@@ -178,8 +230,17 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                        app:layout_constraintTop_toBottomOf="@+id/textAfter" />
 
+                    <ProgressBar
+                        android:id="@+id/progress"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </com.google.android.material.card.MaterialCardView>

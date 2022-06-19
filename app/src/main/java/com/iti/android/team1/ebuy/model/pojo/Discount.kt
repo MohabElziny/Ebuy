@@ -45,8 +45,10 @@ data class PriceRules(
 
     )
 
+data class PriceRule(@SerializedName("price_rule") val priceRule: PriceRules? = null)
+
 data class Discount(
-    @SerializedName("discount_codes" ) var discountCodes : ArrayList<DiscountCodes> = arrayListOf()
+    @SerializedName("discount_codes") var discountCodes: ArrayList<DiscountCodes> = arrayListOf(),
 )
 
 data class DiscountCodes(
@@ -54,7 +56,9 @@ data class DiscountCodes(
     @SerializedName("price_rule_id") var priceRuleId: Long? = null,
     @SerializedName("code") var code: String? = null,
     @SerializedName("usage_count") var usageCount: Int? = null,
-    )
+)
+
+data class DiscountCode(@SerializedName("discount_code") val discountCodes: DiscountCodes? = null)
 
 data class DiscountPost(
     val discount_code: DiscountCreate,

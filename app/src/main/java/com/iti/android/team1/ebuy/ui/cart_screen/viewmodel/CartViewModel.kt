@@ -25,6 +25,12 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
         MutableStateFlow<ResultState<Boolean>>(ResultState.Loading)
     val deleteState: LiveData<ResultState<Boolean>> get() = _deleteState.asLiveData()
 
+    private val _discountValue = MutableLiveData<ResultState<Double>>()
+    val discountValue = _discountValue as LiveData<ResultState<Double>>
+
+    private val _totalAfterDiscount = MutableLiveData<Long>()
+    val totalAfterDiscount = _totalAfterDiscount as LiveData<Long>
+
     private val productsInCartUseCase: IProductsInCartUseCase
         get() = ProductsInCartUseCase(myRepo)
 
@@ -97,13 +103,12 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
         _allCartItems.postValue(ResultState.Success(cartItemList))
         _subTotal.emit(sum)
         _total.emit(sum + DELIVER)
+        _totalAfterDiscount.postValue(sum + DELIVER)
     }
 
     fun makeOrder() {
         viewModelScope.launch(Dispatchers.Default) {
-            total.collect {
-                makeOrderRequest(cartItemList, it)
-            }
+            _totalAfterDiscount.value?.let { makeOrderRequest(cartItemList, it) }
         }
     }
 
@@ -156,6 +161,50 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
             setDeleteState(result.await())
         }
         cartItemList.removeAt(cart_index)
+    }
+
+    fun getDiscountValue(code: String) {
+        _discountValue.value = ResultState.Loading
+        if (code.isNotEmpty()) {
+            viewModelScope.launch(Dispatchers.IO) {
+                val result = async { myRepo.getDiscountById(code) }
+                setDiscountResult(result.await())
+            }
+        } else
+            _discountValue.value = ResultState.Error("Empty Code")
+
+    }
+
+    private fun setDiscountResult(result: NetworkResponse<DiscountCode>) {
+        when (result) {
+            is NetworkResponse.SuccessResponse -> result.data.discountCodes?.priceRuleId?.let {
+                getPriceRule(it)
+            }
+            is NetworkResponse.FailureResponse -> _discountValue.postValue(ResultState.Error(result.errorString))
+
+        }
+    }
+
+    private fun getPriceRule(price_rule_id: Long) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val result = async { myRepo.getPriceRuleById(price_rule_id) }
+            setPriceRuleResult(result.await())
+        }
+    }
+
+    private fun setPriceRuleResult(response: NetworkResponse<PriceRule>) {
+        when (response) {
+            is NetworkResponse.SuccessResponse ->
+                _discountValue.postValue(response.data.priceRule?.value?.let {
+                    ResultState.Success(it.toDouble())
+                })
+            is NetworkResponse.FailureResponse -> _discountValue.postValue(
+                ResultState.Error(response.errorString))
+        }
+    }
+
+    fun calculatePriceAfterDiscount(discountValue: Double, price: Long) {
+        _totalAfterDiscount.value = (price + (price * discountValue / 100)).toLong()
     }
 
 

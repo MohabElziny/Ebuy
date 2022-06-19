@@ -113,5 +113,7 @@
     <string name="cancel_order">Order canceled</string>
     <string name="pay_cash">Pay Cash</string>
     <string name="yes">Yes</string>
+    <string name="btn_check_discount">get discount</string>
+    <string name="total_price_after_discount">Total Price After Discount</string>
 
 </resources>
