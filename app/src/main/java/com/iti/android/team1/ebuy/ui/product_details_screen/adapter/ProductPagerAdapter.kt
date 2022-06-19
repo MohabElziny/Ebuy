@@ -2,17 +2,15 @@ package com.iti.android.team1.ebuy.ui.product_details_screen.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.iti.android.team1.ebuy.databinding.AdLayoutBinding
-import com.iti.android.team1.ebuy.databinding.ProductLayoutBinding
 import com.iti.android.team1.ebuy.model.pojo.ProductImage
 
 class ProductPagerAdapter() : RecyclerView.Adapter<ProductPagerAdapter.ProductViewHolder>() {
-    private var productImages: List<ProductImage> = emptyList<ProductImage>()
+    private var productImages: List<ProductImage> = emptyList()
 
     @SuppressLint("NotifyDataSetChanged")
     fun setProductImagesAdapter(productImages: List<ProductImage>) {

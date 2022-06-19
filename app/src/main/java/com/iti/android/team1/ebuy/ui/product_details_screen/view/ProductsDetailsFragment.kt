@@ -34,7 +34,8 @@ class ProductsDetailsFragment : Fragment() {
         ProductDetailsVMFactory(Repository(LocalSource(requireContext())))
     }
     private val binding get() = _binding!!
-    private lateinit var adapter: ProductPagerAdapter
+    private var _adapter: ProductPagerAdapter? = null
+    private val adapter = _adapter!!
     private var cartProduct: Product? = null
     val args: ProductsDetailsFragmentArgs by navArgs()
 
@@ -201,7 +202,7 @@ class ProductsDetailsFragment : Fragment() {
     }
 
     private fun initProductPagerAdapter() {
-        adapter = ProductPagerAdapter()
+        _adapter = ProductPagerAdapter()
         binding.productImagesViewPager.adapter = adapter
         binding.dotsIndicator.attachTo(binding.productImagesViewPager)
         val zoomOutPageTransformer = ZoomOutPageTransformer()
@@ -210,15 +211,16 @@ class ProductsDetailsFragment : Fragment() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
+        cartProduct = null
+        _adapter = null
         _binding = null
     }
 
     override fun onStop() {
         super.onStop()
         (activity as MainActivity).setDefault()
-
     }
 
 }

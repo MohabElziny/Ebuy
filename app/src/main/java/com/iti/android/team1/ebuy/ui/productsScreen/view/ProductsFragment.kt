@@ -1,7 +1,6 @@
 package com.iti.android.team1.ebuy.ui.productsScreen.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -22,11 +21,12 @@ import com.iti.android.team1.ebuy.ui.productsScreen.ProductsRecyclerAdapter
 import com.iti.android.team1.ebuy.ui.productsScreen.viewmodel.ProductViewModelFactory
 import com.iti.android.team1.ebuy.ui.productsScreen.viewmodel.ProductsViewModel
 
-private const val TAG = "ProductsFragment"
-
 class ProductsFragment : Fragment() {
 
-    private lateinit var binding: FragmentProductsBinding
+    private var _binding: FragmentProductsBinding? = null
+    private val binding get() = _binding!!
+    private var _productAdapter: ProductsRecyclerAdapter? = null
+    private val productAdapter = _productAdapter!!
     private val args: ProductsFragmentArgs by navArgs()
     private val viewModel by viewModels<ProductsViewModel> {
         ProductViewModelFactory(Repository(LocalSource(requireContext())))
@@ -36,7 +36,7 @@ class ProductsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentProductsBinding.inflate(inflater, container, false)
+        _binding = FragmentProductsBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -46,36 +46,30 @@ class ProductsFragment : Fragment() {
         viewModel.productsLiveData.observe(viewLifecycleOwner) {
             when (it) {
                 is ResultState.Loading -> {
-                    binding.shimmer.apply {
-                        root.showShimmer(true)
-                        root.startShimmer()
-                    }
+                    showShimmer()
                 }
                 is ResultState.Success -> {
-                    binding.apply {
-                        shimmer.root.apply {
-                            hideShimmer()
-                            stopShimmer()
-                            visibility = View.GONE
-                        }
-                        productsRecycler.visibility = View.VISIBLE
-                    }
+                    removeShimmer()
+                    binding.productsRecycler.visibility = View.VISIBLE
                     setUpProductRecycler(it.data)
                 }
                 is ResultState.EmptyResult -> {
-                    //TODO: Show Empty layout
-                    Log.d(TAG, "onViewCreated: EmptyResult")
+                    showEmptyLayout()
                 }
                 is ResultState.Error -> {
-                    //TODO: Show Error layout
-                    Log.d(TAG, "onViewCreated: Error")
-
+                    showEmptyLayout()
+                    Toast.makeText(requireContext(), it.errorString, Toast.LENGTH_SHORT).show()
                 }
             }
         }
 
         startObserveToAddingFavoriteResult()
         startObserveToDeletingFavoriteResult()
+    }
+
+    private fun showEmptyLayout() {
+        removeShimmer()
+        binding.emptyLayout.root.visibility = View.VISIBLE
     }
 
     private fun startObserveToAddingFavoriteResult() {
@@ -120,7 +114,7 @@ class ProductsFragment : Fragment() {
     }
 
     private fun setUpProductRecycler(products: Products) {
-        val productAdapter = ProductsRecyclerAdapter(
+        _productAdapter = ProductsRecyclerAdapter(
             onItemClick = onItemClick,
             onLike = onLike,
             onUnLike = onUnLike
@@ -137,6 +131,26 @@ class ProductsFragment : Fragment() {
                 )
             adapter = productAdapter
         }
+    }
 
+    private fun showShimmer() {
+        binding.shimmer.apply {
+            root.showShimmer(true)
+            root.startShimmer()
+        }
+    }
+
+    private fun removeShimmer() {
+        binding.shimmer.root.apply {
+            hideShimmer()
+            stopShimmer()
+            visibility = View.GONE
+        }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _productAdapter = null
+        _binding = null
     }
 }
