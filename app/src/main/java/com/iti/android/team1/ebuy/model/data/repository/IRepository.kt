@@ -78,9 +78,19 @@ interface IRepository {
 
     fun getCartIdFromPrefs(): String
 
+
+    suspend fun getPriceRuleById(price_rule_id: Long): NetworkResponse<PriceRule>
+
+    suspend fun getDiscountById(code: String): NetworkResponse<DiscountCode>
+
+    fun isRunFirstTime(): Boolean
+
+    fun setRunFirstTime()
+
     suspend fun getPriceRuleById(price_rule_id:Long): NetworkResponse<PriceRule>
 
     suspend fun getDiscountById(code:String):NetworkResponse<DiscountCode>
+
 
 
 }

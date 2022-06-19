@@ -14,6 +14,8 @@ private const val CART_ID = "CART_ID_KEY"
 private const val CART_NO = "CART_NO"
 private const val FAVORITES_NO = "FAVORITE_NO"
 
+private const val RUN_FIRST_TIME = "RUN_FIRST_TIME"
+
 class PreferenceProvider private constructor() {
 
     companion object {
@@ -82,4 +84,10 @@ class PreferenceProvider private constructor() {
 
     private fun getCartNo() =
         sharedPref.getInt(CART_NO, 0)
+
+    fun isRunFirstTime(): Boolean = sharedPref.getBoolean(RUN_FIRST_TIME, true)
+
+    fun setRunFirstTime() {
+        sharedPref.edit().putBoolean(RUN_FIRST_TIME, false).apply()
+    }
 }

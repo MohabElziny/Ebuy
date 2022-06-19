@@ -31,4 +31,10 @@ class LocalSource(
     override suspend fun setCartNo(cartNo: Int) = prefs.setCartNo(cartNo)
 
     override fun getCartNo() = prefs.noOfCart
+
+    override fun setRunFirstTime() = prefs.setRunFirstTime()
+
+    override fun isRunFirstTime(): Boolean = prefs.isRunFirstTime()
+
+
 }

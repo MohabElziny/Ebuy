@@ -491,6 +491,14 @@ class Repository(
         else
             parseError(response.errorBody())
     }
+
+    override fun isRunFirstTime(): Boolean = localSource.isRunFirstTime()
+
+    override fun setRunFirstTime() {
+        localSource.setRunFirstTime()
+    }
+
+
 }
 
 private fun parseError(errorBody: ResponseBody?): FailureResponse {
