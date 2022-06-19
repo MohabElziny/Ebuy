@@ -46,7 +46,6 @@ class SplashFragment : Fragment() {
             }
         }
 
-        requireActivity().findViewById<Toolbar>(R.id.toolbar).visibility = View.GONE
     }
 
     private fun navigateToMainActivity() {
