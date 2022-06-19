@@ -41,13 +41,14 @@ class PaymentFragment : Fragment() {
     private val viewModel: PaymentViewModel by viewModels {
         PaymentViewModelFactory(Repository(LocalSource(requireContext())))
     }
-    private lateinit var binding: FragmentPaymentBinding
+    private var _binding: FragmentPaymentBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentPaymentBinding.inflate(inflater, container, false)
+        _binding = FragmentPaymentBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -173,6 +174,11 @@ class PaymentFragment : Fragment() {
             payCashButton.isClickable = true
             payCashButton.isFocusable = true
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }
 

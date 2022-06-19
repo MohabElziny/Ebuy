@@ -25,7 +25,8 @@ import com.iti.android.team1.ebuy.util.trimText
 
 class LoginScreen : Fragment() {
 
-    private lateinit var binding: FragmentLoginScreenBinding
+    private var _binding: FragmentLoginScreenBinding? = null
+    private val binding get() = _binding!!
 
     private val viewModel: LoginScreenViewModel by viewModels {
         LoginScreenViewModelFactory(Repository(LocalSource(requireContext())))
@@ -35,7 +36,7 @@ class LoginScreen : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?,
     ): View {
-        binding = FragmentLoginScreenBinding.inflate(inflater, container, false)
+        _binding = FragmentLoginScreenBinding.inflate(inflater, container, false)
 
         requireActivity().findViewById<Toolbar>(R.id.toolbar).visibility = View.VISIBLE
 
@@ -113,6 +114,11 @@ class LoginScreen : Fragment() {
     private fun navigateToMainActivity() {
         requireContext().startActivity(Intent(requireActivity(), MainActivity::class.java))
         requireActivity().finish()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }

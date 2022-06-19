@@ -6,10 +6,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.iti.android.team1.ebuy.R
-import com.iti.android.team1.ebuy.databinding.FavoritesCardRowBinding
 import com.iti.android.team1.ebuy.databinding.SavedItemsLayoutBinding
-import com.iti.android.team1.ebuy.model.pojo.FavoriteProduct
-import com.iti.android.team1.ebuy.model.pojo.Order
 import com.iti.android.team1.ebuy.model.pojo.Product
 import com.like.LikeButton
 import com.like.OnLikeListener
