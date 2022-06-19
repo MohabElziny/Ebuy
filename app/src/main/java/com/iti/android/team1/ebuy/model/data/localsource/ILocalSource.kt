@@ -15,4 +15,9 @@ interface ILocalSource {
     fun getFavoritesNo(): StateFlow<Int>
     suspend fun setCartNo(cartNo: Int)
     fun getCartNo(): StateFlow<Int>
+
+    fun isRunFirstTime(): Boolean
+
+    fun setRunFirstTime()
+
 }
