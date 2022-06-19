@@ -46,7 +46,7 @@ class CategoryProductsAdapter(
             binding.likeBtn.isLiked = product.isFavorite
             binding.txtProductName.text = product.productName
             binding.txtProductPrice.text =
-                product.productVariants?.get(0)?.productVariantPrice.toString()
+                product.productVariants?.get(0)?.productVariantPrice.toString().plus(" EGP")
             Glide.with(binding.root.context).load(product.productImage?.imageURL)
                 .into(binding.image)
         }

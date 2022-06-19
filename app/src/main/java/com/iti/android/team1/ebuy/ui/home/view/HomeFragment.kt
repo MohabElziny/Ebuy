@@ -4,7 +4,6 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
@@ -73,9 +72,6 @@ class HomeFragment : Fragment() {
 //                    is ResultState.Error -> TODO()
 //                    ResultState.Loading -> TODO()
                     is ResultState.Success -> {
-                        result.data.forEach {
-                            Log.i("AHMED", ": ${it.code}")
-                        }
                         discountAdapter.discountCodeList = result.data
                     }
                 }

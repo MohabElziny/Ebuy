@@ -1,52 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/constraintLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/backgroundColor"
-    android:orientation="vertical"
     tools:context=".ui.payment_screen.view.PaymentFragment">
 
-    <TextView
-        android:id="@+id/noSavedPayment"
-        style="@style/textStyle"
-        android:layout_width="379dp"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:text="@string/no_payment_method"
-        android:textSize="@dimen/fontHeading4" />
-
-    <Button
-        android:id="@+id/payCashButton"
-        style="@style/fontBoldStyle"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/pay_cash"
-        android:padding="@dimen/_6sdp"
-        android:textSize="@dimen/fontHeading3"
-        app:cornerRadius="@dimen/_6sdp"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="@dimen/_10sdp" />
+        android:layout_height="@dimen/_400sdp"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/_10sdp"
+        android:backgroundTint="@color/white"
+        app:cardCornerRadius="@dimen/_10sdp">
 
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-    <com.paypal.checkout.paymentbutton.PayPalButton
-        android:id="@+id/payPalButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="@dimen/_10sdp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="@dimen/_10sdp" />
+            <Button
+                android:id="@+id/payCashButton"
+                style="@style/fontBoldStyle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/payPalButton"
+                android:layout_marginStart="@dimen/_10sdp"
+                android:layout_marginEnd="@dimen/_10sdp"
+                android:padding="@dimen/_6sdp"
+                android:text="@string/pay_cash"
+                android:textSize="@dimen/fontHeading3"
+                app:cornerRadius="@dimen/_6sdp" />
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center|center_horizontal|center_vertical"
-        android:foregroundGravity="center_vertical|center|center_horizontal"
-        android:visibility="gone"
-        tools:visibility="visible" />
-</LinearLayout>
+            <com.paypal.checkout.paymentbutton.PayPalButton
+                android:id="@+id/payPalButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_margin="@dimen/_10sdp" />
+
+            <ProgressBar
+                android:id="@+id/samerfahmy"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/title"
+                style="@style/heading3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="@dimen/_30sdp"
+                android:text="@string/total"
+                android:textSize="@dimen/fontHeading2" />
+
+            <TextView
+                android:id="@+id/total_price_txt"
+                style="@style/heading3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:textSize="@dimen/fontHeading1"
+                tools:text="300.00 EGP" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+</FrameLayout>

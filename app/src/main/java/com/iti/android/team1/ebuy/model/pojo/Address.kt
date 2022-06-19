@@ -32,7 +32,6 @@ data class AddressApi(
     @SerializedName("address1") var address1: String? = null,
     @SerializedName("city") var city: String? = null,
     @SerializedName("phone") var phone: String? = null,
-    @SerializedName("name") var name: String? = null,
     @SerializedName("country") var country: String = "Egypt",
     @SerializedName("province") var province: String? = null,
 ) : Serializable

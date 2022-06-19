@@ -65,7 +65,6 @@ class AddAddressFragment : Fragment() {
         binding.saveBtn.setOnClickListener {
             val address = AddressApi(
                 address1 = binding.address1Layout.getText(),
-                name = binding.name.getText(),
                 city = binding.city.getText(),
                 province = binding.province.getText(),
                 phone = binding.phoneNumber.getText(),
@@ -93,10 +92,8 @@ class AddAddressFragment : Fragment() {
         }
     }
 
-
     private fun setUpdateLayout() {
         binding.saveBtn.text = getString(R.string.update_address)
-        binding.name.editText?.setText(args.address.name)
         binding.address1Layout.editText?.setText(args.address.address1)
         binding.city.editText?.setText(args.address.city)
         initSelector()
@@ -105,7 +102,6 @@ class AddAddressFragment : Fragment() {
             updateData()
             val address = AddressApi(
                 address1 = binding.address1Layout.getText(),
-                name = binding.name.getText(),
                 city = binding.city.getText(),
                 province = binding.province.getText(),
                 phone = binding.phoneNumber.getText(),
