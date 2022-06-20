@@ -118,7 +118,7 @@ class OrdersFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         _ordersAdapter = null
+        _binding = null
     }
 }

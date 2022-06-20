@@ -141,7 +141,7 @@ data class Order(
     @SerializedName("current_total_tax_set") var currentTotalTaxSet: PriceSet? = PriceSet(),
     @SerializedName("customer_locale") var customerLocale: String? = null,
     @SerializedName("device_id") var deviceId: String? = null,
-    @SerializedName("discount_codes") var discountCodes: ArrayList<String> = arrayListOf(),
+    @SerializedName("discount_codes") var discountCodes: ArrayList<HashMap<String,String>> = arrayListOf(),
     @SerializedName("email") var email: String? = null,
     @SerializedName("estimated_taxes") var estimatedTaxes: Boolean? = null,
     @SerializedName("financial_status") var financialStatus: String? = null,
