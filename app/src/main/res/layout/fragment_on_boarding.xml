@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".ui.onbording.OnBoardingFragment">
+    tools:context=".ui.onbording.view.OnBoardingFragment">
 
     <Button
         android:id="@+id/btnSkip"

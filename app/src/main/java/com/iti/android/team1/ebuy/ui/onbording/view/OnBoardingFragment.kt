@@ -1,15 +1,19 @@
-package com.iti.android.team1.ebuy.ui.onbording
+package com.iti.android.team1.ebuy.ui.onbording.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Adapter
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
-import com.iti.android.team1.ebuy.activities.auth.view.AuthActivity
 import com.iti.android.team1.ebuy.databinding.FragmentOnBoardingBinding
+import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.model.data.repository.Repository
+import com.iti.android.team1.ebuy.ui.onbording.viewmodel.OnBindingFactory
+import com.iti.android.team1.ebuy.ui.onbording.viewmodel.OnBoardingAdapter
+import com.iti.android.team1.ebuy.ui.onbording.viewmodel.OnBoardingViewModel
 import kotlinx.android.synthetic.main.fragment_on_boarding.*
 
 class OnBoardingFragment : Fragment() {
@@ -19,6 +23,10 @@ class OnBoardingFragment : Fragment() {
 
     private var _adapter: OnBoardingAdapter? = null
     private val adapter get() = _adapter!!
+
+    val viewModel: OnBoardingViewModel by viewModels {
+        OnBindingFactory(Repository(LocalSource(requireContext())))
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,14 +51,17 @@ class OnBoardingFragment : Fragment() {
         binding.btnNext.setOnClickListener {
             if (viewPager2.currentItem + 1 < adapter.list.size)
                 viewPager2.currentItem += 1
-            else
+            else {
                 findNavController().navigate(OnBoardingFragmentDirections.actionOnBoardingFragmentToLoginScreen2())
+                viewModel.setRunFirstTime()
+            }
         }
         binding.btnPrev.setOnClickListener {
             if (viewPager2.currentItem - 1 >= 0)
                 viewPager2.currentItem -= 1
         }
         binding.btnSkip.setOnClickListener {
+            viewModel.setRunFirstTime()
             findNavController().navigate(OnBoardingFragmentDirections.actionOnBoardingFragmentToLoginScreen2())
         }
     }

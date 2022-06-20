@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.ui.onbording
+package com.iti.android.team1.ebuy.ui.onbording.viewmodel
 
 import android.content.Context
 import android.view.LayoutInflater

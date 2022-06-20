@@ -27,7 +27,7 @@
 
     <fragment
         android:id="@+id/onBoardingFragment"
-        android:name="com.iti.android.team1.ebuy.ui.onbording.OnBoardingFragment"
+        android:name="com.iti.android.team1.ebuy.ui.onbording.view.OnBoardingFragment"
         android:label=""
         tools:layout="@layout/fragment_on_boarding" >
         <action
