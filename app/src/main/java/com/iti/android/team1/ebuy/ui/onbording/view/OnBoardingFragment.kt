@@ -52,8 +52,7 @@ class OnBoardingFragment : Fragment() {
             if (viewPager2.currentItem + 1 < adapter.list.size)
                 viewPager2.currentItem += 1
             else {
-                findNavController().navigate(OnBoardingFragmentDirections.actionOnBoardingFragmentToLoginScreen2())
-                viewModel.setRunFirstTime()
+                navigateToLoginScreen()
             }
         }
         binding.btnPrev.setOnClickListener {
@@ -61,9 +60,14 @@ class OnBoardingFragment : Fragment() {
                 viewPager2.currentItem -= 1
         }
         binding.btnSkip.setOnClickListener {
-            viewModel.setRunFirstTime()
-            findNavController().navigate(OnBoardingFragmentDirections.actionOnBoardingFragmentToLoginScreen2())
+            navigateToLoginScreen()
         }
+    }
+
+    private fun navigateToLoginScreen() {
+        viewModel.setRunFirstTime()
+        findNavController().popBackStack()
+        findNavController().navigate(OnBoardingFragmentDirections.actionOnBoardingFragmentToLoginScreen2())
     }
 
     override fun onDestroyView() {
