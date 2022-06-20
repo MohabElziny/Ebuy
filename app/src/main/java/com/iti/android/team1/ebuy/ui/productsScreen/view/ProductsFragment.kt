@@ -26,7 +26,7 @@ class ProductsFragment : Fragment() {
     private var _binding: FragmentProductsBinding? = null
     private val binding get() = _binding!!
     private var _productAdapter: ProductsRecyclerAdapter? = null
-    private val productAdapter = _productAdapter!!
+    private val productAdapter get() = _productAdapter!!
     private val args: ProductsFragmentArgs by navArgs()
     private val viewModel by viewModels<ProductsViewModel> {
         ProductViewModelFactory(Repository(LocalSource(requireContext())))

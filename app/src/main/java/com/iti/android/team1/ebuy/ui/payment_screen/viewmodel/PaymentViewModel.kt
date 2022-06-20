@@ -1,5 +1,6 @@
 package com.iti.android.team1.ebuy.ui.payment_screen.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -11,6 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
+private const val TAG = "PaymentViewModel"
 class PaymentViewModel(private val myRepo: IRepository) : ViewModel() {
     private val _requestSucceed = MutableLiveData<Boolean>()
     val requestSucceed = _requestSucceed as LiveData<Boolean>
@@ -26,12 +28,14 @@ class PaymentViewModel(private val myRepo: IRepository) : ViewModel() {
     private fun handlePostResponse(response: NetworkResponse<Order>) {
         when (response) {
             is NetworkResponse.FailureResponse -> {
+                Log.i(TAG, "handlePostResponse: ${response.errorString}")
                 _requestSucceed.postValue(false)
             }
             is NetworkResponse.SuccessResponse -> {
                 response.data.customer?.let {
                     _requestSucceed.postValue(true)
                 } ?: run {
+                    Log.i(TAG, "handlePostResponse: ${response.data}")
                     _requestSucceed.postValue(false)
 
                 }

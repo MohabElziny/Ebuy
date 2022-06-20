@@ -224,8 +224,8 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
         _brandsAdapter = null
         _discountAdapter = null
+        _binding = null
     }
 }

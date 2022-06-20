@@ -35,7 +35,7 @@ class ProductsDetailsFragment : Fragment() {
     }
     private val binding get() = _binding!!
     private var _adapter: ProductPagerAdapter? = null
-    private val adapter = _adapter!!
+    private val adapter get() = _adapter!!
     private var cartProduct: Product? = null
     val args: ProductsDetailsFragmentArgs by navArgs()
 

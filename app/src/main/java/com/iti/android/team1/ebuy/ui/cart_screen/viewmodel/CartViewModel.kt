@@ -125,7 +125,7 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
             currentTotalPrice = "$currentTotalPrice")
 
         if (code.isNotEmpty())
-            orderMade.discountCodes = arrayListOf(code)
+            orderMade.discountCodes = arrayListOf(hashMapOf(("code" to code)))
 
         _oder.postValue(orderMade)
 
