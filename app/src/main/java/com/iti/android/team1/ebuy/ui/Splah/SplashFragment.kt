@@ -38,7 +38,6 @@ class SplashFragment : Fragment() {
             findNavController().popBackStack()
             if (viewModel.isRunFirstTime()) {
                 findNavController().navigate(R.id.onBoardingFragment)
-                viewModel.setRunFirstTime()
             } else {
                 if (viewModel.getAuthStateFromPrefs())
                     navigateToMainActivity()

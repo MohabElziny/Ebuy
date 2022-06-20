@@ -8,7 +8,6 @@ class SplashViewModel(val repo: IRepository) : ViewModel() {
 
     fun isRunFirstTime(): Boolean = repo.isRunFirstTime()
 
-    fun setRunFirstTime() = repo.setRunFirstTime()
 
     fun getAuthStateFromPrefs() = repo.getAuthStateFromPrefs()
 
