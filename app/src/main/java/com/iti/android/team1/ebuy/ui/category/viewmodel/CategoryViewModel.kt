@@ -170,29 +170,21 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
         val sortArray: List<Product> = cachedProducts ?: emptyList()
         _allProducts.value = ResultState.Loading
         when (sortType) {
-            SortType.A_to_Z -> {
-                sortArray.sortedBy { it.productName }
+            SortType.Default -> cachedProducts
+            SortType.A_to_Z -> sortArray.sortedBy { it.productName }
+            SortType.Z_to_A -> sortArray.sortedByDescending { it.productName }
+            SortType.Lowest_to_highest_price -> sortArray.sortedBy {
+                it.productVariants?.get(0)?.productVariantPrice?.toDouble()
             }
-            SortType.Z_to_A -> {
-                sortArray.sortedByDescending { it.productName }
+            SortType.Highest_to_lowest_price -> sortArray.sortedByDescending {
+                it.productVariants?.get(0)?.productVariantPrice?.toDouble()
             }
-            SortType.Lowest_to_highest_price -> {
-                sortArray.sortedBy {
-                    it.productVariants?.get(0)?.productVariantPrice?.toDouble()
-                }
-            }
-            SortType.Highest_to_lowest_price -> {
-                sortArray.sortedByDescending {
-                    it.productVariants?.get(0)?.productVariantPrice?.toDouble()
-                }
-            }
-        }.apply {
-            _allProducts.value = ResultState.Success(Products(this))
-        }
+        }.apply { _allProducts.value = ResultState.Success(Products(this)) }
     }
 
     fun sortProducts(position: Int) {
         when (position) {
+            0 -> sortProductList(SortType.Default)
             1 -> sortProductList(SortType.A_to_Z)
             2 -> sortProductList(SortType.Z_to_A)
             3 -> sortProductList(SortType.Lowest_to_highest_price)
@@ -201,7 +193,7 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     }
 
     enum class SortType {
-        A_to_Z, Z_to_A, Lowest_to_highest_price, Highest_to_lowest_price
+        Default, A_to_Z, Z_to_A, Lowest_to_highest_price, Highest_to_lowest_price
     }
 }
 
