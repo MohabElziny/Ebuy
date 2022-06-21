@@ -86,6 +86,7 @@
 
 
     <string-array name="sortProducts">
+        <item>Sort</item>
         <item>A to Z</item>
         <item>Z to A</item>
         <item>lowest to highest price</item>
@@ -115,5 +116,62 @@
     <string name="yes">Yes</string>
     <string name="btn_check_discount">get discount</string>
     <string name="total_price_after_discount">Total Price After Discount</string>
+    <string name="credit">Credit</string>
+    <string name="profile">Profile</string>
+    <string name="payment">Payment</string>
+    <string name="there_s_no_orders_yet">There\'s no orders yet</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="skip">Skip</string>
+    <string name="next">Next</string>
+    <string name="previous">Previous</string>
+    <string name="order_done">Order is Done</string>
+    <string name="order_error">Error in order</string>
+    <string name="no_addresses">You don\'t have any saved addresses</string>
+    <string name="add_address_title">Add address</string>
+    <string name="edit_address_title">Add address</string>
+    <string name="make_defult">Make defult</string>
+    <string name="update_address">Update Address</string>
+    <string name="settings_label">Settings</string>
+    <string name="addresses_fragment">Addresses</string>
+    <string name="address_1">Address</string>
+    <string name="address_2">Address 2</string>
+    <string name="province_title">Province</string>
+    <string name="city_title">City</string>
+    <string name="phone_number">Phone number</string>
+    <string name="address_name">Address name</string>
+    <string name="save_address">Save address</string>
+    <string name="connected">Connected</string>
+    <string name="already_have_an_acount">Already have an acount?</string>
+    <string name="auth_error">Authentication error</string>
+    <string name="invailed_auth_data">Your data does not match an Ebuy account.</string>
+    <string name="invalid_email">Invalid  email</string>
+    <string name="invalid_password">Invalid  password</string>
+    <string name="DeliveryPrice">50 EGP</string>
+    <string name="name_error">Enter a valid Name</string>
+    <string name="password_error">Password must be upper lower special char number and greater than 8</string>
+    <string name="email_error" translatable="false">Email must be in format example@gmail.com</string>
+    <string name="out_of_stock">Out of stock</string>
+    <string name="in_stock">In stock</string>
+    <string name="favorite_empty_list_title">Your favorite list is empty right now</string>
+    <string name="details_fragment_title">Details</string>
+    <string name="fav">Favorites</string>
+    <string name="delete_error">Could not delete product from favorites</string>
+    <string name="delete_success">Deleted</string>
+    <string name="insert_seccuess">Liked</string>
+    <string name="insert_error">Could not add product to favorites</string>
+    <string name="product_image">Product image</string>
+    <string name="saved_items">Saved items</string>
+    <string name="price">Price</string>
+    <string name="search">Search</string>
+    <string name="about">About</string>
+    <string name="view_all">View All</string>
+    <string name="new_trends">New Trends</string>
+    <string name="title_notifications">Notifications</string>
+    <string name="title_home">Home</string>
+    <string name="app_name">Ebuy</string>
+    <string name="invalid_address">Invalid address</string>
+    <string name="invalid_phone">Invalid phone number</string>
+    <string name="invalid_province">Invalid province</string>
+    <string name="invalid_city">Invalid city</string>
 
 </resources>

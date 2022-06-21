@@ -3,6 +3,7 @@ package com.iti.android.team1.ebuy.ui.onbording.view
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import com.iti.android.team1.ebuy.R
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -67,7 +68,7 @@ class OnBoardingFragment : Fragment() {
     private fun navigateToLoginScreen() {
         viewModel.setRunFirstTime()
         findNavController().popBackStack()
-        findNavController().navigate(OnBoardingFragmentDirections.actionOnBoardingFragmentToLoginScreen2())
+        findNavController().navigate(R.id.loginScreen2)
     }
 
     override fun onDestroyView() {
