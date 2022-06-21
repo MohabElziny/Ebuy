@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentOnBoardingBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
@@ -67,7 +68,7 @@ class OnBoardingFragment : Fragment() {
     private fun navigateToLoginScreen() {
         viewModel.setRunFirstTime()
         findNavController().popBackStack()
-        findNavController().navigate(OnBoardingFragmentDirections.actionOnBoardingFragmentToLoginScreen2())
+        findNavController().navigate(R.id.loginScreen2)
     }
 
     override fun onDestroyView() {
