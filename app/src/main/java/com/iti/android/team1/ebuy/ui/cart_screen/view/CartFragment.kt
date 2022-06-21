@@ -48,6 +48,7 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initCartRecycler()
+//        handleAllCartItems()
         handleAllCartItems()
         handleCheckoutButton()
         handleOverFlow()
@@ -107,7 +108,6 @@ class CartFragment : Fragment() {
             Snackbar.LENGTH_SHORT)
             .show()
     }
-
     private fun handleAllCartItems() {
         viewModel.getAllCartItems()
         lifecycleScope.launch {
@@ -254,6 +254,7 @@ class CartFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         viewModel.updateToDB()
+viewModel.reloadStates()
     }
 
     private fun showShimmer() {

@@ -69,4 +69,10 @@ class SavedItemsViewModel(private val repo: IRepository) : ViewModel() {
         }
     }
 
+    fun reloadStates() {
+        viewModelScope.launch {
+            _allFavorites.emit(ResultState.Loading)
+        }
+    }
+
 }

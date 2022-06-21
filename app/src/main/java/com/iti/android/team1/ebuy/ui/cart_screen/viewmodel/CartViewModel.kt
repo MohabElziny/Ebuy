@@ -71,6 +71,9 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
             }
         }
     }
+    fun reloadStates(){
+        _allCartItems.postValue(ResultState.Loading)
+    }
 
     fun updateToDB() {
         viewModelScope.launch(Dispatchers.IO) {

@@ -56,9 +56,15 @@ class SavedItemsFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.allFavorites.buffer().collect { response ->
                 when (response) {
-                    ResultState.EmptyResult -> setEmptyLayout()
-                    is ResultState.Error -> Toast.makeText(requireContext(),
-                        response.errorString, Toast.LENGTH_SHORT).show()
+                    ResultState.EmptyResult -> {
+                        hideShimmer()
+                        setEmptyLayout()
+                    }
+                    is ResultState.Error ->{
+                        hideShimmer()
+                        Toast.makeText(requireContext(),
+                            response.errorString, Toast.LENGTH_SHORT).show()
+                    }
                     ResultState.Loading -> {
                         showShimmer()
                     }
@@ -135,4 +141,8 @@ class SavedItemsFragment : Fragment() {
         _binding = null
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.reloadStates()
+    }
 }
