@@ -206,6 +206,7 @@ class CategoryFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        categoryViewModel.onDestroyView()
         _binding = null
         _categoryProductsAdapter = null
         _categoriesAdapter = null
@@ -232,14 +233,14 @@ class CategoryFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let {
-                    categoryViewModel.setSearchQuery(it)
+                    categoryViewModel.setSearchQuery(it.trim())
                 }
                 return true
             }
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
-                    categoryViewModel.setSearchQuery(query)
+                    categoryViewModel.setSearchQuery(query.trim())
                 }
                 return false
             }

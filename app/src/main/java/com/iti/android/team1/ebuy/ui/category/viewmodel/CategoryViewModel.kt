@@ -139,17 +139,19 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     }
 
     fun setSearchQuery(newString: String) {
-        _allProducts.value = ResultState.Loading
-        val searchList: List<Product> = cachedProducts ?: emptyList()
-        viewModelScope.launch(Dispatchers.Default) {
-            if (searchList.isNotEmpty()) {
-                searchList.filter { product ->
-                    filterProduct(product, newString)
-                }.apply {
-                    if (this.isNotEmpty())
-                        _allProducts.emit(ResultState.Success(Products(this)))
-                    else
-                        _allProducts.emit(ResultState.EmptyResult)
+        if (newString.isNotEmpty()) {
+            _allProducts.value = ResultState.Loading
+            val searchList: List<Product> = cachedProducts ?: emptyList()
+            viewModelScope.launch(Dispatchers.Default) {
+                if (searchList.isNotEmpty()) {
+                    searchList.filter { product ->
+                        filterProduct(product, newString)
+                    }.apply {
+                        if (this.isNotEmpty())
+                            _allProducts.emit(ResultState.Success(Products(this)))
+                        else
+                            _allProducts.emit(ResultState.EmptyResult)
+                    }
                 }
             }
         }
@@ -200,8 +202,13 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
         }
     }
 
-    enum class SortType {
-        A_to_Z, Z_to_A, Lowest_to_highest_price, Highest_to_lowest_price
+    fun onDestroyView() {
+        cachedProducts = null
     }
+
+}
+
+enum class SortType {
+    A_to_Z, Z_to_A, Lowest_to_highest_price, Highest_to_lowest_price
 }
 
