@@ -91,7 +91,9 @@ class ProfileFragment : Fragment() {
                     }
                     is ResultState.Error -> Toast.makeText(requireContext(),
                         result.errorString, Toast.LENGTH_SHORT).show()
-//                    ResultState.Loading -> TODO()
+                    ResultState.Loading -> {
+                        binding.emptyTxtFavorites.visibility = View.GONE
+                    }
                     is ResultState.Success -> {
                         binding.emptyTxtFavorites.visibility = View.GONE
                         profileFavoritesAdapter.setFavouriteList(result.data)
@@ -111,7 +113,10 @@ class ProfileFragment : Fragment() {
                         ordersAdapter.setOrderList(emptyList())
                     }
 //                    is ResultState.Error -> TODO()
-//                    ResultState.Loading -> TODO()
+                    ResultState.Loading -> {
+                        binding.emptyTxtOrders.visibility = View.GONE
+
+                    }
                     is ResultState.Success -> {
                         binding.emptyTxtOrders.visibility = View.GONE
                         ordersAdapter.setOrderList(result.data)
@@ -169,6 +174,10 @@ class ProfileFragment : Fragment() {
         ))
     }
 
+    override fun onStop() {
+        super.onStop()
+        viewModel.reloadStates()
+    }
     override fun onDestroyView() {
         super.onDestroyView()
         _ordersAdapter = null

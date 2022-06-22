@@ -132,4 +132,11 @@ class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
             }
         }
     }
+
+    fun reloadStates() {
+        viewModelScope.launch {
+            _orderList.emit(ResultState.Loading)
+            _favouriteProducts.emit(ResultState.Loading)
+        }
+    }
 }
