@@ -16,11 +16,12 @@ import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentAddAddressBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
-import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.model.pojo.AddressApi
 import com.iti.android.team1.ebuy.model.pojo.AddressDto
 import com.iti.android.team1.ebuy.ui.add_address.viewmodel.AddAddressViewModel
 import com.iti.android.team1.ebuy.ui.add_address.viewmodel.AddViewModelFactory
+import com.iti.android.team1.ebuy.ui.add_address.viewmodel.AddressResult
+import com.iti.android.team1.ebuy.ui.add_address.viewmodel.DataErrorType
 import com.iti.android.team1.ebuy.util.getText
 import kotlinx.coroutines.flow.buffer
 
@@ -64,6 +65,7 @@ class AddAddressFragment : Fragment() {
 
     private fun setAddLayout() {
         binding.saveBtn.setOnClickListener {
+            binding.saveBtn.isClickable = false
             val address = AddressApi(
                 address1 = binding.address1Layout.getText(),
                 city = binding.city.getText(),
@@ -78,17 +80,7 @@ class AddAddressFragment : Fragment() {
     private fun fetchState() {
         lifecycleScope.launchWhenStarted {
             viewModel.addressState.buffer().collect {
-                when (it) {
-                    ResultState.EmptyResult ->
-                        findNavController().popBackStack()
-
-                    is ResultState.Error ->
-                        Snackbar.make(requireView(), it.errorString, Snackbar.LENGTH_SHORT).show()
-
-                    ResultState.Loading -> {
-
-                    }
-                }
+                setStateResult(it)
             }
         }
     }
@@ -100,7 +92,7 @@ class AddAddressFragment : Fragment() {
         initSelector()
         binding.phoneNumber.editText?.setText(args.address.phone)
         binding.saveBtn.setOnClickListener {
-            updateData()
+            binding.saveBtn.isClickable = false
             val address = AddressApi(
                 address1 = binding.address1Layout.getText(),
                 city = binding.city.getText(),
@@ -109,23 +101,54 @@ class AddAddressFragment : Fragment() {
             )
             viewModel.editAddress(args.address.id ?: 0L, AddressDto(address))
         }
-
+        updateData()
     }
 
     private fun updateData() {
         lifecycleScope.launchWhenStarted {
             viewModel.editAddressState.buffer().collect {
-                when (it) {
-                    ResultState.EmptyResult ->
-                        findNavController().popBackStack()
-                    is ResultState.Error -> {
-                        Snackbar.make(requireView(), it.errorString, Snackbar.LENGTH_SHORT).show()
-                        binding.saveBtn.isClickable = true
-                    }
-                    ResultState.Loading -> {
-                        binding.saveBtn.isClickable = false
-                    }
-                }
+                setStateResult(it)
+            }
+        }
+    }
+
+    private fun setStateResult(result: AddressResult) {
+        when (result) {
+            is AddressResult.AddAddressError -> {
+                Snackbar.make(requireView(),
+                    result.errorString,
+                    Snackbar.LENGTH_SHORT).show()
+                binding.saveBtn.isClickable = true
+            }
+            AddressResult.AddAddressSuccessful -> findNavController().popBackStack()
+            is AddressResult.InvalidData -> setInputError(result.error)
+            AddressResult.Loading -> resetFields()
+        }
+    }
+
+    private fun resetFields() {
+        binding.apply {
+            address1Layout.isErrorEnabled = false
+            city.isErrorEnabled = false
+            province.isErrorEnabled = false
+            phoneNumber.isErrorEnabled = false
+        }
+    }
+
+    private fun setInputError(error: DataErrorType) {
+        binding.saveBtn.isClickable = true
+        when (error) {
+            DataErrorType.ADDRESS_ERROR -> {
+                binding.address1Layout.error = getString(R.string.invalid_address)
+            }
+            DataErrorType.CITY_ERROR -> {
+                binding.city.error = getString(R.string.invalid_city)
+            }
+            DataErrorType.PHONE_ERROR -> {
+                binding.phoneNumber.error = getString(R.string.invalid_phone)
+            }
+            DataErrorType.PROVINCE_ERROR -> {
+                binding.province.error = getString(R.string.invalid_province)
             }
         }
     }

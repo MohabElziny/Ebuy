@@ -112,17 +112,19 @@ class HomeViewModel(private val repository: IRepository) : ViewModel() {
     }
 
     fun setSearchQuery(newString: String) {
-        _brandsResult.value = ResultState.Loading
-        val searchBrands = cachedBrands?.brands ?: emptyList()
-        viewModelScope.launch(Dispatchers.Default) {
-            if (searchBrands.isNotEmpty()) {
-                searchBrands.filter { brand ->
-                    brand.brandTitle.lowercase().contains(newString.lowercase())
-                }.apply {
-                    if (this.isNotEmpty())
-                        _brandsResult.emit(ResultState.Success(Brands(this)))
-                    else
-                        _brandsResult.emit(ResultState.EmptyResult)
+        if (newString.isNotEmpty()) {
+            _brandsResult.value = ResultState.Loading
+            val searchBrands = cachedBrands?.brands ?: emptyList()
+            viewModelScope.launch(Dispatchers.Default) {
+                if (searchBrands.isNotEmpty()) {
+                    searchBrands.filter { brand ->
+                        brand.brandTitle.lowercase().contains(newString.lowercase())
+                    }.apply {
+                        if (this.isNotEmpty())
+                            _brandsResult.emit(ResultState.Success(Brands(this)))
+                        else
+                            _brandsResult.emit(ResultState.EmptyResult)
+                    }
                 }
             }
         }
@@ -132,5 +134,9 @@ class HomeViewModel(private val repository: IRepository) : ViewModel() {
         cachedBrands?.let {
             _brandsResult.value = ResultState.Success(it)
         }
+    }
+
+    fun onDestroyView() {
+        cachedBrands = null
     }
 }

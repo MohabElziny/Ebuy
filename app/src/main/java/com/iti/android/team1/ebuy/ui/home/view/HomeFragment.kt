@@ -172,14 +172,14 @@ class HomeFragment : Fragment() {
         searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextChange(newText: String?): Boolean {
                 newText?.let {
-                    homeViewModel.setSearchQuery(it)
+                    homeViewModel.setSearchQuery(it.trim())
                 }
                 return true
             }
 
             override fun onQueryTextSubmit(query: String?): Boolean {
                 query?.let {
-                    homeViewModel.setSearchQuery(query)
+                    homeViewModel.setSearchQuery(query.trim())
                 }
                 return false
             }
@@ -224,6 +224,7 @@ class HomeFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        homeViewModel.onDestroyView()
         _brandsAdapter = null
         _discountAdapter = null
         _binding = null
