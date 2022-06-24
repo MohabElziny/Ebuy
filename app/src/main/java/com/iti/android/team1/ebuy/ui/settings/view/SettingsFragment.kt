@@ -8,6 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.view.AuthActivity
 import com.iti.android.team1.ebuy.databinding.FragmentSettingsBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
@@ -40,10 +42,23 @@ class SettingsFragment : Fragment() {
         }
 
         binding.logoutRelative.setOnClickListener {
-            viewModel.logOut()
-            startActivity(Intent(requireContext(), AuthActivity::class.java))
-            activity?.finish()
+            showLogoutAlertDialog()
         }
+    }
+
+    private fun showLogoutAlertDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.log_out_message))
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.settings_logout)) { dialog, _ ->
+                viewModel.logOut()
+                dialog.dismiss()
+                startActivity(Intent(requireContext(), AuthActivity::class.java))
+                activity?.finish()
+            }
+            .show()
     }
 
     override fun onDestroyView() {
