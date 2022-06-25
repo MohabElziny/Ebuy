@@ -28,6 +28,8 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityAuthBinding
     private lateinit var fragmentContainer: FragmentContainerView
+    var connect = true
+
     private val viewModel: ConnectionViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +60,7 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private fun handleConnection() {
         lifecycleScope.launchWhenStarted {
             viewModel.isConnected.buffer().collect { connection ->
+                connect = connection
                 if (connection) {
                     handleIsConnected()
                 } else {
@@ -105,6 +108,14 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         when (destination.id) {
             R.id.onBoardingFragment -> binding.appBarLayout.visibility = View.GONE
             else -> binding.appBarLayout.visibility = View.VISIBLE
+        }
+    }
+
+    override fun onBackPressed() {
+        if (!connect)
+            finish()
+        else {
+            super.onBackPressed()
         }
     }
 }

@@ -16,10 +16,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
-import com.iti.android.team1.ebuy.activities.main.viewmodel.MainViewModel
-import com.iti.android.team1.ebuy.activities.main.viewmodel.MainViewModelFactory
 import com.iti.android.team1.ebuy.activities.main.connection.ConnectionLiveData
 import com.iti.android.team1.ebuy.activities.main.connection.DoesNetworkHaveInternet
+import com.iti.android.team1.ebuy.activities.main.viewmodel.MainViewModel
+import com.iti.android.team1.ebuy.activities.main.viewmodel.MainViewModelFactory
 import com.iti.android.team1.ebuy.databinding.ActivityMainBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
@@ -40,6 +40,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private val viewMode: MainViewModel by viewModels {
         MainViewModelFactory(Repository(LocalSource(this)))
     }
+    var connect = true
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,11 +79,13 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         super.onResume()
         checkResumeConnection()
     }
-    private fun checkResumeConnection(){
+
+    private fun checkResumeConnection() {
         CoroutineScope(Dispatchers.IO).launch {
             connectionViewModel.updateConnection(DoesNetworkHaveInternet.execute())
         }
     }
+
     private fun setConnectionState() {
         ConnectionLiveData(this).observe(this) { connection ->
             connectionViewModel.updateConnection(connection)
@@ -91,6 +95,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private fun handleConnection() {
         lifecycleScope.launchWhenStarted {
             connectionViewModel.isConnected.buffer().collect { connection ->
+                connect = connection
                 if (connection) {
                     handleIsConnected()
                     navView.setupWithNavController(navController)
@@ -114,6 +119,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         binding.navView.visibility = View.INVISIBLE
         binding.noConnection.root.visibility = View.VISIBLE
         showSnackBar(getString(R.string.not_connected))
+
     }
 
     private fun showSnackBar(msg: String) {
@@ -126,6 +132,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             setOf(
                 R.id.navigation_home, R.id.navigation_Category, R.id.navigation_profile,
                 R.id.navigation_cart
+
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -134,7 +141,9 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     fun profileNavigation() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.navigation_home, R.id.navigation_Category, R.id.navigation_profile
+                R.id.navigation_home,
+                R.id.navigation_Category,
+                R.id.navigation_profile,
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -158,6 +167,14 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         } else {
             navView.visibility = View.GONE
 
+        }
+    }
+
+    override fun onBackPressed() {
+        if (!connect)
+            finish()
+        else {
+            super.onBackPressed()
         }
     }
 }
