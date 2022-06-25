@@ -194,7 +194,8 @@ class ProfileFragment : Fragment() {
 
     private fun showLogoutAlertDialog() {
         MaterialAlertDialogBuilder(requireContext())
-            .setTitle(getString(R.string.log_out_message))
+            .setTitle(getString(R.string.settings_logout))
+            .setMessage(getString(R.string.log_out_message))
             .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
                 dialog.dismiss()
             }
