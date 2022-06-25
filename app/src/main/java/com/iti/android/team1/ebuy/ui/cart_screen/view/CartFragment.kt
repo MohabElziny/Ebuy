@@ -96,7 +96,9 @@ class CartFragment : Fragment() {
             viewModel.makeOrder(binding.etCoupon.text.toString())
             viewModel.order.observe(viewLifecycleOwner) { order ->
                 showSnackMessage("must choose The Shipping Address")
-                val action = CartFragmentDirections.actionCartFragmentToAddressesFragment(1, order)
+                val action = CartFragmentDirections.actionCartFragmentToAddressesFragment(1,
+                    order,
+                    dToCatr = true)
                 findNavController().navigate(action)
             }
         }
@@ -108,6 +110,7 @@ class CartFragment : Fragment() {
             Snackbar.LENGTH_SHORT)
             .show()
     }
+
     private fun handleAllCartItems() {
         viewModel.getAllCartItems()
         lifecycleScope.launch {
@@ -254,7 +257,7 @@ class CartFragment : Fragment() {
     override fun onStop() {
         super.onStop()
         viewModel.updateToDB()
-viewModel.reloadStates()
+        viewModel.reloadStates()
     }
 
     private fun showShimmer() {

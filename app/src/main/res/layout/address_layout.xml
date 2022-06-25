@@ -13,10 +13,14 @@
         android:layout_marginTop="@dimen/_7sdp"
         android:layout_marginEnd="@dimen/_7sdp"
         android:layout_marginBottom="@dimen/_7sdp"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true"
         app:cardCornerRadius="@dimen/_7sdp"
         app:cardElevation="@dimen/_2sdp">
 
         <RelativeLayout
+
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="@dimen/_8sdp"
@@ -107,16 +111,6 @@
             android:focusable="true"
             android:src="@drawable/ic_baseline_delete_24" />
 
-        <ImageView
-            android:id="@+id/imageEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/_8sdp"
-            android:layout_gravity="end|center"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_round_edit_24" />
 
         <com.like.LikeButton
             android:id="@+id/defBtn"

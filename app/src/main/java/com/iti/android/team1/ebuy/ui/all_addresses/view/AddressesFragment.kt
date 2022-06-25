@@ -43,7 +43,7 @@ class AddressesFragment : Fragment() {
     ): View {
         _binding = FragmentAddressesBinding.inflate(inflater, container, false)
         _addressesAdapter =
-            AddressAdapter(onItemClick, onDelete, onEdit, onAddSelected, addAddressAsDef)
+            AddressAdapter(onItemClick, onDelete, onAddSelected, addAddressAsDef, args.dToCatr)
         return binding.root
     }
 
@@ -163,7 +163,11 @@ class AddressesFragment : Fragment() {
             destinationID = 0
         }
     }
-    private val onItemClick: (Int) -> (Unit) = { }
+    private val onItemClick: (Address) -> (Unit) = { address ->
+        findNavController().navigate(AddressesFragmentDirections
+            .actionAddressesFragmentToAddAddressFragment(address,
+                title = getString(R.string.edit_address_title)))
+    }
 
     private val onDelete: (Address, Int) -> (Unit) = { address, position ->
         val dialog = AlertDialog.Builder(requireContext())
@@ -176,11 +180,6 @@ class AddressesFragment : Fragment() {
         dialog.setNegativeButton(android.R.string.cancel) { _, _ -> }.show()
     }
 
-    private val onEdit: (Address) -> (Unit) = { address ->
-        findNavController().navigate(AddressesFragmentDirections
-            .actionAddressesFragmentToAddAddressFragment(address,
-                title = getString(R.string.edit_address_title)))
-    }
 
     private val addAddressAsDef: (Long, Int) -> (Unit) = { addressId, position ->
         this.position = position
