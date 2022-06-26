@@ -12,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.activities.main.view.MainActivity
@@ -26,7 +27,6 @@ import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
 import com.iti.android.team1.ebuy.util.trimText
 import kotlinx.coroutines.flow.buffer
 
-
 class LoginScreen : Fragment() {
 
     private var _binding: FragmentLoginScreenBinding? = null
@@ -35,6 +35,7 @@ class LoginScreen : Fragment() {
     private val viewModel: LoginScreenViewModel by viewModels {
         LoginScreenViewModelFactory(Repository(LocalSource(requireContext())))
     }
+    var isInternetConnected = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -61,23 +62,25 @@ class LoginScreen : Fragment() {
         }
         handleNoConnection()
         binding.btnLogin.setOnClickListener {
-            viewModel.makeLoginRequest(
-                CustomerLogin(
-                    email = binding.edtEmail.trimText(),
-                    password = binding.edtPassword.trimText()
+            if (isInternetConnected)
+                viewModel.makeLoginRequest(
+                    CustomerLogin(
+                        email = binding.edtEmail.trimText(),
+                        password = binding.edtPassword.trimText()
+                    )
                 )
-            )
-
+            else
+                Snackbar.make(binding.root,
+                    getString(R.string.not_connected),
+                    Snackbar.LENGTH_SHORT)
+                    .show()
         }
     }
 
     private fun handleNoConnection() {
         lifecycleScope.launchWhenCreated {
             sharedViewModel.isConnected.buffer().collect { connect ->
-                if (!connect) {
-                    findNavController().popBackStack()
-                    findNavController().navigate(R.id.noInternetFragment2)
-                }
+                isInternetConnected = connect
             }
         }
     }

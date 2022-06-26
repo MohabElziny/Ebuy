@@ -105,23 +105,9 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         }
     }
 
-    private fun handleIsConnected() {
-        binding.noConnection.root.visibility = View.INVISIBLE
-        fragmentContainer.visibility = View.VISIBLE
-        binding.appBarLayout.visibility = View.VISIBLE
-        binding.navView.visibility = View.VISIBLE
-    }
-
     private fun handleNotConnected() {
         if (navController.currentDestination?.equals(R.id.noInternetFragment) == false)
             navController.navigate(R.id.noInternetFragment)
-        showSnackBar(getString(R.string.not_connected))
-
-    }
-
-    private fun showSnackBar(msg: String) {
-        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
-            .show()
     }
 
     fun setDefault() {

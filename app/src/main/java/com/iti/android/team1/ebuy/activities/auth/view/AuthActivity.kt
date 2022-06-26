@@ -28,7 +28,6 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityAuthBinding
     private lateinit var fragmentContainer: FragmentContainerView
-    var connect = true
 
     private val viewModel: ConnectionViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,11 +40,10 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         navController = findNavController(R.id.nav_host_fragment_activity_auth)
         setDefault()
         setConnectionState()
-        handleConnection()
         navController.addOnDestinationChangedListener(this::onDestinationChanged)
     }
 
-    fun setDefault() {
+    private fun setDefault() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.loginScreen2, R.id.registerScreen2, R.id.onBoardingFragment
@@ -54,31 +52,9 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
-    fun noConnectionNavigation() {
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.loginScreen2, R.id.registerScreen2, R.id.onBoardingFragment,
-                R.id.noInternetFragment
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-    }
-
     private fun setConnectionState() {
         ConnectionLiveData(this).observe(this) { connection ->
             viewModel.updateConnection(connection)
-
-        }
-    }
-
-    private fun handleConnection() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.isConnected.buffer().collect { connection ->
-                connect = connection
-                if (!connection) {
-                    handleNotConnected()
-                }
-            }
         }
     }
 
@@ -93,15 +69,6 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         }
     }
 
-    private fun handleNotConnected() {
-        showSnackBar(getString(R.string.not_connected))
-    }
-
-    private fun showSnackBar(msg: String) {
-        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
-            .show()
-    }
-
     override fun onDestinationChanged(
         controller: NavController,
         destination: NavDestination,
@@ -110,14 +77,6 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         when (destination.id) {
             R.id.onBoardingFragment -> binding.appBarLayout.visibility = View.GONE
             else -> binding.appBarLayout.visibility = View.VISIBLE
-        }
-    }
-
-    override fun onBackPressed() {
-        if (!connect)
-            finish()
-        else {
-            super.onBackPressed()
         }
     }
 }

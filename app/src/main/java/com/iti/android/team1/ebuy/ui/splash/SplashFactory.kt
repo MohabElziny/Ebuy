@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.ui.Splah
+package com.iti.android.team1.ebuy.ui.splash
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider

@@ -11,6 +11,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.activities.main.view.MainActivity
@@ -35,6 +36,7 @@ class RegisterScreen : Fragment() {
     }
 
     private val binding get() = _binding!!
+    var isInternetConnected = true
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -51,7 +53,13 @@ class RegisterScreen : Fragment() {
             findNavController().popBackStack()
         }
         binding.btnSignUp.setOnClickListener {
-            viewModel.registerCustomer(collectDataFromFields())
+            if (isInternetConnected)
+                viewModel.registerCustomer(collectDataFromFields())
+            else
+                Snackbar.make(binding.root,
+                    getString(R.string.not_connected),
+                    Snackbar.LENGTH_SHORT)
+                    .show()
         }
 
         viewModel.registerLiveData.observe(viewLifecycleOwner) {
@@ -81,10 +89,7 @@ class RegisterScreen : Fragment() {
     private fun handleNoConnection() {
         lifecycleScope.launchWhenCreated {
             sharedViewModel.isConnected.buffer().collect { connect ->
-                if (!connect) {
-                    findNavController().popBackStack()
-                    findNavController().navigate(R.id.noInternetFragment2)
-                }
+                isInternetConnected = connect
             }
         }
     }

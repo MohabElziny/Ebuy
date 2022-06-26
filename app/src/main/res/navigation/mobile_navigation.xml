@@ -205,8 +205,8 @@
     </fragment>
     <fragment
         android:id="@+id/noInternetFragment"
-        android:name="com.iti.android.team1.ebuy.NoInternetFragment"
-        android:label="fragment_no_internet"
+        android:name="com.iti.android.team1.ebuy.ui.nointernet.NoInternetFragment"
+        android:label=""
         tools:layout="@layout/fragment_no_internet" >
         <action
             android:id="@+id/action_noInternetFragment_to_navigation_home"
