@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.iti.android.team1.ebuy.activities.auth.view.AuthActivity
 import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentNoInternetBinding
@@ -43,8 +44,13 @@ class NoInternetFragment : Fragment() {
                 else
                     (requireActivity() as MainActivity).setDefault()
             }
-            else ->
+            else -> {
+                if (connect)
+                    (requireActivity() as AuthActivity).noConnectionNavigation()
+                else
+                    (requireActivity() as AuthActivity).setDefault()
                 isHome = false
+            }
         }
     }
 
@@ -59,13 +65,13 @@ class NoInternetFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.isConnected.buffer().collect {
                 if (it) {
-//                    if (isHome) {
-//                        findNavController().navigate(R.id.action_noInternetFragment_to_navigation_home)
-//                    } else {
-//                        findNavController().popBackStack()
-//                    }
-                    requireActivity().finish()
-                    requireActivity().startActivity(requireActivity().intent)
+                    if(isHome){
+                        findNavController().navigate(R.id.action_noInternetFragment_to_navigation_home)
+                    }else{
+                        requireActivity().finish()
+                        requireActivity().startActivity(requireActivity().intent)
+                    }
+
                 }
             }
 

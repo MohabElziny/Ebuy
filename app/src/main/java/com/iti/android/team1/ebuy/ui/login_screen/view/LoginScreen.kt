@@ -8,9 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.iti.android.team1.ebuy.R
+import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentLoginScreenBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
@@ -21,13 +24,14 @@ import com.iti.android.team1.ebuy.ui.login_screen.viewmodel.LoginScreenViewModel
 import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
 import com.iti.android.team1.ebuy.util.trimText
+import kotlinx.coroutines.flow.buffer
 
 
 class LoginScreen : Fragment() {
 
     private var _binding: FragmentLoginScreenBinding? = null
     private val binding get() = _binding!!
-
+    private val sharedViewModel by activityViewModels<ConnectionViewModel>()
     private val viewModel: LoginScreenViewModel by viewModels {
         LoginScreenViewModelFactory(Repository(LocalSource(requireContext())))
     }
@@ -55,7 +59,7 @@ class LoginScreen : Fragment() {
                 LoginScreenDirections.actionLoginScreen2ToRegisterScreen2()
             )
         }
-
+        handleNoConnection()
         binding.btnLogin.setOnClickListener {
             viewModel.makeLoginRequest(
                 CustomerLogin(
@@ -64,6 +68,17 @@ class LoginScreen : Fragment() {
                 )
             )
 
+        }
+    }
+
+    private fun handleNoConnection() {
+        lifecycleScope.launchWhenCreated {
+            sharedViewModel.isConnected.buffer().collect { connect ->
+                if (!connect) {
+                    findNavController().popBackStack()
+                    findNavController().navigate(R.id.noInternetFragment2)
+                }
+            }
         }
     }
 

@@ -53,8 +53,9 @@ class SplashFragment : Fragment() {
                     if (viewModel.getAuthStateFromPrefs())
                         navigateToMainActivity()
                     else findNavController().navigate(R.id.loginScreen2)
-                } else
+                } else {
                     findNavController().navigate(R.id.noInternetFragment2)
+                }
             }
         }
 

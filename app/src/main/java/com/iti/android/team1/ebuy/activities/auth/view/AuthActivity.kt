@@ -39,15 +39,29 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         setSupportActionBar(binding.toolbar)
         fragmentContainer = findViewById(R.id.nav_host_fragment_activity_auth)
         navController = findNavController(R.id.nav_host_fragment_activity_auth)
+        setDefault()
+        setConnectionState()
+        handleConnection()
+        navController.addOnDestinationChangedListener(this::onDestinationChanged)
+    }
+
+    fun setDefault() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.loginScreen2, R.id.registerScreen2, R.id.onBoardingFragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        setConnectionState()
-        handleConnection()
-        navController.addOnDestinationChangedListener(this::onDestinationChanged)
+    }
+
+    fun noConnectionNavigation() {
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.loginScreen2, R.id.registerScreen2, R.id.onBoardingFragment,
+                R.id.noInternetFragment
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
     }
 
     private fun setConnectionState() {
@@ -61,9 +75,7 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         lifecycleScope.launchWhenStarted {
             viewModel.isConnected.buffer().collect { connection ->
                 connect = connection
-                if (connection) {
-//                    handleIsConnected()
-                } else {
+                if (!connection) {
                     handleNotConnected()
                 }
             }
@@ -81,16 +93,7 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         }
     }
 
-    private fun handleIsConnected() {
-        binding.noConnection.root.visibility = View.INVISIBLE
-        fragmentContainer.visibility = View.VISIBLE
-        binding.appBarLayout.visibility = View.VISIBLE
-
-    }
-
     private fun handleNotConnected() {
-        if (navController.currentDestination?.equals(R.id.noInternetFragment2) == false)
-            navController.navigate(R.id.noInternetFragment2)
         showSnackBar(getString(R.string.not_connected))
     }
 

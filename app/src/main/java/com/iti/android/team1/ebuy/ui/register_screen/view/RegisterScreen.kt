@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.iti.android.team1.ebuy.R
+import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentRegisterScreenBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
@@ -20,12 +23,14 @@ import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
 import com.iti.android.team1.ebuy.ui.register_screen.viewmodel.RegisterViewModel
 import com.iti.android.team1.ebuy.ui.register_screen.viewmodel.RegisterViewModelFactory
 import com.iti.android.team1.ebuy.util.trimText
+import kotlinx.coroutines.flow.buffer
 
 class RegisterScreen : Fragment() {
 
     private var _binding: FragmentRegisterScreenBinding? = null
+    private val sharedViewModel by activityViewModels<ConnectionViewModel>()
 
-    val viewModel: RegisterViewModel by viewModels {
+    private val viewModel: RegisterViewModel by viewModels {
         RegisterViewModelFactory(Repository(LocalSource(requireContext())))
     }
 
@@ -41,6 +46,7 @@ class RegisterScreen : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        handleNoConnection()
         binding.btnSignIn.setOnClickListener {
             findNavController().popBackStack()
         }
@@ -70,6 +76,17 @@ class RegisterScreen : Fragment() {
             }
         }
 
+    }
+
+    private fun handleNoConnection() {
+        lifecycleScope.launchWhenCreated {
+            sharedViewModel.isConnected.buffer().collect { connect ->
+                if (!connect) {
+                    findNavController().popBackStack()
+                    findNavController().navigate(R.id.noInternetFragment2)
+                }
+            }
+        }
     }
 
     private fun showProgressBar() {
