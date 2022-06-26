@@ -237,5 +237,7 @@
     <string name="invalid_city">Invalid city</string>
     <string name="invalid_phone">Invalid phone number</string>
     <string name="invalid_province">Invalid province</string>
-    <string name="detailes_19_104_el_hnager_new_cairo">Detailes.(19, 104 El-hnager, New cairo)</string>
+    <string name="detailes_19_104_el_hnager_new_cairo" translatable="false">Detailes.(19, 104 El-hnager, New cairo)</string>
+    <string name="welcome_user">"Welcome, "</string>
+    <string name="log_out_message">Are you sure you want to Logout?</string>
 </resources>

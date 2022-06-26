@@ -1,7 +1,11 @@
 package com.iti.android.team1.ebuy.ui.profile_screen.view
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -11,7 +15,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
+import com.iti.android.team1.ebuy.activities.auth.view.AuthActivity
 import com.iti.android.team1.ebuy.databinding.FragmentProfileBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
@@ -39,6 +45,7 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?,
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -112,11 +119,9 @@ class ProfileFragment : Fragment() {
                         binding.emptyTxtOrders.visibility = View.VISIBLE
                         ordersAdapter.setOrderList(emptyList())
                     }
-//                    is ResultState.Error -> TODO()
-                    ResultState.Loading -> {
-                        binding.emptyTxtOrders.visibility = View.GONE
-
-                    }
+                    is ResultState.Error -> Toast.makeText(requireContext(),
+                        result.errorString, Toast.LENGTH_SHORT).show()
+                    ResultState.Loading -> binding.emptyTxtOrders.visibility = View.GONE
                     is ResultState.Success -> {
                         binding.emptyTxtOrders.visibility = View.GONE
                         ordersAdapter.setOrderList(result.data)
@@ -138,7 +143,8 @@ class ProfileFragment : Fragment() {
 //                    ResultState.Loading -> TODO()
                     is ResultState.Success -> {
                         binding.txtWelcomeMessage.text =
-                            result.data.firstName.plus(" ").plus(result.data.lastName)
+                            getString(R.string.welcome_user).plus(result.data.firstName.plus(" ")
+                                .plus(result.data.lastName))
                     }
                 }
             }
@@ -178,6 +184,35 @@ class ProfileFragment : Fragment() {
         super.onStop()
         viewModel.reloadStates()
     }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        requireActivity().menuInflater.inflate(R.menu.profile_top_app_bar, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.action_logout -> showLogoutAlertDialog()
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
+    private fun showLogoutAlertDialog() {
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(getString(R.string.settings_logout))
+            .setMessage(getString(R.string.log_out_message))
+            .setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.dismiss()
+            }
+            .setPositiveButton(getString(R.string.settings_logout)) { dialog, _ ->
+                viewModel.logout()
+                dialog.dismiss()
+                startActivity(Intent(requireContext(), AuthActivity::class.java))
+                activity?.finish()
+            }
+            .show()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _ordersAdapter = null
