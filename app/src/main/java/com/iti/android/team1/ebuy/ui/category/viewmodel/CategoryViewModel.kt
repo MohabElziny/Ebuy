@@ -1,5 +1,6 @@
 package com.iti.android.team1.ebuy.ui.category.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.domain.category.CategoryProductsUseCase
@@ -94,7 +95,7 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
                     _allProducts.emit(ResultState.EmptyResult)
                 } else {
                     cachedProducts = result.data.products
-                    _allProducts.emit(ResultState.Success(result.data))
+                    sortProducts(0)
                 }
             }
         }
@@ -172,33 +173,24 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
         val sortArray: List<Product> = cachedProducts ?: emptyList()
         _allProducts.value = ResultState.Loading
         when (sortType) {
-            SortType.A_to_Z -> {
-                sortArray.sortedBy { it.productName }
+            SortType.A_to_Z -> sortArray.sortedBy { it.productName }
+            SortType.Z_to_A -> sortArray.sortedByDescending { it.productName }
+            SortType.Lowest_to_highest_price -> sortArray.sortedBy {
+                it.productVariants?.get(0)?.productVariantPrice?.toDouble()
             }
-            SortType.Z_to_A -> {
-                sortArray.sortedByDescending { it.productName }
+            SortType.Highest_to_lowest_price -> sortArray.sortedByDescending {
+                it.productVariants?.get(0)?.productVariantPrice?.toDouble()
             }
-            SortType.Lowest_to_highest_price -> {
-                sortArray.sortedBy {
-                    it.productVariants?.get(0)?.productVariantPrice?.toDouble()
-                }
-            }
-            SortType.Highest_to_lowest_price -> {
-                sortArray.sortedByDescending {
-                    it.productVariants?.get(0)?.productVariantPrice?.toDouble()
-                }
-            }
-        }.apply {
-            _allProducts.value = ResultState.Success(Products(this))
-        }
+        }.apply { _allProducts.value = ResultState.Success(Products(this)) }
     }
 
     fun sortProducts(position: Int) {
+        Log.i("TAG", "sortProducts: ")
         when (position) {
-            1 -> sortProductList(SortType.A_to_Z)
-            2 -> sortProductList(SortType.Z_to_A)
-            3 -> sortProductList(SortType.Lowest_to_highest_price)
-            4 -> sortProductList(SortType.Highest_to_lowest_price)
+            0 -> sortProductList(SortType.A_to_Z)
+            1 -> sortProductList(SortType.Z_to_A)
+            2 -> sortProductList(SortType.Lowest_to_highest_price)
+            3 -> sortProductList(SortType.Highest_to_lowest_price)
         }
     }
 

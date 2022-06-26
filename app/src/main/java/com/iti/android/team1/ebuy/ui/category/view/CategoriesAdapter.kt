@@ -1,7 +1,6 @@
 package com.iti.android.team1.ebuy.ui.category.view
 
 import android.annotation.SuppressLint
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
@@ -49,7 +48,6 @@ class CategoriesAdapter(val onCategoryBtnClick: (id: Long, title: String) -> Uni
 
             if (position == 0) {
                 onCategoryBtnClick(0, categories[position].categoryTitle)
-                Log.i("TAG", "onBindViewHolder: $position")
             } else
                 onCategoryBtnClick(categories[position].categoryId,
                     categories[position].categoryTitle)

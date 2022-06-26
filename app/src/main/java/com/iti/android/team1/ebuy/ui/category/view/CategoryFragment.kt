@@ -23,6 +23,7 @@ import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.model.pojo.Products
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModel
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModelFactory
+import kotlinx.android.synthetic.main.fragment_register_screen.*
 import kotlinx.coroutines.flow.buffer
 
 class CategoryFragment : Fragment() {
@@ -31,6 +32,8 @@ class CategoryFragment : Fragment() {
     private val binding get() = _binding!!
 
     private var defaultCategoryId: Long = 0
+
+    var firstTime = true
 
     private val categoryViewModel: CategoryViewModel by viewModels {
         CategoryViewModelFactory(Repository(LocalSource(requireContext())))
@@ -173,7 +176,10 @@ class CategoryFragment : Fragment() {
         binding.catTvName.text = title
         defaultCategoryId = id
         categoryViewModel.getAllProduct(id)
-        binding.spinner.setSelection(0, true)
+        if (binding.spinner.selectedItemPosition != 0) {
+            firstTime = true
+            binding.spinner.setSelection(0, true)
+        }
     }
 
     private fun initRecyclerView() {
@@ -276,7 +282,10 @@ class CategoryFragment : Fragment() {
 
         binding.spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
-                categoryViewModel.sortProducts(p2)
+                if (!firstTime)
+                    categoryViewModel.sortProducts(p2)
+                else
+                    firstTime = false
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
