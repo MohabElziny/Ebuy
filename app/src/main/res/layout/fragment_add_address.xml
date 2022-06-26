@@ -14,7 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_8sdp"
-        android:hint="@string/address_1">
+        android:hint="@string/address_name">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -29,7 +29,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/_8sdp"
-        android:hint="@string/city_title">
+        android:hint="@string/detailes_19_104_el_hnager_new_cairo">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"

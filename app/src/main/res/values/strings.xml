@@ -133,7 +133,7 @@
     <string name="province_title">Province</string>
     <string name="city_title">City</string>
     <string name="phone_number">Phone number</string>
-    <string name="address_name">Address name</string>
+    <string name="address_name">Type (Office, Home, Meet up point)</string>
     <string name="save_address">Save address</string>
     <string name="discount">Discount Code</string>
     <string name="ok">OK</string>
@@ -237,6 +237,7 @@
     <string name="invalid_city">Invalid city</string>
     <string name="invalid_phone">Invalid phone number</string>
     <string name="invalid_province">Invalid province</string>
+    <string name="detailes_19_104_el_hnager_new_cairo" translatable="false">Detailes.(19, 104 El-hnager, New cairo)</string>
     <string name="welcome_user">"Welcome, "</string>
     <string name="log_out_message">Are you sure you want to Logout?</string>
 </resources>

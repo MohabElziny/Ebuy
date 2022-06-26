@@ -11,11 +11,11 @@ import com.like.LikeButton
 import com.like.OnLikeListener
 
 class AddressAdapter(
-    private val onItemClicked: (Int) -> (Unit),
+    private val onItemClicked: (Address) -> (Unit),
     private val onDeleteClick: (Address, Int) -> (Unit),
-    private val onEditClick: (Address) -> (Unit),
     private inline val onAddSelected: (Address) -> (Unit),
     private val addAsDefAddress: (Long, Int) -> (Unit),
+    private val isItCart: Boolean,
 ) : RecyclerView.Adapter<AddressAdapter.AddressViewHolder>() {
 
     private var addresses: ArrayList<Address> = arrayListOf()
@@ -30,6 +30,7 @@ class AddressAdapter(
     fun deleteItemAtIndex(index: Int) {
         addresses.removeAt(index)
         notifyItemRemoved(index)
+        notifyItemRangeChanged(index, addresses.size)
         if (index == addresses.size)
             defAddressIndex -= 1
     }
@@ -38,6 +39,7 @@ class AddressAdapter(
         addresses[defAddressIndex].default = false
         addresses[index].default = true
         notifyItemChanged(defAddressIndex)
+        notifyItemRangeChanged(index, addresses.size)
         defAddressIndex = index
     }
 
@@ -48,13 +50,15 @@ class AddressAdapter(
             get() = addresses[bindingAdapterPosition]
 
         init {
-//            binding.parent.setOnClickListener { onItemClicked(bindingAdapterPosition) }
+            if (isItCart)
+                binding.parent.setOnClickListener {
+                    onAddSelected(address)
+                }
+            else
+                binding.parent.setOnClickListener { onItemClicked(address) }
+
             binding.imageDelete.setOnClickListener {
                 onDeleteClick(address, bindingAdapterPosition)
-            }
-            binding.imageEdit.setOnClickListener { onEditClick(address) }
-            binding.parent.setOnClickListener {
-                onAddSelected(address)
             }
 
             binding.defBtn.setOnLikeListener(object : OnLikeListener {
