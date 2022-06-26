@@ -11,6 +11,7 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
@@ -96,8 +97,7 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             connectionViewModel.isConnected.buffer().collect { connection ->
                 connect = connection
                 if (connection) {
-//                    handleIsConnected()
-//                    navView.setupWithNavController(navController)
+                    navView.setupWithNavController(navController)
                 } else {
                     handleNotConnected()
                 }
@@ -113,10 +113,6 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     private fun handleNotConnected() {
-//        fragmentContainer.visibility = View.INVISIBLE
-//        binding.appBarLayout.visibility = View.INVISIBLE
-//        binding.navView.visibility = View.INVISIBLE
-//        binding.noConnection.root.visibility = View.VISIBLE
         if (navController.currentDestination?.equals(R.id.noInternetFragment) == false)
             navController.navigate(R.id.noInternetFragment)
         showSnackBar(getString(R.string.not_connected))

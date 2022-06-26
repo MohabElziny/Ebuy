@@ -89,9 +89,6 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     private fun handleNotConnected() {
-//        fragmentContainer.visibility = View.INVISIBLE
-//        binding.appBarLayout.visibility = View.INVISIBLE
-//        binding.noConnection.root.visibility = View.VISIBLE
         if (navController.currentDestination?.equals(R.id.noInternetFragment2) == false)
             navController.navigate(R.id.noInternetFragment2)
         showSnackBar(getString(R.string.not_connected))
