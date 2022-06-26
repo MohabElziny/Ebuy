@@ -28,6 +28,7 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityAuthBinding
     private lateinit var fragmentContainer: FragmentContainerView
+
     private val viewModel: ConnectionViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,33 +38,23 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         setSupportActionBar(binding.toolbar)
         fragmentContainer = findViewById(R.id.nav_host_fragment_activity_auth)
         navController = findNavController(R.id.nav_host_fragment_activity_auth)
+        setDefault()
+        setConnectionState()
+        navController.addOnDestinationChangedListener(this::onDestinationChanged)
+    }
+
+    private fun setDefault() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.loginScreen2, R.id.registerScreen2, R.id.onBoardingFragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
-        setConnectionState()
-        handleConnection()
-        navController.addOnDestinationChangedListener(this::onDestinationChanged)
     }
 
     private fun setConnectionState() {
         ConnectionLiveData(this).observe(this) { connection ->
             viewModel.updateConnection(connection)
-
-        }
-    }
-
-    private fun handleConnection() {
-        lifecycleScope.launchWhenStarted {
-            viewModel.isConnected.buffer().collect { connection ->
-                if (connection) {
-                    handleIsConnected()
-                } else {
-                    handleNotConnected()
-                }
-            }
         }
     }
 
@@ -76,25 +67,6 @@ class AuthActivity : AppCompatActivity(), NavController.OnDestinationChangedList
         CoroutineScope(Dispatchers.IO).launch {
             viewModel.updateConnection(DoesNetworkHaveInternet.execute())
         }
-    }
-
-    private fun handleIsConnected() {
-        binding.noConnection.root.visibility = View.INVISIBLE
-        fragmentContainer.visibility = View.VISIBLE
-        binding.appBarLayout.visibility = View.VISIBLE
-
-    }
-
-    private fun handleNotConnected() {
-        fragmentContainer.visibility = View.INVISIBLE
-        binding.appBarLayout.visibility = View.INVISIBLE
-        binding.noConnection.root.visibility = View.VISIBLE
-        showSnackBar(getString(R.string.not_connected))
-    }
-
-    private fun showSnackBar(msg: String) {
-        Snackbar.make(binding.root, msg, Snackbar.LENGTH_SHORT)
-            .show()
     }
 
     override fun onDestinationChanged(

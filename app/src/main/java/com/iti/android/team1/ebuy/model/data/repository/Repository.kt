@@ -19,12 +19,17 @@ class Repository(
 ) : IRepository {
 
     override suspend fun getAllBrands(): NetworkResponse<Brands> {
-        val response = remoteSource.getAllBrands()
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body() ?: Brands(emptyList()))
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.getAllBrands()
+            if (response.isSuccessful) {
+                SuccessResponse(response.body() ?: Brands(emptyList()))
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (ex: Exception) {
+            FailureResponse( "No Internet")
         }
+
     }
 
     override suspend fun getAllProducts(): NetworkResponse<Products> {
@@ -452,11 +457,15 @@ class Repository(
     }
 
     override suspend fun getAllPriceRules(): NetworkResponse<PriceRuleResponse> {
-        val response = remoteSource.getAllPriceRules()
-        return if (response.isSuccessful)
-            SuccessResponse(data = response.body() ?: PriceRuleResponse())
-        else
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.getAllPriceRules()
+            return if (response.isSuccessful)
+                SuccessResponse(data = response.body() ?: PriceRuleResponse())
+            else
+                parseError(response.errorBody())
+        } catch (ex: Exception) {
+            FailureResponse( "No Internet")
+        }
     }
 
     override suspend fun getAllProductsByType(productType: String): NetworkResponse<Products> {
