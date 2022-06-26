@@ -11,7 +11,6 @@ import androidx.navigation.NavDestination
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
@@ -97,8 +96,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             connectionViewModel.isConnected.buffer().collect { connection ->
                 connect = connection
                 if (connection) {
-                    handleIsConnected()
-                    navView.setupWithNavController(navController)
+//                    handleIsConnected()
+//                    navView.setupWithNavController(navController)
                 } else {
                     handleNotConnected()
                 }
@@ -114,10 +113,12 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
 
     private fun handleNotConnected() {
-        fragmentContainer.visibility = View.INVISIBLE
-        binding.appBarLayout.visibility = View.INVISIBLE
-        binding.navView.visibility = View.INVISIBLE
-        binding.noConnection.root.visibility = View.VISIBLE
+//        fragmentContainer.visibility = View.INVISIBLE
+//        binding.appBarLayout.visibility = View.INVISIBLE
+//        binding.navView.visibility = View.INVISIBLE
+//        binding.noConnection.root.visibility = View.VISIBLE
+        if (navController.currentDestination?.equals(R.id.noInternetFragment) == false)
+            navController.navigate(R.id.noInternetFragment)
         showSnackBar(getString(R.string.not_connected))
 
     }
@@ -133,6 +134,18 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
                 R.id.navigation_home, R.id.navigation_Category, R.id.navigation_profile,
                 R.id.navigation_cart
 
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+    }
+
+    fun noConnectionNavigation() {
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.navigation_home,
+                R.id.navigation_Category,
+                R.id.navigation_profile,
+                R.id.noInternetFragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -173,8 +186,8 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     override fun onBackPressed() {
         if (!connect)
             finish()
-        else {
+        else
             super.onBackPressed()
-        }
+
     }
 }

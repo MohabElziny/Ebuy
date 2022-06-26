@@ -207,5 +207,11 @@
         android:id="@+id/noInternetFragment"
         android:name="com.iti.android.team1.ebuy.NoInternetFragment"
         android:label="fragment_no_internet"
-        tools:layout="@layout/fragment_no_internet" />
+        tools:layout="@layout/fragment_no_internet" >
+        <action
+            android:id="@+id/action_noInternetFragment_to_navigation_home"
+            app:destination="@id/navigation_home"
+            app:popUpTo="@id/navigation_home"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

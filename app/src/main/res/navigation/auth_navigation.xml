@@ -47,4 +47,9 @@
             android:id="@+id/action_splashFragment_to_onBoardingFragment"
             app:destination="@id/onBoardingFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/noInternetFragment2"
+        android:name="com.iti.android.team1.ebuy.NoInternetFragment"
+        android:label="fragment_no_internet"
+        tools:layout="@layout/fragment_no_internet" />
 </navigation>
