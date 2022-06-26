@@ -173,5 +173,7 @@
     <string name="invalid_phone">Invalid phone number</string>
     <string name="invalid_province">Invalid province</string>
     <string name="invalid_city">Invalid city</string>
+    <string name="welcome_user">"Welcome, "</string>
+    <string name="log_out_message">Are you sure you want to Logout?</string>
 
 </resources>

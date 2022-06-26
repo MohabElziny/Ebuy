@@ -3,13 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:id="@+id/favIcon"
-        android:icon="@drawable/ic_round_favorite_24"
-        android:title="@string/fav"
+        android:id="@+id/action_logout"
+        android:icon="@drawable/logout"
+        android:title="@string/settings_logout"
         app:showAsAction="ifRoom" />
-
-    <item
-        android:id="@+id/settings_icon"
-        android:icon="@drawable/settings_icon"
-        android:title="@string/settings" />
 </menu>

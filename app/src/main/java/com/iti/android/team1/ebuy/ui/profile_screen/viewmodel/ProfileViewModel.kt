@@ -139,4 +139,6 @@ class ProfileViewModel(val myRepo: IRepository) : ViewModel() {
             _favouriteProducts.emit(ResultState.Loading)
         }
     }
+
+    fun logout() = viewModelScope.launch(Dispatchers.IO) { myRepo.logOut() }
 }
