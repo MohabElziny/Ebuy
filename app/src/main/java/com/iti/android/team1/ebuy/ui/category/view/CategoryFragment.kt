@@ -1,7 +1,6 @@
 package com.iti.android.team1.ebuy.ui.category.view
 
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -151,7 +150,6 @@ class CategoryFragment : Fragment() {
                 binding.productRecycler.visibility = View.VISIBLE
                 result.data.products?.let { categoryProductsAdapter.setList(it) }
                 binding.emptyProductLayout.root.visibility = View.GONE
-                Log.i("TAG", "handleProductsResult: success")
             }
             is ResultState.EmptyResult -> {
                 stopShimmer()
@@ -179,7 +177,6 @@ class CategoryFragment : Fragment() {
         defaultCategoryId = id
         categoryViewModel.getAllProduct(id)
         if (binding.spinner.selectedItemPosition != 0) {
-            Log.i("TAG", "position:${binding.spinner.selectedItemPosition} ")
             firstTime = true
             binding.spinner.setSelection(0, true)
         }
@@ -288,7 +285,6 @@ class CategoryFragment : Fragment() {
                     categoryViewModel.sortProducts(p2)
                 else
                     firstTime = false
-                Log.i("TAG", "onItemSelected: ")
             }
 
             override fun onNothingSelected(p0: AdapterView<*>?) {
