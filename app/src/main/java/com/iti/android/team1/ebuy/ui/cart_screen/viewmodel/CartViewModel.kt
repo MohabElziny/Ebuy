@@ -71,7 +71,8 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
             }
         }
     }
-    fun reloadStates(){
+
+    fun reloadStates() {
         _allCartItems.postValue(ResultState.Loading)
     }
 
@@ -211,7 +212,8 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
     }
 
     fun calculatePriceAfterDiscount(discountValue: Double, price: Long) {
-        _totalAfterDiscount.value = (price + (price * discountValue / 100)).toLong()
+        if (discountValue != 0.0 && price != 0L)
+            _totalAfterDiscount.value = (price + (price * discountValue / 100)).toLong()
     }
 
 

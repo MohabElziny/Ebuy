@@ -48,7 +48,6 @@ class CartFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initCartRecycler()
-//        handleAllCartItems()
         handleAllCartItems()
         handleCheckoutButton()
         handleOverFlow()
@@ -63,6 +62,10 @@ class CartFragment : Fragment() {
 
     }
 
+    override fun onResume() {
+        super.onResume()
+        clearDiscount()
+    }
 
     private fun handleDeleteState() {
         viewModel.deleteState.observe(viewLifecycleOwner) { result ->
@@ -184,6 +187,7 @@ class CartFragment : Fragment() {
 
     private val increaseQuantity: (Int) -> Unit = { it ->
         viewModel.manipulateCartItem(it, CartViewModel.CartItemOperation.INCREASE)
+        clearDiscount()
     }
 
     private fun handleOverFlow() {
@@ -196,6 +200,7 @@ class CartFragment : Fragment() {
 
     private val decreaseQuantity: (Int) -> Unit = {
         viewModel.manipulateCartItem(it, CartViewModel.CartItemOperation.DECREASE)
+        clearDiscount()
 
     }
     private val deleteQuantity: (Int) -> Unit = {
@@ -211,6 +216,7 @@ class CartFragment : Fragment() {
                 showSnackMessage(messageSnackBar)
                 dialog.dismiss()
                 viewModel.manipulateCartItem(index, CartViewModel.CartItemOperation.DELETE)
+                clearDiscount()
             }
 
             .show()
@@ -251,6 +257,11 @@ class CartFragment : Fragment() {
     private fun enableDiscountButton(isEnabled: Boolean) {
         binding.btnDiscount.isEnabled = isEnabled
         binding.etCoupon.isEnabled = isEnabled
+    }
+
+    private fun clearDiscount() {
+        enableDiscountButton(true)
+        binding.etCoupon.setText("")
     }
 
 
