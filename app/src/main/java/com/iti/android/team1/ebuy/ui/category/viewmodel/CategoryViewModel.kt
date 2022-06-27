@@ -1,6 +1,5 @@
 package com.iti.android.team1.ebuy.ui.category.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.iti.android.team1.ebuy.domain.category.CategoryProductsUseCase
@@ -185,7 +184,6 @@ class CategoryViewModel(private var myRepo: IRepository) : ViewModel() {
     }
 
     fun sortProducts(position: Int) {
-        Log.i("TAG", "sortProducts: ")
         when (position) {
             0 -> sortProductList(SortType.A_to_Z)
             1 -> sortProductList(SortType.Z_to_A)
