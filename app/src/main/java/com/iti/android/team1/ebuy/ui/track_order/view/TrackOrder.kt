@@ -32,9 +32,9 @@ class TrackOrder : Fragment() {
         binding.txtOrderNumber.text = args.orderName
         binding.txtFinancialStatus.text = args.orderFinancialStatus
         when (args.orderStatus.lowercase()) {
-            "shipping" -> removeShippingOpacity()
-            "delivering" -> removeDeliverOpacity()
-            "delivered" -> setDeliveredStatus()
+            getString(R.string.shipping) -> removeShippingOpacity()
+            getString(R.string.delivering) -> removeDeliverOpacity()
+            getString(R.string.delivered) -> setDeliveredStatus()
             else -> {}
         }
     }

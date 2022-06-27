@@ -29,7 +29,7 @@ class Repository(
                 parseError(response.errorBody())
             }
         } catch (ex: Exception) {
-            FailureResponse( connectionFailure)
+            FailureResponse(connectionFailure)
         }
 
     }
@@ -83,13 +83,17 @@ class Repository(
     }
 
     override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
-        val response =
-            remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(
-                customerRegister.password)))
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body()?.customer ?: Customer())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response =
+                remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(
+                    customerRegister.password)))
+            if (response.isSuccessful) {
+                SuccessResponse(response.body()?.customer ?: Customer())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
@@ -187,7 +191,11 @@ class Repository(
 
     override suspend fun removeFromFavorite(productId: Long): NetworkResponse<DraftOrder> {
         setFavoritesNo(getFavoritesNo().value - 1)
-        return removeFavoriteOrCartItem(productId, true)
+        return try {
+            removeFavoriteOrCartItem(productId, true)
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
+        }
     }
 
     override suspend fun addCart(product: Product, quantity: Int): NetworkResponse<DraftOrder> {
@@ -341,8 +349,13 @@ class Repository(
         }
     }
 
-    override suspend fun getFavoriteItems(): NetworkResponse<Draft> =
-        getItemsData(getFavoritesIdFromPrefs())
+    override suspend fun getFavoriteItems(): NetworkResponse<Draft> {
+        return try {
+            getItemsData(getFavoritesIdFromPrefs())
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
+        }
+    }
 
     override suspend fun getCartItems(): NetworkResponse<Draft> =
         getItemsData(getCartIdFromPrefs())
@@ -466,7 +479,7 @@ class Repository(
             else
                 parseError(response.errorBody())
         } catch (ex: Exception) {
-            FailureResponse( "No Internet")
+            FailureResponse("No Internet")
         }
     }
 
