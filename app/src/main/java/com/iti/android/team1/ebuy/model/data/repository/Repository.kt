@@ -44,12 +44,18 @@ class Repository(
     }
 
     override suspend fun getProductsByCollectionID(collectionID: Long): NetworkResponse<Products> {
-        val response = remoteSource.getProductsByCollectionID(collectionID)
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body() ?: Products(emptyList()))
-        } else {
-            parseError(response.errorBody())
+
+        return try {
+            val response = remoteSource.getProductsByCollectionID(collectionID)
+            if (response.isSuccessful) {
+                SuccessResponse(response.body() ?: Products(emptyList()))
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
+
     }
 
     override suspend fun getAllCategories(): NetworkResponse<Categories> {
@@ -74,11 +80,15 @@ class Repository(
     }
 
     override suspend fun getProductDetails(product_id: Long): NetworkResponse<Product> {
-        val response = remoteSource.getProductDetails(product_id)
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body()?.product ?: Product())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.getProductDetails(product_id)
+            if (response.isSuccessful) {
+                SuccessResponse(response.body()?.product ?: Product())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
@@ -113,20 +123,29 @@ class Repository(
     }
 
     override suspend fun getCustomerByID(): NetworkResponse<Customer> {
-        val response = remoteSource.getCustomerByID(getUserIdFromPrefs())
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body()?.customer ?: Customer())
-        } else {
-            parseError(response.errorBody())
+
+        return try {
+            val response = remoteSource.getCustomerByID(getUserIdFromPrefs())
+            if (response.isSuccessful) {
+                SuccessResponse(response.body()?.customer ?: Customer())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
     override suspend fun getCustomerOrders(): NetworkResponse<OrderAPI> {
-        val response = remoteSource.getCustomerOrders(getUserIdFromPrefs())
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body() ?: OrderAPI())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.getCustomerOrders(getUserIdFromPrefs())
+            if (response.isSuccessful) {
+                SuccessResponse(response.body() ?: OrderAPI())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
@@ -239,16 +258,21 @@ class Repository(
         isFavorite: Boolean,
         draftOrderId: Long,
     ): NetworkResponse<DraftOrder> {
-        val deleteResponse = deleteDraftOrder(draftOrderId)
-        return if (deleteResponse.isSuccessful) {
-            resetFavOrCartInSharedPref(isFavorite)
-            val customer = getCustomer()
-            if (isFavorite) customer.favoriteID = "" else customer.cartID = ""
-            updateCustomer(customer)
-            SuccessResponse(DraftOrder())
-        } else {
-            parseError(deleteResponse.errorBody())
+        return try {
+            val deleteResponse = remoteSource.deleteDraftOrder(draftOrderId)
+            if (deleteResponse.isSuccessful) {
+                resetFavOrCartInSharedPref(isFavorite)
+                val customer = getCustomer()
+                if (isFavorite) customer.favoriteID = "" else customer.cartID = ""
+                updateCustomer(customer)
+                SuccessResponse(DraftOrder())
+            } else {
+                parseError(deleteResponse.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
+
     }
 
     private suspend fun resetFavOrCartInSharedPref(isFavorite: Boolean) {
@@ -275,13 +299,18 @@ class Repository(
                 customer = DraftCustomerID(getUserIdFromPrefs())
             ))
 
-        val response = remoteSource.postDraftOrder(draft)
-        return if (response.isSuccessful) {
-            setDraftIdToCustomer(getCustomer(), isFavorite, response.body()?.draftOrder?.id)
-            SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.postDraftOrder(draft)
+            if (response.isSuccessful) {
+                setDraftIdToCustomer(getCustomer(), isFavorite, response.body()?.draftOrder?.id)
+                SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
+
     }
 
     override suspend fun updateCart(cartItems: List<CartItem>) {
@@ -316,20 +345,29 @@ class Repository(
             this.draftOrder.lineItems.add(draftProduct)
         }
 
-        val response = remoteSource.updateDraftOrder(draft ?: Draft())
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.updateDraftOrder(draft ?: Draft())
+            if (response.isSuccessful) {
+                SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
+
     }
 
     private suspend fun removeLineItem(draft: Draft): NetworkResponse<DraftOrder> {
-        val response = remoteSource.updateDraftOrder(draft)
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.updateDraftOrder(draft)
+            if (response.isSuccessful) {
+                SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
@@ -341,11 +379,15 @@ class Repository(
     }
 
     override suspend fun getDraftFromApi(draftId: Long): NetworkResponse<Draft> {
-        val response = remoteSource.getDraftOrder(draftId)
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body() ?: Draft())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.getDraftOrder(draftId)
+            if (response.isSuccessful) {
+                SuccessResponse(response.body() ?: Draft())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
@@ -362,13 +404,18 @@ class Repository(
 
     override suspend fun postOrder(order: Order): NetworkResponse<Order> {
         order.customer = Customer(id = getUserIdFromPrefs())
-        val response = remoteSource.postOrder(order)
-        return if (response.isSuccessful) {
-            deleteLastDraftItem(false, getCartIdFromPrefs().toLong())
-            SuccessResponse(response.body() ?: Order())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.postOrder(order)
+            if (response.isSuccessful) {
+                deleteLastDraftItem(false, getCartIdFromPrefs().toLong())
+                SuccessResponse(response.body() ?: Order())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
+
     }
 
     private suspend fun getItemsData(id: String): NetworkResponse<Draft> {
@@ -401,8 +448,6 @@ class Repository(
         updateCustomer(customer)
     }
 
-    private suspend fun deleteDraftOrder(draftId: Long): Response<Unit> =
-        remoteSource.deleteDraftOrder(draftId)
 
     private suspend fun updateCustomer(customer: Customer) =
         remoteSource.updateCustomer(customer)
