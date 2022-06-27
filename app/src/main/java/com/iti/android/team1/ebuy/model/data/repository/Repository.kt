@@ -12,6 +12,8 @@ import okhttp3.ResponseBody
 import org.json.JSONObject
 import retrofit2.Response
 
+private const val connectionFailure = "Bad Connection"
+
 class Repository(
     private val localSource: ILocalSource,
     private val remoteSource: RemoteSource = RetrofitHelper,
@@ -27,7 +29,7 @@ class Repository(
                 parseError(response.errorBody())
             }
         } catch (ex: Exception) {
-            FailureResponse( "No Internet")
+            FailureResponse( connectionFailure)
         }
 
     }

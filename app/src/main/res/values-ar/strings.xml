@@ -86,15 +86,14 @@
 
 
     <string-array name="sortProducts">
-        <item>Sort</item>
         <item>A to Z</item>
         <item>Z to A</item>
         <item>lowest to highest price</item>
         <item>highest to lowest price</item>
     </string-array>
 
-    <string name="not_connected">Not Connected</string>
-    <string name="please_connect_to_network_to_use_our_application">Please Connect to Network to use our application</string>
+    <string name="not_connected">No internet connection</string>
+    <string name="please_connect_to_network_to_use_our_application">Check internet connection</string>
     <string name="discount">Discount Code</string>
     <string name="ok">OK</string>
     <string name="copy_code">Copy Code</string>
