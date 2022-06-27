@@ -99,13 +99,17 @@ class Repository(
     }
 
     override suspend fun registerCustomer(customerRegister: CustomerRegister): NetworkResponse<Customer> {
-        val response =
-            remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(
-                customerRegister.password)))
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body()?.customer ?: Customer())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response =
+                remoteSource.registerCustomer(customerRegister.copy(password = Decoder.encode(
+                    customerRegister.password)))
+            if (response.isSuccessful) {
+                SuccessResponse(response.body()?.customer ?: Customer())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (e: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
