@@ -12,7 +12,6 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.activities.main.view.MainActivity
@@ -24,6 +23,7 @@ import com.iti.android.team1.ebuy.ui.login_screen.viewmodel.LoginScreenViewModel
 import com.iti.android.team1.ebuy.ui.login_screen.viewmodel.LoginScreenViewModelFactory
 import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
+import com.iti.android.team1.ebuy.util.showSnackBar
 import com.iti.android.team1.ebuy.util.trimText
 import kotlinx.coroutines.flow.buffer
 
@@ -70,10 +70,7 @@ class LoginScreen : Fragment() {
                     )
                 )
             else
-                Snackbar.make(binding.root,
-                    getString(R.string.not_connected),
-                    Snackbar.LENGTH_SHORT)
-                    .show()
+                showSnackBar(getString(R.string.not_connected))
         }
     }
 

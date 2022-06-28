@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -18,6 +17,7 @@ import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.ui.savedItems.adapter.SavedRecyclerAdapter
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModel
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModelFactory
+import com.iti.android.team1.ebuy.util.showSnackBar
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
 
@@ -60,10 +60,9 @@ class SavedItemsFragment : Fragment() {
                         hideShimmer()
                         setEmptyLayout()
                     }
-                    is ResultState.Error ->{
+                    is ResultState.Error -> {
                         hideShimmer()
-                        Toast.makeText(requireContext(),
-                            response.errorString, Toast.LENGTH_SHORT).show()
+                        showSnackBar(response.errorString)
                     }
                     ResultState.Loading -> {
                         showShimmer()
@@ -81,8 +80,7 @@ class SavedItemsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.deleteState.observe(viewLifecycleOwner) { response ->
                 when (response) {
-                    is ResultState.Error -> Toast.makeText(requireContext(),
-                        response.errorString, Toast.LENGTH_SHORT).show()
+                    is ResultState.Error -> showSnackBar(response.errorString)
                     ResultState.EmptyResult -> setEmptyLayout()
                     is ResultState.Success -> favoritesAdapter.removeItemFromList(position)
                 }

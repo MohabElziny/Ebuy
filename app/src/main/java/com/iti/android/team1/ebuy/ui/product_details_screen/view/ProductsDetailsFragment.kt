@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -23,6 +22,7 @@ import com.iti.android.team1.ebuy.ui.product_details_screen.dialog.AddToCartDial
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.ProductDetailsVMFactory
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.ProductsDetailsViewModel
 import com.iti.android.team1.ebuy.util.ZoomOutPageTransformer
+import com.iti.android.team1.ebuy.util.showSnackBar
 import com.like.LikeButton
 import com.like.OnLikeListener
 import kotlinx.coroutines.flow.buffer
@@ -68,8 +68,7 @@ class ProductsDetailsFragment : Fragment() {
                 when (it) {
                     ResultState.EmptyResult -> {}
                     is ResultState.Error -> {
-                        Toast.makeText(requireContext(),
-                            it.errorString, Toast.LENGTH_LONG).show()
+                        showSnackBar(it.errorString)
                         binding.likeBtn.isLiked = !binding.likeBtn.isLiked
                     }
                     ResultState.Loading -> {}
@@ -136,10 +135,7 @@ class ProductsDetailsFragment : Fragment() {
                     if (it) {
                         showAlertDialog(cartProduct?.productName ?: "")
                     } else if (quantity <= 0) {
-                        Toast.makeText(requireContext(),
-                            getString(R.string.product_out_of_stock),
-                            Toast.LENGTH_LONG)
-                            .show()
+                        showSnackBar(getString(R.string.product_out_of_stock))
                     } else {
                         showAddToCartDialog()
                     }

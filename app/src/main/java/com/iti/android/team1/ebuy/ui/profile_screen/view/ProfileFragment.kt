@@ -2,13 +2,7 @@ package com.iti.android.team1.ebuy.ui.profile_screen.view
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
-import android.view.ViewGroup
-import android.widget.Toast
+import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -26,6 +20,7 @@ import com.iti.android.team1.ebuy.ui.profile_screen.adapters.OrdersAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.adapters.ProfileFavoritesAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileVMFactory
 import com.iti.android.team1.ebuy.ui.profile_screen.viewmodel.ProfileViewModel
+import com.iti.android.team1.ebuy.util.showSnackBar
 import kotlinx.coroutines.flow.buffer
 
 class ProfileFragment : Fragment() {
@@ -77,11 +72,7 @@ class ProfileFragment : Fragment() {
             viewModel.deleteState.buffer().collect { response ->
                 when (response) {
                     is ResultState.Success -> profileFavoritesAdapter.removeItemFromList(index)
-                    is ResultState.Error -> {
-                        Toast.makeText(requireContext(),
-                            response.errorString,
-                            Toast.LENGTH_SHORT).show()
-                    }
+                    is ResultState.Error -> showSnackBar(response.errorString)
                 }
             }
         }
@@ -96,8 +87,7 @@ class ProfileFragment : Fragment() {
                         binding.emptyTxtFavorites.visibility = View.VISIBLE
                         profileFavoritesAdapter.setFavouriteList(emptyList())
                     }
-                    is ResultState.Error -> Toast.makeText(requireContext(),
-                        result.errorString, Toast.LENGTH_SHORT).show()
+                    is ResultState.Error -> showSnackBar(result.errorString)
                     ResultState.Loading -> {
                         binding.emptyTxtFavorites.visibility = View.GONE
                     }
@@ -119,8 +109,7 @@ class ProfileFragment : Fragment() {
                         binding.emptyTxtOrders.visibility = View.VISIBLE
                         ordersAdapter.setOrderList(emptyList())
                     }
-                    is ResultState.Error -> Toast.makeText(requireContext(),
-                        result.errorString, Toast.LENGTH_SHORT).show()
+                    is ResultState.Error -> showSnackBar(result.errorString)
                     ResultState.Loading -> binding.emptyTxtOrders.visibility = View.GONE
                     is ResultState.Success -> {
                         binding.emptyTxtOrders.visibility = View.GONE
@@ -136,11 +125,11 @@ class ProfileFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             viewModel.customer.buffer().collect { result ->
                 when (result) {
-//                    ResultState.EmptyResult -> TODO()
+                    ResultState.EmptyResult -> {}
                     is ResultState.Error -> {
                         binding.txtWelcomeMessage.text = getString(R.string.notExist)
                     }
-//                    ResultState.Loading -> TODO()
+                    ResultState.Loading -> {}
                     is ResultState.Success -> {
                         binding.txtWelcomeMessage.text =
                             getString(R.string.welcome_user).plus(result.data.firstName.plus(" ")

@@ -111,7 +111,7 @@
     <string name="fragment_track_order">Track order</string>
     <string name="total">Total</string>
     <string name="cancel_order">Order canceled</string>
-    <string name="pay_cash">Pay Cash</string>
+    <string name="pay_cash">Cash on delivery</string>
     <string name="yes">Yes</string>
     <string name="btn_check_discount">get discount</string>
     <string name="total_price_after_discount">Total Price After Discount</string>
@@ -177,5 +177,8 @@
     <string name="shipping">shipping</string>
     <string name="delivering">delivering</string>
     <string name="delivered">delivered</string>
+    <string name="detailes_19_104_el_hnager_new_cairo">Detailes.(19, 104 El-hnager, New cairo)</string>
+    <string name="choose_address">You should choose an Address</string>
+    <string name="copied_code">Successfully copied</string>
 
 </resources>

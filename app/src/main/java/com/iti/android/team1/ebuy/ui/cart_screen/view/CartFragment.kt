@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -13,7 +12,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentCartBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
@@ -22,6 +20,7 @@ import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.ui.cart_screen.adapter.CartProductAdapter
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartVMFactory
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartViewModel
+import com.iti.android.team1.ebuy.util.showSnackBar
 import kotlinx.coroutines.launch
 
 class CartFragment : Fragment() {
@@ -70,8 +69,7 @@ class CartFragment : Fragment() {
     private fun handleDeleteState() {
         viewModel.deleteState.observe(viewLifecycleOwner) { result ->
             when (result) {
-                is ResultState.Error -> Toast.makeText(requireContext(),
-                    result.errorString, Toast.LENGTH_SHORT).show()
+                is ResultState.Error -> showSnackBar(result.errorString)
                 ResultState.Loading -> {}
                 is ResultState.Success -> {}
             }
@@ -98,20 +96,13 @@ class CartFragment : Fragment() {
             viewModel.updateToDB()
             viewModel.makeOrder(binding.etCoupon.text.toString())
             viewModel.order.observe(viewLifecycleOwner) { order ->
-                showSnackMessage("must choose The Shipping Address")
+                showSnackBar(getString(R.string.choose_address))
                 val action = CartFragmentDirections.actionCartFragmentToAddressesFragment(1,
                     order,
                     dToCatr = true)
                 findNavController().navigate(action)
             }
         }
-    }
-
-    private fun showSnackMessage(message: String) {
-        Snackbar.make(binding.root,
-            message,
-            Snackbar.LENGTH_SHORT)
-            .show()
     }
 
     private fun handleAllCartItems() {
@@ -127,8 +118,7 @@ class CartFragment : Fragment() {
                     is ResultState.Error -> {
                         hideShimmer()
                         handleEmptyData()
-                        Toast.makeText(requireContext(),
-                            result.errorString, Toast.LENGTH_SHORT).show()
+                        showSnackBar(result.errorString)
                     }
                     ResultState.Loading -> {
                         showShimmer()
@@ -159,8 +149,6 @@ class CartFragment : Fragment() {
             }
 
         }
-
-
     }
 
 
@@ -192,9 +180,7 @@ class CartFragment : Fragment() {
 
     private fun handleOverFlow() {
         viewModel.isOverFlow.observe(viewLifecycleOwner) { overFlow ->
-            if (overFlow) Toast.makeText(requireContext(),
-                getString(R.string.no_more_in_stock),
-                Toast.LENGTH_SHORT).show()
+            if (overFlow) showSnackBar(getString(R.string.no_more_in_stock))
         }
     }
 
@@ -205,7 +191,6 @@ class CartFragment : Fragment() {
     }
     private val deleteQuantity: (Int) -> Unit = {
         showDialog("item removed", it)
-
     }
 
     private fun showDialog(messageSnackBar: String, index: Int) {
@@ -213,12 +198,11 @@ class CartFragment : Fragment() {
             .setMessage("Are you sure to remove this item ?")
             .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
             .setPositiveButton("Yes") { dialog, _ ->
-                showSnackMessage(messageSnackBar)
-                dialog.dismiss()
+                showSnackBar(messageSnackBar)
                 viewModel.manipulateCartItem(index, CartViewModel.CartItemOperation.DELETE)
                 clearDiscount()
+                dialog.dismiss()
             }
-
             .show()
     }
 
@@ -235,7 +219,7 @@ class CartFragment : Fragment() {
                     enableDiscountButton(false)
                 }
                 is ResultState.Error -> {
-                    Toast.makeText(requireContext(), it.errorString, Toast.LENGTH_SHORT).show()
+                    showSnackBar(it.errorString)
                     onDiscountResult(View.GONE, true)
                     enableDiscountButton(true)
                 }
