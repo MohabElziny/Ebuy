@@ -21,18 +21,34 @@ class AddressAdapter(
     private var addresses: ArrayList<Address> = arrayListOf()
     private var defAddressIndex: Int = 0
 
+    private var deletedAddress: Address? = null
+    private var deleteAddresssAtIndex: Int? = null
+
     @SuppressLint("NotifyDataSetChanged")
     fun setAddresses(newList: List<Address>) {
         addresses = ArrayList(newList)
         notifyDataSetChanged()
     }
 
-    fun deleteItemAtIndex(index: Int) {
+    fun deleteItemAtIndex(index: Int): Long {
+        deletedAddress = addresses[index]
+        val deletedAddressId: Long? = deletedAddress?.id
+        deleteAddresssAtIndex = index
         addresses.removeAt(index)
         notifyItemRemoved(index)
         notifyItemRangeChanged(index, addresses.size)
         if (index == addresses.size)
             defAddressIndex -= 1
+
+        return deletedAddressId!!
+    }
+
+    fun restoreDeletedAddress() {
+        val index = deleteAddresssAtIndex ?: addresses.size
+        val address = deletedAddress ?: Address()
+        addresses.add(index, address)
+        notifyItemInserted(index)
+        notifyItemRangeChanged(index, addresses.size)
     }
 
     fun changeDefaultAddress(index: Int) {
@@ -72,7 +88,7 @@ class AddressAdapter(
         }
 
         fun bindView() {
-            binding.name.text = address.address1
+            binding.name.text = "Address type: ${address.address1}"
             binding.phone.text = "Tel: ${address.phone}"
             binding.address.text = address.address1
             binding.city.text = address.city
