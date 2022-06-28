@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -31,8 +30,6 @@ import com.iti.android.team1.ebuy.model.pojo.ConvertAddToShoppingAdd
 import com.iti.android.team1.ebuy.ui.all_addresses.adapters.AddressAdapter
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModel
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModelFactory
-
-private const val TAG = "AddressesFragment"
 
 class AddressesFragment : Fragment() {
 
