@@ -5,7 +5,6 @@ import android.content.ClipboardManager
 import android.content.Context.CLIPBOARD_SERVICE
 import android.os.Bundle
 import android.view.*
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -26,6 +25,7 @@ import com.iti.android.team1.ebuy.ui.home.adapters.HomeViewPagerAdapter
 import com.iti.android.team1.ebuy.ui.home.viewmodel.HomeViewModel
 import com.iti.android.team1.ebuy.ui.home.viewmodel.HomeViewModelFactory
 import com.iti.android.team1.ebuy.util.ZoomOutPageTransformer
+import com.iti.android.team1.ebuy.util.showSnackBar
 import kotlinx.coroutines.flow.buffer
 
 class HomeFragment : Fragment() {
@@ -90,7 +90,7 @@ class HomeFragment : Fragment() {
             }
             is ResultState.Error -> {
                 hideShimmer()
-                Toast.makeText(requireContext(), brandsResult.errorString, Toast.LENGTH_LONG).show()
+                showSnackBar(brandsResult.errorString)
             }
             ResultState.Loading -> {
                 showShimmer()
@@ -134,7 +134,7 @@ class HomeFragment : Fragment() {
             requireContext().getSystemService(CLIPBOARD_SERVICE) as ClipboardManager
         val clipData = ClipData.newPlainText("text", text)
         clipboardManager.setPrimaryClip(clipData)
-        Toast.makeText(requireContext(), "Code Copied", Toast.LENGTH_LONG).show()
+        showSnackBar(getString(R.string.copied_code))
     }
 
     private val showDiscountDialog: (DiscountCodes) -> Unit = {

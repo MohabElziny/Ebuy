@@ -8,7 +8,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -29,6 +28,7 @@ import com.iti.android.team1.ebuy.model.pojo.ConvertAddToShoppingAdd
 import com.iti.android.team1.ebuy.ui.all_addresses.adapters.AddressAdapter
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModel
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModelFactory
+import com.iti.android.team1.ebuy.util.showSnackBar
 
 class AddressesFragment : Fragment() {
 
@@ -83,7 +83,7 @@ class AddressesFragment : Fragment() {
                 }
                 is ResultState.Error -> {
                     binding.progress.visibility = View.GONE
-                    Snackbar.make(requireView(), it.errorString, Snackbar.LENGTH_SHORT).show()
+                    showSnackBar(it.errorString)
                 }
                 ResultState.Loading -> binding.progress.visibility = View.VISIBLE
                 else -> {}
@@ -107,9 +107,7 @@ class AddressesFragment : Fragment() {
                 ResultState.Loading -> setLoadingState()
                 is ResultState.Success -> setSuccessState(it)
                 ResultState.EmptyResult -> setEmptyState()
-                is ResultState.Error -> Snackbar.make(requireView(),
-                    it.errorString,
-                    Snackbar.LENGTH_SHORT).show()
+                is ResultState.Error -> showSnackBar(it.errorString)
                 else -> {}
             }
         }
@@ -160,7 +158,7 @@ class AddressesFragment : Fragment() {
                 ResultState.EmptyResult -> {}
                 is ResultState.Error -> {
                     addressesAdapter.restoreDeletedAddress()
-                    Toast.makeText(requireContext(), it.errorString, Toast.LENGTH_SHORT).show()
+                    showSnackBar(it.errorString)
                 }
             }
         }

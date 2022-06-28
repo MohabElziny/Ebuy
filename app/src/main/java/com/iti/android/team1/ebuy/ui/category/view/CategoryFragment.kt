@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -23,6 +22,7 @@ import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.model.pojo.Products
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModel
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModelFactory
+import com.iti.android.team1.ebuy.util.showSnackBar
 import kotlinx.coroutines.flow.buffer
 
 class CategoryFragment : Fragment() {
@@ -95,9 +95,7 @@ class CategoryFragment : Fragment() {
         lifecycleScope.launchWhenStarted {
             categoryViewModel.insertFavoriteProductToDataBase.buffer().collect { response ->
                 when (response) {
-                    is ResultState.Error -> {
-                        Toast.makeText(context, response.errorString, Toast.LENGTH_SHORT).show()
-                    }
+                    is ResultState.Error -> showSnackBar(response.errorString)
                     ResultState.Loading -> {}
                     is ResultState.Success -> {}
                     ResultState.EmptyResult -> {}
@@ -105,9 +103,7 @@ class CategoryFragment : Fragment() {
             }
             categoryViewModel.deleteFavoriteProductToDataBase.buffer().collect { response ->
                 when (response) {
-                    is ResultState.Error -> {
-                        Toast.makeText(context, response.errorString, Toast.LENGTH_SHORT).show()
-                    }
+                    is ResultState.Error -> showSnackBar(response.errorString)
                     ResultState.Loading -> {}
                     is ResultState.Success -> {}
                     ResultState.EmptyResult -> {}

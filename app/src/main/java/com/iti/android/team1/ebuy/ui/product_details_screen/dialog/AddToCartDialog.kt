@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -16,6 +15,7 @@ import com.iti.android.team1.ebuy.model.factories.ResultState
 import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.AddToCartVMFactory
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.AddToCartViewModel
+import com.iti.android.team1.ebuy.util.showSnackBar
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
 
@@ -52,7 +52,7 @@ class AddToCartDialog(private val product: Product) : DialogFragment() {
             launch {
                 viewModel.plusButtonsState.buffer().collect {
                     binding.btnPlus.isEnabled = it
-                    if (!it) showMaximumQuantityToast()
+                    if (!it) showSnackBar(getString(R.string.no_more_in_stock))
                 }
             }
 
@@ -70,7 +70,7 @@ class AddToCartDialog(private val product: Product) : DialogFragment() {
                 viewModel.addProductClicked.buffer().collect {
                     when (it) {
                         is ResultState.Error -> {
-                           enableButtons()
+                            enableButtons()
                         }
                         is ResultState.Success -> {
                             dialog?.dismiss()
@@ -81,12 +81,6 @@ class AddToCartDialog(private val product: Product) : DialogFragment() {
                 }
             }
         }
-    }
-
-    private fun showMaximumQuantityToast() {
-        Toast.makeText(requireContext(),
-            getString(R.string.no_more_in_stock),
-            Toast.LENGTH_SHORT).show()
     }
 
     private fun setTextQuantity(quantity: Int) {

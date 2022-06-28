@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentAddAddressBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
@@ -23,6 +22,7 @@ import com.iti.android.team1.ebuy.ui.add_address.viewmodel.AddViewModelFactory
 import com.iti.android.team1.ebuy.ui.add_address.viewmodel.AddressResult
 import com.iti.android.team1.ebuy.ui.add_address.viewmodel.DataErrorType
 import com.iti.android.team1.ebuy.util.getText
+import com.iti.android.team1.ebuy.util.showSnackBar
 import kotlinx.coroutines.flow.buffer
 
 
@@ -115,9 +115,7 @@ class AddAddressFragment : Fragment() {
     private fun setStateResult(result: AddressResult) {
         when (result) {
             is AddressResult.AddAddressError -> {
-                Snackbar.make(requireView(),
-                    result.errorString,
-                    Snackbar.LENGTH_SHORT).show()
+                showSnackBar(result.errorString)
                 binding.saveBtn.isClickable = true
             }
             AddressResult.AddAddressSuccessful -> findNavController().popBackStack()

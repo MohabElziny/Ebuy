@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -20,6 +19,7 @@ import com.iti.android.team1.ebuy.model.pojo.Products
 import com.iti.android.team1.ebuy.ui.productsScreen.ProductsRecyclerAdapter
 import com.iti.android.team1.ebuy.ui.productsScreen.viewmodel.ProductViewModelFactory
 import com.iti.android.team1.ebuy.ui.productsScreen.viewmodel.ProductsViewModel
+import com.iti.android.team1.ebuy.util.showSnackBar
 
 class ProductsFragment : Fragment() {
 
@@ -58,7 +58,7 @@ class ProductsFragment : Fragment() {
                 }
                 is ResultState.Error -> {
                     showEmptyLayout()
-                    Toast.makeText(requireContext(), it.errorString, Toast.LENGTH_SHORT).show()
+                    showSnackBar(it.errorString)
                 }
             }
         }
@@ -76,9 +76,7 @@ class ProductsFragment : Fragment() {
         viewModel.resultOfAddingProductToFavorite.observe(viewLifecycleOwner) {
             when (it) {
                 ResultState.EmptyResult -> {}
-                is ResultState.Error -> Toast.makeText(requireContext(),
-                    it.errorString,
-                    Toast.LENGTH_SHORT).show()
+                is ResultState.Error -> showSnackBar(it.errorString)
                 ResultState.Loading -> {}
                 is ResultState.Success -> {}
             }
@@ -89,9 +87,7 @@ class ProductsFragment : Fragment() {
         viewModel.resultOfDeletingProductToFavorite.observe(viewLifecycleOwner) {
             when (it) {
                 ResultState.EmptyResult -> {}
-                is ResultState.Error -> Toast.makeText(requireContext(),
-                    it.errorString,
-                    Toast.LENGTH_SHORT).show()
+                is ResultState.Error -> showSnackBar(it.errorString)
                 ResultState.Loading -> {}
                 is ResultState.Success -> {}
             }
