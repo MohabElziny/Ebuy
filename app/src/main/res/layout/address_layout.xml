@@ -2,127 +2,97 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parent"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
+    android:padding="@dimen/_10sdp">
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/parent"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_77sdp"
-        android:layout_marginStart="@dimen/_7sdp"
-        android:layout_marginTop="@dimen/_7sdp"
-        android:layout_marginEnd="@dimen/_7sdp"
-        android:layout_marginBottom="@dimen/_7sdp"
-        android:background="?android:attr/selectableItemBackground"
-        android:clickable="true"
-        android:focusable="true"
-        app:cardCornerRadius="@dimen/_7sdp"
-        app:cardElevation="@dimen/_2sdp">
+    <TextView
+        android:id="@+id/name"
+        style="@style/heading3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/_2sdp"
+        android:textSize="@dimen/fontHeading6"
+        tools:text="Address type: Home" />
 
-        <RelativeLayout
+    <TextView
+        android:id="@+id/phone"
+        style="@style/heading3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/province"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="@dimen/_2sdp"
+        android:textSize="@dimen/fontHeading6"
+        android:textStyle="italic"
+        tools:text="Tel: +02 111 772 1272" />
 
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_marginStart="@dimen/_8sdp"
-            android:layout_marginTop="@dimen/_8sdp"
-            android:layout_marginBottom="@dimen/_8sdp">
+    <TextView
+        android:id="@+id/address"
+        style="@style/heading3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:textSize="@dimen/fontHeading6"
+        android:textStyle="normal"
+        tools:text="102, ahmed helmy," />
 
-            <TextView
-                android:id="@+id/name"
-                style="@style/heading3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:textSize="@dimen/fontHeading6"
-                tools:text="Address Name" />
+    <TextView
+        android:id="@+id/city"
+        style="@style/heading3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/name"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_toEndOf="@id/address"
+        android:textSize="@dimen/fontHeading6"
+        android:textStyle="normal"
+        tools:text="new cairo" />
 
-            <TextView
-                android:id="@+id/phone"
-                style="@style/heading3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/_3sdp"
-                android:layout_marginTop="@dimen/_1sdp"
-                android:layout_marginBottom="@dimen/_2sdp"
-                android:layout_toEndOf="@id/name"
-                android:textSize="@dimen/fontHeading6"
-                android:textStyle="italic"
-                tools:text="Tel: +02 111 772 1272" />
+    <TextView
+        android:id="@+id/province"
+        style="@style/heading3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/city"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:textSize="@dimen/fontHeading6"
+        android:textStyle="normal"
+        tools:text="Cairo," />
 
-            <TextView
-                android:id="@+id/address"
-                style="@style/heading3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/name"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:textSize="@dimen/fontHeading6"
-                android:textStyle="normal"
-                tools:text="102, ahmed helmy," />
-
-            <TextView
-                android:id="@+id/city"
-                style="@style/heading3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/name"
-                android:layout_marginStart="@dimen/_3sdp"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:layout_toEndOf="@id/address"
-                android:textSize="@dimen/fontHeading6"
-                android:textStyle="normal"
-                tools:text="new cairo" />
-
-            <TextView
-                android:id="@+id/province"
-                style="@style/heading3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/city"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:textSize="@dimen/fontHeading6"
-                android:textStyle="normal"
-                tools:text="Cairo," />
-
-            <TextView
-                android:id="@+id/country"
-                style="@style/heading3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/city"
-                android:layout_marginStart="@dimen/_3sdp"
-                android:layout_marginTop="@dimen/_4sdp"
-                android:layout_toEndOf="@id/province"
-                android:textSize="@dimen/fontHeading6"
-                android:textStyle="normal"
-                tools:text="new cairo" />
-
-        </RelativeLayout>
+    <TextView
+        android:id="@+id/country"
+        style="@style/heading3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/city"
+        android:layout_marginStart="@dimen/_3sdp"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_toEndOf="@id/province"
+        android:textSize="@dimen/fontHeading6"
+        android:textStyle="normal"
+        tools:text="Egypt" />
 
 
-        <ImageView
-            android:id="@+id/imageDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end|bottom"
-            android:layout_margin="@dimen/_8sdp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:src="@drawable/ic_baseline_delete_24" />
-
-
-        <com.like.LikeButton
-            android:id="@+id/defBtn"
-            android:layout_width="@dimen/_19sdp"
-            android:layout_height="@dimen/_19sdp"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="top|end"
-            android:layout_margin="@dimen/_8sdp"
-            app:anim_scale_factor="2"
-            app:icon_size="25dp"
-            app:icon_type="Star" />
-    </androidx.cardview.widget.CardView>
+    <com.like.LikeButton
+        android:id="@+id/defBtn"
+        android:layout_width="@dimen/_19sdp"
+        android:layout_height="@dimen/_19sdp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_gravity="top|end"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginEnd="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        app:anim_scale_factor="2"
+        app:icon_size="25dp"
+        app:icon_type="Star" />
 
 </RelativeLayout>

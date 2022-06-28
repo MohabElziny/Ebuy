@@ -12,7 +12,6 @@ import com.like.OnLikeListener
 
 class AddressAdapter(
     private val onItemClicked: (Address) -> (Unit),
-    private val onDeleteClick: (Address, Int) -> (Unit),
     private inline val onAddSelected: (Address) -> (Unit),
     private val addAsDefAddress: (Long, Int) -> (Unit),
     private val isItCart: Boolean,
@@ -21,18 +20,33 @@ class AddressAdapter(
     private var addresses: ArrayList<Address> = arrayListOf()
     private var defAddressIndex: Int = 0
 
+    private var deletedAddress: Address? = null
+    private var deletedAddressAtIndex: Int? = null
+
     @SuppressLint("NotifyDataSetChanged")
     fun setAddresses(newList: List<Address>) {
         addresses = ArrayList(newList)
         notifyDataSetChanged()
     }
 
-    fun deleteItemAtIndex(index: Int) {
+    fun deleteItemAtIndex(index: Int): Long {
+        deletedAddress = addresses[index]
+        val deletedAddressId: Long? = deletedAddress?.id
+        deletedAddressAtIndex = index
         addresses.removeAt(index)
         notifyItemRemoved(index)
         notifyItemRangeChanged(index, addresses.size)
         if (index == addresses.size)
             defAddressIndex -= 1
+        return deletedAddressId ?: 0L
+    }
+
+    fun restoreDeletedAddress() {
+        val index = deletedAddressAtIndex ?: addresses.size
+        val address = deletedAddress ?: Address()
+        addresses.add(index, address)
+        notifyItemInserted(index)
+        notifyItemRangeChanged(index, addresses.size)
     }
 
     fun changeDefaultAddress(index: Int) {
@@ -57,10 +71,6 @@ class AddressAdapter(
             else
                 binding.parent.setOnClickListener { onItemClicked(address) }
 
-            binding.imageDelete.setOnClickListener {
-                onDeleteClick(address, bindingAdapterPosition)
-            }
-
             binding.defBtn.setOnLikeListener(object : OnLikeListener {
                 override fun liked(likeButton: LikeButton?) {
                     addAsDefAddress(address.id ?: 0, bindingAdapterPosition)
@@ -72,7 +82,7 @@ class AddressAdapter(
         }
 
         fun bindView() {
-            binding.name.text = address.address1
+            binding.name.text = "Address type: ${address.address1}"
             binding.phone.text = "Tel: ${address.phone}"
             binding.address.text = address.address1
             binding.city.text = address.city
