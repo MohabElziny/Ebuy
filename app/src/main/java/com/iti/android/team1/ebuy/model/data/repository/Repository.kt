@@ -48,20 +48,28 @@ class Repository(
     }
 
     override suspend fun getProductsByCollectionID(collectionID: Long): NetworkResponse<Products> {
-        val response = remoteSource.getProductsByCollectionID(collectionID)
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body() ?: Products(emptyList()))
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.getProductsByCollectionID(collectionID)
+            return if (response.isSuccessful) {
+                SuccessResponse(response.body() ?: Products(emptyList()))
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (ex: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
     override suspend fun getAllCategories(): NetworkResponse<Categories> {
-        val response = remoteSource.getAllCategories()
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body() ?: Categories(emptyList()))
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.getAllCategories()
+            return if (response.isSuccessful) {
+                SuccessResponse(response.body() ?: Categories(emptyList()))
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (ex: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
@@ -69,11 +77,15 @@ class Repository(
         collectionID: Long,
         productType: String,
     ): NetworkResponse<Products> {
-        val response = remoteSource.getAllCategoryProducts(collectionID, productType)
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body() ?: Products(emptyList()))
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.getAllCategoryProducts(collectionID, productType)
+            if (response.isSuccessful) {
+                SuccessResponse(response.body() ?: Products(emptyList()))
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (ex: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
@@ -102,17 +114,21 @@ class Repository(
     }
 
     override suspend fun loginCustomer(customerLogin: CustomerLogin): NetworkResponse<Customer> {
-        val response =
-            remoteSource.loginCustomer(customerLogin.copy(password = encode(customerLogin.password)))
-        return if (response.isSuccessful) {
+        return try {
+            val response =
+                remoteSource.loginCustomer(customerLogin.copy(password = encode(customerLogin.password)))
+            if (response.isSuccessful) {
 
-            if (!response.body()?.customers.isNullOrEmpty())
-                SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
-            else
-                SuccessResponse(Customer())
+                if (!response.body()?.customers.isNullOrEmpty())
+                    SuccessResponse(response.body()?.customers?.get(0) ?: Customer())
+                else
+                    SuccessResponse(Customer())
 
-        } else {
-            parseError(response.errorBody())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (ex: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
@@ -126,11 +142,15 @@ class Repository(
     }
 
     override suspend fun getCustomerOrders(): NetworkResponse<OrderAPI> {
-        val response = remoteSource.getCustomerOrders(getUserIdFromPrefs())
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body() ?: OrderAPI())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            val response = remoteSource.getCustomerOrders(getUserIdFromPrefs())
+            return if (response.isSuccessful) {
+                SuccessResponse(response.body() ?: OrderAPI())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (ex: Exception) {
+            FailureResponse(connectionFailure)
         }
     }
 
@@ -200,7 +220,7 @@ class Repository(
         setFavoritesNo(getFavoritesNo().value - 1)
         return try {
             removeFavoriteOrCartItem(productId, true)
-        } catch (e: Exception) {
+        } catch (ex: Exception) {
             FailureResponse(connectionFailure)
         }
     }
@@ -217,7 +237,11 @@ class Repository(
 
     override suspend fun removeFromCart(productId: Long): NetworkResponse<DraftOrder> {
         setCartNo(getCartNo().value - 1)
-        return removeFavoriteOrCartItem(productId, false)
+        return try {
+            removeFavoriteOrCartItem(productId, false)
+        } catch (ex: Exception) {
+            FailureResponse(connectionFailure)
+        }
     }
 
     private suspend fun removeFavoriteOrCartItem(
@@ -375,13 +399,18 @@ class Repository(
     override suspend fun getFavoriteItems(): NetworkResponse<Draft> {
         return try {
             getItemsData(getFavoritesIdFromPrefs())
-        } catch (e: Exception) {
+        } catch (ex: Exception) {
             FailureResponse(connectionFailure)
         }
     }
 
-    override suspend fun getCartItems(): NetworkResponse<Draft> =
-        getItemsData(getCartIdFromPrefs())
+    override suspend fun getCartItems(): NetworkResponse<Draft> {
+        return try {
+            getItemsData(getCartIdFromPrefs())
+        } catch (ex: Exception) {
+            FailureResponse(connectionFailure)
+        }
+    }
 
     override suspend fun postOrder(order: Order): NetworkResponse<Order> {
         order.customer = Customer(id = getUserIdFromPrefs())
@@ -522,7 +551,7 @@ class Repository(
             else
                 parseError(response.errorBody())
         } catch (ex: Exception) {
-            FailureResponse("No Internet")
+            FailureResponse(connectionFailure)
         }
     }
 
