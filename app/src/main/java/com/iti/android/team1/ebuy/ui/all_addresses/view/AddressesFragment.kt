@@ -1,6 +1,5 @@
 package com.iti.android.team1.ebuy.ui.all_addresses.view
 
-import android.app.AlertDialog
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -52,7 +51,7 @@ class AddressesFragment : Fragment() {
     ): View {
         _binding = FragmentAddressesBinding.inflate(inflater, container, false)
         _addressesAdapter =
-            AddressAdapter(onItemClick, onDelete, onAddSelected, addAddressAsDef, args.dToCatr)
+            AddressAdapter(onItemClick, onAddSelected, addAddressAsDef, args.dToCatr)
         deleteIcon = ContextCompat.getDrawable(requireContext(), R.drawable.ic_baseline_delete_24)!!
         return binding.root
     }
@@ -184,17 +183,6 @@ class AddressesFragment : Fragment() {
                 title = getString(R.string.edit_address_title)))
     }
 
-    private val onDelete: (Address, Int) -> (Unit) = { address, position ->
-        val dialog = AlertDialog.Builder(requireContext())
-        dialog.setTitle("Delete Alert")
-        dialog.setMessage("Are you sure that you want to delete this address from your account ?")
-        dialog.setPositiveButton(android.R.string.ok) { _, _ ->
-            this.position = position
-            viewModel.deleteAddress(addressId = address.id ?: 0)
-        }
-        dialog.setNegativeButton(android.R.string.cancel) { _, _ -> }.show()
-    }
-
 
     private val addAddressAsDef: (Long, Int) -> (Unit) = { addressId, position ->
         this.position = position
@@ -207,7 +195,7 @@ class AddressesFragment : Fragment() {
         _binding = null
     }
 
-    var itemTouchHelper = ItemTouchHelper(
+    private var itemTouchHelper = ItemTouchHelper(
         object : ItemTouchHelper.SimpleCallback(0,
             ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
             override fun onMove(
@@ -277,12 +265,12 @@ class AddressesFragment : Fragment() {
 
                     c.restore()
                     super.onChildDraw(c,
-                        recyclerView,
-                        viewHolder,
-                        dX,
-                        dY,
-                        actionState,
-                        isCurrentlyActive)
+                            recyclerView,
+                            viewHolder,
+                            dX,
+                            dY,
+                            actionState,
+                            isCurrentlyActive)
                 }
             }
         })

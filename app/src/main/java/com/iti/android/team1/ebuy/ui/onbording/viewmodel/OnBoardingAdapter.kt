@@ -20,8 +20,8 @@ class OnBoardingAdapter : RecyclerView.Adapter<OnBoardingAdapter.OnBoardingViewH
         Boarding(title = "Pay",
             dec = "Pay online via your debit or credit card. We work with the best Egyptian banks to protect your payments.",
             image = R.drawable.ic_credit_card),
-        Boarding(title = "Wait",
-            dec = "Wait for your package to reach your home door within less than 3 hours",
+        Boarding(title = "Receive",
+            dec = "Receive for your package to reach your home door within less than 3 hours",
             image = R.drawable.ic_wait),
     )
 
