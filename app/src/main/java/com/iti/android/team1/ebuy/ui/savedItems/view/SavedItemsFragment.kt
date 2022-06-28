@@ -135,6 +135,7 @@ class SavedItemsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        position = -1
         _favoritesAdapter = null
         _binding = null
     }
