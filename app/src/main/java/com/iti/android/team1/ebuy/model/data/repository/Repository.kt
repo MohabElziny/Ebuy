@@ -36,10 +36,14 @@ class Repository(
 
     override suspend fun getAllProducts(): NetworkResponse<Products> {
         val response = remoteSource.getAllProduct()
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body() ?: Products(emptyList()))
-        } else {
-            parseError(response.errorBody())
+        return try {
+            if (response.isSuccessful)
+                SuccessResponse(response.body() ?: Products(emptyList()))
+            else
+                parseError(response.errorBody())
+
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
         }
     }
 
@@ -182,10 +186,13 @@ class Repository(
     ): NetworkResponse<DraftOrder> {
         val favoriteID = getFavoritesIdFromPrefs()
         setFavoritesNo(getFavoritesNo().value + 1)
-        return if (favoriteID.isEmpty()) {
-            postDraftOrder(product, isFavorite = true)
-        } else {
-            updateDraftOrder(product, draftId = favoriteID.toLong())
+        return try {
+            return if (favoriteID.isEmpty())
+                postDraftOrder(product, isFavorite = true)
+            else
+                updateDraftOrder(product, draftId = favoriteID.toLong())
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
         }
     }
 
@@ -219,19 +226,23 @@ class Repository(
     ): NetworkResponse<DraftOrder> {
         val draft = if (isFavorite) getDraft(getFavoritesIdFromPrefs().toLong()) else getDraft(
             getCartIdFromPrefs().toLong())
-        return if (draft?.draftOrder?.lineItems != null) {
-            if (draft.draftOrder.lineItems.count() > 1) {
-                draft.apply {
-                    draftOrder.lineItems.removeIf {
-                        it.productId == productId
+        return try {
+            return if (draft?.draftOrder?.lineItems != null) {
+                if (draft.draftOrder.lineItems.count() > 1) {
+                    draft.apply {
+                        draftOrder.lineItems.removeIf {
+                            it.productId == productId
+                        }
                     }
+                    removeLineItem(draft)
+                } else {
+                    deleteLastDraftItem(isFavorite, draft.draftOrder.id)
                 }
-                removeLineItem(draft)
             } else {
-                deleteLastDraftItem(isFavorite, draft.draftOrder.id)
+                FailureResponse("Your Inventory is already empty")
             }
-        } else {
-            FailureResponse("Your Inventory is already empty")
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
         }
     }
 
@@ -240,14 +251,18 @@ class Repository(
         draftOrderId: Long,
     ): NetworkResponse<DraftOrder> {
         val deleteResponse = deleteDraftOrder(draftOrderId)
-        return if (deleteResponse.isSuccessful) {
-            resetFavOrCartInSharedPref(isFavorite)
-            val customer = getCustomer()
-            if (isFavorite) customer.favoriteID = "" else customer.cartID = ""
-            updateCustomer(customer)
-            SuccessResponse(DraftOrder())
-        } else {
-            parseError(deleteResponse.errorBody())
+        return try {
+            return if (deleteResponse.isSuccessful) {
+                resetFavOrCartInSharedPref(isFavorite)
+                val customer = getCustomer()
+                if (isFavorite) customer.favoriteID = "" else customer.cartID = ""
+                updateCustomer(customer)
+                SuccessResponse(DraftOrder())
+            } else {
+                parseError(deleteResponse.errorBody())
+            }
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
         }
     }
 
@@ -276,11 +291,15 @@ class Repository(
             ))
 
         val response = remoteSource.postDraftOrder(draft)
-        return if (response.isSuccessful) {
-            setDraftIdToCustomer(getCustomer(), isFavorite, response.body()?.draftOrder?.id)
-            SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            return if (response.isSuccessful) {
+                setDraftIdToCustomer(getCustomer(), isFavorite, response.body()?.draftOrder?.id)
+                SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
         }
     }
 
@@ -317,10 +336,14 @@ class Repository(
         }
 
         val response = remoteSource.updateDraftOrder(draft ?: Draft())
-        return if (response.isSuccessful) {
-            SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
-        } else {
-            parseError(response.errorBody())
+        return try {
+            return if (response.isSuccessful) {
+                SuccessResponse(response.body()?.draftOrder ?: DraftOrder())
+            } else {
+                parseError(response.errorBody())
+            }
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
         }
     }
 
@@ -409,10 +432,14 @@ class Repository(
 
     override suspend fun getAllAddresses(customerId: Long): NetworkResponse<Addresses> {
         val response = remoteSource.getAllAddresses(customerId)
-        return if (response.isSuccessful)
-            SuccessResponse(data = response.body() ?: Addresses())
-        else
-            parseError(response.errorBody())
+        return try {
+            return if (response.isSuccessful)
+                SuccessResponse(data = response.body() ?: Addresses())
+            else
+                parseError(response.errorBody())
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
+        }
     }
 
     override suspend fun getAddressDetails(
@@ -431,10 +458,14 @@ class Repository(
         address: AddressDto,
     ): NetworkResponse<Address> {
         val response = remoteSource.addAddress(customerId, address)
-        return if (response.isSuccessful)
-            SuccessResponse(data = response.body() ?: Address())
-        else
-            parseError(response.errorBody())
+        return try {
+            return if (response.isSuccessful)
+                SuccessResponse(data = response.body() ?: Address())
+            else
+                parseError(response.errorBody())
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
+        }
     }
 
     override suspend fun updateAddress(
@@ -443,10 +474,14 @@ class Repository(
         newAddress: AddressDto,
     ): NetworkResponse<Address> {
         val response = remoteSource.updateAddress(customerId, addressId, newAddress)
-        return if (response.isSuccessful)
-            SuccessResponse(data = response.body() ?: Address())
-        else
-            parseError(response.errorBody())
+        return try {
+            return if (response.isSuccessful)
+                SuccessResponse(data = response.body() ?: Address())
+            else
+                parseError(response.errorBody())
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
+        }
     }
 
     override suspend fun setDefaultAddress(
@@ -454,10 +489,14 @@ class Repository(
         addressId: Long,
     ): NetworkResponse<Address> {
         val response = remoteSource.setDefaultAddress(customerId, addressId)
-        return if (response.isSuccessful)
-            SuccessResponse(data = response.body() ?: Address())
-        else
-            parseError(response.errorBody())
+        return try {
+            return if (response.isSuccessful)
+                SuccessResponse(data = response.body() ?: Address())
+            else
+                parseError(response.errorBody())
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
+        }
     }
 
     override suspend fun deleteAddress(
@@ -465,10 +504,14 @@ class Repository(
         addressId: Long,
     ): NetworkResponse<Address> {
         val response = remoteSource.deleteAddress(customerId, addressId)
-        return if (response.isSuccessful)
-            SuccessResponse(data = response.body() ?: Address())
-        else
-            parseError(response.errorBody())
+        return try {
+            return if (response.isSuccessful)
+                SuccessResponse(data = response.body() ?: Address())
+            else
+                parseError(response.errorBody())
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
+        }
     }
 
     override suspend fun getAllPriceRules(): NetworkResponse<PriceRuleResponse> {
@@ -502,18 +545,26 @@ class Repository(
 
     override suspend fun getPriceRuleById(price_rule_id: Long): NetworkResponse<PriceRule> {
         val response = remoteSource.getPriceRuleById(price_rule_id)
-        return if (response.isSuccessful)
-            SuccessResponse(response.body() ?: PriceRule())
-        else
-            parseError(response.errorBody())
+        return try {
+            if (response.isSuccessful)
+                SuccessResponse(response.body() ?: PriceRule())
+            else
+                parseError(response.errorBody())
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
+        }
     }
 
     override suspend fun getDiscountById(code: String): NetworkResponse<DiscountCode> {
         val response = remoteSource.getDiscountById(code)
-        return if (response.isSuccessful)
-            SuccessResponse(response.body() ?: DiscountCode())
-        else
-            parseError(response.errorBody())
+        return try {
+            return if (response.isSuccessful)
+                SuccessResponse(response.body() ?: DiscountCode())
+            else
+                parseError(response.errorBody())
+        } catch (ex: Exception) {
+            FailureResponse("No Internet")
+        }
     }
 
     override fun isRunFirstTime(): Boolean = localSource.isRunFirstTime()
