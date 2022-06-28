@@ -23,7 +23,6 @@ import com.iti.android.team1.ebuy.model.pojo.Product
 import com.iti.android.team1.ebuy.model.pojo.Products
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModel
 import com.iti.android.team1.ebuy.ui.category.viewmodel.CategoryViewModelFactory
-import kotlinx.android.synthetic.main.fragment_register_screen.*
 import kotlinx.coroutines.flow.buffer
 
 class CategoryFragment : Fragment() {
