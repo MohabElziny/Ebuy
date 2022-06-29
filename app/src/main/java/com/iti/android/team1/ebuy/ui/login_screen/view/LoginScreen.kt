@@ -43,8 +43,6 @@ class LoginScreen : Fragment() {
     ): View {
         _binding = FragmentLoginScreenBinding.inflate(inflater, container, false)
 
-        requireActivity().findViewById<Toolbar>(R.id.toolbar).visibility = View.VISIBLE
-
         if (viewModel.getAuthStateFromPrefs())
             navigateToMainActivity()
 

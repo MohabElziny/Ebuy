@@ -13,7 +13,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.activities.main.connection.ConnectionLiveData
@@ -28,13 +27,13 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.buffer
 import kotlinx.coroutines.launch
 
-
 class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedListener {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navView: BottomNavigationView
     private lateinit var navController: NavController
-    private lateinit var binding: ActivityMainBinding
+    private var _binding: ActivityMainBinding? = null
+    private val binding get() = _binding!!
     private lateinit var fragmentContainer: FragmentContainerView
     private val connectionViewModel: ConnectionViewModel by viewModels()
     private val viewMode: MainViewModel by viewModels {
@@ -42,11 +41,10 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
     }
     var connect = true
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        binding = ActivityMainBinding.inflate(layoutInflater)
+        _binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
         navView = binding.navView
@@ -170,6 +168,10 @@ class MainActivity : AppCompatActivity(), NavController.OnDestinationChangedList
             finish()
         else
             super.onBackPressed()
+    }
 
+    override fun onStop() {
+        super.onStop()
+        _binding = null
     }
 }
