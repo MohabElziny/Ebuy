@@ -3,17 +3,16 @@ package com.iti.android.team1.ebuy.ui.onbording.view
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import com.iti.android.team1.ebuy.R
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
+import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentOnBoardingBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
 import com.iti.android.team1.ebuy.model.data.repository.Repository
 import com.iti.android.team1.ebuy.ui.onbording.viewmodel.OnBindingFactory
-import com.iti.android.team1.ebuy.ui.onbording.viewmodel.OnBoardingAdapter
 import com.iti.android.team1.ebuy.ui.onbording.viewmodel.OnBoardingViewModel
 import kotlinx.android.synthetic.main.fragment_on_boarding.*
 

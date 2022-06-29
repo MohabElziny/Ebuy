@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.AddToCartDialougeLayoutBinding
 import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
@@ -52,7 +53,9 @@ class AddToCartDialog(private val product: Product) : DialogFragment() {
             launch {
                 viewModel.plusButtonsState.buffer().collect {
                     binding.btnPlus.isEnabled = it
-                    if (!it) showSnackBar(getString(R.string.no_more_in_stock))
+                    if (!it) Snackbar.make(requireActivity().findViewById(R.id.nav_view),
+                        getString(R.string.no_more_in_stock),
+                        Snackbar.LENGTH_SHORT).show()
                 }
             }
 

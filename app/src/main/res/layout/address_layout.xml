@@ -32,7 +32,7 @@
         tools:text="Tel: +02 111 772 1272" />
 
     <TextView
-        android:id="@+id/address"
+        android:id="@+id/city"
         style="@style/heading3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -41,19 +41,6 @@
         android:textSize="@dimen/fontHeading6"
         android:textStyle="normal"
         tools:text="102, ahmed helmy," />
-
-    <TextView
-        android:id="@+id/city"
-        style="@style/heading3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/name"
-        android:layout_marginStart="@dimen/_3sdp"
-        android:layout_marginTop="@dimen/_4sdp"
-        android:layout_toEndOf="@id/address"
-        android:textSize="@dimen/fontHeading6"
-        android:textStyle="normal"
-        tools:text="new cairo" />
 
     <TextView
         android:id="@+id/province"

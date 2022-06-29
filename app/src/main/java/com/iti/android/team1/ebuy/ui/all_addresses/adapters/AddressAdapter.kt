@@ -82,12 +82,11 @@ class AddressAdapter(
         }
 
         fun bindView() {
-            binding.name.text = "Address type: ${address.address1}"
+            binding.name.text = address.address1
             binding.phone.text = "Tel: ${address.phone}"
-            binding.address.text = address.address1
             binding.city.text = address.city
             binding.country.text = address.country
-            binding.province.text = address.province
+            binding.province.text = address.province.plus(", ")
             if (addresses.size > 1)
                 binding.defBtn.visibility = View.VISIBLE
 

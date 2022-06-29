@@ -59,56 +59,49 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
                 }
             }
         }
-
     }
 
     private suspend fun setLoginState(result: NetworkResponse<Customer>) {
         when (result) {
-            is NetworkResponse.FailureResponse -> {
+            is NetworkResponse.FailureResponse ->
                 _loginState.postValue(AuthResult.RegisterFail(result.errorString))
-            }
             is NetworkResponse.SuccessResponse -> {
-                if (result.data.id != null) {
-                    setIdsToPrefs(result.data.favoriteID, result.data.cartID)
-                    _loginState.postValue(AuthResult.RegisterSuccess(result.data))
-                } else
+                if (result.data.id != null)
+                    setIdsToPrefs(result.data)
+                else
                     _loginState.postValue(AuthResult.RegisterFail("Invalid data"))
             }
         }
     }
 
-    private suspend fun setIdsToPrefs(favoriteID: String, cartID: String) {
+    private suspend fun setIdsToPrefs(customer: Customer) {
         viewModelScope.launch(Dispatchers.IO) {
-            if (favoriteID.isNotEmpty()) {
-                repository.setFavoritesIdToPrefs(favoriteID)
-                val result = async { savedItemsUseCase.getFavoriteItems() }
-                setFavoriteSizeToPrefs(result.await())
-            }
-
-            if (cartID.isNotEmpty()) {
-                repository.setCartIdToPrefs(cartID)
+            if (customer.cartID.isNotEmpty()) {
+                repository.setCartIdToPrefs(customer.cartID)
                 val result = async { productsInCartUseCase.getAllCartProducts() }
                 setCartSizeToPrefs(result.await())
             }
+
+            if (customer.favoriteID.isNotEmpty()) {
+                repository.setFavoritesIdToPrefs(customer.favoriteID)
+                val result = async { savedItemsUseCase.getFavoriteItems() }
+                setFavoriteSizeToPrefs(result.await())
+            }
+            _loginState.postValue(AuthResult.RegisterSuccess(customer))
         }
     }
 
     private suspend fun setCartSizeToPrefs(result: NetworkResponse<List<CartItem>>) {
         when (result) {
             is NetworkResponse.FailureResponse -> Unit
-            is NetworkResponse.SuccessResponse ->
-                repository.setCartNo(result.data.size)
-
-
+            is NetworkResponse.SuccessResponse -> repository.setCartNo(result.data.size)
         }
     }
 
     private suspend fun setFavoriteSizeToPrefs(result: NetworkResponse<List<Product>>) {
         when (result) {
             is NetworkResponse.FailureResponse -> Unit
-            is NetworkResponse.SuccessResponse ->
-                repository.setFavoritesNo(result.data.size)
-
+            is NetworkResponse.SuccessResponse -> repository.setFavoritesNo(result.data.size)
         }
     }
 }
