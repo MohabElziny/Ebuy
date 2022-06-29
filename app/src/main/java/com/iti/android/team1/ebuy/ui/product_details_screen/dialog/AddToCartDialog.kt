@@ -56,7 +56,6 @@ class AddToCartDialog(private val product: Product) : DialogFragment() {
                     if (!it) Snackbar.make(requireActivity().findViewById(R.id.nav_view),
                         getString(R.string.no_more_in_stock),
                         Snackbar.LENGTH_SHORT).show()
-//                        showSnackBar(getString(R.string.no_more_in_stock))
                 }
             }
 
