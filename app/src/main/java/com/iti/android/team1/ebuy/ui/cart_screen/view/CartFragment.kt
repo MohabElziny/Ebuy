@@ -187,18 +187,17 @@ class CartFragment : Fragment() {
     private val decreaseQuantity: (Int) -> Unit = {
         viewModel.manipulateCartItem(it, CartViewModel.CartItemOperation.DECREASE)
         clearDiscount()
-
     }
+
     private val deleteQuantity: (Int) -> Unit = {
-        showDialog("item removed", it)
+        showDialog(it)
     }
 
-    private fun showDialog(messageSnackBar: String, index: Int) {
+    private fun showDialog(index: Int) {
         MaterialAlertDialogBuilder(binding.root.context).setTitle("Removing Cart Item")
             .setMessage("Are you sure to remove this item ?")
             .setNegativeButton("No") { dialog, _ -> dialog.dismiss() }
             .setPositiveButton("Yes") { dialog, _ ->
-                showSnackBar(messageSnackBar)
                 viewModel.manipulateCartItem(index, CartViewModel.CartItemOperation.DELETE)
                 clearDiscount()
                 dialog.dismiss()
