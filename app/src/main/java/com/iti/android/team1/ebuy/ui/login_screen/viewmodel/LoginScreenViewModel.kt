@@ -63,13 +63,12 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
 
     private suspend fun setLoginState(result: NetworkResponse<Customer>) {
         when (result) {
-            is NetworkResponse.FailureResponse -> {
+            is NetworkResponse.FailureResponse ->
                 _loginState.postValue(AuthResult.RegisterFail(result.errorString))
-            }
             is NetworkResponse.SuccessResponse -> {
-                if (result.data.id != null) {
+                if (result.data.id != null)
                     setIdsToPrefs(result.data)
-                } else
+                else
                     _loginState.postValue(AuthResult.RegisterFail("Invalid data"))
             }
         }
@@ -88,7 +87,6 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
                 val result = async { savedItemsUseCase.getFavoriteItems() }
                 setFavoriteSizeToPrefs(result.await())
             }
-
             _loginState.postValue(AuthResult.RegisterSuccess(customer))
         }
     }
@@ -96,18 +94,14 @@ class LoginScreenViewModel(private val repository: IRepository) : ViewModel() {
     private suspend fun setCartSizeToPrefs(result: NetworkResponse<List<CartItem>>) {
         when (result) {
             is NetworkResponse.FailureResponse -> Unit
-            is NetworkResponse.SuccessResponse -> {
-                repository.setCartNo(result.data.size)
-            }
+            is NetworkResponse.SuccessResponse -> repository.setCartNo(result.data.size)
         }
     }
 
     private suspend fun setFavoriteSizeToPrefs(result: NetworkResponse<List<Product>>) {
         when (result) {
             is NetworkResponse.FailureResponse -> Unit
-            is NetworkResponse.SuccessResponse ->
-                repository.setFavoritesNo(result.data.size)
-
+            is NetworkResponse.SuccessResponse -> repository.setFavoritesNo(result.data.size)
         }
     }
 }
