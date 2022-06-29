@@ -80,6 +80,7 @@ class SavedItemsFragment : Fragment() {
         lifecycleScope.launch {
             viewModel.deleteState.observe(viewLifecycleOwner) { response ->
                 binding.unLikeProgressBar.visibility = View.GONE
+                binding.invisableImage.visibility = View.GONE
                 when (response) {
                     is ResultState.Error -> showSnackBar(response.errorString)
                     ResultState.EmptyResult -> setEmptyLayout()
@@ -115,6 +116,7 @@ class SavedItemsFragment : Fragment() {
 
     private var onUnlike: (Long, Int) -> Unit = { productId, position ->
         binding.unLikeProgressBar.visibility = View.VISIBLE
+        binding.invisableImage.visibility = View.VISIBLE
         this.position = position
         viewModel.deleteFavoriteProduct(productId)
     }
