@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.ui.onbording.viewmodel
+package com.iti.android.team1.ebuy.ui.onbording.view
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,7 +9,6 @@ import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.BoardingLayoutBinding
 import com.iti.android.team1.ebuy.model.pojo.Boarding
 
-
 class OnBoardingAdapter : RecyclerView.Adapter<OnBoardingAdapter.OnBoardingViewHolder>() {
     private lateinit var context: Context
 
@@ -18,10 +17,10 @@ class OnBoardingAdapter : RecyclerView.Adapter<OnBoardingAdapter.OnBoardingViewH
             dec = "Search and find your desired product from big varieties of worldwide brands.",
             image = R.drawable.ic_shope_),
         Boarding(title = "Pay",
-            dec = "Pay online via your debit or credit card. We work with the best Egyptian banks to protect your payments.",
+            dec = "Pay via COD or PayPal.",
             image = R.drawable.ic_credit_card),
         Boarding(title = "Receive",
-            dec = "Receive for your package to reach your home door within less than 3 hours",
+            dec = "Receive your package and have it delivered to your door.",
             image = R.drawable.ic_wait),
     )
 
@@ -42,7 +41,6 @@ class OnBoardingAdapter : RecyclerView.Adapter<OnBoardingAdapter.OnBoardingViewH
         return OnBoardingViewHolder(
             BoardingLayoutBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
-
 
     override fun onBindViewHolder(holder: OnBoardingViewHolder, position: Int) = holder.bind()
 
