@@ -216,6 +216,10 @@ class CartViewModel(private val myRepo: IRepository) : ViewModel() {
             _totalAfterDiscount.value = (price + (price * discountValue / 100)).toLong()
     }
 
+    fun resetIsFlow(){
+        _isOverFlow.value = false
+    }
+
 
     enum class CartItemOperation {
         INCREASE,

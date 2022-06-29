@@ -38,6 +38,7 @@
                 android:layout_marginStart="@dimen/_8sdp"
                 android:layout_marginTop="@dimen/_3sdp"
                 android:layout_toEndOf="@+id/savedImage"
+                android:maxLines="2"
                 android:textSize="@dimen/fontHeading5"
                 tools:text="Product name" />
 

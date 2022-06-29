@@ -251,6 +251,7 @@ class CartFragment : Fragment() {
 
     override fun onStop() {
         super.onStop()
+        viewModel.resetIsFlow()
         viewModel.updateToDB()
         viewModel.reloadStates()
     }
