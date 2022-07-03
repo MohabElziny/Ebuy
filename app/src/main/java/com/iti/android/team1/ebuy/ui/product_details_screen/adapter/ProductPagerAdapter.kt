@@ -7,7 +7,7 @@ import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.iti.android.team1.ebuy.databinding.AdLayoutBinding
-import com.iti.android.team1.ebuy.model.pojo.ProductImage
+import com.iti.android.team1.ebuy.data.pojo.ProductImage
 
 class ProductPagerAdapter() : RecyclerView.Adapter<ProductPagerAdapter.ProductViewHolder>() {
     private var productImages: List<ProductImage> = emptyList()

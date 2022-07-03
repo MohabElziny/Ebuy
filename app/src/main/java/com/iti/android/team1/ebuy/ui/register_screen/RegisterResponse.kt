@@ -1,6 +1,6 @@
 package com.iti.android.team1.ebuy.ui.register_screen
 
-import com.iti.android.team1.ebuy.model.pojo.Customer
+import com.iti.android.team1.ebuy.data.pojo.Customer
 
 
 sealed class AuthResult {

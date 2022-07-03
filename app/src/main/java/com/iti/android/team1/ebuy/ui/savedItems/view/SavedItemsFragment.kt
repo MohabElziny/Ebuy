@@ -11,9 +11,9 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentSavedItemsBinding
-import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.data.repository.Repository
-import com.iti.android.team1.ebuy.model.factories.ResultState
+import com.iti.android.team1.ebuy.data.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.data.repository.Repository
+import com.iti.android.team1.ebuy.data.factories.ResultState
 import com.iti.android.team1.ebuy.ui.savedItems.adapter.SavedRecyclerAdapter
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModel
 import com.iti.android.team1.ebuy.ui.savedItems.viewmodel.SavedItemsViewModelFactory

@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.BoardingLayoutBinding
-import com.iti.android.team1.ebuy.model.pojo.Boarding
+import com.iti.android.team1.ebuy.data.pojo.Boarding
 
 class OnBoardingAdapter : RecyclerView.Adapter<OnBoardingAdapter.OnBoardingViewHolder>() {
     private lateinit var context: Context

@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.databinding.AddressLayoutBinding
-import com.iti.android.team1.ebuy.model.pojo.Address
+import com.iti.android.team1.ebuy.data.pojo.Address
 import com.like.LikeButton
 import com.like.OnLikeListener
 

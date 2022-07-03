@@ -2,7 +2,7 @@ package com.iti.android.team1.ebuy.ui.onbording.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.iti.android.team1.ebuy.model.data.repository.IRepository
+import com.iti.android.team1.ebuy.data.data.repository.IRepository
 
 class OnBindingFactory(val repo: IRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

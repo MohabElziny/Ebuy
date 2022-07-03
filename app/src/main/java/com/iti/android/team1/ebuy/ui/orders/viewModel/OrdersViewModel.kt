@@ -2,11 +2,11 @@ package com.iti.android.team1.ebuy.ui.orders.viewModel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iti.android.team1.ebuy.model.data.repository.IRepository
-import com.iti.android.team1.ebuy.model.factories.NetworkResponse
-import com.iti.android.team1.ebuy.model.factories.ResultState
-import com.iti.android.team1.ebuy.model.pojo.Order
-import com.iti.android.team1.ebuy.model.pojo.OrderAPI
+import com.iti.android.team1.ebuy.data.data.repository.IRepository
+import com.iti.android.team1.ebuy.data.factories.NetworkResponse
+import com.iti.android.team1.ebuy.data.factories.ResultState
+import com.iti.android.team1.ebuy.data.pojo.Order
+import com.iti.android.team1.ebuy.data.pojo.OrderAPI
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow

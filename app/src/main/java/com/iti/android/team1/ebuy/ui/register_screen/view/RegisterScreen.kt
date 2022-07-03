@@ -11,12 +11,12 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.iti.android.team1.ebuy.R
-import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
-import com.iti.android.team1.ebuy.activities.main.view.MainActivity
+import com.iti.android.team1.ebuy.ui.activities.auth.viewmodel.ConnectionViewModel
+import com.iti.android.team1.ebuy.ui.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentRegisterScreenBinding
-import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.data.repository.Repository
-import com.iti.android.team1.ebuy.model.pojo.CustomerRegister
+import com.iti.android.team1.ebuy.data.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.data.repository.Repository
+import com.iti.android.team1.ebuy.data.pojo.CustomerRegister
 import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType
 import com.iti.android.team1.ebuy.ui.register_screen.viewmodel.RegisterViewModel

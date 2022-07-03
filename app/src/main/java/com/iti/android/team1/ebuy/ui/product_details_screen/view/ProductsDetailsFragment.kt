@@ -11,12 +11,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
-import com.iti.android.team1.ebuy.activities.main.view.MainActivity
+import com.iti.android.team1.ebuy.ui.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentProductsDetailsBinding
-import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.data.repository.Repository
-import com.iti.android.team1.ebuy.model.factories.ResultState
-import com.iti.android.team1.ebuy.model.pojo.Product
+import com.iti.android.team1.ebuy.data.data.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.data.repository.Repository
+import com.iti.android.team1.ebuy.data.factories.ResultState
+import com.iti.android.team1.ebuy.data.pojo.Product
 import com.iti.android.team1.ebuy.ui.product_details_screen.adapter.ProductPagerAdapter
 import com.iti.android.team1.ebuy.ui.product_details_screen.dialog.AddToCartDialog
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.ProductDetailsVMFactory

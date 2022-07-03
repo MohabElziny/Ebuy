@@ -2,7 +2,7 @@ package com.iti.android.team1.ebuy.ui.productsScreen.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.iti.android.team1.ebuy.model.data.repository.IRepository
+import com.iti.android.team1.ebuy.data.data.repository.IRepository
 
 class ProductViewModelFactory(private val repoInterface: IRepository) : ViewModelProvider.Factory {
 

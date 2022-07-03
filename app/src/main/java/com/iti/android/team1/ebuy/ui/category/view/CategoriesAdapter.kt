@@ -7,7 +7,7 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.CategoryRowBinding
-import com.iti.android.team1.ebuy.model.pojo.Category
+import com.iti.android.team1.ebuy.data.pojo.Category
 
 class CategoriesAdapter(val onCategoryBtnClick: (id: Long, title: String) -> Unit) :
     RecyclerView.Adapter<CategoriesAdapter.CategoriesHolder>() {
