@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.data.data.localsource.prefs
+package com.iti.android.team1.ebuy.data.datasource.localsource.prefs
 
 import android.content.Context
 import android.content.SharedPreferences

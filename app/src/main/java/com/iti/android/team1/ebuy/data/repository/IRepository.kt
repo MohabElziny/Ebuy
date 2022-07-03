@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.data.data.repository
+package com.iti.android.team1.ebuy.data.repository
 
 import com.iti.android.team1.ebuy.data.factories.NetworkResponse
 import com.iti.android.team1.ebuy.data.pojo.*

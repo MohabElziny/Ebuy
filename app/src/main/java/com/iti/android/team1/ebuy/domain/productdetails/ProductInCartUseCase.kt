@@ -1,6 +1,6 @@
 package com.iti.android.team1.ebuy.domain.productdetails
 
-import com.iti.android.team1.ebuy.data.data.repository.IRepository
+import com.iti.android.team1.ebuy.data.repository.IRepository
 import com.iti.android.team1.ebuy.data.factories.NetworkResponse
 
 class ProductInCartUseCase(private val repository: IRepository) : IProductInCartUseCase {

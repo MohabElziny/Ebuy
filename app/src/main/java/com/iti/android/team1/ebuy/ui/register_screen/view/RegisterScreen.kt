@@ -14,8 +14,8 @@ import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.ui.activities.auth.viewmodel.ConnectionViewModel
 import com.iti.android.team1.ebuy.ui.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentRegisterScreenBinding
-import com.iti.android.team1.ebuy.data.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.data.data.repository.Repository
+import com.iti.android.team1.ebuy.data.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.repository.Repository
 import com.iti.android.team1.ebuy.data.pojo.CustomerRegister
 import com.iti.android.team1.ebuy.ui.register_screen.AuthResult
 import com.iti.android.team1.ebuy.ui.register_screen.ErrorType

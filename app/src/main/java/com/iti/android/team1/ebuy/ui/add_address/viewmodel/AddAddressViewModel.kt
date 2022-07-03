@@ -2,7 +2,7 @@ package com.iti.android.team1.ebuy.ui.add_address.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iti.android.team1.ebuy.data.data.repository.IRepository
+import com.iti.android.team1.ebuy.data.repository.IRepository
 import com.iti.android.team1.ebuy.data.factories.NetworkResponse
 import com.iti.android.team1.ebuy.data.pojo.Address
 import com.iti.android.team1.ebuy.data.pojo.AddressDto

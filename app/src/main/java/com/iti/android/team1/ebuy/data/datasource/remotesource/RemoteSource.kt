@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.data.data.remotesource
+package com.iti.android.team1.ebuy.data.datasource.remotesource
 
 import retrofit2.Response
 import com.iti.android.team1.ebuy.data.pojo.*

@@ -12,8 +12,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.ui.activities.auth.view.AuthActivity
 import com.iti.android.team1.ebuy.databinding.FragmentSettingsBinding
-import com.iti.android.team1.ebuy.data.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.data.data.repository.Repository
+import com.iti.android.team1.ebuy.data.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.repository.Repository
 import com.iti.android.team1.ebuy.ui.settings.viewmodel.SettingsViewModel
 import com.iti.android.team1.ebuy.ui.settings.viewmodel.SettingsViewModelFactory
 

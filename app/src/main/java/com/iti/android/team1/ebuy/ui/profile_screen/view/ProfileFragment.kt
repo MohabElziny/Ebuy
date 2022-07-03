@@ -13,8 +13,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.ui.activities.auth.view.AuthActivity
 import com.iti.android.team1.ebuy.databinding.FragmentProfileBinding
-import com.iti.android.team1.ebuy.data.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.data.data.repository.Repository
+import com.iti.android.team1.ebuy.data.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.repository.Repository
 import com.iti.android.team1.ebuy.data.factories.ResultState
 import com.iti.android.team1.ebuy.ui.profile_screen.adapters.OrdersAdapter
 import com.iti.android.team1.ebuy.ui.profile_screen.adapters.ProfileFavoritesAdapter

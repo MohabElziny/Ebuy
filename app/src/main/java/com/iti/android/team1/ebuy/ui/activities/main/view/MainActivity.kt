@@ -20,8 +20,8 @@ import com.iti.android.team1.ebuy.util.connection.DoesNetworkHaveInternet
 import com.iti.android.team1.ebuy.ui.activities.main.viewmodel.MainViewModel
 import com.iti.android.team1.ebuy.ui.activities.main.viewmodel.MainViewModelFactory
 import com.iti.android.team1.ebuy.databinding.ActivityMainBinding
-import com.iti.android.team1.ebuy.data.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.data.data.repository.Repository
+import com.iti.android.team1.ebuy.data.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.repository.Repository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.buffer

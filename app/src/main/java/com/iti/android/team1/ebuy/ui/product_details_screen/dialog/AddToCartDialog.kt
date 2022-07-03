@@ -10,8 +10,8 @@ import androidx.lifecycle.lifecycleScope
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.AddToCartDialougeLayoutBinding
-import com.iti.android.team1.ebuy.data.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.data.data.repository.Repository
+import com.iti.android.team1.ebuy.data.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.repository.Repository
 import com.iti.android.team1.ebuy.data.factories.ResultState
 import com.iti.android.team1.ebuy.data.pojo.Product
 import com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel.AddToCartVMFactory

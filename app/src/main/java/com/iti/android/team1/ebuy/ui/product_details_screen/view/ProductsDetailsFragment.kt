@@ -13,8 +13,8 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.ui.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentProductsDetailsBinding
-import com.iti.android.team1.ebuy.data.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.data.data.repository.Repository
+import com.iti.android.team1.ebuy.data.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.repository.Repository
 import com.iti.android.team1.ebuy.data.factories.ResultState
 import com.iti.android.team1.ebuy.data.pojo.Product
 import com.iti.android.team1.ebuy.ui.product_details_screen.adapter.ProductPagerAdapter

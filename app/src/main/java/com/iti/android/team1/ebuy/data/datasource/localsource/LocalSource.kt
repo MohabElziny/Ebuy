@@ -1,7 +1,7 @@
-package com.iti.android.team1.ebuy.data.data.localsource
+package com.iti.android.team1.ebuy.data.datasource.localsource
 
 import android.content.Context
-import com.iti.android.team1.ebuy.data.data.localsource.prefs.PreferenceProvider
+import com.iti.android.team1.ebuy.data.datasource.localsource.prefs.PreferenceProvider
 
 class LocalSource(
     private val context: Context,

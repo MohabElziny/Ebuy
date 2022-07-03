@@ -1,8 +1,8 @@
-package com.iti.android.team1.ebuy.data.data.repository
+package com.iti.android.team1.ebuy.data.repository
 
-import com.iti.android.team1.ebuy.data.data.localsource.ILocalSource
-import com.iti.android.team1.ebuy.data.data.remotesource.RemoteSource
-import com.iti.android.team1.ebuy.data.data.remotesource.RetrofitHelper
+import com.iti.android.team1.ebuy.data.datasource.localsource.ILocalSource
+import com.iti.android.team1.ebuy.data.datasource.remotesource.RemoteSource
+import com.iti.android.team1.ebuy.data.datasource.remotesource.RetrofitHelper
 import com.iti.android.team1.ebuy.data.factories.NetworkResponse
 import com.iti.android.team1.ebuy.data.factories.NetworkResponse.FailureResponse
 import com.iti.android.team1.ebuy.data.factories.NetworkResponse.SuccessResponse

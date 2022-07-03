@@ -1,4 +1,4 @@
-package com.iti.android.team1.ebuy.data.data.localsource
+package com.iti.android.team1.ebuy.data.datasource.localsource
 
 import kotlinx.coroutines.flow.StateFlow
 

@@ -10,8 +10,8 @@ import androidx.navigation.fragment.findNavController
 import androidx.viewpager2.widget.ViewPager2
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentOnBoardingBinding
-import com.iti.android.team1.ebuy.data.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.data.data.repository.Repository
+import com.iti.android.team1.ebuy.data.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.repository.Repository
 import com.iti.android.team1.ebuy.ui.onbording.viewmodel.OnBindingFactory
 import com.iti.android.team1.ebuy.ui.onbording.viewmodel.OnBoardingViewModel
 import kotlinx.android.synthetic.main.fragment_on_boarding.*
