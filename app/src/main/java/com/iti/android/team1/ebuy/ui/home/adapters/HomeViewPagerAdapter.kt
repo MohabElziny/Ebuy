@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.databinding.AdLayoutBinding
-import com.iti.android.team1.ebuy.model.pojo.DiscountCodes
+import com.iti.android.team1.ebuy.data.pojo.DiscountCodes
 
 class HomeViewPagerAdapter(private val showDiscountDialog: (DiscountCodes) -> Unit) :
     RecyclerView.Adapter<HomeViewPagerAdapter.DiscountViewHolder>() {

@@ -2,10 +2,10 @@ package com.iti.android.team1.ebuy.ui.product_details_screen.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.iti.android.team1.ebuy.model.data.repository.IRepository
-import com.iti.android.team1.ebuy.model.factories.NetworkResponse
-import com.iti.android.team1.ebuy.model.factories.ResultState
-import com.iti.android.team1.ebuy.model.pojo.Product
+import com.iti.android.team1.ebuy.data.repository.IRepository
+import com.iti.android.team1.ebuy.data.factories.NetworkResponse
+import com.iti.android.team1.ebuy.data.factories.ResultState
+import com.iti.android.team1.ebuy.data.pojo.Product
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow

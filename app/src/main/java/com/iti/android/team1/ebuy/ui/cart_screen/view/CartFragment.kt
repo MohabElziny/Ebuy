@@ -14,9 +14,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentCartBinding
-import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.data.repository.Repository
-import com.iti.android.team1.ebuy.model.factories.ResultState
+import com.iti.android.team1.ebuy.data.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.repository.Repository
+import com.iti.android.team1.ebuy.data.factories.ResultState
 import com.iti.android.team1.ebuy.ui.cart_screen.adapter.CartProductAdapter
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartVMFactory
 import com.iti.android.team1.ebuy.ui.cart_screen.viewmodel.CartViewModel
@@ -56,7 +56,7 @@ class CartFragment : Fragment() {
         observeToPriceAfterDiscount()
 
         binding.btnDiscount.setOnClickListener {
-            viewModel.getDiscountValue(binding.etCoupon.text.toString())
+            viewModel.getDiscountValue(binding.etCoupon.text.trim().toString())
         }
 
     }
@@ -94,7 +94,7 @@ class CartFragment : Fragment() {
     private fun handleCheckoutButton() {
         binding.btnAddCard.setOnClickListener {
             viewModel.updateToDB()
-            viewModel.makeOrder(binding.etCoupon.text.toString())
+            viewModel.makeOrder(binding.etCoupon.text.trim().toString())
             viewModel.order.observe(viewLifecycleOwner) { order ->
                 showSnackBar(getString(R.string.choose_address))
                 val action = CartFragmentDirections.actionCartFragmentToAddressesFragment(1,

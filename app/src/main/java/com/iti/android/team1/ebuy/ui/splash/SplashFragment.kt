@@ -11,9 +11,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.iti.android.team1.ebuy.R
-import com.iti.android.team1.ebuy.activities.main.view.MainActivity
-import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.data.repository.Repository
+import com.iti.android.team1.ebuy.ui.activities.main.view.MainActivity
+import com.iti.android.team1.ebuy.data.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.repository.Repository
 import kotlinx.coroutines.delay
 
 class SplashFragment : Fragment() {

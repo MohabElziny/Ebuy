@@ -1,7 +1,7 @@
 package com.iti.android.team1.ebuy.ui.splash
 
 import androidx.lifecycle.ViewModel
-import com.iti.android.team1.ebuy.model.data.repository.IRepository
+import com.iti.android.team1.ebuy.data.repository.IRepository
 
 class SplashViewModel(val repo: IRepository) : ViewModel() {
 

@@ -1,8 +1,8 @@
 package com.iti.android.team1.ebuy.domain
 
-import com.iti.android.team1.ebuy.model.factories.NetworkResponse
-import com.iti.android.team1.ebuy.model.pojo.DraftsLineItems
-import com.iti.android.team1.ebuy.model.pojo.Products
+import com.iti.android.team1.ebuy.data.factories.NetworkResponse
+import com.iti.android.team1.ebuy.data.pojo.DraftsLineItems
+import com.iti.android.team1.ebuy.data.pojo.Products
 
 fun productsResponse(
     networkResponse: NetworkResponse<Products>,

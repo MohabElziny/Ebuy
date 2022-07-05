@@ -11,10 +11,10 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentOrdersBinding
-import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.data.repository.Repository
-import com.iti.android.team1.ebuy.model.factories.ResultState
-import com.iti.android.team1.ebuy.model.pojo.Order
+import com.iti.android.team1.ebuy.data.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.repository.Repository
+import com.iti.android.team1.ebuy.data.factories.ResultState
+import com.iti.android.team1.ebuy.data.pojo.Order
 import com.iti.android.team1.ebuy.ui.orders.viewModel.OrdersViewModel
 import com.iti.android.team1.ebuy.ui.orders.viewModel.OrdersViewModelFactory
 import com.iti.android.team1.ebuy.ui.profile_screen.adapters.OrdersAdapter

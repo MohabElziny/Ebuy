@@ -9,8 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.iti.android.team1.ebuy.R
-import com.iti.android.team1.ebuy.activities.auth.viewmodel.ConnectionViewModel
-import com.iti.android.team1.ebuy.activities.main.view.MainActivity
+import com.iti.android.team1.ebuy.ui.activities.auth.viewmodel.ConnectionViewModel
+import com.iti.android.team1.ebuy.ui.activities.main.view.MainActivity
 import com.iti.android.team1.ebuy.databinding.FragmentNoInternetBinding
 import kotlinx.coroutines.flow.buffer
 

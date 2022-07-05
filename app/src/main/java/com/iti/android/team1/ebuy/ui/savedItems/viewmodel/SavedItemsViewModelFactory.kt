@@ -2,7 +2,7 @@ package com.iti.android.team1.ebuy.ui.savedItems.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.iti.android.team1.ebuy.model.data.repository.IRepository
+import com.iti.android.team1.ebuy.data.repository.IRepository
 
 class SavedItemsViewModelFactory(private val repository: IRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {

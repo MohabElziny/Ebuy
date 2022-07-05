@@ -20,11 +20,11 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import com.google.android.material.snackbar.Snackbar
 import com.iti.android.team1.ebuy.R
 import com.iti.android.team1.ebuy.databinding.FragmentAddressesBinding
-import com.iti.android.team1.ebuy.model.data.localsource.LocalSource
-import com.iti.android.team1.ebuy.model.data.repository.Repository
-import com.iti.android.team1.ebuy.model.factories.ResultState
-import com.iti.android.team1.ebuy.model.pojo.Address
-import com.iti.android.team1.ebuy.model.pojo.ConvertAddToShoppingAdd
+import com.iti.android.team1.ebuy.data.datasource.localsource.LocalSource
+import com.iti.android.team1.ebuy.data.repository.Repository
+import com.iti.android.team1.ebuy.data.factories.ResultState
+import com.iti.android.team1.ebuy.data.pojo.Address
+import com.iti.android.team1.ebuy.data.pojo.ConvertAddToShoppingAdd
 import com.iti.android.team1.ebuy.ui.all_addresses.adapters.AddressAdapter
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModel
 import com.iti.android.team1.ebuy.ui.all_addresses.viewmodel.AddressesViewModelFactory

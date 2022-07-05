@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.iti.android.team1.ebuy.databinding.OrdersCardRowBinding
-import com.iti.android.team1.ebuy.model.pojo.Order
+import com.iti.android.team1.ebuy.data.pojo.Order
 
 class OrdersAdapter(private val onClickOrderItem: (orderName: String, orderFinancialStatus: String, orderStatus: String) -> Unit) :
     RecyclerView.Adapter<OrdersAdapter.OrdersViewHolder>() {
@@ -31,9 +31,20 @@ class OrdersAdapter(private val onClickOrderItem: (orderName: String, orderFinan
 
         fun bindOrderCard() {
             binding.txtOrderPrice.text = order.currentTotalPrice.plus(" EGP")
-            binding.txtOrderDate.text = order.createdAt ?: ""
             binding.txtOrderNumber.text = order.name ?: ""
-            binding.txtOrderStatus.text = order.financialStatus ?: ""
+            setOrderDate()
+            setOrderStatusText()
+        }
+
+        private fun setOrderDate() {
+            val dateList = order.createdAt?.split('T')
+            val time = dateList?.get(1)?.split('+')
+            binding.txtOrderDate.text = dateList?.get(0).plus(", ${time?.get(0)}")
+        }
+
+        private fun setOrderStatusText() {
+            binding.txtOrderStatus.text =
+                if (order.financialStatus == "pending") "not paid" else order.financialStatus
         }
     }
 
